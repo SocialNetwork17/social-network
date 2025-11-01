@@ -1,0 +1,104 @@
+.label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+    position: relative;
+    padding: 4px 8px 4px 30px;
+    margin-left: -5px;
+}
+
+.label:has(.checkbox:disabled) {
+    cursor: default;
+}
+
+.checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.customCheckbox {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    z-index: 1;
+}
+
+/* Circle behind checkbox */
+.label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background-color: #4C4C4C;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+    z-index: 0;
+}
+
+/* Black circle on focus - comes FIRST */
+.label:has(.checkbox:focus)::before {
+    opacity: 1;
+    background-color: #171717;
+}
+
+/* Show circle on label hover - gray - overrides focus only when not checked and not disabled */
+.label:hover:not(:has(.checkbox:checked)):not(:has(.checkbox:disabled))::before {
+    opacity: 1;
+    background-color: #4C4C4C;
+}
+
+/* Show circle on active state (click) - gray - overrides focus only when not checked and not disabled */
+.label:active:not(:has(.checkbox:checked)):not(:has(.checkbox:disabled))::before {
+    opacity: 1;
+    background-color: #4C4C4C;
+}
+
+/* Additional styles for checked state if needed */
+.label:has(.checkbox:checked):hover:not(:has(.checkbox:disabled))::before {
+    opacity: 1;
+    background-color: #4C4C4C;
+}
+
+.label:has(.checkbox:checked):active:not(:has(.checkbox:disabled))::before {
+    opacity: 1;
+    background-color: #4C4C4C;
+}
+
+/* Hide circle for disabled states and all interactions with disabled */
+.label:has(.checkbox:disabled)::before,
+.label:has(.checkbox:disabled):hover::before,
+.label:has(.checkbox:disabled):active::before {
+    opacity: 0;
+}
+
+.spanClassName {
+    font-family: 'Inter', sans-serif;
+    color: #FFFFFF;
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.71429;
+}
+
+/* Disabled span styles */
+.label:has(.checkbox:disabled) .spanClassName {
+    color: #8d9094;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.71429;
+}
