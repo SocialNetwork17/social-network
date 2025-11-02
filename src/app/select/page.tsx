@@ -1,6 +1,6 @@
 'use client'
 import styles from "../page.module.css";
-import SelectBox, {Option} from "@/common/components/select-box/SelectBox";
+import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
 import {useState} from "react";
 
 const options: Option[] = [
@@ -16,21 +16,28 @@ const options: Option[] = [
 
 const Select = () => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [isDisabled, setDisabled] = useState(true);
 
     const handleSelect = (option: Option) => {
         setSelectedOption(option.id);
         console.log('Selected:', option);
     };
 
+
+
     return (
     <div className={styles.page}>
       <main className={styles.main}>
-          <SelectBox
-              options={options}
-              value={selectedOption}
-              onChange={handleSelect}
-              placeholder="Choose an option"
-          />
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '50px' }}>
+              <SelectBox
+                  options={options}
+                  value={selectedOption}
+                  onChange={handleSelect}
+                  placeholder="Choose an option"
+                  disabled={isDisabled}
+              />
+              <button onClick={() => setDisabled(!isDisabled)}>Toggle Disabled</button>
+          </div>
       </main>
     </div>
   );
