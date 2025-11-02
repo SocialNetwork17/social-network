@@ -1,80 +1,44 @@
 'use client'
+import { SuperCheckbox } from '../SuperCheckbox'
+import { useState } from 'react'
 import s from './SuperCheckboxDemo.module.css'
-import SuperCheckboxSprite from '../SuperCheckbox';
-import React, {useState} from "react";
 
+// Данные для демонстрации различных состояний чекбоксов
+const checkboxesData = [
+    { id: 1, label: 'Первый чекбокс', disabled: true, checked: true },  // Отключенный и выбранный
+    { id: 2, label: 'Второй чекбокс', disabled: false, checked: false }, // Обычный невыбранный
+    { id: 3, label: 'Третий чекбокс', disabled: false, checked: false }, // Обычный невыбранный
+    { id: 4, label: 'Четвертый чекбокс', disabled: false, checked: false }, // Обычный невыбранный
+    { id: 5, label: '', disabled: true, checked: false } // Отключенный без текста
+]
 
-const SuperCheckboxDemo = () => {
-    // Individual states for each checkbox
-    const [checkbox1, setCheckbox1] = useState<boolean>(true)
-    const [checkbox2, setCheckbox2] = useState<boolean>(false)
-    const [checkbox3, setCheckbox3] = useState<boolean>(false)
-    const [checkbox4, setCheckbox4] = useState<boolean>(false)
-    const [checkbox5, setCheckbox5] = useState<boolean>(false)
+export const SuperCheckboxDemo = () => {
+    // Состояние для управления всеми чекбоксами
+    const [checkboxes, setCheckboxes] = useState(checkboxesData)
+
+    // Функция для обновления состояния конкретного чекбокса
+    const updateCheckbox = (id: number, checked: boolean) => {
+        setCheckboxes(prev => prev.map(checkbox =>
+            // Обновляем только чекбокс с соответствующим id
+            checkbox.id === id ? { ...checkbox, checked } : checkbox
+        ))
+    }
 
     return (
-        <div id={'SuperCheckboxDemo'} className={s.stand}>
-            <div className={s.checkboxes}>
-
-
-
-                {/* Checkbox 1: disabled and checked */}
-                <div >
-                    <SuperCheckboxSprite
-                        disabled
-                        id={'checkbox-1'}
-                        checked={checkbox1}
-                        onChangeChecked={setCheckbox1}
+        <div>
+            {/* Маппинг данных в компоненты чекбоксов */}
+            {checkboxes.map(({ id, label, disabled, checked }) => (
+                <div key={id} className={s.checkboxItem}>
+                    {/* Компонент кастомного чекбокса */}
+                    <SuperCheckbox
+                        disabled={disabled}        // Передаем состояние disabled
+                        checked={checked}          // Передаем текущее значение
+                        onChangeChecked={(checked) => updateCheckbox(id, checked)} // Обработчик изменения
                     >
-                        Первый чекбокс
-                    </SuperCheckboxSprite>
+                        {label} {/* Текст чекбокса */}
+                    </SuperCheckbox>
                 </div>
-
-                {/* Checkbox 2 */}
-                <div>
-                    <SuperCheckboxSprite
-                        id={'checkbox-2'}
-                        checked={checkbox2}
-                        onChangeChecked={setCheckbox2}
-                    >
-                        Второй чекбокс
-                    </SuperCheckboxSprite>
-                </div>
-
-                {/* Checkbox 3 */}
-                <div>
-                    <SuperCheckboxSprite
-                        id={'checkbox-3'}
-                        checked={checkbox3}
-                        onChangeChecked={setCheckbox3}
-                    >
-                        Третий чекбокс
-                    </SuperCheckboxSprite>
-                </div>
-
-                {/* Checkbox 4 */}
-                <div>
-                    <SuperCheckboxSprite
-                        id={'checkbox-4'}
-                        checked={checkbox4}
-                        onChangeChecked={setCheckbox4}
-                    >
-                        Четвертый чекбокс
-                    </SuperCheckboxSprite>
-                </div>
-
-                {/* Checkbox 5: disabled */}
-                <div>
-                    <SuperCheckboxSprite
-                        disabled
-                        id={'checkbox-5'}
-                        checked={checkbox5}
-                        onChangeChecked={setCheckbox5}
-                    />
-                </div>
-            </div>
+            ))}
         </div>
     )
 }
-
-export default SuperCheckboxDemo;

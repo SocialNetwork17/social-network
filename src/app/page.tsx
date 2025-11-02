@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import SuperCheckboxDemo from "@/common/components/SuperCheckbox/Demo/SuperCheckboxDemo";
+import {SuperCheckboxDemo} from "@/common/components/SuperCheckbox/Demo/SuperCheckboxDemo";
 
 export default function Home() {
   return (
