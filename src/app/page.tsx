@@ -1,10 +1,11 @@
 import styles from "./page.module.css";
-import {SuperCheckboxDemo} from "@/common/components/SuperCheckbox/Demo/SuperCheckboxDemo";
+import {RecaptchaDemo} from "@/common/components/Recaptcha/Demo/RecaptchaDemo";
+
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <SuperCheckboxDemo/>
+      <RecaptchaDemo/>
     </div>
   );
 }
