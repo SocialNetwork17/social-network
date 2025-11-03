@@ -1,0 +1,41 @@
+@use "../../../styles/index" as styles;
+
+.inputContainer {
+  @include styles.input-container
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.iconButtonContainer {
+  position: absolute;
+  right: 20px;
+  top: 18%;
+}
+
+.label {
+  @include styles.label;
+  color: styles.palette("light", 900);
+}
+
+.input {
+  @include styles.input;
+  @include styles.border-style;
+  padding: 0 36px 0 11px;
+  transition: border-color 0.2s ease, outline-color 0.2s ease;
+}
+
+.errorInput {
+  @include styles.error-input;
+}
+
+.errorText {
+  position: absolute;
+  top: calc(100% + 2px);
+
+  @extend .label;
+  color: styles.palette("danger", 500);
+  word-break: break-all;
+}
+

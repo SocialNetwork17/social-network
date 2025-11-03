@@ -1,0 +1,23 @@
+@use "../../../styles/index" as styles;
+
+.iconButton {
+  background: #CC1439;
+  border: none;
+  color: styles.palette("light", 900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.iconButtonDisabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+
+  &:hover {
+    color: styles.palette("light", 900);
+  }
+}
+.eyeIconDisabled {
+  filter: grayscale(1) brightness(0.6);
+}
