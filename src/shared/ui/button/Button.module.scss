@@ -1,0 +1,140 @@
+// Переменные для цветов
+$primary-color: rgba(57, 125, 246, 1);
+$primary-active: rgba(47, 104, 204, 1);
+$primary-hover: rgba(115, 165, 255, 1);
+$primary-disabled: rgba(35, 78, 153, 1);
+
+$secondary-color: rgba(51, 51, 51, 1);
+$secondary-active: rgba(33, 33, 33, 1);
+$secondary-hover: rgba(76, 76, 76, 1);
+$secondary-disabled: rgba(23, 23, 23, 1);
+
+$disabled-text: rgba(141, 144, 148, 1);
+$white: rgba(255, 255, 255, 1);
+
+// Миксин для базовых стилей кнопки
+@mixin button-base {
+  width: 182px;
+  height: 36px;
+  padding: 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Миксин для состояний кнопки
+@mixin button-states($bg-color, $hover-color, $active-color, $text-color: $white) {
+  background-color: $bg-color;
+  color: $text-color;
+
+  &:active {
+    background-color: $active-color;
+  }
+
+  &:hover:not(:active) {
+    background-color: $hover-color;
+  }
+
+  &:focus-visible {
+    border: 2px solid $active-color;
+  }
+
+  &:disabled {
+    color: $disabled-text;
+    background-color: $active-color;
+  }
+}
+
+// Миксин для outline кнопки
+@mixin outline-button($color, $hover-color, $active-color) {
+  background: none;
+  color: $color;
+  border: 1px solid $color;
+
+  &:active {
+    color: $active-color;
+    border: 1px solid $active-color;
+  }
+
+  &:hover:not(:active) {
+    color: $hover-color;
+    border: 1px solid $hover-color;
+  }
+
+  &:focus-visible {
+    color: $active-color;
+    border: 2px solid $active-color;
+  }
+
+  &:disabled {
+    color: $active-color;
+    border: 1px solid $active-color;
+  }
+}
+
+// Миксин для text кнопки
+@mixin text-button($color, $hover-color, $active-color) {
+  color: $color;
+  width: 100px;
+  height: 36px;
+  background: none;
+
+  &:active {
+    color: $active-color;
+  }
+
+  &:hover:not(:active) {
+    color: $hover-color;
+  }
+
+  &:focus-visible {
+    color: $active-color;
+    border: 2px solid $active-color;
+  }
+
+  &:disabled {
+    color: $active-color;
+  }
+}
+
+// Стили кнопок
+.button {
+  @include button-base;
+}
+
+.primary {
+  @include button-base;
+  @include button-states($primary-color, $primary-hover, $primary-active);
+}
+
+.secondary {
+  @include button-base;
+  @include button-states($secondary-color, $secondary-hover, $secondary-active);
+}
+
+.outline {
+  @include button-base;
+  @include outline-button($primary-color, $primary-hover, $primary-active);
+}
+
+.textButton {
+  @include button-base;
+  @include text-button($primary-color, $primary-hover, $primary-active);
+}
+
+// Кастомные настройки для secondary focus
+.secondary:focus-visible {
+  border: 1px solid rgba(76, 141, 255, 1);
+}
