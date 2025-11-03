@@ -3,8 +3,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import s from '../Sidebar.module.css'
-import { Icon } from '@/shared/ui/Icon/Icon'
+import s from '../Sidebar.module.scss'
+import { Icon } from '@/shared/components/Icon/Icon'
 
 interface SidebarLinkProps {
   href: string

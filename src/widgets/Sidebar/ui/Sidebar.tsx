@@ -1,8 +1,8 @@
 'use client'
 
-import s from './Sidebar.module.css'
+import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
-import { Icon } from '@/shared/ui/Icon/Icon'
+import { Icon } from '@/shared/components/Icon/Icon'
 
 export const Path = {
   Feed: '/',
