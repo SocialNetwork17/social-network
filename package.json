@@ -7,8 +7,7 @@
     "build": "next build",
     "build:production": "next build",
     "start": "next start",
-    "format": "prettier --write src",
-    "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input"
+    "lint": "eslint"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.2",
@@ -19,17 +18,13 @@
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
-    "@it-incubator/eslint-config": "^1.0.4",
-    "@it-incubator/prettier-config": "^0.1.2",
-    "@it-incubator/stylelint-config": "^2.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.0",
-    "sass": "^1.93.3",
-    "stylelint": "^16.25.0",
+    "sass": "^1.93.2",
     "typescript": "^5"
   }
 }
