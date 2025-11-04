@@ -1,0 +1,129 @@
+.carouselContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  container-type: inline-size; /* Включаем container queries */
+  container-name: carousel;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.image {
+  object-fit: cover; /* или contain, в зависимости от потребностей */
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.image.rounded {
+  border-radius: 50%;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333333; /*var(--dark-300);*/
+  opacity: 0.5;
+  border: none;
+  border-radius: 2px;
+  transition: background 0.4s ease;
+
+  /*стоит сделать через sprite*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff; /*var(--ligth-100);*/
+}
+
+.arrow:hover {
+  background: #ffffff; /*var(--ligth-100);*/
+  color: #333333; /*var(--dark-300);*/
+}
+
+.dots {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  border-radius: 2px;
+  background: #333333; /*var(--dark-300);*/
+  opacity: 0.5;
+
+  display: flex;
+}
+
+.dot {
+  border-radius: 50%;
+  border: none;
+  background: #ffffff; /*var(--ligth-100)*/
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dot.active {
+  background: #397df6; /*var(--primary-500)*/
+}
+
+/* Стили для маленьких контейнеров */
+@container carousel (max-width: 400px) {
+  .arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+  }
+  .arrowLeft {
+    left: 6px;
+  }
+  .arrowRight {
+    right: 6px;
+  }
+  .dots {
+    bottom: 8px;
+    gap: 8px;
+    padding: 3px 8px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@container carousel (min-width: 400px) {
+  .arrow {
+    width: 48px;
+    height: 48px;
+    font-size: 40px;
+  }
+  .arrowLeft {
+    left: 12px;
+  }
+  .arrowRight {
+    right: 12px;
+  }
+  .dots {
+    bottom: 12px;
+    gap: 12px;
+    padding: 8px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
