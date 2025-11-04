@@ -33,7 +33,7 @@ export const SuperCheckboxDemo = () => {
                     <SuperCheckbox
                         disabled={disabled}        // Передаем состояние disabled
                         checked={checked}          // Передаем текущее значение
-                        onChangeChecked={(checked) => updateCheckbox(id, checked)} // Обработчик изменения
+                        onChangeCheckedAction={(checked) => updateCheckbox(id, checked)} // Обработчик изменения
                     >
                         {label} {/* Текст чекбокса */}
                     </SuperCheckbox>

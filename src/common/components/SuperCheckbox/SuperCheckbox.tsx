@@ -3,14 +3,14 @@ import React from 'react'
 import s from './SuperCheckbox.module.scss'
 
 type SuperCheckboxProps = {
-    onChangeChecked?: (checked: boolean) => void
+    onChangeCheckedAction?: (checked: boolean) => void
     children?: React.ReactNode
     disabled?: boolean
     checked?: boolean
     id?: string
 }
 
-export const SuperCheckbox = ({ onChangeChecked, children, disabled, checked, id }: SuperCheckboxProps) => {
+export const SuperCheckbox = ({ onChangeCheckedAction, children, disabled, checked, id }: SuperCheckboxProps) => {
     const getIconId = () => {
         if (disabled) {
             return checked ? 'disabled-selected-box' : 'disabled-unselected-box'
@@ -25,7 +25,7 @@ export const SuperCheckbox = ({ onChangeChecked, children, disabled, checked, id
                 type="checkbox"
                 disabled={disabled}
                 checked={checked}
-                onChange={(e) => onChangeChecked?.(e.target.checked)}
+                onChange={(e) => onChangeCheckedAction?.(e.target.checked)}
                 className={s.checkbox}
             />
             <svg className={s.customCheckbox} width="18" height="18">
