@@ -10,13 +10,16 @@
 
 .iconButtonContainer {
   position: absolute;
-  right: 20px;
+  right: 14px;
   top: 18%;
 }
 
 .label {
   @include styles.label;
   color: styles.palette("light", 900);
+}
+.requiredStar {
+  color: styles.palette("danger", 500);
 }
 
 .input {

@@ -7,9 +7,11 @@ type Props = {
     label: string
     type: HTMLInputTypeAttribute
     placeholder: string
+    required: boolean
     error?: boolean
     errorText?: string
     disabled?: boolean
+
 };
 //подправить стиль errorText, когда будем собирать все компоненты в карточку регистрации
 export const Input = memo((props: Props) => {
@@ -18,6 +20,7 @@ export const Input = memo((props: Props) => {
         label,
         type,
         placeholder,
+        required,
         error,
         errorText,
         disabled
@@ -47,7 +50,7 @@ export const Input = memo((props: Props) => {
     return (
         <div className={styles.inputContainer}>
             <label className={styles.label}>
-                {label}
+                {label}{required && <sup className={styles.requiredStar}>*</sup>}
                 <div className={styles.inputWrapper}>
                     <input
                         className={inputClassName}

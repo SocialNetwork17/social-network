@@ -1,13 +1,17 @@
 @use "../../../styles/index" as styles;
 
 .iconButton {
-  background: #CC1439;
   border: none;
+  background: transparent;
   color: styles.palette("light", 900);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  &:focus-visible {
+    outline: 2px solid styles.palette("accent", 500);
+    outline-offset: 0;
+  }
 }
 
 .iconButtonDisabled {

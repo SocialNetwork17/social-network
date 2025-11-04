@@ -3,16 +3,16 @@ import styles from "./IconButton.module.scss"
 
 type Props = {
     iconId: string
-    width: string
-    height: string
-    viewBox: string
-    fill?: string
     onClick: MouseEventHandler<HTMLButtonElement>
+    width?: string
+    height?: string
+    viewBox?: string
+    fill?: string
     disabled?: boolean
 };
 
 export const IconButton = memo((props: Props) => {
-
+    const sprite = "/icons-sprite.svg"
     const {
         iconId,
         width,
@@ -30,8 +30,13 @@ export const IconButton = memo((props: Props) => {
             type="button"
             disabled={disabled}
         >
-            <svg width={width} height={height} viewBox={viewBox} fill={fill || "none"}>
-                <use xlinkHref={iconId}/>
+            <svg
+                width={width || "24"}
+                height={height || "24"}
+                viewBox={viewBox || "0 0 24 24"}
+                fill={fill || "currentColor"}
+            >
+                <use xlinkHref={`${sprite}#${iconId}`}/>
             </svg>
         </button>
     );

@@ -1,3 +1,4 @@
+"use client"
 import {ChangeEvent, memo, useEffect, useState} from "react";
 import styles from "./TextArea.module.scss"
 
