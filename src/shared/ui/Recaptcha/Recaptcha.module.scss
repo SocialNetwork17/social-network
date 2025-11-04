@@ -10,7 +10,7 @@
 
     // Error state styling - red border when verification fails
     &.error {
-        border: 1px solid #f00
+        border: 1px solid #f00;
     }
 }
 
@@ -214,8 +214,24 @@
     align-items: center;
 }
 
-.recaptchaImage{
-    margin-bottom: 7px;
+.recaptchaImage {
+
+    // Исправление для recaptcha логотипа
+    svg {
+        // Отключаем наследование currentColor
+        color: transparent;
+
+        // Явно задаем цвета для каждой части
+        path:nth-of-type(1) {
+            fill: #B5B6B5 !important;
+        }
+        path:nth-of-type(2) {
+            fill: #4D8DF4 !important;
+        }
+        path:nth-of-type(3) {
+            fill: #1B3CAC !important;
+        }
+    }
 }
 
 // Small text for reCAPTCHA logo

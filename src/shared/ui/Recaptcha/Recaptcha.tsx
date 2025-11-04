@@ -1,57 +1,46 @@
-import React, { useState } from 'react'
+'use client'
+import React from 'react'
 import s from './Recaptcha.module.scss'
-import recaptchaLogo from '../../../assets/icons/Recaptcha/recaptchaLogo.svg'
-import checkmarkIcon from '../../../assets/icons/Recaptcha/checkmark.svg'
-import Image from 'next/image'
 
-export const Recaptcha = () => {
-    // State management for different reCAPTCHA statuses
-    const [isLoading, setIsLoading] = useState(false)
-    const [isChecked, setIsChecked] = useState(false)
-    const [isError, setIsError] = useState(false)
-    const [isExpired, setIsExpired] = useState(false)
+export type RecaptchaProps = {
+    // State values
+    isLoading?: boolean
+    isChecked?: boolean
+    isError?: boolean
+    isExpired?: boolean
+    // Event handlers - use Action suffix for Server Actions
+    onCheckboxChangeAction?: (event: React.ChangeEvent<HTMLInputElement>) => void
+    // Optional className for styling
+    className?: string
+}
 
+export const Recaptcha = ({
+                              isLoading = false,
+                              isChecked = false,
+                              isError = false,
+                              isExpired = false,
+                              onCheckboxChangeAction,
+                              className = ''
+                          }: RecaptchaProps) => {
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        // If external handler is provided, call it
+        if (onCheckboxChangeAction) {
+            onCheckboxChangeAction(event)
+            return
+        }
+
+        // Otherwise use default behavior (for demonstration)
         // Prevent interaction during loading or when already checked
         if (isLoading || isChecked) {
             event.preventDefault()
             return
         }
 
-        // Reset states and start loading
-        setIsLoading(true)
-        setIsError(false)
-        setIsExpired(false)
-
-        // Simulate API call with random outcomes for testing
-        const shouldFail = Math.random() < 0.3
-        const shouldExpired = Math.random() < 0.3
-
-        setTimeout(() => {
-            setIsLoading(false)
-            if (shouldFail) {
-                setIsError(true)
-                console.log('Ошибка reCAPTCHA!')
-            } else if (shouldExpired) {
-                setIsExpired(true)
-                console.log('Ошибка reCAPTCHA Expired!')
-            } else {
-                setIsChecked(true)
-                console.log('reCAPTCHA пройдена!')
-            }
-        }, 1500)
-    }
-
-    // Reset all states to initial values
-    const handleReset = () => {
-        setIsChecked(false)
-        setIsLoading(false)
-        setIsError(false)
-        setIsExpired(false)
+        console.log('reCAPTCHA clicked - implement your own logic in onCheckboxChangeAction prop')
     }
 
     return (
-        <section className={`${s.recaptchaWrapper} ${isError ? s.error : ''}`}>
+        <section className={`${s.recaptchaWrapper} ${isError ? s.error : ''} ${className}`}>
             <div className={s.recaptchaContainer}>
                 <div className={s.recaptchaContent}>
                     {/* Checkbox label with custom styling */}
@@ -69,13 +58,11 @@ export const Recaptcha = () => {
                             {isLoading && <div className={s.spinner}></div>}
                             {/* Checkmark icon when verified */}
                             {isChecked && !isLoading && (
-                                <Image
-                                    src={checkmarkIcon}
-                                    alt="Verified"
-                                    width={25}
-                                    height={19}
-                                    className={s.checkmark}
-                                />
+                                <div className={s.checkmark}>
+                                    <svg width="25" height="19">
+                                        <use xlinkHref="icons-sprite.svg#checkmark" />
+                                    </svg>
+                                </div>
                             )}
                         </span>
                     </label>
@@ -87,13 +74,11 @@ export const Recaptcha = () => {
 
                 {/* reCAPTCHA branding section */}
                 <div className={s.recaptchaBranding}>
-                    <Image
-                        className={s.recaptchaImage}
-                        src={recaptchaLogo}
-                        alt="reCAPTCHA"
-                        width={30}
-                        height={31}
-                    />
+                    <div className={s.recaptchaImage}>
+                        <svg className={s.recaptchaLogo} width="30" height="31">
+                            <use xlinkHref="icons-sprite.svg#recaptchaLogo" />
+                        </svg>
+                    </div>
                     <div className={s.recaptchaLogoText}>reCAPTCHA</div>
                     {/* Privacy and Terms links */}
                     <nav className={s.recaptchaLinks}>
@@ -107,13 +92,6 @@ export const Recaptcha = () => {
                     </nav>
                 </div>
 
-                {/* Reset button shown when checked or in error state */}
-                {(isChecked || isError) && (
-                    <div className={s.resetButton} onClick={handleReset}>
-                        {isError ? 'Try again' : 'Сбросить'}
-                    </div>
-                )}
-
                 {/* Expired verification message */}
                 {isExpired && (
                     <p className={s.expiredText}>
@@ -123,6 +101,6 @@ export const Recaptcha = () => {
             </div>
             {/* Error message displayed below the reCAPTCHA */}
             {isError && <p className={s.errorText}>Please verify that you are not a robot</p>}
-        </section >
+        </section>
     )
 }
