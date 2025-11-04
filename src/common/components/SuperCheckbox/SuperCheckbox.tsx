@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import s from './SuperCheckbox.module.scss'
 
@@ -28,7 +29,7 @@ export const SuperCheckbox = ({ onChangeChecked, children, disabled, checked, id
                 className={s.checkbox}
             />
             <svg className={s.customCheckbox} width="18" height="18">
-                <use xlinkHref={`/icons/SuperCheckbox.svg#${getIconId()}`} />
+                <use xlinkHref={`/icons/sprite.svg#${getIconId()}`} />
             </svg>
             {children && <span className={s.spanClassName}>{children}</span>}
         </label>
