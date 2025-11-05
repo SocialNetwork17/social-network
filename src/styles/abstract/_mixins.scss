@@ -1,7 +1,6 @@
 // mixins - нужны для переиспользования кода в разных частях проекта
 // @include input-style - использование миксина в scss модуле
-@use "./functions" as *; // импортируем функцию из файла function
-
+@use "functions" as *; // импортируем функцию из файла function
 
 @mixin input-container {
   width: 279px;
