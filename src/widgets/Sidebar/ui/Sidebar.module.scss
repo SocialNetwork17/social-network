@@ -1,14 +1,14 @@
-@use "@/styles/abstract/palette" as styles;
+
 
 /* Основной контейнер сайдбара */
 .sidebar {
-  border-right: 1px solid map-get(map-get(styles.$colors, dark), 300);
+  border-right: 1px solid #333333;
   position: fixed;
   top: 0;
   left: 0;
   width: 220px;
   height: 100vh;
-  background-color: map-get(map-get(styles.$colors, dark), 700);
+  background-color: #0d0d0d;
 }
 
 /* Контейнер навигации внутри сайдбара */
@@ -54,7 +54,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 170%;
-  color: map-get(map-get(styles.$colors, light), 100);
+  color: #FFFFFF;
   display: inline-flex;
   gap: 12px;
   padding: 4px 8px;
@@ -71,8 +71,8 @@
   /* Фокус только для клавиатуры (Tab) */
   &:focus-visible {
     outline: none;
-    border: 2px solid map-get(map-get(styles.$colors, accent), 700);
-    color: map-get(map-get(styles.$colors, light), 100);
+    border: 2px solid #2F68CC;
+    color: #FFFFFF;
     transform: translateX(2px);
   }
 
@@ -85,13 +85,13 @@
 
   /* Стили при наведении курсора */
   &:hover {
-    color: map-get(map-get(styles.$colors, accent), 100);
+    color: #73A5FF;
     transform: translateY(1px);
   }
 
   /* Стили когда элемент в фокусе и на него навели (состояние focus + hover) */
   &:focus-visible:hover {
-    border-color: map-get(map-get(styles.$colors, accent), 100);
+    border-color: #73A5FF;
   }
 
   /* Стили для отключенных ссылок */
@@ -102,7 +102,7 @@
 
     /* Отключаем hover-эффекты для disabled ссылок */
     &:hover {
-      color: map-get(map-get(styles.$colors, dark), 100);
+      color: #4C4C4C;
       transform: none;
     }
 
@@ -110,7 +110,7 @@
     &:focus,
     &:focus-visible {
       border-color: transparent;
-      color: map-get(map-get(styles.$colors, dark), 100);
+      color: #4C4C4C;
       transform: none;
     }
   }
@@ -124,7 +124,7 @@
   text-align: left;
   border: none;
   //padding: 0; // Без внутренних отступов
-  color: map-get(map-get(styles.$colors, light), 100);
+  color: #FFFFFF;
   border-radius: 4px;
   padding: 4px 8px;
   margin-left: -8px;
@@ -138,8 +138,8 @@
   /* Фокус только для клавиатуры */
   &:focus-visible {
     outline: none;
-    border: 2px solid map-get(map-get(styles.$colors, accent), 700);
-    color: map-get(map-get(styles.$colors, light), 100);
+    border: 2px solid #2F68CC;
+    color: #FFFFFF;
     transform: translateX(2px);
   }
 
@@ -152,18 +152,18 @@
 
   /* Стили при наведении на кнопку выхода */
   &:hover {
-    color: map-get(map-get(styles.$colors, accent), 100);
+    color: #73A5FF;
     transform: translateX(2px);
   }
 
   /* кнопка в фокусе и наведении */
   &:focus-visible:hover {
-    border-color: map-get(map-get(styles.$colors, accent), 100);
+    border-color: #73A5FF;
   }
 }
 
 /* активные ссылки */
 .activeLink {
   font-weight: 700;
-  color: map-get(map-get(styles.$colors, accent), 500);
+  color: #397DF6;
 }
