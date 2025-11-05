@@ -1,0 +1,169 @@
+@use "../../../styles/index" as styles;
+
+/* Основной контейнер сайдбара */
+.sidebar {
+  border-right: 1px solid styles.palette("dark", 300);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: styles.palette("dark", 700);
+}
+
+/* Контейнер навигации внутри сайдбара */
+.navSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  padding: 72px 0 36px 60px; // Отступы: сверху 72px, снизу 36px, слева 60px
+  gap: 60px;
+}
+
+/* Список ссылок в сайдбаре */
+.sidebarList {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Нижняя секция сайдбара */
+.bottomSection {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Список в нижней секции */
+.bottomList {
+  margin-top: auto;
+  padding-bottom: 36px;
+}
+
+/* Элемент списка */
+.sidebarItem {
+  list-style: none;
+}
+
+/* Базовая стилизация ссылок */
+.sidebarLink {
+  //font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 170%;
+  color: styles.palette("light", 100);
+  display: inline-flex;
+  gap: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: -8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent; /* Добавляем прозрачную границу для плавного перехода */
+
+  /* Убираем outline при клике */
+  &:active {
+    outline: none;
+  }
+
+  /* Фокус только для клавиатуры (Tab) */
+  &:focus-visible {
+    outline: none;
+    border: 2px solid styles.palette("accent", 700);
+    color: styles.palette("light", 100);
+    transform: translateX(2px);
+  }
+
+  /* Обычный focus (при клике) скрываем */
+  &:focus:not(:focus-visible) {
+    outline: none;
+    border-color: transparent;
+    transform: none;
+  }
+
+  /* Стили при наведении курсора */
+  &:hover {
+    color: styles.palette("accent", 100);
+    transform: translateY(1px);
+  }
+
+  /* Стили когда элемент в фокусе и на него навели (состояние focus + hover) */
+  &:focus-visible:hover {
+    border-color: styles.palette("accent", 100);
+  }
+
+  /* Стили для отключенных ссылок */
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed; // Курсор "недоступно"
+    pointer-events: none; // Отключает все события мыши
+
+    /* Отключаем hover-эффекты для disabled ссылок */
+    &:hover {
+      color: styles.palette("dark", 100);
+      transform: none;
+    }
+
+    /* Отключаем focus-эффекты для disabled ссылок */
+    &:focus,
+    &:focus-visible {
+      border-color: transparent;
+      color: styles.palette("dark", 100);
+      transform: none;
+    }
+  }
+}
+
+/* Кнопка выхода */
+.logoutButton {
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  //padding: 0; // Без внутренних отступов
+  color: styles.palette("light", 100);
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-left: -8px;
+  transition: all 0.2s ease;
+
+  /* Убираем outline при клике */
+  &:active {
+    outline: none;
+  }
+
+  /* Фокус только для клавиатуры */
+  &:focus-visible {
+    outline: none;
+    border: 2px solid styles.palette("accent", 700);
+    color: styles.palette("light", 100);
+    transform: translateX(2px);
+  }
+
+  /* Обычный focus (при клике) скрываем */
+  &:focus:not(:focus-visible) {
+    outline: none;
+    border-color: transparent;
+    transform: none;
+  }
+
+  /* Стили при наведении на кнопку выхода */
+  &:hover {
+    color: styles.palette("accent", 100);
+    transform: translateX(2px);
+  }
+
+  /* кнопка в фокусе и наведении */
+  &:focus-visible:hover {
+    border-color: styles.palette("accent", 100);
+  }
+}
+
+/* активные ссылки */
+.activeLink {
+  font-weight: 700;
+  color: styles.palette("accent", 500);
+}
