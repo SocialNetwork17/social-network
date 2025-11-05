@@ -1,6 +1,7 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
 
 .iconButton {
+  position: relative;
   border: none;
   background: transparent;
   color: styles.palette("light", 900);
@@ -24,4 +25,7 @@
 }
 .eyeIconDisabled {
   filter: grayscale(1) brightness(0.6);
+}
+
+.countMessages {
 }
