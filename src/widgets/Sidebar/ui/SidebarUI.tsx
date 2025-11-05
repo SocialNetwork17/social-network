@@ -3,7 +3,7 @@
 
 import React from 'react'
 import s from './Sidebar.module.scss'
-import { Icon } from '@/shared/components/Icon/Icon'
+import { Icon } from '@/shared/ui/Icon/Icon'
 
 
 interface SidebarUIProps {

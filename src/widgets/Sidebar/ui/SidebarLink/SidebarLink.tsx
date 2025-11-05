@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import s from '../Sidebar.module.scss'
-import { Icon } from '@/shared/components/Icon/Icon'
+import { Icon } from '@/shared/ui/Icon/Icon'
 
 interface SidebarLinkProps {
   href: string

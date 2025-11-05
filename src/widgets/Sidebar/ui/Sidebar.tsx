@@ -2,7 +2,7 @@
 
 import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
-import { Icon } from '@/shared/components/Icon/Icon'
+import { Icon } from '@/shared/ui/Icon/Icon'
 import {menuItems} from "@/widgets/Sidebar/ui/Sidebar.config";
 
 
