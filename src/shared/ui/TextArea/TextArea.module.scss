@@ -1,8 +1,15 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
+
 
 .textAreaContainer {
   width: 284px;
   position: relative;
+}
+
+.label {
+  @include typo.text-regular-14;
+  color: styles.palette("light", 900);
 }
 
 .textArea {
@@ -13,24 +20,18 @@
   padding: 4px 10px;
 
   @include styles.border-style;
-
   background: transparent;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 24px;
+
+  @include typo.text-regular-16;
   letter-spacing: 0;
   color: styles.palette("light", 100);
   transition: border-color 0.2s ease, outline-color 0.2s ease;
 
   resize: none;
 }
+
 .errorTextArea {
   @include styles.error-input
-}
-.label {
-  @include styles.label;
-  color: styles.palette("light", 900);
 }
 
 .errorText {
@@ -38,7 +39,8 @@
   top: calc(100% + 2px);
 
   width: 100%;
-  word-break: break-all;
-  @extend .label;
+  @include typo.text-regular-14;
   color: styles.palette("danger", 500);
+
+  word-break: break-all;
 }
