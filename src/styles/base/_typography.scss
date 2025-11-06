@@ -2,82 +2,82 @@
 @use "../abstract/functions" as *;
 
 // Заголовки
-.large {
+@mixin large-text {
   font-size: $font-size-large;
   font-weight: $font-weight-600;
   line-height: $line-height-large;
 }
 
-h1 {
+@mixin h1 {
   font-size: $font-size-h1;
   font-weight: $font-weight-700;
   line-height: $line-height-h1;
 }
 
-h2 {
+@mixin h2 {
   font-size: $font-size-h2;
   font-weight: $font-weight-700;
   line-height: $line-height-h2;
 }
 
-h3 {
+@mixin h3 {
   font-size: $font-size-h3;
   font-weight: $font-weight-600;
   line-height: $line-height-h3;
 }
 
 // Текстовые классы
-.text-regular-16 {
+@mixin text-regular-16 {
   font-size: $font-size-regular-16;
   font-weight: $font-weight-400;
   line-height: $line-height-regular-16;
 }
 
-.text-bold-16 {
+@mixin text-bold-16 {
   font-size: $font-size-regular-16;
   line-height: $line-height-regular-16;
   font-weight: $font-weight-700;
 }
 
-.text-regular-14 {
+@mixin text-regular-14 {
   font-size: $font-size-regular-14;
   line-height: $line-height-regular-14;
   font-weight: $font-weight-400;
 }
 
-.text-medium-14 {
+@mixin text-medium-14 {
   font-size: $font-size-regular-14;
   line-height: $line-height-regular-14;
   font-weight: $font-weight-500;
 }
 
-.text-bold-14 {
+@mixin text-bold-14 {
   font-size: $font-size-regular-14;
   line-height: $line-height-regular-14;
   font-weight: $font-weight-700;
 }
 
-.text-small {
+@mixin text-small {
   font-size: $font-size-small;
   line-height: $line-height-small;
   font-weight: $font-weight-400;
 }
 
-.text-small-semi {
+@mixin text-small-semi {
   font-size: $font-size-small;
   line-height: $line-height-small;
   font-weight: $font-weight-600;
 }
 
 // Ссылки
-.link-regular {
+@mixin link-regular {
   font-size: $font-size-regular-14;
   font-weight: $font-weight-400;
   text-decoration: underline;
   color: palette("accent", 500);
 }
 
-.link-small {
+@mixin link-small {
   font-size: $font-size-small;
   font-weight: $font-weight-400;
   text-decoration: underline;
