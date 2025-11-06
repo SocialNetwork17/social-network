@@ -5,13 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -34,3 +28,54 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+---
+
+#### Рекомендации к именам коммитов
+
+-   Названия коммитов следует соблюдать согласно [гайдлайну](https://www.conventionalcommits.org/en/v1.0.0/)
+-   Тип коммита может быть только в нижнием регистре (`feat`, `fix`, `refactor`, `docs` и т.д.)
+-   (_) - Указывает область изменений.
+    В данном случае _ означает, что изменения касаются всей кодовой базы или не относятся к одной конкретной области.
+    Обычно вместо \* могут быть указаны конкретные модули, файлы или компоненты, например: feat(ui):, feat(api):, feat(auth):.
+-   Может использоваться present tense ("add feature" not "added feature")
+-   Может использоваться imperative mood ("move cursor to..." not "moves cursor to...")
+
+#### Примеры имен коммитов
+
+-   `init` - используется для начала проекта/таска. Примеры:
+
+```
+init(package): start sprint-1
+init(*): start html-coding task
+```
+
+-   `feat` - это реализованная новая функциональность из технического задания (добавил поддержку зумирования, добавил footer, добавил карточку продукта). Примеры:
+
+```
+feat(*): add basic page layout
+feat(search-input): implement search box
+```
+
+-   `fix` - исправил ошибку в ранее реализованной функциональности. Примеры:
+
+```
+fix(*): change layout for video items to fix bugs
+fix(header): relayout header for firefox
+```
+
+-   `refactor` - новой функциональности не добавлял / поведения не менял. Файлы в другие места положил, удалил, добавил. Изменил форматирование кода (white-space, formatting, missing semi-colons, etc). Улучшил алгоритм, без изменения функциональности. Примеры:
+
+```
+refactor(*): change the structure of the project
+refactor(constants): rename vars for better readability
+```
+
+-   `docs` - используется при работе с документацией/readme проекта. Примеры:
+
+```
+docs(*): update readme with additional information
+docs(readme): update description of run() method
+```
+
+---

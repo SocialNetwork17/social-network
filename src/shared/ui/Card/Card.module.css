@@ -56,6 +56,10 @@
   color: #333333; /*var(--dark-300);*/
 }
 
+.arrow:disabled {
+  cursor: no-drop;
+}
+
 .dots {
   position: absolute;
   left: 50%;

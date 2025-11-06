@@ -16,59 +16,51 @@ export default function Card(props: Props) {
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  // Нормализуем images в массив для единообразной работы
+  const imagesArray = Array.isArray(images) ? images : [images]
+
+  if (!images.length) return null
+
   const nextSlide = () => {
-    setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
+    setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? prevIndex : prevIndex + 1))
   }
 
   const prevSlide = () => {
-    setCurrentIndex(prevIndex => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))
+    setCurrentIndex(prevIndex => (prevIndex === 0 ? prevIndex : prevIndex - 1))
   }
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index)
   }
 
-  if (!images.length) return null
+  // Определяем, показывать ли слайдер
+  const showSlider = slider && imagesArray.length > 1
 
   return (
     <div className={styles.carouselContainer}>
-      {Array.isArray(images) ? (
-        // Массив изображений - карусель
-        images.map((image, index) => (
-          <div
-            key={index}
-            className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
-          >
-            <Image
-              src={image}
-              alt={`${alt} - ${index + 1} of ${images.length}`}
-              fill={true}
-              className={`${styles.image} ${variant === 'circular' ? styles.rounded : ''}`}
-              sizes="(max-width: 768px) 100vw, 600px"
-              priority={index === 0}
-            />
-          </div>
-        ))
-      ) : (
-        // Одно изображение
-        <div className={styles.slide}>
+      {imagesArray.map((image, index) => (
+        <div
+          key={index}
+          className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
+        >
           <Image
-            src={images}
-            alt={alt}
+            src={image}
+            alt={`${alt} - ${index + 1} of ${images.length}`}
             fill={true}
             className={`${styles.image} ${variant === 'circular' ? styles.rounded : ''}`}
             sizes="(max-width: 768px) 100vw, 600px"
-            priority={true}
+            priority={index === 0}
           />
         </div>
-      )}
+      ))}
 
       {/* Navigation arrows */}
-      {Array.isArray(images) && slider && images.length > 1 && (
+      {showSlider && (
         <>
           <button
             className={`${styles.arrow} ${styles.arrowLeft}`}
             onClick={prevSlide}
+            disabled={currentIndex === 0}
             aria-label="Previous image"
           >
             ‹
@@ -76,6 +68,7 @@ export default function Card(props: Props) {
           <button
             className={`${styles.arrow} ${styles.arrowRight}`}
             onClick={nextSlide}
+            disabled={currentIndex === images.length - 1}
             aria-label="Next image"
           >
             ›
@@ -84,9 +77,9 @@ export default function Card(props: Props) {
       )}
 
       {/* Dots indicator */}
-      {Array.isArray(images) && slider && images.length > 1 && (
+      {showSlider && (
         <div className={styles.dots}>
-          {images.map((_, index) => (
+          {imagesArray.map((_, index) => (
             <button
               key={index}
               className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
