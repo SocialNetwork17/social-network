@@ -1,5 +1,16 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import s from './Pagination.module.css';
+import {Icon} from "@/shared/ui/Icon/Icon";
+import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
+
+const options: Option[] = [
+    {id: "1", label: "10"},
+    {id: "2", label: "20"},
+    {id: "3", label: "30"},
+    {id: "4", label: "40"},
+    {id: "5", label: "50"},
+    {id: "6", label: "100"},
+];
 
 export type PaginationProps = {
     totalItems: number;
@@ -16,6 +27,9 @@ const Pagination = ({
                         onPageChange,
                         maxVisiblePages = 5
                     }: PaginationProps) => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [isDisabled, setDisabled] = useState(false);
+
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const displayPages = useMemo(() => {
@@ -71,19 +85,24 @@ const Pagination = ({
         }
     };
 
+    const handleSelect = (option: Option) => {
+        setSelectedOption(option.id);
+        console.log('Selected:', option);
+    };
+
     if (totalPages <= 1) return null;
 
     return (
-        <nav className={s.pagination} aria-label="Page navigation">
+        <div className={s.pagination} aria-label="Page navigation">
             <ul className={s.paginationList}>
                 {/* Кнопка "Назад" */}
                 <li className={s.paginationItem}>
                     <button
-                        className={`${s.paginationButton} ${currentPage === 1 ? 'disabled' : ''}`}
+                        className={`${s.paginationButton} ${currentPage === 1 ? s.disabled : ''}`}
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
-                        &laquo;
+                        <Icon iconId={'arrow-left'} size={16} viewBox={'0 0 16 16'}/>
                     </button>
                 </li>
 
@@ -94,7 +113,7 @@ const Pagination = ({
                             <span className={s.paginationEllipsis}>...</span>
                         ) : (
                             <button
-                                className={`${s.paginationButton} ${page === currentPage ? 'active' : ''}`}
+                                className={`${s.paginationButton} ${page === currentPage ? s.active : ''}`}
                                 onClick={() => handlePageClick(page)}
                             >
                                 {page}
@@ -106,15 +125,25 @@ const Pagination = ({
                 {/* Кнопка "Вперед" */}
                 <li className={s.paginationItem}>
                     <button
-                        className={`${s.paginationButton} ${currentPage === totalPages ? 'disabled' : ''}`}
+                        className={`${s.paginationButton} ${currentPage === totalPages ? s.disabled : ''}`}
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >
-                        &raquo;
+                        <Icon iconId={'arrow-right'} size={16} viewBox={'0 0 16 16'}/>
                     </button>
                 </li>
             </ul>
-        </nav>
+            <div className={s.paginationWrapper}>
+                <span className={s.paginationText}>Show</span>
+                <SelectBox
+                    options={options}
+                    value={selectedOption}
+                    onChange={handleSelect}
+                    placeholder="10"
+                    disabled={isDisabled}/>
+                <span>on page</span>
+            </div>
+        </div>
     );
 };
 
