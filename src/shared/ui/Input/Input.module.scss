@@ -1,5 +1,5 @@
 @use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography";
+@use "../../../styles/base/typography" as typo;
 
 .inputContainer {
   @include styles.input-container
@@ -17,8 +17,10 @@
 
 .label {
   position: relative;
+  @include typo.text-regular-14;
   color: styles.palette("light", 900);
 }
+
 .requiredStar {
   position: absolute;
   top: -8px;

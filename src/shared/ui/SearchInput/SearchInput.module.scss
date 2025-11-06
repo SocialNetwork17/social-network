@@ -1,4 +1,5 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
 
 .inputContainer {
   @include styles.input-container;
@@ -7,6 +8,7 @@
 .inputWrapper {
   position: relative;
 }
+
 .iconButtonContainer {
   position: absolute;
   top: 20%;
@@ -27,8 +29,7 @@
 .errorText {
   position: absolute;
   top: calc(100% + 2px);
-
-  @include styles.label;
+  @include typo.text-regular-14;
   color: styles.palette("danger", 500);
   word-break: break-all;
 }
