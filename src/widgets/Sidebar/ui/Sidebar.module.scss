@@ -1,8 +1,8 @@
-
+@use "../../../styles/abstract" as styles;
 
 /* Основной контейнер сайдбара */
 .sidebar {
-  border-right: 1px solid #333333;
+  border-right: 1px solid styles.palette("dark", 300);
   position: fixed;
   top: 0;
   left: 0;
