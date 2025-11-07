@@ -140,7 +140,12 @@ const Pagination = ({
                     value={selectedOption}
                     onChange={handleSelect}
                     placeholder="10"
-                    disabled={isDisabled}/>
+                    disabled={isDisabled}
+                    styleContainer={{fontSize: '14px', fontWeight: '400', height: '100%'}}
+                    styleBox={{ padding: '0 1px 0 5px', gap: 0, height: '100%' }}
+                    styleArrow={{ width: '16px', height: '16px' }}
+                    styleOption={{padding: '5px 0 5px 5px'}}
+                />
                 <span>on page</span>
             </div>
         </div>
