@@ -1,0 +1,94 @@
+'use client'
+
+import Image from 'next/image'
+import styles from './Card.module.css'
+import { useState } from 'react'
+
+interface Props {
+  images: string[] | string
+  alt?: string
+  slider?: boolean
+  variant?: 'rectangle' | 'circular'
+}
+
+export default function Card(props: Props) {
+  const { images, alt = 'Post', slider = false, variant = 'rectangle' } = props
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Нормализуем images в массив для единообразной работы
+  const imagesArray = Array.isArray(images) ? images : [images]
+
+  if (!images.length) return null
+
+  const nextSlide = () => {
+    setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? prevIndex : prevIndex + 1))
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex(prevIndex => (prevIndex === 0 ? prevIndex : prevIndex - 1))
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index)
+  }
+
+  // Определяем, показывать ли слайдер
+  const showSlider = slider && imagesArray.length > 1
+
+  return (
+    <div className={styles.carouselContainer}>
+      {imagesArray.map((image, index) => (
+        <div
+          key={index}
+          className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
+        >
+          <Image
+            src={image}
+            alt={`${alt} - ${index + 1} of ${images.length}`}
+            fill={true}
+            className={`${styles.image} ${variant === 'circular' ? styles.rounded : ''}`}
+            sizes="(max-width: 768px) 100vw, 600px"
+            priority={index === 0}
+          />
+        </div>
+      ))}
+
+      {/* Navigation arrows */}
+      {showSlider && (
+        <>
+          <button
+            className={`${styles.arrow} ${styles.arrowLeft}`}
+            onClick={prevSlide}
+            disabled={currentIndex === 0}
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          <button
+            className={`${styles.arrow} ${styles.arrowRight}`}
+            onClick={nextSlide}
+            disabled={currentIndex === images.length - 1}
+            aria-label="Next image"
+          >
+            ›
+          </button>
+        </>
+      )}
+
+      {/* Dots indicator */}
+      {showSlider && (
+        <div className={styles.dots}>
+          {imagesArray.map((_, index) => (
+            <button
+              key={index}
+              className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to image ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

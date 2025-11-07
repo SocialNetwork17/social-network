@@ -1,0 +1,55 @@
+// mixins - нужны для переиспользования кода в разных частях проекта
+// @include input-style - использование миксина в scss модуле
+@use "functions" as *; // импортируем функцию из файла function
+
+@mixin input-container {
+  width: 279px;
+  position: relative;
+}
+
+@mixin border-style {
+  border: 1px solid palette("dark", 100);
+  border-radius: 2px;
+
+  &:active {
+    border-color: palette("light", 100);
+    color: palette("light", 100);
+  }
+
+  &:hover {
+    border-color: palette("light", 900);
+  }
+
+  &:focus {
+    outline: 2px solid palette("accent", 500);
+    outline-offset: 0;
+  }
+  &:disabled {
+    border-color: palette("dark", 100);
+    color: palette("light", 900);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+@mixin input {
+  width: 100%;
+  height: 36px;
+  display: block;
+
+  background-color: transparent;
+
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: palette("light", 100);
+}
+
+@mixin error-input {
+  border-color: palette("danger", 500);
+  &:focus {
+    border-color: palette("danger", 500);
+    outline: 2px solid palette("danger", 500);
+  }
+}
