@@ -1,0 +1,211 @@
+// Анимация исчезновения всего wrapper
+.logoutWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  // Анимация появления фона
+  animation: wrapperAppear 0.3s ease-out;
+
+  // Класс для анимации исчезновения wrapper
+  &.wrapperDisappear {
+    animation: wrapperDisappear 0.3s ease-in forwards;
+  }
+}
+
+.logoutModal {
+  background-color: #333;
+  border: 1px solid #4c4c4c;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  max-width: 438px;
+  width: 90%;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.logoutHeader {
+  border-bottom: 1px solid #4c4c4c;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  align-items: center;
+}
+
+.logoutBtnClose {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  border-radius: 2px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+
+    .logoutBtnCloseSvg {
+      .closeLine1,
+      .closeLine2 {
+        stroke: #397df6;
+      }
+    }
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.logoutBtnCloseSvg {
+  width: 24px;
+  height: 24px;
+
+  .closeLine1,
+  .closeLine2 {
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: all 0.3s ease;
+  }
+}
+
+.logoutBody {
+  padding: 30px 24px 36px;
+}
+
+.logoutTitle {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.logoutText {
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.logoutEmail {
+  font-weight: 600;
+}
+
+.logoutButtons {
+  display: flex;
+  gap: 24px;
+  justify-content: end;
+}
+
+.logoutBtn {
+  padding: 5px;
+  border: none;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 96px;
+  min-height: 36px;
+  line-height: 1.5;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  &:hover::before {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.logoutBtnYes {
+  border: 1px solid #397df6;
+  background-color: rgba(57, 125, 246, 0);
+  color: #397df6;
+
+  &:hover {
+    background-color: rgba(57, 125, 246, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(57, 125, 246, 0.3);
+  }
+}
+
+.logoutBtnNo {
+  color: #fff;
+  background: #397df6;
+
+  &:hover {
+    background: rgba(57, 125, 246, 0.8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(57, 125, 246, 0.4);
+  }
+}
+
+// Анимация появления модального окна
+.logoutModal {
+  animation: modalAppear 0.3s ease-out;
+
+  // Класс для анимации исчезновения
+  &.modalDisappear {
+    animation: modalDisappear 0.3s ease-in forwards;
+  }
+}
+
+@keyframes modalAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalDisappear {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+}
+
+@keyframes wrapperAppear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes wrapperDisappear {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

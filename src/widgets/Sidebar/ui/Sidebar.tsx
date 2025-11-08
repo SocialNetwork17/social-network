@@ -4,17 +4,34 @@ import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
 import { Icon } from '@/shared/ui/Icon/Icon'
 import {menuItems} from "@/widgets/Sidebar/ui/Sidebar.config";
+import {useState} from "react";
+import {LogOut} from "@/shared/ui/LogOut/LogOut";
 
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
   const bottomItems = menuItems.slice(5)
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
   const handleLogout = () => {
-    alert('Logout clicked')
+    setIsLogoutModalOpen(true)
+  }
+
+  const handleLogoutConfirm = () => {
+    // TODO: добавить реальную логику выхода
+    console.log('Logging out...')
+    // Например:
+    // localStorage.removeItem('authToken')
+    // router.push('/login')
+    alert('Logout successful!') // Временная заглушка
+  }
+
+  const handleLogoutClose = () => {
+    setIsLogoutModalOpen(false)
   }
 
   return (
+      <>
       <aside className={s.sidebar}>
         <nav className={s.navSidebar}>
           <ul className={s.sidebarList}>
@@ -50,5 +67,14 @@ export const Sidebar = () => {
           </div>
         </nav>
       </aside>
+
+      {/* Компонент модального окна выхода */}
+      <LogOut
+          isOpen={isLogoutModalOpen}
+          onConfirm={handleLogoutConfirm}
+          onClose={handleLogoutClose}
+          email="Epam@epam.com" // Можно динамически подставлять email пользователя
+      />
+    </>
   )
 }
