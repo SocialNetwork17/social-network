@@ -23,7 +23,6 @@ export const SidebarUI = ({
                           }: SidebarUIProps) => {
     return (
         <aside className={s.sidebar}>
-            bar
             <nav className={s.navSidebar}>
                 {/* Основные ссылки */}
                 <ul className={s.sidebarList}>
