@@ -5,6 +5,18 @@
     background-color: #171717;
 }
 
+.selectContainer:focus {
+    outline: 2px solid #397df6;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.selectContainer:focus-visible {
+    outline: 2px solid #397df6;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
 .selectBox {
     display: flex;
     align-items: center;
@@ -40,10 +52,15 @@
     transform: none;
 }
 
-.selectBox:focus {
-    outline: 2px solid #397df6;
-    border-color: #397df6;
-}
+/*.selectBox:focus {*/
+/*    outline: 2px solid #397df6;*/
+/*    outline-offset: 2px;*/
+/*}*/
+
+/*.selectBox:focus-visible {*/
+/*    outline: 2px solid #397df6;*/
+/*    outline-offset: 2px;*/
+/*}*/
 
 .selectValue {
     font-size: inherit;

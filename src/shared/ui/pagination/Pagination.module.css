@@ -47,6 +47,16 @@
     cursor: default;
 }
 
+.paginationButton:focus {
+    outline: 2px solid #397df6;
+    outline-offset: 2px;
+}
+
+.paginationButton:focus-visible {
+    outline: 2px solid #397df6;
+    outline-offset: 2px;
+}
+
 .paginationButton.disabled {
     color: #6c757d;
     cursor: not-allowed;
