@@ -71,8 +71,8 @@ export const Sidebar = () => {
       {/* Компонент модального окна выхода */}
       <LogOut
           isOpen={isLogoutModalOpen}
-          onConfirm={handleLogoutConfirm}
-          onClose={handleLogoutClose}
+          onConfirmAction={handleLogoutConfirm}
+          onCloseAction={handleLogoutClose}
           email="Epam@epam.com" // Можно динамически подставлять email пользователя
       />
     </>

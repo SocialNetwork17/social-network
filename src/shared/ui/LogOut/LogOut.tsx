@@ -2,38 +2,33 @@
 import s from './LogOut.module.scss'
 import React, {useState, useEffect} from "react"
 
-interface LogOutProps {
+type LogOutProps = {
     email?: string
-    onConfirm?: () => void
-    onClose?: () => void
+    onConfirmAction?: () => void  // Добавлено "Action"
+    onCloseAction?: () => void    // Добавлено "Action"
     isOpen?: boolean
 }
 
 export const LogOut = ({
                            email = "Epam@epam.com",
-                           onConfirm,
-                           onClose,
+                           onConfirmAction,
+                           onCloseAction,
                            isOpen = false
                        }: LogOutProps) => {
     const [internalIsOpen, setInternalIsOpen] = useState(isOpen)
     const [isClosing, setIsClosing] = useState(false)
-
-    // Синхронизируем внутреннее состояние с внешним пропсом
-    useEffect(() => {
-        setInternalIsOpen(isOpen)
-    }, [isOpen])
 
     const handleClose = () => {
         setIsClosing(true)
         setTimeout(() => {
             setInternalIsOpen(false)
             setIsClosing(false)
-            onClose?.()
+            onCloseAction?.()
         }, 300)
     }
 
     const handleClickYes = () => {
-        onConfirm?.()
+        onConfirmAction?.()
         handleClose()
     }
 
@@ -43,7 +38,15 @@ export const LogOut = ({
         }
     }
 
-    if (!internalIsOpen) return null
+    // Синхронизируем внутреннее состояние с внешним пропсом
+
+    useEffect(() => {
+        setInternalIsOpen(isOpen)
+    }, [isOpen])
+
+
+
+    if (!internalIsOpen) return
 
     return (
         <div
