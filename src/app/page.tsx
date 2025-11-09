@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import styles from './page.module.css'
-import {Button} from "@/shared/ui/button/Button";
+import {Header} from "@/widgets/header/ui/Header";
 
 export default function Home() {
         return (
     <div className={styles.page}>
       <main className={styles.main}>
-          <Button disabled={false} variant={"outline"}>sdsdv</Button>
+         <Header></Header>
         <Image
           className={styles.logo}
           src="/next.svg"

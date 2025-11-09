@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button} from "@/shared/ui/button/Button";
 import scss from './HeaderMenu.module.scss'
-import {MessageBell} from "./messageBell/MessageBell";
+import SelectBox from "@/shared/ui/select-box/SelectBox";
+import {IconButton} from "@/shared/ui/IconButton/IconButton";
 
 type HeaderMenu = {
     isLoggedIn: boolean;
@@ -18,28 +19,35 @@ export const HeaderMenu = (props: HeaderMenu) => {
         onClickHandler,
     } = props;
 
+    const languages = [
+        {id: "1", label: "Russian"},
+        {id: "2", label: "English"}
+    ]
+
     return (
         <div className={`${scss.menuBox}`}>
             {isLoggedIn
                 ?
                 (
                     <>
-                        <MessageBell countMessage={countMessage} onClickHandler={onClickHandler} />
-
-                        <select>
-                            <option>rus</option>
-                            <option>eng</option>
-                        </select>
+                       <div className={scss.iconBox}>
+                           <IconButton
+                               onClick={onClickHandler}
+                               iconId={"messageBell"}
+                               height={"20px"}
+                               width={"18px"}
+                               viewBox={"0 0 18 20"}
+                               fill={"red"}
+                           />
+                           {!!countMessage && <p className={scss.counterMessage}>{countMessage}</p>}
+                       </div>
+                        <SelectBox options={languages} value={languages[0].label} onChange={()=>{}}></SelectBox>
                     </>
                 )
                 :
                 (
                     <>
-                        <select>
-                            <option>rus</option>
-                            <option>eng</option>
-                        </select>
-
+                        <SelectBox options={languages} value={languages[0].label} onChange={()=>{}}></SelectBox>
                         <div className={`${scss.buttonsBox}`}>
                             <Button variant={"textButton"} disabled={false} width={100} height={36}>Log in</Button>
                             <Button variant={"primary"} disabled={false} width={100} height={36}>Sing up</Button>
