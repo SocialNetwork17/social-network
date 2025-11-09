@@ -6,7 +6,6 @@ export type Option = { id: string, label: string }
 
 type SelectBoxProps = {
     options: Option[];
-    value: string | null;
     onChange: (option: Option) => void;
     placeholder?: string;
     disabled?: boolean;
@@ -22,7 +21,6 @@ type SelectBoxProps = {
 
 const SelectBox = ({
                        options = [],
-                       value,
                        onChange,
                        placeholder = "Select an option",
                        disabled = false,
@@ -37,6 +35,7 @@ const SelectBox = ({
                    }: SelectBoxProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const selectRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
@@ -53,9 +52,8 @@ const SelectBox = ({
     const handleSelect = (option: Option) => {
         onChange(option);
         setIsOpen(false);
+        setSelectedOption(option.label);
     };
-
-    const selectedOption = options.find(opt => opt.id === value);
 
     return (
         <div className={`${s.selectContainer} ${classContainer}`}
@@ -71,12 +69,12 @@ const SelectBox = ({
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
                 <span className={s.selectValue}>
-                  {selectedOption ? selectedOption.label : placeholder}
+                  {selectedOption ? selectedOption : placeholder}
                 </span>
                 <div className={s.selectArrow + ' ' + classArrow}
                      style={styleArrow}
                 >
-                    <Icon iconId={'arrow-down'} size={24} fill={'inherit'}/>
+                    <Icon iconId={'arrow-down'} size={24} />
                 </div>
             </div>
 
@@ -85,7 +83,7 @@ const SelectBox = ({
                     {options.map((option) => (
                         <div
                             key={option.id}
-                            className={`${s.selectOption} ${classOption} ${value === option.id ? 'selected' : ''}`}
+                            className={`${s.selectOption} ${classOption} ${selectedOption === option.id ? 'selected' : ''}`}
                             style={styleOption}
                             onClick={() => handleSelect(option)}
                             onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}

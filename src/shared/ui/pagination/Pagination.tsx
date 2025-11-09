@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 import s from './Pagination.module.css';
 import {Icon} from "@/shared/ui/Icon/Icon";
 import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
@@ -18,6 +18,7 @@ export type PaginationProps = {
     currentPage: number;
     onPageChange: (page: number | string) => void;
     maxVisiblePages?: number;
+    disabled?: boolean;
 }
 
 const Pagination = ({
@@ -25,10 +26,9 @@ const Pagination = ({
                         itemsPerPage,
                         currentPage,
                         onPageChange,
-                        maxVisiblePages = 5
+                        maxVisiblePages = 5,
+                        disabled = false,
                     }: PaginationProps) => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [isDisabled, setDisabled] = useState(false);
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -86,7 +86,7 @@ const Pagination = ({
     };
 
     const handleSelect = (option: Option) => {
-        setSelectedOption(option.id);
+        // setSelectedOption(option.id);
         console.log('Selected:', option);
     };
 
@@ -137,10 +137,9 @@ const Pagination = ({
                 <span className={s.paginationText}>Show</span>
                 <SelectBox
                     options={options}
-                    value={selectedOption}
                     onChange={handleSelect}
                     placeholder="10"
-                    disabled={isDisabled}
+                    disabled={disabled}
                     styleContainer={{fontSize: '14px', fontWeight: '400', height: '100%'}}
                     styleBox={{ padding: '0 1px 0 5px', gap: 0, height: '100%' }}
                     styleArrow={{ width: '16px', height: '16px' }}

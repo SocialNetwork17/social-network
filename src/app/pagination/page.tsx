@@ -4,11 +4,12 @@ import {useState} from "react";
 import Pagination from "@/shared/ui/pagination/Pagination";
 
 const PaginationPage = () => {
-    const [currentPage, setCurrentPage] = useState(1);
+    const [isDisabled, setDisabled] = useState(false);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const totalItems = 100;
     const itemsPerPage = 10;
 
-    const handlePageChange = (page: any) => {
+    const handlePageChange = (page) => {
         setCurrentPage(page);
         // Здесь можно добавить логику загрузки данных для выбранной страницы
         console.log(`Переход на страницу: ${page}`);
@@ -26,7 +27,9 @@ const PaginationPage = () => {
                   currentPage={currentPage}
                   onPageChange={handlePageChange}
                   maxVisiblePages={5}
+                  disabled={isDisabled}
               />
+              <button onClick={() => setDisabled(!isDisabled)}>Toggle Disabled</button>
           </div>
       </main>
     </div>
