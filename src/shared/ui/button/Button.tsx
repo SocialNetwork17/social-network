@@ -9,7 +9,7 @@ type ButtonTheme = "primary" | "secondary" | "outline" | "textButton"
 
 type ButtonProps = {
     children: ReactNode
-    theme: ButtonTheme
+    variant: ButtonTheme
     disabled: boolean
     onClickHandler?: () => void
     icon?: StaticImageData
@@ -20,7 +20,7 @@ type ButtonProps = {
 export const Button = (props: ButtonProps) => {
     const {
         children,
-        theme,
+        variant,
         disabled,
         icon,
         width,
@@ -28,7 +28,7 @@ export const Button = (props: ButtonProps) => {
         onClickHandler
     } = props
 
-    const buttonClass = `${scss.button} ${scss[theme]}`;
+    const buttonClass = `${scss.button} ${scss[variant]}`;
 
     const buttonStyle = {
         width: width,

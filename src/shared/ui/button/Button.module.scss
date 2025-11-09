@@ -1,16 +1,18 @@
+@use "../../../styles/index" as styles;
+
 // Переменные для цветов
-$primary-color: rgba(57, 125, 246, 1);
-$primary-active: rgba(47, 104, 204, 1);
-$primary-hover: rgba(115, 165, 255, 1);
-$primary-disabled: rgba(35, 78, 153, 1);
+$primary-color: styles.palette("accent", 500);
+$primary-active: styles.palette("accent", 700);
+$primary-hover: styles.palette("accent", 100);
+$primary-disabled: styles.palette("accent", 900);
 
-$secondary-color: rgba(51, 51, 51, 1);
+$secondary-color: styles.palette("dark", 300);
 $secondary-active: rgba(33, 33, 33, 1);
-$secondary-hover: rgba(76, 76, 76, 1);
-$secondary-disabled: rgba(23, 23, 23, 1);
+$secondary-hover: styles.palette("dark", 100);
+$secondary-disabled: styles.palette("dark", 500);
 
-$disabled-text: rgba(141, 144, 148, 1);
-$white: rgba(255, 255, 255, 1);
+$disabled-text: styles.palette("light", 900);
+$white: styles.palette("light", 100);
 
 // Миксин для базовых стилей кнопки
 @mixin button-base {

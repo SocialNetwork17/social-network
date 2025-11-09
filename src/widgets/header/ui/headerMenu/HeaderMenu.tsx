@@ -41,8 +41,8 @@ export const HeaderMenu = (props: HeaderMenu) => {
                         </select>
 
                         <div className={`${scss.buttonsBox}`}>
-                            <Button theme={"textButton"} disabled={false} width={100} height={36}>Log in</Button>
-                            <Button theme={"primary"} disabled={false} width={100} height={36}>Sing up</Button>
+                            <Button variant={"textButton"} disabled={false} width={100} height={36}>Log in</Button>
+                            <Button variant={"primary"} disabled={false} width={100} height={36}>Sing up</Button>
                         </div>
                     </>
                 )
