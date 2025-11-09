@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import s from './Pagination.module.css';
 import {Icon} from "@/shared/ui/Icon/Icon";
 import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
@@ -15,20 +15,21 @@ const options: Option[] = [
 export type PaginationProps = {
     totalItems: number;
     itemsPerPage: number;
-    currentPage: number;
-    onPageChange: (page: number | string) => void;
+    onPageChange?: (page: number) => void;
     maxVisiblePages?: number;
     disabled?: boolean;
+    onSelectChange?: (option: Option) => void;
 }
 
 const Pagination = ({
                         totalItems,
                         itemsPerPage,
-                        currentPage,
                         onPageChange,
                         maxVisiblePages = 5,
                         disabled = false,
+                        onSelectChange
                     }: PaginationProps) => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -68,26 +69,30 @@ const Pagination = ({
         return pages;
     }, [currentPage, totalPages, maxVisiblePages]);
 
-    const handlePageClick = (page: number | string) => {
-        if (page === '...' || page === currentPage) return;
-        onPageChange(page);
+    const handlePageClick = (page: number) => {
+        if (page === currentPage) return;
+        setCurrentPage(page);
+        onPageChange?.(page);
     };
 
     const handlePrevious = () => {
         if (currentPage > 1) {
-            onPageChange(currentPage - 1);
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage)
+            onPageChange?.(newPage);
         }
     };
 
     const handleNext = () => {
         if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage)
+            onPageChange?.(newPage);
         }
     };
 
     const handleSelect = (option: Option) => {
-        // setSelectedOption(option.id);
-        console.log('Selected:', option);
+        onSelectChange?.(option)
     };
 
     if (totalPages <= 1) return null;
