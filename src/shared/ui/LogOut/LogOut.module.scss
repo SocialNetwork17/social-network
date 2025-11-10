@@ -1,3 +1,6 @@
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
+
 // Анимация исчезновения всего wrapper
 .logoutWrapper {
   position: fixed;
@@ -5,7 +8,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(styles.palette("dark", 700), 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,20 +24,18 @@
 }
 
 .logoutModal {
-  background-color: #333;
-  border: 1px solid #4c4c4c;
+  background-color: styles.palette("dark", 300);
+  border: 1px solid styles.palette("dark", 100);
   border-radius: 2px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(styles.palette("dark", 900), 0.15);
   max-width: 438px;
   width: 90%;
-  color: #fff;
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
+  color: styles.palette("light", 100);
+  @include typo.text-regular-16;
 }
 
 .logoutHeader {
-  border-bottom: 1px solid #4c4c4c;
+  border-bottom: 1px solid styles.palette("dark", 100);
   display: flex;
   justify-content: space-between;
   padding: 12px 24px;
@@ -51,18 +52,18 @@
   border-radius: 2px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(styles.palette("light", 100), 0.1);
 
     .logoutBtnCloseSvg {
       .closeLine1,
       .closeLine2 {
-        stroke: #397df6;
+        stroke: styles.palette("accent", 500);
       }
     }
   }
 
   &:active {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(styles.palette("light", 100), 0.15);//0.15
   }
 }
 
@@ -72,7 +73,7 @@
 
   .closeLine1,
   .closeLine2 {
-    stroke: #fff;
+    stroke: styles.palette("light", 100);
     stroke-width: 2;
     stroke-linecap: round;
     transition: all 0.3s ease;
@@ -84,18 +85,15 @@
 }
 
 .logoutTitle {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.8;
+  @include typo.h1;
 }
 
 .logoutText {
-  line-height: 1.5;
   margin-bottom: 30px;
 }
 
 .logoutEmail {
-  font-weight: 600;
+  @include typo.h3;
 }
 
 .logoutButtons {
@@ -105,16 +103,15 @@
 }
 
 .logoutBtn {
+  @include typo.h3;
   padding: 5px;
   border: none;
   border-radius: 2px;
-  font-size: 16px;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 96px;
   min-height: 36px;
-  line-height: 1.5;
+
   position: relative;
   overflow: hidden;
 
@@ -125,7 +122,7 @@
     left: 50%;
     width: 0;
     height: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(styles.palette("light", 100), 0.1);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.3s ease, height 0.3s ease;
@@ -138,25 +135,25 @@
 }
 
 .logoutBtnYes {
-  border: 1px solid #397df6;
-  background-color: rgba(57, 125, 246, 0);
-  color: #397df6;
+  border: 1px solid styles.palette("accent", 500);
+  background-color: rgba(styles.palette("accent", 500), 0);
+  color: styles.palette("accent", 500);
 
   &:hover {
-    background-color: rgba(57, 125, 246, 0.1);
+    background-color: rgba(styles.palette("accent", 500), 0.1);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(57, 125, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(styles.palette("accent", 500), 0.3);
   }
 }
 
 .logoutBtnNo {
-  color: #fff;
-  background: #397df6;
+  color: styles.palette("light", 100);
+  background: styles.palette("accent", 500);
 
   &:hover {
-    background: rgba(57, 125, 246, 0.8);
+    background: rgba(styles.palette("accent", 500), 0.8);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(57, 125, 246, 0.4);
+    box-shadow: 0 4px 12px rgba(styles.palette("accent", 500), 0.4);
   }
 }
 
