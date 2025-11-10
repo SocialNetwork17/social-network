@@ -1,28 +1,7 @@
 @use "../../../styles/abstract" as styles;
 @use "../../../styles/base/typography" as typo;
 
-// Анимация исчезновения всего wrapper
-.logoutWrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(styles.palette("dark", 700), 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-
-  // Анимация появления фона
-  animation: wrapperAppear 0.3s ease-out;
-
-  // Класс для анимации исчезновения wrapper
-  &.wrapperDisappear {
-    animation: wrapperDisappear 0.3s ease-in forwards;
-  }
-}
-
+// Основной контейнер модального окна
 .logoutModal {
   background-color: styles.palette("dark", 300);
   border: 1px solid styles.palette("dark", 100);
@@ -32,8 +11,17 @@
   width: 90%;
   color: styles.palette("light", 100);
   @include typo.text-regular-16;
+
+  // Анимация появления модального окна
+  animation: modalAppear 0.3s ease-out;
+
+  // Класс для анимации исчезновения
+  &.modalDisappear {
+    animation: modalDisappear 0.3s ease-in forwards;
+  }
 }
 
+// Шапка модального окна
 .logoutHeader {
   border-bottom: 1px solid styles.palette("dark", 100);
   display: flex;
@@ -42,6 +30,12 @@
   align-items: center;
 }
 
+// Заголовок модалки
+.logoutTitle {
+  @include typo.h1;
+}
+
+// Кнопка закрытия
 .logoutBtnClose {
   width: 24px;
   height: 24px;
@@ -63,10 +57,11 @@
   }
 
   &:active {
-    background-color: rgba(styles.palette("light", 100), 0.15);//0.15
+    background-color: rgba(styles.palette("light", 100), 0.15);
   }
 }
 
+// SVG иконка закрытия
 .logoutBtnCloseSvg {
   width: 24px;
   height: 24px;
@@ -80,28 +75,29 @@
   }
 }
 
+// Тело модального окна
 .logoutBody {
   padding: 30px 24px 36px;
 }
 
-.logoutTitle {
-  @include typo.h1;
-}
-
+// Основной текст
 .logoutText {
   margin-bottom: 30px;
 }
 
+// Email пользователя
 .logoutEmail {
   @include typo.h3;
 }
 
+// Контейнер для кнопок
 .logoutButtons {
   display: flex;
   gap: 24px;
   justify-content: end;
 }
 
+// Базовая стилизация кнопок
 .logoutBtn {
   @include typo.h3;
   padding: 5px;
@@ -134,6 +130,7 @@
   }
 }
 
+// Кнопка "Yes" - прозрачная с акцентной рамкой
 .logoutBtnYes {
   border: 1px solid styles.palette("accent", 500);
   background-color: rgba(styles.palette("accent", 500), 0);
@@ -146,6 +143,7 @@
   }
 }
 
+// Кнопка "No" - акцентная заливка
 .logoutBtnNo {
   color: styles.palette("light", 100);
   background: styles.palette("accent", 500);
@@ -157,16 +155,29 @@
   }
 }
 
-// Анимация появления модального окна
-.logoutModal {
-  animation: modalAppear 0.3s ease-out;
+// Оверлей (фон) модального окна
+.logoutWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(styles.palette("dark", 700), 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 
-  // Класс для анимации исчезновения
-  &.modalDisappear {
-    animation: modalDisappear 0.3s ease-in forwards;
+  // Анимация появления фона
+  animation: wrapperAppear 0.3s ease-out;
+
+  // Класс для анимации исчезновения wrapper
+  &.wrapperDisappear {
+    animation: wrapperDisappear 0.3s ease-in forwards;
   }
 }
 
+// Анимации
 @keyframes modalAppear {
   0% {
     opacity: 0;
