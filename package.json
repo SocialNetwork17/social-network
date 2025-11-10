@@ -28,6 +28,7 @@
     "@it-incubator/prettier-config": "^0.1.2",
     "@it-incubator/stylelint-config": "^2.0.0",
     "@storybook/addon-a11y": "10.0.5",
+    "@storybook/addon-actions": "^9.0.8",
     "@storybook/addon-docs": "10.0.5",
     "@storybook/addon-onboarding": "10.0.5",
     "@storybook/addon-vitest": "10.0.5",
