@@ -48,6 +48,9 @@ importers:
       '@storybook/addon-a11y':
         specifier: 10.0.5
         version: 10.0.5(storybook@10.0.5(@testing-library/dom@10.4.1)(prettier@3.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1)))
+      '@storybook/addon-actions':
+        specifier: ^9.0.8
+        version: 9.0.8
       '@storybook/addon-docs':
         specifier: 10.0.5
         version: 10.0.5(@types/react@19.2.2)(esbuild@0.25.12)(rollup@4.52.5)(storybook@10.0.5(@testing-library/dom@10.4.1)(prettier@3.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1)))(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1))(webpack@5.102.1(esbuild@0.25.12))
@@ -961,6 +964,9 @@ packages:
     resolution: {integrity: sha512-CNV9+kD/Pnb3hF9XTC9KKnNFOkX9xoPseOx1wjvPcApWhjf9jBnjktikbU9VUagpZboVoW1joEYAKFWafM00Xg==}
     peerDependencies:
       storybook: ^10.0.5
+
+  '@storybook/addon-actions@9.0.8':
+    resolution: {integrity: sha512-LFePu7PPnWN0Il/uoUpmA5T0J0C7d6haJIbg0pXrjxW2MQVSYXE4S4LSUz8fOImltBDV3xAl6tLPYHFj6VcrOA==}
 
   '@storybook/addon-docs@10.0.5':
     resolution: {integrity: sha512-KCdvqXnBzsHSDZJNonH07FjqiHEQOEo3UtWH/Co43vYvDMEIwZTuQqswxBaO8KCXQlHyLtz5LJ4RluNW+KNJKQ==}
@@ -4334,6 +4340,8 @@ snapshots:
       '@storybook/global': 5.0.0
       axe-core: 4.11.0
       storybook: 10.0.5(@testing-library/dom@10.4.1)(prettier@3.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1))
+
+  '@storybook/addon-actions@9.0.8': {}
 
   '@storybook/addon-docs@10.0.5(@types/react@19.2.2)(esbuild@0.25.12)(rollup@4.52.5)(storybook@10.0.5(@testing-library/dom@10.4.1)(prettier@3.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1)))(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1))(webpack@5.102.1(esbuild@0.25.12))':
     dependencies:
