@@ -1,4 +1,4 @@
-import { User } from '@/app/profile/userData'
+import { User } from '@/entites/profile/userData'
 import styles from './UserProfile.module.css'
 import Card from '../Card/Card'
 
