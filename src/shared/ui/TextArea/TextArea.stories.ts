@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-//import { action } from '@storybook/addon-actions'
 import {TextArea} from './TextArea'
 
 const meta = {
@@ -7,6 +6,9 @@ const meta = {
     component: TextArea,
     parameters: {
         layout: "centered",
+    },
+    argTypes: {
+        onChange: {action: 'changed'},
     }
 } satisfies Meta<typeof TextArea>
 
@@ -17,7 +19,7 @@ type Story = StoryObj<typeof TextArea>
 export const Default: Story = {
     args: {
        label: "Add comment",
-        placeholder: "type text"
+        placeholder: "type text",
     }
 }
 

@@ -10,6 +10,7 @@ const meta = {
     },
     argTypes: {
         viewBox: { control: 'text' },
+        onClick: { action: 'click' },
     },
 } satisfies Meta<typeof IconButton>;
 
