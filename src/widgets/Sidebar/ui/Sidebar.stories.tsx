@@ -7,7 +7,7 @@ import {Meta, StoryObj} from "@storybook/nextjs-vite";
 
 
 const meta = {
-    title: 'Components/Sidebar',
+    title: 'shared/ui/Sidebar',
     component: SidebarUI,
     parameters: {
         layout: 'fullscreen',
