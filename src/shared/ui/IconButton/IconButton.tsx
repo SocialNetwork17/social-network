@@ -9,7 +9,6 @@ type Props = {
     viewBox?: string
     fill?: string
     disabled?: boolean
-    countMessages?: number
 };
 
 export const IconButton = memo((props: Props) => {
@@ -22,7 +21,6 @@ export const IconButton = memo((props: Props) => {
         fill,
         disabled,
         onClick,
-        countMessages
     } = props
 
     return (
@@ -36,11 +34,10 @@ export const IconButton = memo((props: Props) => {
                 width={width || "24"}
                 height={height || "24"}
                 viewBox={viewBox || "0 0 24 24"}
-                style={{color: fill || "currentcolor"}}
+                style={{color: fill || "currentColor"}}
             >
                 <use xlinkHref={`${sprite}#${iconId}`}/>
             </svg>
-            {!!countMessages && <span className={styles.countMessages}>{countMessages}</span>}
         </button>
     );
 });
