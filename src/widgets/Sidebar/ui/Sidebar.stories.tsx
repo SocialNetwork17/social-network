@@ -1,9 +1,6 @@
-// Sidebar.stories.tsx
-
 import { SidebarLinkUI } from './SidebarLink/SidebarLinkUI'
 import {SidebarUI} from "@/widgets/Sidebar/ui/SidebarUI";
 import {Meta, StoryObj} from "@storybook/nextjs-vite";
-//import type { Meta, StoryObj } from '@storybook/react'
 
 
 const meta = {
@@ -73,7 +70,7 @@ export const ActiveLinks: Story = {
             <SidebarUI {...args} />
             <div style={{ marginLeft: '220px', padding: '20px' }}>
                 <h1>Страница профиля</h1>
-                <p>Ссылка "My Profile" активна, остальные в обычном состоянии</p>
+                <p>Ссылка My Profile активна, остальные в обычном состоянии</p>
             </div>
         </div>
     ),
@@ -110,7 +107,7 @@ export const HoverState: Story = {
             <SidebarUI {...args} />
             <div style={{ marginLeft: '220px', padding: '20px' }}>
                 <h1>Страница с hover</h1>
-                <p>Ссылки "Create", "Statistics" и кнопка "Log Out" в состоянии наведения</p>
+                <p>Ссылки Create, Statistics и кнопка Log Out в состоянии наведения</p>
             </div>
         </div>
     ),
@@ -184,20 +181,4 @@ export const AllStates: Story = {
     ),
 }
 
-// Без кнопки выхода
-export const WithoutLogout: Story = {
-    args: {
-        mainItems: DefaultMainItems,
-        bottomItems: DefaultBottomItems,
-        showLogout: false,
-    },
-    render: (args) => (
-        <div style={{ display: 'flex' }}>
-            <SidebarUI {...args} />
-            <div style={{ marginLeft: '220px', padding: '20px' }}>
-                <h1>Страница без выхода</h1>
-                <p>Сайдбар без кнопки выхода (например, для публичных страниц)</p>
-            </div>
-        </div>
-    ),
-}
+

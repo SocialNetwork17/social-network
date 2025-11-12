@@ -17,7 +17,7 @@ const Scrollbar = ({ children }: { children: React.ReactNode }) => {
 }
 
 const meta = {
-    title: 'Components/Scrollbar',
+    title: 'shared/ui/Scrollbar',
     component: Scrollbar,
     parameters: {
         layout: 'padded',

@@ -1,9 +1,12 @@
+@use "../../../styles/abstract" as styles;
+
+
 .scrollContainer {
   overflow: auto;
   height: 100%;
   width: 100%;
   scrollbar-width: thin;
-  scrollbar-color: #333 transparent;
+  scrollbar-color: styles.palette("dark", 300) transparent;
 
   &::-webkit-scrollbar {
     width: 4px;
@@ -14,12 +17,12 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #333;
+    background: styles.palette("dark", 300);
     border-radius: 3px;
     transition: background 0.2s ease;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #8d9094;
+    background: styles.palette("light", 900);
   }
 }

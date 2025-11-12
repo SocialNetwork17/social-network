@@ -4,6 +4,7 @@ import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
 import { Icon } from '@/shared/ui/Icon/Icon'
 import {menuItems} from "@/widgets/Sidebar/ui/Sidebar.config";
+import React from "react";
 
 
 export const Sidebar = () => {
@@ -43,7 +44,7 @@ export const Sidebar = () => {
 
             <div className={s.logoutContainer}>
               <button className={`${s.sidebarLink} ${s.logoutButton}`} onClick={handleLogout}>
-                <Icon iconId="logOut" size={24} className={s.sidebarIcon} />
+                <Icon iconId={"logOut"}/>
                 <span>Log Out</span>
               </button>
             </div>

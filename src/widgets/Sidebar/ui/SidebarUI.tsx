@@ -1,4 +1,3 @@
-// SidebarUI.tsx - вспомогательный компонент для Storybook
 'use client'
 
 import React from 'react'
@@ -6,7 +5,7 @@ import s from './Sidebar.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
 
 
-interface SidebarUIProps {
+interface Props {
     mainItems?: React.ReactNode
     bottomItems?: React.ReactNode
     showLogout?: boolean
@@ -20,7 +19,7 @@ export const SidebarUI = ({
                               showLogout = true,
                               onLogout,
                               logoutState = 'default'
-                          }: SidebarUIProps) => {
+                          }: Props) => {
     return (
         <aside className={s.sidebar}>
             <nav className={s.navSidebar}>

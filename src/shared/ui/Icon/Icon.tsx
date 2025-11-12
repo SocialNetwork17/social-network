@@ -1,6 +1,6 @@
 import React from 'react'
 
-type IconProps = {
+type Props = {
   iconId: string
   size?: number
   viewBox?: string
@@ -9,7 +9,7 @@ type IconProps = {
     stroke?: string
 }
 
-export const Icon = (props: IconProps) => {
+export const Icon = (props: Props) => {
   const sprite = '/icons-sprite.svg'
 
   return (

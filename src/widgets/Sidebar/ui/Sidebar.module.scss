@@ -1,4 +1,5 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
 
 /* Основной контейнер сайдбара */
 .sidebar {
@@ -50,10 +51,7 @@
 
 /* Базовая стилизация ссылок */
 .sidebarLink {
-  //font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 170%;
+  @include typo.text-medium-14;
   color: styles.palette("light", 100);
   display: inline-flex;
   gap: 12px;
@@ -61,7 +59,7 @@
   border-radius: 4px;
   margin-left: -8px;
   transition: all 0.2s ease;
-  border: 1px solid transparent; /* Добавляем прозрачную границу для плавного перехода */
+  border: 1px solid transparent;
 
   /* Убираем outline при клике */
   &:active {
@@ -114,6 +112,14 @@
       transform: none;
     }
   }
+}
+
+
+
+.logoutContainer{
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 /* Кнопка выхода */
