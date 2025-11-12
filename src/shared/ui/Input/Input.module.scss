@@ -1,4 +1,5 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
 
 .inputContainer {
   @include styles.input-container
@@ -10,15 +11,19 @@
 
 .iconButtonContainer {
   position: absolute;
-  right: 14px;
+  right: 12px;
   top: 18%;
 }
 
 .label {
-  @include styles.label;
+  position: relative;
+  @include typo.text-regular-14;
   color: styles.palette("light", 900);
 }
+
 .requiredStar {
+  position: absolute;
+  top: -8px;
   color: styles.palette("danger", 500);
 }
 
