@@ -27,13 +27,11 @@ export const States: Story = {
 export const DefaultWithText: Story = {
     args: {
         label: "Согласен с условиями",
-        id: '1'
     },
 }
 
 export const Default: Story = {
     args: {
-        id: '1'
     },
 }
 
@@ -41,7 +39,6 @@ export const DisabledWithText: Story = {
     args: {
         label: "Согласен с условиями",
         disabled: true,
-        id: '1'
     },
 }
 
@@ -49,6 +46,5 @@ export const Disabled: Story = {
     args: {
         disabled: true,
         checked: true,
-        id: '1'
     },
 }
