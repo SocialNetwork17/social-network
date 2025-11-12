@@ -3,8 +3,8 @@
 
 :root {
   --font-family-base: abstract.$font-family-base;
-  --background: #{abstract.palette("light", 700)};
-  --foreground: #{abstract.palette("light", 100)};
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
 }
 
 * {
