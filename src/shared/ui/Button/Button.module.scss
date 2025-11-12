@@ -1,4 +1,5 @@
-@use "../../../styles/index" as styles;
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
 
 // Переменные для цветов
 $primary-color: styles.palette("accent", 500);
@@ -16,21 +17,18 @@ $white: styles.palette("light", 100);
 
 // Миксин для базовых стилей кнопки
 @mixin button-base {
+
   width: 182px;
-  height: 36px;
+  min-height: 36px;
+  height: auto;
   padding: 6px;
   border-radius: 2px;
   cursor: pointer;
   border: none;
   outline: none;
 
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: 0;
+  @include typo.h3;
   text-align: center;
-
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,9 +1,9 @@
-
+@use "../../../styles/base/typography" as typo;
+@use "../../../styles/abstract" as abstract;
 
 .header {
   display: flex;
-  background-color: rgba(13, 13, 13, 1);
-  /*border: 1px solid rgba(151, 71, 255, 1);*/
+  background-color: abstract.palette("dark", 700);
   position: fixed;
   top: 0;
   left: 0;
@@ -16,7 +16,7 @@
 .header::after {
   content: "";
   display: inline-block;
-  background-color: rgba(51, 51, 51, 1);
+  background-color: abstract.palette("dark", 300);
   height: 1px;
   width: 100%;
   position: absolute;
@@ -25,11 +25,7 @@
 
 
 .logo {
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 36px;
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  @include typo.large-text;
+  color: abstract.palette("light", 300);
   padding: 12px 60px;
 }

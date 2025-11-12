@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState} from 'react';
-import scss from './Header.module.scss'
+import styles from './Header.module.scss'
 import {HeaderMenu} from "./headerMenu/HeaderMenu";
 
 
@@ -14,8 +14,8 @@ export const Header = () => {
     }
 
     return (
-        <header className={scss.header}>
-            <h1 className={scss.logo}>Inctagram</h1>
+        <header className={styles.header}>
+            <h1 className={styles.logo}>Inctagram</h1>
             <HeaderMenu countMessage={countNotices} isLoggedIn={true} onClickHandler={onClickHandler}/>
         </header>
     );
