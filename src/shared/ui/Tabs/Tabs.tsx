@@ -1,6 +1,6 @@
 "use client";
 
-import scss from "./Tabs.module.scss"
+import styles from "./Tabs.module.scss"
 import {useState} from "react";
 
 
@@ -15,8 +15,8 @@ export const Tabs = () => {
     const tabs = ["General information", "Devices", "Account Management", "My payments"]
 
 
-    const tabClassActive = `${scss.tab} ${scss.primary}`
-    const tabClassInActive = `${scss.tab} ${scss.secondary}`
+    const tabClassActive = `${styles.tab} ${styles.primary}`
+    const tabClassInActive = `${styles.tab} ${styles.secondary}`
 
     return (
         <div>
