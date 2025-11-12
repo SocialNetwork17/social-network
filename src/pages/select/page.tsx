@@ -1,5 +1,5 @@
 'use client'
-import styles from "../page.module.css";
+import styles from "../../../app/page.module.css";
 import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
 import {useState} from "react";
 

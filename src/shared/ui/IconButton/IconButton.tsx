@@ -3,7 +3,7 @@ import styles from "./IconButton.module.scss"
 
 type Props = {
     iconId: string
-    onClick: MouseEventHandler<HTMLButtonElement>
+    onClick?: MouseEventHandler<HTMLButtonElement>
     width?: string
     height?: string
     viewBox?: string
@@ -36,7 +36,7 @@ export const IconButton = memo((props: Props) => {
                 width={width || "24"}
                 height={height || "24"}
                 viewBox={viewBox || "0 0 24 24"}
-                fill={fill || "currentColor"}
+                style={{color: fill || "currentcolor"}}
             >
                 <use xlinkHref={`${sprite}#${iconId}`}/>
             </svg>
