@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import s from './Select.module.css';
+import s from './Select.module.scss';
 import {Icon} from "@/shared/ui/Icon/Icon";
 
 export type Option = { id: string, label: string }

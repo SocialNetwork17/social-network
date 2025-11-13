@@ -1,8 +1,12 @@
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
+
 .pagination {
     display: flex;
     justify-content: center;
     margin: 0;
     gap: 24px;
+    @include typo.text-regular-14;
 }
 
 .paginationList {
@@ -27,40 +31,40 @@
     min-width: 24px;
     border: none;
     background-color: transparent;
-    font-weight: 400;
-    font-size: 14px;
-    color: #fff;
+    //@include typo.text-regular-14;
+    color: styles.palette("light", 100);
     cursor: pointer;
     border-radius: 2px;
     transition: all 0.3s ease;
     text-align: center;
-}
-
-.paginationButton:hover:not(.disabled):not(.active) {
-    background-color: #171717;
-    color: #fff;
+    &:hover {
+        &:not(.disabled) {
+            &:not(.active) {
+                background-color: styles.palette("dark", 500);
+            }
+        }
+    }
+    &:focus-visible {
+        outline: 2px solid styles.palette("accent", 500);
+        outline-offset: 2px;
+    }
 }
 
 .paginationButton.active {
-    background-color: #fff;
-    color: #000;
+    background-color: styles.palette("light", 100);
+    color: styles.palette("dark", 900);
     cursor: default;
 }
 
-.paginationButton:focus-visible {
-    outline: 2px solid #397df6;
-    outline-offset: 2px;
-}
-
 .paginationButton.disabled {
-    color: #6c757d;
+    color: styles.palette("dark", 100);
     cursor: not-allowed;
 }
 
 .paginationEllipsis {
     height: 24px;
     width: 24px;
-    color: #fff;
+    color: styles.palette("light", 100);
     text-align: center;
     cursor: default;
 }
@@ -73,7 +77,5 @@
 }
 
 .paginationText {
-    font-weight: 400;
-    font-size: 14px;
-    color: #fff;
+    color: styles.palette("light", 100);
 }
