@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  background-color: var(--foreground);
+  background-color: #0D0D0D; /*var(--foreground);*/
   gap: 48px;
 
   margin: 60px 40px 0px 220px;
