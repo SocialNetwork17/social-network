@@ -1,5 +1,5 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import type {Metadata} from 'next'
+import {Geist, Geist_Mono} from 'next/font/google'
 import '@/styles/base/_global.scss'
 import {Sidebar} from "@/widgets/Sidebar/ui/Sidebar";
 
@@ -25,10 +25,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Sidebar/>
-        {children}
-        </body>
+         <body>
+            {children}
+         </body>
         </html>
     )
 }
