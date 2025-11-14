@@ -1,18 +1,23 @@
-import styles from "./AuthForm.module.scss"
-import {AuthFormTitle} from "@/features/auth/ui/authFormTitle/AuthFormTitle";
+import styles from "./SingUpForm.module.scss"
+import {SingUpFormTitle} from "@/features/singUp/ui/singUpFormTitle/SingUpFormTitle";
 import {Input} from "@/shared/ui/Input/Input";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
+import Link from "next/link";
+import {PATH} from "@/shared/constants/routings";
+
 
 type Props = {
 
 };
 
-export const AuthForm = (props: Props) => {
+export const SingUpForm = (props: Props) => {
+
+
 
     return (
         <div className={styles.authCard}>
-            <AuthFormTitle/>
-            <div className={styles.inputWrapper}>
+            <SingUpFormTitle/>
+            <form className={styles.inputWrapper}>
                 <Input
                     label={"Username"}
                     type={"text"}
@@ -38,15 +43,22 @@ export const AuthForm = (props: Props) => {
                     required={true}
                 />
                 <div className={styles.confirmWrapper}>
-                    <Checkbox disabled />
-                    <span className={styles.agreetText}>
-                        I agree to the
-                        Terms of Service
-                        and
-                        Privacy Policy
+                    <Checkbox/>
+                    <span className={styles.agreeText}>
+                        I agree to the {" "}
+                        <Link href={PATH.SERVICES}
+                              className={styles.link}
+                        >
+                            Terms of Service {" "}
+                        </Link>
+                        and {" "}
+                        <Link href={PATH.POLICY}
+                              className={styles.link}>
+                            Privacy Policy
+                        </Link>
                     </span>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

@@ -1,11 +1,12 @@
-import styles from "./AuthFormTitle.module.scss"
+import styles from "./SingUpFormTitle.module.scss"
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 
 type Props = {
 
 };
 
-export const AuthFormTitle = (props: Props) => {
+export const SingUpFormTitle = (props: Props) => {
+
     return (
         <div className={styles.titleWrapper}>
             <div className={styles.title}>Sing Up</div>
