@@ -2,13 +2,13 @@
 
 /* Основной контейнер сайдбара */
 .sidebar {
-  border-right: 1px solid styles.palette("dark", 300);
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 60px;
   width: 220px;
-  height: 100vh;
-  background-color: styles.palette("dark", 700);
+  height: calc(100vh - 60px);
+  background: var(--color-bg);
+  border-right: 1px solid styles.palette("dark", 300);
+  z-index: 10;
 }
 
 /* Контейнер навигации внутри сайдбара */

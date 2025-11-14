@@ -1,0 +1,48 @@
+@use "../src/styles/abstract";
+//.appWrapper {
+//  width: 1310px;
+//  margin: 0 auto;
+//  height: 100%;
+//  display: flex;
+//  flex-direction: column;
+//
+//  flex: 1 1 auto;
+//
+//  padding: 0 15px;
+//}
+
+.layoutAside, .layout {
+  @include abstract.container;
+  display: flex;
+  height: calc(100vh - 60px);
+  position: relative;
+}
+.layoutAside {
+  padding-left: 220px;
+}
+
+.layout {
+  padding-left: 0;
+}
+
+
+.mainContentAside,.mainContent {
+  position: relative;
+  @include abstract.container;
+  display: grid;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.mainContent {
+  padding: 0 60px 0 60px ;
+}
+
+.mainContentAside {
+  padding: 0 60px 0 220px ;
+}
+
+.main {
+  flex: 1;
+  height: 100%;
+  padding: 0 60px;
+}

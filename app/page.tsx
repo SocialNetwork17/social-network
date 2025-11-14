@@ -1,8 +1,8 @@
-import styles from "./page.module.css";
+import styles from "./MainPage.module.scss";
 
 export default function Home() {
     return (
-        <div >
+        <div>
                 главная ывф а ва
         </div>
     );
