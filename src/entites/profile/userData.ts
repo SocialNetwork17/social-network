@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   userName: string
   userPhoto: string
   following: number
@@ -10,7 +10,7 @@ export interface User {
 
 type UsersData = Record<number, User>
 
-interface Images {
+type Images = {
   url: string
   width: number
   height: number
@@ -19,7 +19,7 @@ interface Images {
   uploadId: string
 }
 
-export interface Post {
+export type Post = {
   id: number
   userName: string
   description: string
@@ -123,7 +123,8 @@ export const postsData: PostData = [
   {
     id: 1,
     userName: 'Alex',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
     location: 'location',
     images: [
       {
@@ -167,7 +168,8 @@ export const postsData: PostData = [
   {
     id: 2,
     userName: 'Kate',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
     location: 'location',
     images: [
       {
@@ -211,7 +213,8 @@ export const postsData: PostData = [
   {
     id: 3,
     userName: 'Maria',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
     location: 'location',
     images: [
       {
@@ -255,7 +258,8 @@ export const postsData: PostData = [
   {
     id: 4,
     userName: 'Igor',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incd... Show more',
     location: 'location',
     images: [
       {
