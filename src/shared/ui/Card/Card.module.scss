@@ -57,8 +57,10 @@
     color: styles.palette("dark", 300); 
   }
 
-  &:disabled {
+  &:disabled:hover {
     cursor: no-drop;
+    background: styles.palette("dark", 300); 
+    color: styles.palette("light", 100); 
   }
 }
 
