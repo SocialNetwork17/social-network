@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import styles from './Header.module.scss'
-import {HeaderMenu} from "./headerMenu/HeaderMenu";
+import {HeaderMenu} from "@/widgets/header/ui/HeaderMenu/HeaderMenu";
 
 
 export const Header = () => {
@@ -15,8 +15,12 @@ export const Header = () => {
 
     return (
         <header className={styles.header}>
-            <h1 className={styles.logo}>Inctagram</h1>
-            <HeaderMenu countMessage={countNotices} isLoggedIn={true} onClickHandler={onClickHandler}/>
+            <div className={styles.container}>
+                <div className={styles.contentWrapper}>
+                    <h1 className={styles.logo}>Inctagram</h1>
+                    <HeaderMenu countMessage={countNotices} isLoggedIn={true} onClickHandler={onClickHandler}/>
+                </div>
+            </div>
         </header>
     );
 };

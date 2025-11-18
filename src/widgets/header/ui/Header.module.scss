@@ -2,30 +2,34 @@
 @use "../../../styles/abstract" as abstract;
 
 .header {
-  display: flex;
-  background-color: abstract.palette("dark", 700);
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  justify-content: space-between;
+  height: 60px;
+  padding: 0 15px;
+
+  flex-shrink: 0;
+
+  z-index: 100;
+
+  background-color: var(--color-bg);
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.container {
+  @include abstract.container;
+  padding: 0 60px;
+  height: 100%;
+}
+.contentWrapper {
+  height: 100%;
+
+  display: flex;
   align-items: center;
-  margin: 0 auto;
+  justify-content: space-between;
 }
-
-.header::after {
-  content: "";
-  display: inline-block;
-  background-color: abstract.palette("dark", 300);
-  height: 1px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-
 
 .logo {
   @include typo.large-text;
-  color: abstract.palette("light", 300);
-  padding: 12px 60px;
+  display: inline-block;
 }
