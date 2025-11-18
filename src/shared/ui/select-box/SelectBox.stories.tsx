@@ -6,7 +6,10 @@ const meta = {
     component: SelectBox,
     parameters: {
         layout: "centered",
-    }
+    },
+    argTypes: {
+        onChange: { action: 'changed' },
+    },
 } satisfies Meta<typeof SelectBox>
 
 export default meta
