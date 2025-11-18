@@ -5,6 +5,7 @@ import CardWithText from '@/shared/ui/CardWithText/CardWithText'
 export default function MainPage() {
   const totalRegisteredUser = '009213' //приходят данные с backend
   const arrayTotalUser = totalRegisteredUser.split('')
+  const posts = postsData //приходят данные с backend
   
   return (
     <div className={styles.container}>
@@ -17,7 +18,7 @@ export default function MainPage() {
         </div>
       </div>
       <div>
-        {postsData.map(el => (
+        {posts.map(el => (
           <CardWithText user={el} key={el.id} />
         ))}
       </div>
