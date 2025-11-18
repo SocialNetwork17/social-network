@@ -1,3 +1,6 @@
+@use "../../../styles/abstract" as styles;
+@use "../../../styles/base/typography" as typo;
+
 .label {
     display: flex;
     align-items: center;
@@ -37,7 +40,7 @@
     transform: translateY(-50%);
     width: 28px;
     height: 28px;
-    background-color: #4C4C4C;
+    background-color: styles.palette("dark", 100);
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -54,14 +57,11 @@
 }
 
 .spanClassName {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
+    @include typo.text-regular-14;
     line-height: 1.2;
-    color: #FFFFFF;
     z-index: 1;
 
     .disabled & {
-        color: #8d9094;
+        color: styles.palette("light", 900);
     }
 }
