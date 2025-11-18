@@ -1,11 +1,11 @@
 import {memo, MouseEventHandler} from 'react';
 import styles from "./IconButton.module.scss"
+import {Icon} from "@/shared/ui/Icon/Icon";
 
 type Props = {
     iconId: string
     onClick?: MouseEventHandler<HTMLButtonElement>
-    width?: string
-    height?: string
+    size?: number
     viewBox?: string
     fill?: string
     disabled?: boolean
@@ -15,8 +15,7 @@ export const IconButton = memo((props: Props) => {
     const sprite = "/icons-sprite.svg"
     const {
         iconId,
-        width,
-        height,
+        size,
         viewBox,
         fill,
         disabled,
@@ -30,9 +29,8 @@ export const IconButton = memo((props: Props) => {
             type="button"
             disabled={disabled}
         >
+            <Icon iconId={iconId} size={size}/>
             <svg
-                width={width || "24"}
-                height={height || "24"}
                 viewBox={viewBox || "0 0 24 24"}
                 style={{color: fill || "currentColor"}}
             >
