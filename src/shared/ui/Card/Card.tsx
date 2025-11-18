@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import styles from './Card.module.css'
+import styles from './Card.module.scss'
 import { useState } from 'react'
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function Card(props: Props) {
-  const { images, alt = 'Post', slider = false, variant = 'rectangle' } = props
+  const { images, alt = 'фото', slider = false, variant = 'rectangle' } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 

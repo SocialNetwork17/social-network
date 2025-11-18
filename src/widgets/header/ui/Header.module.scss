@@ -1,0 +1,31 @@
+@use "../../../styles/base/typography" as typo;
+@use "../../../styles/abstract" as abstract;
+
+.header {
+  display: flex;
+  background-color: abstract.palette("dark", 700);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.header::after {
+  content: "";
+  display: inline-block;
+  background-color: abstract.palette("dark", 300);
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+
+.logo {
+  @include typo.large-text;
+  color: abstract.palette("light", 300);
+  padding: 12px 60px;
+}

@@ -4,13 +4,13 @@ import s from './Checkbox.module.scss'
 
 type CheckboxProps = {
     onChangeCheckedAction?: (checked: boolean) => void
-    children?: React.ReactNode
+    label?: string
     disabled?: boolean
     checked?: boolean
     id?: string
 }
 
-export const Checkbox = ({ onChangeCheckedAction, children, disabled, checked, id }: CheckboxProps) => {
+export const Checkbox = ({ onChangeCheckedAction, label, disabled, checked, id }: CheckboxProps) => {
     // Use checked as controlled value if provided
     // Otherwise use internal state
     const [internalChecked, setInternalChecked] = useState(false)
@@ -54,7 +54,7 @@ export const Checkbox = ({ onChangeCheckedAction, children, disabled, checked, i
             <svg className={s.customCheckbox} width="18" height="18">
                 <use xlinkHref={`icons-sprite.svg#${getIconId()}`} />
             </svg>
-            {children && <span className={s.spanClassName}>{children}</span>}
+            {label && <span className={s.spanClassName}>{label}</span>}
         </label>
     )
 }

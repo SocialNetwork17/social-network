@@ -1,21 +1,21 @@
-import { User } from '@/app/profile/userData'
-import styles from './UserProfile.module.css'
+import { User } from '@/entites/profile/userData'
+import styles from './UserProfile.module.scss'
 import Card from '../Card/Card'
 
 interface Props {
   user: User
-  type: 'profile' | 'friend' | 'user'
+  type: 'profile' | 'friend' | 'user' | 'unauthorized'
 }
 
 export default function UserProfile(props: Props) {
-  const { user, type } = props
+  const { user, type = 'unauthorized' } = props
 
   return (
     <div className={styles.container}>
       <div className={styles.profileContainer}>
         <Card images={user.userPhoto} />
-        <div className={styles.userInfo}>
-          <div className={styles.userNavigation}>
+        <div>
+          <div>
             <h2 style={{ display: 'inline-block' }}>{user.userName}</h2>
             {type === 'profile' && (
               <div>
@@ -35,7 +35,7 @@ export default function UserProfile(props: Props) {
               </div>
             )}
           </div>
-          <div className={styles.userProfileInfo}>
+          <div>
             <div>
               <div>{user.following}</div>
               <span>Following</span>
@@ -55,7 +55,7 @@ export default function UserProfile(props: Props) {
       </div>
       <div className={styles.postContainer}>
         {user.posts.map((post, index) => (
-          <div key={index} className={styles.postImage}>
+          <div key={index}>
             <Card images={post} />
           </div>
         ))}
