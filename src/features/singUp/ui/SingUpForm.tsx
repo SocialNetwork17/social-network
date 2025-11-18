@@ -4,44 +4,42 @@ import {Input} from "@/shared/ui/Input/Input";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
+import {Button} from "@/shared/ui/Button/Button";
 
-
-type Props = {
-
-};
+type Props = {};
 
 export const SingUpForm = (props: Props) => {
-
-
 
     return (
         <div className={styles.authCard}>
             <SingUpFormTitle/>
-            <form className={styles.inputWrapper}>
-                <Input
-                    label={"Username"}
-                    type={"text"}
-                    placeholder={"Epam11"}
-                    required={true}
-                />
-                <Input
-                    label={"Email"}
-                    type={"email"}
-                    placeholder={"Epam@epam.com"}
-                    required={true}
-                />
-                <Input
-                    label={"Password"}
-                    type={"password"}
-                    placeholder={"add password"}
-                    required={true}
-                />
-                <Input
-                    label={"Password confirmation"}
-                    type={"password"}
-                    placeholder={"confirm password"}
-                    required={true}
-                />
+            <form className={styles.form}>
+                <div className={styles.inputWrapper}>
+                    <Input
+                        label={"Username"}
+                        type={"text"}
+                        placeholder={"Epam11"}
+                        required={true}
+                    />
+                    <Input
+                        label={"Email"}
+                        type={"email"}
+                        placeholder={"Epam@epam.com"}
+                        required={true}
+                    />
+                    <Input
+                        label={"Password"}
+                        type={"password"}
+                        placeholder={"add password"}
+                        required={true}
+                    />
+                    <Input
+                        label={"Password confirmation"}
+                        type={"password"}
+                        placeholder={"confirm password"}
+                        required={true}
+                    />
+                </div>
                 <div className={styles.confirmWrapper}>
                     <Checkbox/>
                     <span className={styles.agreeText}>
@@ -57,6 +55,20 @@ export const SingUpForm = (props: Props) => {
                             Privacy Policy
                         </Link>
                     </span>
+                </div>
+                <Button variant={"primary"} disabled={false}>
+                    Sing Up
+                </Button>
+                <div className={styles.helperText}>
+                    <div>
+                        Do you have an account?
+                    </div>
+                    <div>
+                        <Link href={PATH.SING_IN}
+                              className={styles.singInLink}>
+                            Sing In
+                        </Link>
+                    </div>
                 </div>
             </form>
         </div>
