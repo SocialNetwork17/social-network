@@ -1,10 +1,7 @@
-
-import type {Metadata} from 'next'
-import {Geist, Geist_Mono} from 'next/font/google'
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
 import '@/styles/base/_global.scss'
 import {Sidebar} from "@/widgets/Sidebar/ui/Sidebar";
-import {Header} from "@/widgets/header/Header";
-import styles from "./MainPage.module.scss"
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
