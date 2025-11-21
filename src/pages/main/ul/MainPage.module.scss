@@ -1,10 +1,10 @@
-@use '../../styles/abstract/' as styles;
+@use '../../../styles/abstract/' as styles;
 
 .container {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  margin: 84px 64px 24px 244px; /*24px*/
+  margin: 84px 64px 24px 244px; /*это я поправлю при добавлении стилей для layout*/
   display: flex;
   flex-direction: column;
   justify-content: start;
