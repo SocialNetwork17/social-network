@@ -16,7 +16,7 @@ export const Header = () => {
     return (
         <header className={styles.header}>
             <div className={styles.container}>
-                <div className={styles.contentWrapper}>
+                <div className={styles.headerWrapper}>
                     <h1 className={styles.logo}>Inctagram</h1>
                     <HeaderMenu countMessage={countNotices} isLoggedIn={true} onClickHandler={onClickHandler}/>
                 </div>

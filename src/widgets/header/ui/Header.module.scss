@@ -5,7 +5,6 @@
   position: sticky;
   top: 0;
   height: 60px;
-  padding: 0 15px;
 
   flex-shrink: 0;
 
@@ -21,7 +20,7 @@
   padding: 0 60px;
   height: 100%;
 }
-.contentWrapper {
+.headerWrapper {
   height: 100%;
 
   display: flex;

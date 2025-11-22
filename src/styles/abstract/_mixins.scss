@@ -38,11 +38,8 @@
   display: block;
 
   background-color: transparent;
+  color: var(--color-text);
 
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 24px;
 }
 
 @mixin error-input {
@@ -55,6 +52,6 @@
 
 
 @mixin container {
-  width: 1310px;
+  width: 1280px;
   margin: 0 auto;
 }

@@ -14,7 +14,7 @@
 html.light {
   // Светлая тема
   --color-bg: #{abstract.palette("light", 100)};
-  --color-text: #{abstract.palette("dark", 700)};
+  --color-text: #{abstract.palette("dark", 900)};
   --color-accent: #{abstract.palette("accent", 300)};
   --border-color-default: #{abstract.palette("dark", 700)};
 }

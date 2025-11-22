@@ -34,7 +34,7 @@ export default function RootLayout({
             <Header/>
             <div className={styles.layout}>
                 <Sidebar/>
-                <main className={styles.main}>
+                <main className={styles.mainAside}>
                     {children}
                 </main>
             </div>
