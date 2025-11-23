@@ -1,0 +1,19 @@
+@use "../src/styles/abstract";
+
+.layout {
+  @include abstract.container;
+  display: flex;
+  height: calc(100vh - 60px);
+  position: relative;
+  padding: 0 60px;
+}
+
+.main, .mainAside {
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.mainAside {
+  padding-left: 184px;
+}

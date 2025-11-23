@@ -3,12 +3,12 @@
 @use "functions" as *; // импортируем функцию из файла function
 
 @mixin input-container {
-  width: 279px;
+  width: 100%;
   position: relative;
 }
 
 @mixin border-style {
-  border: 1px solid palette("dark", 100);
+  border: 1px solid var(--border-color);
   border-radius: 2px;
 
   &:active {
@@ -38,12 +38,8 @@
   display: block;
 
   background-color: transparent;
+  color: var(--color-text);
 
-  font-weight: 400;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 24px;
-  color: palette("light", 100);
 }
 
 @mixin error-input {
@@ -52,4 +48,10 @@
     border-color: palette("danger", 500);
     outline: 2px solid palette("danger", 500);
   }
+}
+
+
+@mixin container {
+  width: 1280px;
+  margin: 0 auto;
 }

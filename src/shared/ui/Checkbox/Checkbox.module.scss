@@ -2,8 +2,6 @@
 @use "../../../styles/base/typography" as typo;
 
 .label {
-    display: flex;
-    align-items: center;
     cursor: pointer;
     gap: 8px;
     position: relative;

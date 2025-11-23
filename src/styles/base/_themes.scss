@@ -5,13 +5,18 @@
   --color-bg: #{abstract.palette("dark", 700)};
   --color-text: #{abstract.palette("light", 100)};
   --color-accent: #{abstract.palette("accent", 500)};
+  --border-color-default: #{abstract.palette("dark", 100)};
+
+  // для цвета бордера
+  --border-color: var(--border-color-default)
 }
 
 html.light {
   // Светлая тема
   --color-bg: #{abstract.palette("light", 100)};
-  --color-text: #{abstract.palette("dark", 700)};
+  --color-text: #{abstract.palette("dark", 900)};
   --color-accent: #{abstract.palette("accent", 300)};
+  --border-color-default: #{abstract.palette("dark", 700)};
 }
 
 

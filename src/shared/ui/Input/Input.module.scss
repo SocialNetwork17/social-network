@@ -30,6 +30,7 @@
 .input {
   @include styles.input;
   @include styles.border-style;
+  @include typo.text-regular-16;
   padding: 0 36px 0 11px;
   transition: border-color 0.2s ease, outline-color 0.2s ease;
 }
