@@ -1,5 +1,5 @@
-import styles from "./SingUpForm.module.scss"
-import {SingUpFormTitle} from "@/features/singUp/ui/singUpFormTitle/SingUpFormTitle";
+import styles from "./SignUpForm.module.scss"
+import {SingUpFormTitle} from "@/features/singUpFormTitle/SingUpFormTitle";
 import {Input} from "@/shared/ui/Input/Input";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import {Button} from "@/shared/ui/Button/Button";
 
 type Props = {};
 
-export const SingUpForm = (props: Props) => {
+export const SignUpForm = (props: Props) => {
 
     return (
         <div className={styles.authCard}>
@@ -64,7 +64,7 @@ export const SingUpForm = (props: Props) => {
                         Do you have an account?
                     </div>
                     <div>
-                        <Link href={PATH.SING_IN}
+                        <Link href={PATH.SIGN_IN}
                               className={styles.singInLink}>
                             Sing In
                         </Link>
