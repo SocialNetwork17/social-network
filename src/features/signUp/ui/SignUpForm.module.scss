@@ -1,0 +1,59 @@
+@use "../../../styles/base/typography" as typo;
+@use "../../../styles/abstract" as styles;
+
+.form {
+  width: 100%;
+}
+
+.authCard {
+  margin-top: 24px;
+
+  width: 378px;
+  height: 648px;
+
+  padding: 24px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.inputWrapper {
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  & > :not(:first-child) {
+    margin-top: 24px;
+  }
+
+}
+
+.confirmWrapper {
+  margin: 12px 0 12px 0;
+  padding: 9px;
+}
+
+.agreeText {
+  @include typo.text-small
+}
+
+.link {
+  @include typo.link-small
+}
+
+.helperText {
+  margin-top: 18px;
+  text-align: center;
+  @include  typo.text-regular-16;
+
+  & > :last-child {
+    margin-top: 6px;
+  }
+}
+
+.singInLink {
+  padding: 10px 50px;
+  @include typo.h3;
+  color: styles.palette("accent", 500);
+}

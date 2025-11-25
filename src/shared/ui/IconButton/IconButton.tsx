@@ -36,7 +36,7 @@ export const IconButton = memo((props: Props) => {
                 width={width || "24"}
                 height={height || "24"}
                 viewBox={viewBox || "0 0 24 24"}
-                style={{color: fill || "currentcolor"}}
+                style={{color: fill || "currentСolor"}}
             >
                 <use xlinkHref={`${sprite}#${iconId}`}/>
             </svg>

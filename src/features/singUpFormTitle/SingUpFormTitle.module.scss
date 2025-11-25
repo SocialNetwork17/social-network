@@ -1,0 +1,13 @@
+@use "../../styles/base/typography" as typo;
+.title {
+  text-align: center;
+  @include typo.h1;
+}
+
+.iconContainer {
+  margin-top: 13px;
+
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}

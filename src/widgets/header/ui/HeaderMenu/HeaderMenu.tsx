@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Button} from "@/shared/ui/button/Button";
 import styles from './HeaderMenu.module.scss'
 import SelectBox from "@/shared/ui/select-box/SelectBox";
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
+import {Button} from "@/shared/ui/Button/Button";
 
 type HeaderMenu = {
     isLoggedIn: boolean;
