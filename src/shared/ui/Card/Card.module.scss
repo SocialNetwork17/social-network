@@ -57,10 +57,10 @@
     color: styles.palette("dark", 300); 
   }
 
-  &:disabled:hover {
-    cursor: no-drop;
-    background: styles.palette("dark", 300); 
-    color: styles.palette("light", 100); 
+  &:disabled {
+    // background: styles.palette("dark", 300); 
+    // color: styles.palette("light", 100); 
+    display: none;
   }
 }
 

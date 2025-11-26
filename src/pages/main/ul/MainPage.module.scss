@@ -1,5 +1,3 @@
-@use '../../../styles/base/themes';
-
 .container {
   width: 100%;
   height: 100%;
@@ -8,46 +6,4 @@
   flex-direction: column;
   justify-content: start;
   gap: 36px;
-
-  & > :first-child {
-    display: flex;
-    justify-content: space-between;
-    background-color: var(--color-bg);
-    border: 1px solid var(--border-color-default);
-    border-radius: 2px;
-    padding: 12px 24px;
-
-    & > :first-child {
-      text-align: center;
-      line-height: 48px;
-    }
-
-    & > :nth-child(2) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      background-color: var(--color-bg); 
-      border: 1px solid var(--border-color-default);
-      border-radius: 2px;
-      padding: 8px 10px;
-
-      & span {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        line-height: 30px;
-
-        &:not(:last-child) {
-          border-right: 1px solid var(--border-color-default);
-        }
-      }
-    }
-  }
-
-  & > :nth-child(2) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
 }

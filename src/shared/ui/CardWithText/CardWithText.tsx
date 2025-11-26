@@ -1,7 +1,8 @@
+import styles from './CardWithText.module.scss'
 import { Post } from '@/entites/profile/userData'
 import Card from '../Card/Card'
 
-interface Props {
+type Props = {
   user: Post
 }
 
@@ -10,9 +11,11 @@ export default function CardWithText(props: Props) {
 
   const urls = user.images.map(image => image.url)
   return (
-    <div>
-      <Card images={urls} slider={true} height={user.images[0].width} width={user.images[0].width}/>
-      <div>{user.userName}</div>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <Card images={urls} slider={true} />
+      </div>
+      <div>{user.description}</div>
     </div>
   )
 }
