@@ -17,8 +17,7 @@ $white: styles.palette("light", 100);
 
 // Миксин для базовых стилей кнопки
 @mixin button-base {
-
-  width: 182px;
+  width: 100%;
   min-height: 36px;
   height: auto;
   padding: 6px;

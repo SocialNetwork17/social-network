@@ -58,7 +58,9 @@
   }
 
   &:disabled {
-    cursor: no-drop;
+    // background: styles.palette("dark", 300); 
+    // color: styles.palette("light", 100); 
+    display: none;
   }
 }
 
