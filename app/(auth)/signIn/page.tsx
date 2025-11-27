@@ -1,4 +1,4 @@
-import styles from "../../MainPage.module.scss";
+import styles from "../../rootLayout.module.scss";
 
 export default function Home() {
     return (
