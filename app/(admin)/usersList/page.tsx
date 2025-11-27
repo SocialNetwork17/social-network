@@ -1,5 +1,5 @@
 // import UsersList from "@/pages/usersList/UsersList";
-import styles from "../../MainPage.module.scss";
+import styles from "../../rootLayout.module.scss";
 
 
 
