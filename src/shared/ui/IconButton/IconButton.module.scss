@@ -4,10 +4,11 @@
   position: relative;
   border: none;
   background: transparent;
-  color: styles.palette("light", 100);
+  color: var(--color-text);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .iconButtonDisabled {

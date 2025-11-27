@@ -21,24 +21,21 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
     args: {
         iconId: "logOut",
-        width: "24",
-        height: "24"
+        size: 24
     }
 }
 
 export const Large: Story = {
     args: {
         ...Default.args,
-        width: '100',
-        height: '100'
+        size: 100
     }
 }
 
 export const Small: Story = {
     args: {
         ...Default.args,
-        width: "10",
-        height: "10",
+        size: 10
     }
 }
 
@@ -59,8 +56,7 @@ export const InitColor: Story = {
 export const InitViewBox: Story = {
     args: {
         ...Default.args,
-        height: "200",
-        width: "200",
+        size: 200,
         viewBox: "5 10 24 24"
     }
 }

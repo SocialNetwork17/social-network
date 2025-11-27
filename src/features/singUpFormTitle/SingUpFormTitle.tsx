@@ -12,12 +12,10 @@ export const SingUpFormTitle = (props: Props) => {
             <div className={styles.title}>Sing Up</div>
             <div className={styles.iconContainer}>
                 <IconButton iconId={"googleIcon"}
-                            width={"36"}
-                            height={"36"}
+                            size={36}
                 />
                 <IconButton iconId={"githubIcon"}
-                            width={"36"}
-                            height={"36"}
+                            size={36}
                 />
             </div>
         </div>

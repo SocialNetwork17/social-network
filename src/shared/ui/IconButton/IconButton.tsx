@@ -29,13 +29,7 @@ export const IconButton = memo((props: Props) => {
             type="button"
             disabled={disabled}
         >
-            <Icon iconId={iconId} size={size}/>
-            <svg
-                viewBox={viewBox || "0 0 24 24"}
-                style={{color: fill || "currentColor"}}
-            >
-                <use xlinkHref={`${sprite}#${iconId}`}/>
-            </svg>
+            <Icon iconId={iconId} size={size} />
         </button>
     );
 });

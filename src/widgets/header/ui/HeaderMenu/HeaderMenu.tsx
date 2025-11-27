@@ -36,8 +36,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
                            <IconButton
                                onClick={onClickHandler}
                                iconId={"messageBell"}
-                               height={"20px"}
-                               width={"18px"}
+                               size={20}
                                viewBox={"0 0 18 20"}
                                fill={"white"}
                            />
