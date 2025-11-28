@@ -1,5 +1,5 @@
-@use "../abstract";
-@use "./themes";
+@use '../abstract';
+@use './themes';
 
 :root {
   --font-family-base: abstract.$font-family-base;
@@ -27,7 +27,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--color-bg);
   color: var(--color-text);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 a {

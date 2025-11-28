@@ -1,4 +1,4 @@
-@use "../../styles/base/typography" as typo;
+@use '../../../../styles/base/typography' as typo;
 .title {
   text-align: center;
   @include typo.h1;

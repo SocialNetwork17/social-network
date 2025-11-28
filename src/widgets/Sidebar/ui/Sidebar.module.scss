@@ -1,4 +1,4 @@
-@use "../../../styles/abstract" as styles;
+@use '../../../styles/abstract' as styles;
 
 /* Основной контейнер сайдбара */
 .sidebar {
@@ -6,7 +6,7 @@
   top: 60px;
   width: 160px;
   height: 734px;
-  border-right: 1px solid styles.palette("dark", 300);
+  border-right: 1px solid styles.palette('dark', 300);
   z-index: 10;
 }
 
@@ -70,8 +70,8 @@
   /* Фокус только для клавиатуры (Tab) */
   &:focus-visible {
     outline: none;
-    border: 2px solid styles.palette("accent", 700);
-    color: styles.palette("light", 100);
+    border: 2px solid styles.palette('accent', 700);
+    color: styles.palette('light', 100);
     transform: translateX(2px);
   }
 
@@ -84,13 +84,13 @@
 
   /* Стили при наведении курсора */
   &:hover {
-    color: styles.palette("accent", 100);
+    color: styles.palette('accent', 100);
     transform: translateY(1px);
   }
 
   /* Стили когда элемент в фокусе и на него навели (состояние focus + hover) */
   &:focus-visible:hover {
-    border-color: styles.palette("accent", 100);
+    border-color: styles.palette('accent', 100);
   }
 
   /* Стили для отключенных ссылок */
@@ -101,7 +101,7 @@
 
     /* Отключаем hover-эффекты для disabled ссылок */
     &:hover {
-      color: styles.palette("dark", 100);
+      color: styles.palette('dark', 100);
       transform: none;
     }
 
@@ -109,7 +109,7 @@
     &:focus,
     &:focus-visible {
       border-color: transparent;
-      color: styles.palette("dark", 100);
+      color: styles.palette('dark', 100);
       transform: none;
     }
   }
@@ -137,8 +137,8 @@
   /* Фокус только для клавиатуры */
   &:focus-visible {
     outline: none;
-    border: 2px solid styles.palette("accent", 700);
-    color: styles.palette("light", 100);
+    border: 2px solid styles.palette('accent', 700);
+    color: styles.palette('light', 100);
     transform: translateX(2px);
   }
 
@@ -151,18 +151,18 @@
 
   /* Стили при наведении на кнопку выхода */
   &:hover {
-    color: styles.palette("accent", 100);
+    color: styles.palette('accent', 100);
     transform: translateX(2px);
   }
 
   /* кнопка в фокусе и наведении */
   &:focus-visible:hover {
-    border-color: styles.palette("accent", 100);
+    border-color: styles.palette('accent', 100);
   }
 }
 
 /* активные ссылки */
 .activeLink {
   font-weight: 700;
-  color: styles.palette("accent", 500);
+  color: styles.palette('accent', 500);
 }

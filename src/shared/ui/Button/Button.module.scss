@@ -1,19 +1,19 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
 
 // Переменные для цветов
-$primary-color: styles.palette("accent", 500);
-$primary-active: styles.palette("accent", 700);
-$primary-hover: styles.palette("accent", 100);
-$primary-disabled: styles.palette("accent", 900);
+$primary-color: styles.palette('accent', 500);
+$primary-active: styles.palette('accent', 700);
+$primary-hover: styles.palette('accent', 100);
+$primary-disabled: styles.palette('accent', 900);
 
-$secondary-color: styles.palette("dark", 300);
+$secondary-color: styles.palette('dark', 300);
 $secondary-active: rgba(33, 33, 33, 1);
-$secondary-hover: styles.palette("dark", 100);
-$secondary-disabled: styles.palette("dark", 500);
+$secondary-hover: styles.palette('dark', 100);
+$secondary-disabled: styles.palette('dark', 500);
 
-$disabled-text: styles.palette("light", 900);
-$white: styles.palette("light", 100);
+$disabled-text: styles.palette('light', 900);
+$white: styles.palette('light', 100);
 
 // Миксин для базовых стилей кнопки
 @mixin button-base {
