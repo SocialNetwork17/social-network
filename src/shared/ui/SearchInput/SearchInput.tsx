@@ -45,8 +45,7 @@ export const SearchInput = memo((props: Props) => {
         <div className={styles.iconButtonContainer}>
           <IconButton
             iconId={'searchIcon'}
-            width={'24'}
-            height={'24'}
+            size={24}
             viewBox={'0 0 24 24'}
             disabled={disabled}
             onClick={onClickHandler}
