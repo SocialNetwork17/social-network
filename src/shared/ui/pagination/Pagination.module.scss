@@ -1,81 +1,81 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    gap: 24px;
-    @include typo.text-regular-14;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  gap: 24px;
+  @include typo.text-regular-14;
 }
 
 .paginationList {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 12px;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 12px;
 }
 
 .paginationItem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .paginationButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 24px;
-    min-width: 24px;
-    border: none;
-    background-color: transparent;
-    //@include typo.text-regular-14;
-    color: styles.palette("light", 100);
-    cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    text-align: center;
-    &:hover {
-        &:not(.disabled) {
-            &:not(.active) {
-                background-color: styles.palette("dark", 500);
-            }
-        }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  min-width: 24px;
+  border: none;
+  background-color: transparent;
+  //@include typo.text-regular-14;
+  color: styles.palette('light', 100);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  text-align: center;
+  &:hover {
+    &:not(.disabled) {
+      &:not(.active) {
+        background-color: styles.palette('dark', 500);
+      }
     }
-    &:focus-visible {
-        outline: 2px solid styles.palette("accent", 500);
-        outline-offset: 2px;
-    }
+  }
+  &:focus-visible {
+    outline: 2px solid styles.palette('accent', 500);
+    outline-offset: 2px;
+  }
 }
 
 .paginationButton.active {
-    background-color: styles.palette("light", 100);
-    color: styles.palette("dark", 900);
-    cursor: default;
+  background-color: styles.palette('light', 100);
+  color: styles.palette('dark', 900);
+  cursor: default;
 }
 
 .paginationButton.disabled {
-    color: styles.palette("dark", 100);
-    cursor: not-allowed;
+  color: styles.palette('dark', 100);
+  cursor: not-allowed;
 }
 
 .paginationEllipsis {
-    height: 24px;
-    width: 24px;
-    color: styles.palette("light", 100);
-    text-align: center;
-    cursor: default;
+  height: 24px;
+  width: 24px;
+  color: styles.palette('light', 100);
+  text-align: center;
+  cursor: default;
 }
 
 .paginationWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .paginationText {
-    color: styles.palette("light", 100);
+  color: styles.palette('light', 100);
 }

@@ -1,13 +1,11 @@
-import {SignUpForm} from "@/features/signUp/ui/SignUpForm";
-import styles from "./SignUpPage.module.scss"
+import { SignUpForm } from '@/features/signUp/ui/SignUpForm'
+import styles from './SignUpPage.module.scss'
 
-type Props = {
-
-};
+type Props = {}
 export const SignUpPage = (props: Props) => {
-    return (
-        <div className={styles.authPage}>
-            <SignUpForm/>
-        </div>
-    );
-};
+  return (
+    <div className={styles.authPage}>
+      <SignUpForm />
+    </div>
+  )
+}

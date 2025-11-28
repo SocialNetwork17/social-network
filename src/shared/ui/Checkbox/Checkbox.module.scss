@@ -1,65 +1,65 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
 
 .label {
-    cursor: pointer;
-    gap: 8px;
-    position: relative;
-    padding: 4px 8px 4px 30px;
-    margin-left: -5px;
+  cursor: pointer;
+  gap: 8px;
+  position: relative;
+  padding: 4px 8px 4px 30px;
+  margin-left: -5px;
 
-    &.disabled {
-        cursor: default;
-    }
+  &.disabled {
+    cursor: default;
+  }
 }
 
 .checkbox {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .customCheckbox {
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
-    z-index: 1;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  z-index: 1;
 }
 
 .label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    background-color: styles.palette("dark", 100);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background-color: styles.palette('dark', 100);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
 .label:hover::before,
 .label:active::before {
-    opacity: 1;
+  opacity: 1;
 }
 
 .label.disabled::before,
 .label.disabled:hover::before {
-    opacity: 0;
+  opacity: 0;
 }
 
 .spanClassName {
-    @include typo.text-regular-14;
-    line-height: 1.2;
-    z-index: 1;
+  @include typo.text-regular-14;
+  line-height: 1.2;
+  z-index: 1;
 
-    .disabled & {
-        color: styles.palette("light", 900);
-    }
+  .disabled & {
+    color: styles.palette('light', 900);
+  }
 }

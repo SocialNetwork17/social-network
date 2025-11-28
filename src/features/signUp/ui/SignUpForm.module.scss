@@ -1,5 +1,5 @@
-@use "../../../styles/base/typography" as typo;
-@use "../../../styles/abstract" as styles;
+@use '../../../styles/base/typography' as typo;
+@use '../../../styles/abstract' as styles;
 
 .form {
   width: 100%;
@@ -15,6 +15,8 @@
 
   border: 1px solid var(--border-color);
   border-radius: 2px;
+
+  background-color: var(--color-bg-500);
 }
 
 .inputWrapper {
@@ -26,7 +28,6 @@
   & > :not(:first-child) {
     margin-top: 24px;
   }
-
 }
 
 .confirmWrapper {
@@ -35,17 +36,17 @@
 }
 
 .agreeText {
-  @include typo.text-small
+  @include typo.text-small;
 }
 
 .link {
-  @include typo.link-small
+  @include typo.link-small;
 }
 
 .helperText {
   margin-top: 18px;
   text-align: center;
-  @include  typo.text-regular-16;
+  @include typo.text-regular-16;
 
   & > :last-child {
     margin-top: 6px;
@@ -55,5 +56,5 @@
 .singInLink {
   padding: 10px 50px;
   @include typo.h3;
-  color: styles.palette("accent", 500);
+  color: styles.palette('accent', 500);
 }

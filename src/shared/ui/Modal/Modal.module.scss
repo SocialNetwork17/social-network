@@ -1,5 +1,5 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
 
 .backdrop {
   position: fixed;
@@ -17,10 +17,10 @@
 }
 
 .modal {
-  background-color: styles.palette("dark", 300);
+  background-color: styles.palette('dark', 300);
   border-radius: 2px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border: 1px solid styles.palette("dark", 100);
+  border: 1px solid styles.palette('dark', 100);
   max-width: 492px;
   min-width: 376px;
   height: auto;
@@ -38,16 +38,15 @@
   width: 100%;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: styles.palette("dark", 100);
+    background-color: styles.palette('dark', 100);
   }
 }
-
 
 .title {
   @include typo.h1();
@@ -91,11 +90,11 @@
 
   // Круг с анимацией
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 36px;
     height: 36px;
-    background-color: styles.palette("accent", 100);
+    background-color: styles.palette('accent', 100);
     border-radius: 50%;
     z-index: 0;
 
@@ -110,7 +109,6 @@
     opacity: 1;
     transform: scale(1);
   }
-
 }
 
 // Анимации
