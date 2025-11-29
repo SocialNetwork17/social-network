@@ -1,63 +1,53 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import s from './Checkbox.module.scss'
 
 type CheckboxProps = {
-  onChangeCheckedAction?: (checked: boolean) => void
-  label?: string
-  disabled?: boolean
-  checked?: boolean
-  id?: string
+    onChangeCheckedAction?: (checked: boolean) => void
+    label?: string
+    disabled?: boolean
+    checked?: boolean
+    id?: string
 }
 
 export const Checkbox = ({
-  onChangeCheckedAction,
-  label,
-  disabled,
-  checked,
-  id,
-}: CheckboxProps) => {
-  // Use checked as controlled value if provided
-  // Otherwise use internal state
-  const [internalChecked, setInternalChecked] = useState(false)
+                             onChangeCheckedAction,
+                             label,
+                             disabled,
+                             checked,
+                             id,
+                             ...rest
+                         }: CheckboxProps) => {
 
-  // Determine whether to use controlled or uncontrolled state
-  const isControlled = checked !== undefined
-  const isChecked = isControlled ? checked : internalChecked
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newChecked = e.target.checked
-
-    if (!isControlled) {
-      // If component is uncontrolled, update internal state
-      setInternalChecked(newChecked)
+    const getIconId = () => {
+        if (disabled) {
+            return checked ? 'disabled-selected-box' : 'disabled-unselected-box'
+        }
+        return checked ? 'selected-box' : 'unselected-box'
     }
 
-    // Always call the callback
-    onChangeCheckedAction?.(newChecked)
-  }
-
-  const getIconId = () => {
-    if (disabled) {
-      return isChecked ? 'disabled-selected-box' : 'disabled-unselected-box'
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = e.currentTarget.checked
+        onChangeCheckedAction?.(checked)
     }
-    return isChecked ? 'selected-box' : 'unselected-box'
-  }
 
-  return (
-    <label className={`${s.label} ${disabled ? s.disabled : ''}`} htmlFor={id}>
-      <input
-        id={id}
-        type="checkbox"
-        disabled={disabled}
-        checked={isChecked}
-        onChange={handleChange}
-        className={s.checkbox}
-      />
-      <svg className={s.customCheckbox} width="18" height="18">
-        <use xlinkHref={`icons-sprite.svg#${getIconId()}`} />
-      </svg>
-      {label && <span className={s.spanClassName}>{label}</span>}
-    </label>
-  )
+
+
+    return (
+        <label className={`${s.label} ${disabled ? s.disabled : ''}`} htmlFor={id}>
+            <input
+                id={id}
+                type="checkbox"
+                disabled={disabled}
+                checked={checked}
+                onChange={handleChange}
+                className={s.checkbox}
+                {...rest}
+            />
+            <svg className={s.customCheckbox} width="18" height="18">
+                <use xlinkHref={`icons-sprite.svg#${getIconId()}`}/>
+            </svg>
+            {label && <span className={s.spanClassName}>{label}</span>}
+        </label>
+    )
 }

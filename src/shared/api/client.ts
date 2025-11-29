@@ -8,11 +8,13 @@ const authMiddleware: Middleware = {
 
     },
     async onResponse({ request, response, options }) {
-
+        if(!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return response
     },
     async onError({ error }) {
-        // wrap errors thrown by fetch
-
+        alert(error)
     },
 };
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ButtonHTMLAttributes} from 'react'
 import type { ReactNode } from 'react'
 import scss from './Button.module.scss'
 
@@ -6,18 +6,28 @@ import Image, { StaticImageData } from 'next/image'
 
 type ButtonTheme = 'primary' | 'secondary' | 'outline' | 'textButton'
 
+
 type ButtonProps = {
   children: ReactNode
   variant: ButtonTheme
   disabled: boolean
   onClickHandler?: () => void
-  icon?: StaticImageData
-  width?: string | number
-  height?: string | number
+  icon?: StaticImageData,
+  width?: string | number,
+  height?: string | number,
+  type?: "button" | "submit" | "reset" | undefined
 }
 
-export const Button = (props: ButtonProps) => {
-  const { children, variant, disabled, icon, width, height, onClickHandler } = props
+export const Button = (props: ButtonProps,) => {
+  const { children,
+    variant,
+    disabled,
+    icon,
+    width,
+    height,
+    onClickHandler,
+    type
+  } = props
 
   const buttonClass = `${scss.button} ${scss[variant]}`
 
@@ -32,6 +42,7 @@ export const Button = (props: ButtonProps) => {
       style={buttonStyle}
       disabled={disabled}
       onClick={onClickHandler}
+      type={type ? type : "button"}
     >
       {icon && <Image src={icon} alt={''} width={24} height={24} />}
       {children}
