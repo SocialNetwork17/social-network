@@ -63,9 +63,13 @@ export const Input = memo((props: Props) => {
                         {
                             type === 'password' &&
                             <IconButton
-                                iconId={inputType === "password" ? 'eyeClosed' : 'eyeOpen'}
-                                width={"24"}
-                                height={"24"}
+                                iconId={inputType === "password"
+                                    ? 'eyeClosed' :
+                                    inputType === "date"
+                                        ? 'calendar' :
+                                        'eyeOpen'
+                                }
+                                size={24}
                                 viewBox={"0 0 24 24"}
                                 disabled={disabled}
                                 onClick={onClickHandler}
