@@ -1,7 +1,7 @@
 import React from 'react'
 
 type IconProps = {
-    iconId: string
+    iconId: string | null
     size?: number
     viewBox?: string
     className?: string
