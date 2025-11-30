@@ -1,4 +1,4 @@
-@use "../../../styles/abstract" as styles;
+@use '../../../styles/abstract' as styles;
 
 .iconButton {
   position: relative;
@@ -12,7 +12,7 @@
 }
 
 .iconButtonDisabled {
-  color: styles.palette("dark", 100);
+  color: styles.palette('dark', 100);
   &:hover {
     cursor: auto;
   }

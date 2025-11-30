@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <UserProfile user={user} type="profile"/>
+      <UserProfile user={user} type="profile" />
     </div>
   )
 }

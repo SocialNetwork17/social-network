@@ -74,12 +74,12 @@
   font-size: $font-size-regular-14;
   font-weight: $font-weight-400;
   text-decoration: underline;
-  color: palette("accent", 500);
+  color: palette('accent', 500);
 }
 
 @mixin link-small {
   font-size: $font-size-small;
   font-weight: $font-weight-400;
   text-decoration: underline;
-  color: palette("accent", 500);
+  color: palette('accent', 500);
 }

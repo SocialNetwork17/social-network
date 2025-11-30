@@ -3,10 +3,9 @@
 import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
 import { Icon } from '@/shared/ui/Icon/Icon'
-import {menuItems} from "@/widgets/Sidebar/ui/Sidebar.config";
-import {useState} from "react";
-import {LogOut} from "@/shared/ui/LogOut/LogOut";
-
+import { menuItems } from '@/widgets/Sidebar/ui/Sidebar.config'
+import { useState } from 'react'
+import { LogOut } from '@/shared/ui/LogOut/LogOut'
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
@@ -31,30 +30,30 @@ export const Sidebar = () => {
   }
 
   return (
-      <>
+    <>
       <aside className={s.sidebar}>
         <nav className={s.navSidebar}>
           <ul className={s.sidebarList}>
             {mainItems.map(item => (
-                <SidebarLink
-                    key={item.href}
-                    href={item.href}
-                    label={item.label}
-                    icon={item.icon}
-                    disabled={item.disabled}
-                />
+              <SidebarLink
+                key={item.href}
+                href={item.href}
+                label={item.label}
+                icon={item.icon}
+                disabled={item.disabled}
+              />
             ))}
           </ul>
           <div className={s.bottomSection}>
             <ul className={s.sidebarList}>
               {bottomItems.map(item => (
-                  <SidebarLink
-                      key={item.href}
-                      href={item.href}
-                      label={item.label}
-                      icon={item.icon}
-                      disabled={item.disabled}
-                  />
+                <SidebarLink
+                  key={item.href}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  disabled={item.disabled}
+                />
               ))}
             </ul>
 
@@ -70,10 +69,10 @@ export const Sidebar = () => {
 
       {/* Компонент модального окна выхода */}
       <LogOut
-          isOpen={isLogoutModalOpen}
-          onConfirmAction={handleLogoutConfirm}
-          onCloseAction={handleLogoutClose}
-          email="Epam@epam.com" // Можно динамически подставлять email пользователя
+        isOpen={isLogoutModalOpen}
+        onConfirmAction={handleLogoutConfirm}
+        onCloseAction={handleLogoutClose}
+        email="Epam@epam.com" // Можно динамически подставлять email пользователя
       />
     </>
   )

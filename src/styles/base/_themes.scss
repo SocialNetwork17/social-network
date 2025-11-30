@@ -3,6 +3,7 @@
 :root {
   // Тёмная тема (по умолчанию)
   --color-bg: #{abstract.palette('dark', 700)};
+  --color-bg-500: #{abstract.palette('dark', 500)};
   --color-text: #{abstract.palette('light', 100)};
   --color-accent: #{abstract.palette('accent', 500)};
   --border-color-default: #{abstract.palette('dark', 100)};
@@ -14,6 +15,7 @@
 html.light {
   // Светлая тема
   --color-bg: #{abstract.palette('light', 100)};
+  --color-bg-500: #{abstract.palette('light', 100)};
   --color-text: #{abstract.palette('dark', 900)};
   --color-accent: #{abstract.palette('accent', 300)};
   --border-color-default: #{abstract.palette('dark', 700)};
