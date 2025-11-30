@@ -5,6 +5,7 @@ import {IconButton} from '../IconButton/IconButton'
 import {getIconIdByInputType} from "@/shared/ui/Input/helpers/getIconByInputType";
 
 type Props = {
+    value?: string
     label: string
     type: HTMLInputTypeAttribute
     placeholder: string
@@ -16,6 +17,7 @@ type Props = {
 
 export const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
     const {
+        value,
         label,
         type,
         placeholder,
