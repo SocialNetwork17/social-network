@@ -3,13 +3,13 @@ import styles from './IconButton.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
 
 type Props = {
-  iconId: string | null
-  onClick?: MouseEventHandler<HTMLButtonElement>
-  size?: number
-  viewBox?: string
-  fill?: string
-  disabled?: boolean
-}
+    iconId: string | null
+    onClick?: MouseEventHandler<HTMLButtonElement>
+    size?: number
+    viewBox?: string
+    fill?: string
+    disabled?: boolean
+};
 
 export const IconButton = memo((props: Props) => {
   const sprite = '/icons-sprite.svg'
