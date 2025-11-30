@@ -15,7 +15,6 @@ import {
     DATE_FORMAT,
     RANGE_SEPARATOR
 } from './utils/date.utils'
-import {DateInput} from "@/shared/ui/DatePicker/DateInput";
 
 
 // утилита для объединения классов
@@ -188,35 +187,14 @@ export const DatePicker = ({
                     return (
                         <>
                             <div className={styles.inputWrapper}>
-                                {/*<input*/}
-                                {/*    className={cn(*/}
-                                {/*        styles.input,*/}
-                                {/*        disabled && styles.disabled,*/}
-                                {/*        hasError && styles.error,*/}
-                                {/*        open && styles.open*/}
-                                {/*    )}*/}
-                                {/*    value={inputValue}*/}
-                                {/*    onChange={handleInput}*/}
-                                {/*    onKeyDown={handleKeyDown}*/}
-                                {/*    onBlur={applyInput}*/}
-                                {/*    placeholder={computedPlaceholder}*/}
-                                {/*    disabled={disabled}*/}
-                                {/*/>*/}
 
-                                {/*<PopoverButton*/}
-                                {/*    className={cn(*/}
-                                {/*        styles.calendarButton,*/}
-                                {/*        hasError && styles.calendarButtonError*/}
-                                {/*    )}*/}
-                                {/*    disabled={disabled}*/}
-                                {/*>*/}
-                                {/*  <Icon size={20} iconId={hasError ? 'alertCalendar' : 'calendar'} />*/}
-                                {/*</PopoverButton>*/}
-
-                                <DateInput
-                                    type={'date'}
-                                    required={true}
-                                    label={label}
+                                <input
+                                    className={cn(
+                                        styles.input,
+                                        disabled && styles.disabled,
+                                        hasError && styles.error,
+                                        open && styles.open
+                                    )}
                                     value={inputValue}
                                     onChange={handleInput}
                                     onKeyDown={handleKeyDown}
@@ -224,6 +202,17 @@ export const DatePicker = ({
                                     placeholder={computedPlaceholder}
                                     disabled={disabled}
                                 />
+                                <PopoverButton
+                                    className={cn(
+                                        styles.calendarButton,
+                                        hasError && styles.calendarButtonError
+                                    )}
+                                    disabled={disabled}
+                                >
+                                  <Icon size={20} iconId={hasError ? 'alertCalendar' : 'calendar'} />
+                                </PopoverButton>
+
+
                             </div>
 
                             {open && (
