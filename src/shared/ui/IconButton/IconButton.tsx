@@ -3,7 +3,7 @@ import styles from './IconButton.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
 
 type Props = {
-  iconId: string
+  iconId: string | null
   onClick?: MouseEventHandler<HTMLButtonElement>
   size?: number
   viewBox?: string
