@@ -1,9 +1,11 @@
-"use client"
-import React, {ChangeEvent, HTMLInputTypeAttribute, memo, useEffect, useState} from "react";
-import styles from "./Input.module.scss"
-import {IconButton} from "../IconButton/IconButton";
+'use client'
+import React, {forwardRef, HTMLInputTypeAttribute, useState} from 'react'
+import styles from './Input.module.scss'
+import {IconButton} from '../IconButton/IconButton'
+import {getIconIdByInputType} from "@/shared/ui/Input/helpers/getIconByInputType";
 
 type Props = {
+    value?: string
     label: string
     type: HTMLInputTypeAttribute
     placeholder: string
@@ -11,71 +13,64 @@ type Props = {
     error?: boolean
     errorText?: string
     disabled?: boolean
+} & React.InputHTMLAttributes<HTMLInputElement>
 
-};
-//подправить стиль errorText, когда будем собирать все компоненты в карточку регистрации
-export const Input = memo((props: Props) => {
-
+export const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
     const {
+        value,
         label,
         type,
         placeholder,
         required,
         error,
         errorText,
-        disabled
+        disabled,
+        ...rest
     } = props
 
     const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type)
-    const [hasError, setHasError] = useState(!!error)
-
-    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        error && setHasError(false)
-
-    }
 
     const onClickHandler = () => {
         if (disabled) return
-        setInputType(prev => (prev === "password" ? "text" : "password"));
-    };
+        if(inputType === "date")  {
+            //onClick()
+            return
+        }
+        setInputType(prev => (prev === 'password' ? 'text' : 'password'))
+    }
 
-    //useEffect используем для синхронизации изменения значения error, если через пропсы приходит новое значение error
-    //переназначаем значение error
-    useEffect(() => {
-        setHasError(!!error)
-    }, [error])
+    const iconForInput = getIconIdByInputType(type, inputType)
 
-    const inputClassName: string = hasError ? `${styles.input} ${styles.errorInput}` : styles.input
+    const inputClassName = error ? `${styles.input} ${styles.errorInput}` : `${styles.input}`
 
     return (
         <div className={styles.inputContainer}>
             <label className={styles.label}>
-                {label}{required && <sup className={styles.requiredStar}>*</sup>}
+                {label}
+                {required && <sup className={styles.requiredStar}>*</sup>}
                 <div className={styles.inputWrapper}>
                     <input
                         className={inputClassName}
+                        disabled={disabled}
+                        ref={ref}
                         type={inputType}
                         placeholder={placeholder}
-                        onChange={onChangeHandler}
-                        disabled={disabled}
+                        {...rest}
                     />
                     <div className={styles.iconButtonContainer}>
-                        {
-                            type === 'password' &&
+                        {(type === 'password' || type === "date") && (
                             <IconButton
-                                iconId={inputType === "password" ? 'eyeClosed' : 'eyeOpen'}
-                                width={"24"}
-                                height={"24"}
-                                viewBox={"0 0 24 24"}
+                                iconId={iconForInput}
+                                size={24}
+                                viewBox={'0 0 24 24'}
                                 disabled={disabled}
                                 onClick={onClickHandler}
                             />
-                        }
+                        )}
                     </div>
                 </div>
             </label>
-            {hasError && <div className={styles.errorText}>{errorText}</div>}
+            {error && <div className={styles.errorText}>{errorText}</div>}
         </div>
-
-    );
+    )
 })

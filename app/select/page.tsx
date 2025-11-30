@@ -1,5 +1,5 @@
 'use client'
-import styles from "../../../app/page.module.css";
+import styles from "../../../app/MainPage.module.scss";
 import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
 import {useState} from "react";
 
@@ -15,15 +15,11 @@ const options: Option[] = [
 ];
 
 const Select = () => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [isDisabled, setDisabled] = useState(true);
+    const [isDisabled, setDisabled] = useState(false);
 
     const handleSelect = (option: Option) => {
-        setSelectedOption(option.id);
         console.log('Selected:', option);
     };
-
-
 
     return (
     <div className={styles.page}>
@@ -31,7 +27,6 @@ const Select = () => {
           <div style={{ display: 'flex', flexDirection: 'row', gap: '50px' }}>
               <SelectBox
                   options={options}
-                  value={selectedOption}
                   onChange={handleSelect}
                   placeholder="Choose an option"
                   disabled={isDisabled}

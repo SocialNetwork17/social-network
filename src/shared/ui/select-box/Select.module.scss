@@ -1,0 +1,97 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.selectContainer {
+  position: relative;
+  cursor: pointer;
+  max-width: 100%;
+  background-color: styles.palette('dark', 500);
+  @include typo.text-regular-16;
+  &:focus-visible {
+    outline: 2px solid styles.palette('accent', 500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.selectBox {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 6px 12px;
+  border: 1px solid styles.palette('dark', 100);
+  border-radius: 2px;
+  background-color: inherit;
+  transition: all 0.3s ease;
+  position: relative;
+  &:hover {
+    border-color: styles.palette('light', 100);
+  }
+}
+
+.selectBox.open {
+  border-color: styles.palette('light', 100);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  .selectArrow {
+    transform: rotate(180deg);
+  }
+}
+
+.selectBox.disabled {
+  background-color: inherit;
+  color: styles.palette('dark', 100);
+  cursor: not-allowed;
+  border-color: styles.palette('dark', 100);
+  &:hover {
+    border-color: styles.palette('dark', 100);
+    box-shadow: none;
+    transform: none;
+  }
+  .selectValue {
+    color: styles.palette('dark', 100);
+  }
+}
+
+.selectValue {
+  font-size: inherit;
+  color: inherit;
+}
+
+.selectArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  fill: styles.palette('light', 100);
+  transition: transform 0.3s ease;
+}
+
+.selectDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: inherit;
+  border: 1px solid styles.palette('light', 100);
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.selectOption {
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    background-color: styles.palette('dark', 300);
+    color: styles.palette('accent', 500);
+    transform: translateX(2px);
+  }
+}
