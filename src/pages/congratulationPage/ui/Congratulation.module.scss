@@ -1,0 +1,21 @@
+@use "../../../styles/base/typography" as typo;
+
+.congratulationPage {
+  margin-top: 35px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.title {
+  @include typo.h1;
+}
+
+.description {
+  margin-top: 19px;
+  @include typo.text-regular-16
+}
+.buttonContainer {
+  margin: 54px 0 72px 0;
+  width: 182px;
+}
