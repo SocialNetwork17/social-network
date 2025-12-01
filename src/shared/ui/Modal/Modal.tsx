@@ -64,8 +64,7 @@ export const Modal = (props: Modal) => {
             <IconButton
               iconId={'logoutBtnCloseSvg'}
               fill="white"
-              width={'24'}
-              height={'24'}
+              size={24}
               onClick={onClose}
             />
           </div>

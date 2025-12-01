@@ -10,7 +10,8 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {registrationSchema, RegistrationType} from "@/features/signUp/lib/registrationSchema";
 import {useState} from "react";
-import {useRegistration} from "@/features/signUp/model/useRegistration";
+import {useRegistrationMutation} from "@/features/signUp/model/useRegistrationMutation";
+import {Modal} from "@/shared/ui/Modal/Modal";
 
 type Props = {}
 
@@ -34,19 +35,19 @@ export const SignUpForm = (props: Props) => {
     })
 
     const [checked, setChecked] = useState<boolean>(false)
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-    const registration = useRegistration()
+    const registration = useRegistrationMutation()
 
     const onSubmit: SubmitHandler<RegistrationType> = (data) =>  {
         registration.mutate(data, {
             onSuccess: () => {
                 reset()
                 setChecked(false)
-            }
+                setIsModalOpen(!isModalOpen)
+            },
         })
-
     }
-
     return (
         <div className={styles.authCard}>
             <SingUpFormTitle/>
@@ -120,6 +121,15 @@ export const SignUpForm = (props: Props) => {
                     </div>
                 </div>
             </form>
+            {isModalOpen && (
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(!isModalOpen)}
+                    title={"dsafasdf"}
+                >
+                    123
+                </Modal>
+            )}
             {registration.error && <div onClick={() =>registration.reset()}>{registration.error.message}</div>}
         </div>
     )

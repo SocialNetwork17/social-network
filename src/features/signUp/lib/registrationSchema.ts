@@ -1,8 +1,5 @@
 import { z } from "zod";
 
-
-
-
 const usernameRegex = /^[0-9A-Za-z_-]+$/;
 
 const passwordRegex = /^(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]{6,20}$/;
