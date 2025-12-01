@@ -22,7 +22,7 @@ export const SignUpForm = (props: Props) => {
         handleSubmit,
         formState: {errors, isValid},
         reset,
-        trigger
+        setError
     } = useForm<RegistrationType>({
         resolver: zodResolver(registrationSchema),
         mode: "all",
@@ -36,16 +36,43 @@ export const SignUpForm = (props: Props) => {
 
     const [checked, setChecked] = useState<boolean>(false)
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [email, setEmail] = useState<string>('')
 
     const registration = useRegistrationMutation()
 
     const onSubmit: SubmitHandler<RegistrationType> = (data) =>  {
+        setEmail(data.email)
         registration.mutate(data, {
             onSuccess: () => {
                 reset()
-                setChecked(false)
+                setChecked(prevState => !prevState)
                 setIsModalOpen(!isModalOpen)
             },
+            onError: (error) => {
+                const message = error.message
+
+                if (message.includes("email")) {
+                    setError("email", {
+                        type: "server",
+                        message: message,
+                    });
+                }
+
+                if (message.includes("Password")) {
+                    setError("password", {
+                        type: "server",
+                        message: message,
+                    });
+                }
+
+                if (message.includes("username") || message.includes("userName")) {
+                    setError("userName", {
+                        type: "server",
+                        message: message,
+                    });
+                }
+                setEmail('')
+            }
         })
     }
     return (
@@ -125,12 +152,11 @@ export const SignUpForm = (props: Props) => {
                 <Modal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(!isModalOpen)}
-                    title={"dsafasdf"}
+                    title={"Email sent"}
                 >
-                    123
+                    We have sent a link to confirm your email to {email}
                 </Modal>
             )}
-            {registration.error && <div onClick={() =>registration.reset()}>{registration.error.message}</div>}
         </div>
     )
 }
