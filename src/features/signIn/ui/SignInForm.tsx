@@ -61,7 +61,7 @@ export const SignInForm = () => {
                     </Button>
 
 
-                    <div className={styles.helperText}>Don't have an account?</div>
+                    <div className={styles.helperText}>Don’t have an account?</div>
                     <Link href={PATH.SIGN_UP} className={styles.signUpLink}>
                         Sign Up
                     </Link>
