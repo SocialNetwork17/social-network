@@ -3,15 +3,11 @@ import styles from "./Congratulation.module.scss"
 import {Button} from "@/shared/ui/Button/Button";
 import Image from "next/image";
 import congratulationImg from "@/../public/congratulation.svg"
-import {useRouter} from "next/navigation";
+import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
 
 export const CongratulationPage = () => {
-    const router = useRouter();
 
-    const onclickHandler = () => {
-        router.push(PATH.SIGN_IN)
-    }
 
     return (
         <div className={styles.congratulationPage}>
@@ -22,13 +18,11 @@ export const CongratulationPage = () => {
                 Your email has been confirmed
             </div>
             <div className={styles.buttonContainer}>
-                <Button
-                    variant={"primary"}
-                    disabled={false}
-                    onClickHandler={onclickHandler}
-                >
-                    Sign In
-                </Button>
+                <Link href={PATH.SIGN_IN}>
+                    <Button variant="primary" disabled={false}>
+                        Sign In
+                    </Button>
+                </Link>
             </div>
             <Image src={congratulationImg} alt={'congratulation picture'}/>
         </div>
