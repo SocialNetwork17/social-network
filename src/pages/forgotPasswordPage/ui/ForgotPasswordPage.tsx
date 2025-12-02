@@ -19,7 +19,7 @@ export const ForgotPasswordPage = () => {
                     Back to Sign In
                 </Link>
             </div>
-            <Recaptcha />
+            <Recaptcha isError={true} />
         </div>
     )
 }
