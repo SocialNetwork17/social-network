@@ -49,7 +49,7 @@
 }
 
 .title {
-  @include typo.h1();
+  @include typo.h1;
   margin: 0;
 }
 
@@ -74,6 +74,7 @@
 }
 
 .content {
+  @include typo.text-regular-16;
   display: flex;
   padding: 24px 24px;
   align-items: center;
