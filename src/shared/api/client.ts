@@ -9,6 +9,19 @@ const authMiddleware: Middleware = {
     },
     async onResponse({ request, response, options }) {
 
+        if (!response.ok) {
+
+            const errorBody = await response.json().catch(() => null)
+
+            const message =
+                errorBody?.messages?.[0]?.message ||
+                errorBody?.message ||
+                response.statusText ||
+                "Unknown error";
+
+            throw new Error(message)
+        }
+        return response
     },
     async onError({ error }) {
 
@@ -23,3 +36,5 @@ export const client = createClient<paths>({
     baseUrl,
     headers: {},
 });
+
+client.use(authMiddleware)

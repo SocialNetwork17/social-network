@@ -5,4 +5,5 @@ export const PATH = {
   SERVICES: '/services',
   POLICY: '/policy',
   CONGRATULATIONS: '/congratulations',
+  LINK_EXPIRED: '/link-expired',
 } as const

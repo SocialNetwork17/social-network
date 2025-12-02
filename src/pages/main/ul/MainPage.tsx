@@ -22,6 +22,9 @@ export default function MainPage() {
         registrationConfirm.mutate(code, {
             onSuccess: () => {
                 router.push(PATH.CONGRATULATIONS)
+            },
+            onError: () => {
+                router.push(PATH.LINK_EXPIRED)
             }
         })
     }, []);

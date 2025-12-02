@@ -15,8 +15,7 @@ type ButtonProps = {
   icon?: StaticImageData,
   width?: string | number,
   height?: string | number,
-  type?: "button" | "submit" | "reset" | undefined
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button = (props: ButtonProps,) => {
   const { children,
@@ -26,7 +25,7 @@ export const Button = (props: ButtonProps,) => {
     width,
     height,
     onClickHandler,
-    type
+    ...rest
   } = props
 
   const buttonClass = `${scss.button} ${scss[variant]}`
@@ -42,7 +41,7 @@ export const Button = (props: ButtonProps,) => {
       style={buttonStyle}
       disabled={disabled}
       onClick={onClickHandler}
-      type={type ? type : "button"}
+      {...rest}
     >
       {icon && <Image src={icon} alt={''} width={24} height={24} />}
       {children}

@@ -10,9 +10,6 @@ export const useRegistrationConfirmation = ()=> {
                     confirmationCode: code
                 },
             })
-            if(response.error) {
-                throw new Error(response.error.messages?.[0]?.message)
-            }
             return response.data
         }
     })

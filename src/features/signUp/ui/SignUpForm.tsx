@@ -10,8 +10,11 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {registrationSchema, RegistrationType} from "@/features/signUp/lib/registrationSchema";
 import {useState} from "react";
-import {useRegistrationMutation} from "@/features/signUp/model/useRegistrationMutation";
+import {useRegistration} from "@/features/signUp/model/useRegistration";
 import {Modal} from "@/shared/ui/Modal/Modal";
+import {SchemaValidationErrorResponseDto} from "@/shared/api/schema";
+import {isPending} from "@reduxjs/toolkit";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 type Props = {}
 
@@ -38,11 +41,11 @@ export const SignUpForm = (props: Props) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [email, setEmail] = useState<string>('')
 
-    const registration = useRegistrationMutation()
+    const {mutate: registration, isPending, isError, error} = useRegistration()
 
     const onSubmit: SubmitHandler<RegistrationType> = (data) =>  {
         setEmail(data.email)
-        registration.mutate(data, {
+        registration(data, {
             onSuccess: () => {
                 reset()
                 setChecked(prevState => !prevState)
@@ -136,8 +139,9 @@ export const SignUpForm = (props: Props) => {
                     variant={'primary'}
                     disabled={!isValid || !checked}
                     type={"submit"}
+
                 >
-                    Sign Up
+                    {isPending && <Spinner/>}  Sign up
                 </Button>
                 <div className={styles.helperText}>
                     <div>Do you have an account?</div>

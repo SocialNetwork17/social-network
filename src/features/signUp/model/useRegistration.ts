@@ -1,8 +1,8 @@
-import {useMutation, UseMutationOptions} from "@tanstack/react-query"
-import { RegistrationType } from "../lib/registrationSchema"
+import {useMutation} from "@tanstack/react-query"
+import {RegistrationType} from "../lib/registrationSchema"
 import {client} from "@/shared/api/client";
 
-export const useRegistrationMutation = () => {
+export const useRegistration = () => {
 
     const mutation = useMutation({
         mutationKey: ["registration"],
@@ -15,9 +15,6 @@ export const useRegistrationMutation = () => {
                     baseUrl: "http://localhost:3000"
                 }
             })
-            if(response.error) {
-                throw new Error(response.error.messages?.[0]?.message)
-            }
             return response.data
         },
     })
