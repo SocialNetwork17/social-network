@@ -1,0 +1,6 @@
+@use '../../../styles/base/themes';
+
+.container {
+  background-color: var(--border-color-default);
+  border-radius: 2px;
+}
