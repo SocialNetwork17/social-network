@@ -10,6 +10,7 @@ import confirmCodeImg from "@/../public/registrationCodeExpired.svg"
 import Image from "next/image";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {useState} from "react";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 
 export const LinkExpiredPage = () => {
@@ -23,23 +24,30 @@ export const LinkExpiredPage = () => {
     } = useForm<ResendEmailType>({
         resolver: zodResolver(resendEmailSchema),
         mode: "all",
+        defaultValues: {
+            email: ""
+        }
     })
 
     const {mutate: resendConfirmation, isError, isPending, error, reset} = useResendConfirmationCode()
     const [email, setEmail] = useState('')
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 
     const onSubmit: SubmitHandler<ResendEmailType>  = (data: ResendEmailType) => {
+        setEmail(data.email)
         resendConfirmation(data.email, {
             onSuccess: () => {
-                setEmail(data.email)
                 resetForm()
+                setIsModalOpen(!isModalOpen)
             },
             onError: (error) => {
+                const message = error.message
                 setError("email", {
                     type: "server",
-                    message: error.message
+                    message: message
                 })
+                setEmail('')
             }
         })
     }
@@ -59,6 +67,8 @@ export const LinkExpiredPage = () => {
                     type={"email"}
                     placeholder={"Epam@epam.com"}
                     required={false}
+                    error={!!errors.email}
+                    errorText={errors.email?.message}
                     {...register("email")}
                 />
                 <div className={styles.buttonContainer}>
@@ -67,18 +77,20 @@ export const LinkExpiredPage = () => {
                         variant={"primary"}
                         disabled={false}
                     >
-                        Resend verification link
+                        {isPending && <Spinner/>}Resend verification link
                     </Button>
                 </div>
             </form>
             <Image src={confirmCodeImg} alt={'linkExpiredImg'}/>
-            <Modal
-                isOpen={isError}
+            {
+                isModalOpen && <Modal
+                isOpen={isModalOpen}
                 title={"Email sent"}
-                onClose={reset}
+                onClose={()=> setIsModalOpen(!isModalOpen)}
             >
-                We have sent a link to confirm your email to {email}
+                    We have sent a link to confirm your email to {email}
             </Modal>
+            }
         </div>
     );
 };

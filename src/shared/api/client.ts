@@ -13,12 +13,13 @@ const authMiddleware: Middleware = {
 
             const errorBody = await response.json().catch(() => null)
 
+
             const message =
                 errorBody?.messages?.[0]?.message ||
                 errorBody?.message ||
                 response.statusText ||
                 "Unknown error";
-
+            
             throw new Error(message)
         }
         return response
