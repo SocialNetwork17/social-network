@@ -23,7 +23,7 @@ export const LinkExpiredPage = () => {
         formState: { errors },
     } = useForm<ResendEmailType>({
         resolver: zodResolver(resendEmailSchema),
-        mode: "all",
+        mode: "onSubmit",
         defaultValues: {
             email: ""
         }
