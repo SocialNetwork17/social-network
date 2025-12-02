@@ -16,9 +16,9 @@ const authMiddleware: Middleware = {
     },
 };
 
-
-const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL;
-if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+const baseUrl: string = 'https://inctagram.work'
+// const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL;
+//if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
 
 export const client = createClient<paths>({
     baseUrl,

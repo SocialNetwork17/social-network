@@ -1,10 +1,14 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, {ReactNode, useState} from 'react'
 import styles from './Header.module.scss'
 import { HeaderMenu } from '@/widgets/header/ui/HeaderMenu/HeaderMenu'
 
-export const Header = () => {
+type Props = {
+  children?: ReactNode
+}
+
+export const Header = ({ children }: Props) => {
   const [countNotices, setCountNotices] = useState<number>(0)
 
   const onClickHandler = () => {
@@ -21,6 +25,9 @@ export const Header = () => {
             isLoggedIn={true}
             onClickHandler={onClickHandler}
           />
+
+          <div>{ children }</div>
+
         </div>
       </div>
     </header>

@@ -6,59 +6,82 @@ import {Input} from "@/shared/ui/Input/Input";
 import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
 import {Button} from "@/shared/ui/Button/Button";
-import {useState} from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signInSchema, SignInFormValues } from "@/features/signIn/model/signIn.schema";
+import { useLoginMutation } from "@/features/auth/api/useLoginMutation";
+
+
 
 export const SignInForm = () => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignInFormValues>({
+        resolver: zodResolver(signInSchema),
+        mode: "onBlur",
+    });
+    
 
-    // const loginMutation = useLoginMutation();
+    const loginMutation = useLoginMutation();
 
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        console.log("Email:", email);
-        console.log("Password:", password);
+    const onSubmit = (data: SignInFormValues) => {
+        loginMutation.mutate(data);
     };
+
 
 
     return (
         <div className={styles.authCard}>
             <SignInFormTitle/>
 
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputWrapper}>
                     <Input
-                        label={"Email"}
-                        type={"email"}
-                        placeholder={"epam@epam.com"}
+                        label="Email"
+                        type="email"
+                        placeholder="epam@epam.com"
                         required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        // disabled={loginMutation.isPending}
+                        disabled={loginMutation.isPending}
+                        {...register("email")}
                     />
-
+                    {errors.email && (
+                        <div className={styles.error}>{errors.email.message}</div>
+                    )}
                     <Input
-                        label={"Password"}
-                        type={"password"}
-                        placeholder={"add password"}
+                        label="Password"
+                        type="password"
+                        placeholder="add password"
                         required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        // disabled={loginMutation.isPending}
+                        disabled={loginMutation.isPending}
+                        {...register("password")}
                     />
+                    {errors.password && (
+                        <div className={styles.error}>{errors.password.message}</div>
+                    )}
+
+
+                    {loginMutation.isError && (
+                        <div style={{ color: "red", marginTop: 8 }}>
+                            {(loginMutation.error as any)?.messages?.[0]?.message ??
+                                "The email or password are incorrect. Try again please"}
+                        </div>
+                    )}
+
                 </div>
 
                 <div>
                     <Link href={PATH.FORGOT_PASSWORD} className={styles.fargotPasswordLink}>Forgot Password</Link>
 
-                    <Button variant={"primary"} disabled={false}
+                    <Button variant={"primary"}
+                            disabled={loginMutation.isPending}
                             type="submit">
                         Sign In
                     </Button>
+
 
 
                     <div className={styles.helperText}>Don’t have an account?</div>
