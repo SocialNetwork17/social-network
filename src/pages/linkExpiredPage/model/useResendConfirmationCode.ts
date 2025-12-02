@@ -11,9 +11,7 @@ export const useResendConfirmationCode = () => {
                     baseUrl:"http://localhost:3000"
                 }
             })
-            if(response.error) {
-                throw new Error(response.error.messages?.[0]?.message)
-            }
+            return response.data
         }
     });
 

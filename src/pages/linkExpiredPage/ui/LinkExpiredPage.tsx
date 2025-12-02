@@ -9,6 +9,7 @@ import {useResendConfirmationCode} from "@/pages/linkExpiredPage/model/useResend
 import confirmCodeImg from "@/../public/registrationCodeExpired.svg"
 import Image from "next/image";
 import {Modal} from "@/shared/ui/Modal/Modal";
+import {useState} from "react";
 
 
 export const LinkExpiredPage = () => {
@@ -17,19 +18,22 @@ export const LinkExpiredPage = () => {
         register,
         handleSubmit,
         setError,
+        reset: resetForm,
         formState: { errors },
     } = useForm<ResendEmailType>({
         resolver: zodResolver(resendEmailSchema),
         mode: "all",
     })
 
-    const {mutate, isError, isPending, error} = useResendConfirmationCode()
+    const {mutate: resendConfirmation, isError, isPending, error, reset} = useResendConfirmationCode()
+    const [email, setEmail] = useState('')
 
 
     const onSubmit: SubmitHandler<ResendEmailType>  = (data: ResendEmailType) => {
-        mutate(data.email, {
+        resendConfirmation(data.email, {
             onSuccess: () => {
-
+                setEmail(data.email)
+                resetForm()
             },
             onError: (error) => {
                 setError("email", {
@@ -69,9 +73,12 @@ export const LinkExpiredPage = () => {
             </form>
             <Image src={confirmCodeImg} alt={'linkExpiredImg'}/>
             <Modal
-                isOpen={!isError}
-                title={}
-            />
+                isOpen={isError}
+                title={"Email sent"}
+                onClose={reset}
+            >
+                We have sent a link to confirm your email to {email}
+            </Modal>
         </div>
     );
 };
