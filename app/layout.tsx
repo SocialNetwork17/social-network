@@ -21,8 +21,7 @@ export default function RootLayout({
             <body>
             <Header/>
             <div className={styles.layout}>
-                <Sidebar/>
-                <main className={styles.mainAside}>
+                <main className={styles.main}>
                     {children}
                 </main>
             </div>
