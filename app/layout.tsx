@@ -1,6 +1,5 @@
 import type {Metadata} from 'next'
 import '@/styles/base/_global.scss'
-import {Sidebar} from '@/widgets/Sidebar/ui/Sidebar'
 import {Header} from '@/widgets/header/ui/Header'
 import styles from './rootLayout.module.scss'
 import {QueryProvider} from "@/shared/providers/queryProvider/ui/QueryProvider";

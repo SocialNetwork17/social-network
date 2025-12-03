@@ -82,8 +82,7 @@ export const LinkExpiredPage = () => {
                 </div>
             </form>
             <Image src={confirmCodeImg} alt={'linkExpiredImg'}/>
-            {
-                isModalOpen && <Modal
+            {isModalOpen && <Modal
                 isOpen={isModalOpen}
                 title={"Email sent"}
                 onClose={()=> setIsModalOpen(!isModalOpen)}

@@ -12,8 +12,6 @@ import {registrationSchema, RegistrationType} from "@/features/signUp/lib/regist
 import {useState} from "react";
 import {useRegistration} from "@/features/signUp/model/useRegistration";
 import {Modal} from "@/shared/ui/Modal/Modal";
-import {SchemaValidationErrorResponseDto} from "@/shared/api/schema";
-import {isPending} from "@reduxjs/toolkit";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 type Props = {}
@@ -52,6 +50,7 @@ export const SignUpForm = (props: Props) => {
                 setIsModalOpen(!isModalOpen)
             },
             onError: (error) => {
+                //под вопросом
                 const message = error.message
 
                 if (message.includes("email")) {

@@ -6,4 +6,5 @@ export const PATH = {
   POLICY: '/policy',
   CONGRATULATIONS: '/congratulations',
   LINK_EXPIRED: '/link-expired',
+  FORGOT_PASSWORD: '/forgot-password'
 } as const
