@@ -1,3 +1,7 @@
+
+// 19971971qq12Q!
+// mariasemenovadev@gmail.com
+
 'use client'
 
 import styles from "./SignInForm.module.scss";
@@ -8,7 +12,7 @@ import {PATH} from "@/shared/constants/routings";
 import {Button} from "@/shared/ui/Button/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, SignInFormValues } from "@/features/signIn/model/signIn.schema";
+import { signInSchema, SignInFormValues } from "@/features/signIn/lib/signInSchema";
 import { useLoginMutation } from "@/features/auth/api/useLoginMutation";
 
 

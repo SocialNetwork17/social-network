@@ -1,10 +1,9 @@
 import type {Metadata} from 'next'
 import '@/styles/base/_global.scss'
-import {Sidebar} from '@/widgets/Sidebar/ui/Sidebar'
 import {Header} from '@/widgets/header/ui/Header'
 import styles from './rootLayout.module.scss'
 import {QueryProvider} from "@/shared/providers/queryProvider/ui/QueryProvider";
-import {AccountBar} from "@/features/auth/ui/AccountBar";
+
 
 export const metadata: Metadata = {
     title: 'Unity Gram',
@@ -20,9 +19,7 @@ export default function RootLayout({
         <html lang="en">
         <QueryProvider>
             <body>
-            <Header>
-                <AccountBar />
-            </Header>
+            <Header/>
             <div className={styles.layout}>
                 <main className={styles.main}>
                     {children}

@@ -1,33 +1,36 @@
 'use client'
 
-import React, {ReactNode, useState} from 'react'
+import React, { useState } from 'react'
 import styles from './Header.module.scss'
 import { HeaderMenu } from '@/widgets/header/ui/HeaderMenu/HeaderMenu'
+import { useMeQuery } from '@/features/auth/api/useMeQuery'
 
-type Props = {
-  children?: ReactNode
-}
-
-export const Header = ({ children }: Props) => {
+export const Header = () => {
   const [countNotices, setCountNotices] = useState<number>(0)
+
+
+  const { data: user, isLoading } = useMeQuery() // ➕
+
 
   const onClickHandler = () => {
     setCountNotices(countNotices + 1)
   }
+
+  const isLoggedIn = !!user   // ➕ тру
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.headerWrapper}>
           <h1 className={styles.logo}>Inctagram</h1>
+
+            {!isLoading && (
           <HeaderMenu
             countMessage={countNotices}
-            isLoggedIn={true}
+            isLoggedIn={isLoggedIn } // ➕
             onClickHandler={onClickHandler}
           />
-
-          <div>{ children }</div>
-
+            )}
         </div>
       </div>
     </header>

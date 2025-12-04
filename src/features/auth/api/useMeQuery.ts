@@ -1,6 +1,5 @@
-// src/features/signIn/model/useMeQuery.ts
-import { useQuery } from "@tanstack/react-query";
-import { client } from "@/shared/api/client";
+import {useQuery} from "@tanstack/react-query";
+import {client} from "@/shared/api/client";
 
 export type MeResponse = {
     userId: number;
@@ -9,25 +8,26 @@ export type MeResponse = {
     isBlocked: boolean;
 };
 
-export const useMeQuery = () => {
-    return useQuery<MeResponse, Error>({
-        queryKey: ["auth", "me"],
-        queryFn: async () => {
-            const token = localStorage.getItem("accessToken");
 
-            // Отправляем запрос на сервер, даже если токена нет
+
+export const useMeQuery = () => {
+
+    return useQuery<MeResponse | null>({
+        queryKey: ["auth", "me"],
+        credentials: "include",
+        queryFn: async () => {
             const response = await client.GET("/api/v1/auth/me", {
-                headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+                credentials: "include", // чтобы cookie всегда отправлялась
             });
 
-            if (response.error || !response.data) {
-                const err = response.error as { messages?: { message: string }[] } | undefined;
-                throw new Error(err?.messages?.[0]?.message || "Unauthorized");
-            }
+                if (response.error) {
+                    return null; // ❗ пользователь не авторизован
+                }
 
-            return response.data; // гарантировано MeResponse
+            return response.data;
         },
-        retry: true,            // не повторять автоматически при 401
-        refetchInterval: 10 * 1000, // опционально, частота рефетча
+        retry: false,
+        refetchOnWindowFocus: false,
     });
 };
+
