@@ -16,7 +16,7 @@ type Story = StoryObj<typeof Card>
 
 export const Default: Story = {
   args: {
-    images: usersData[1].posts,
+    images: usersData[1]?.posts,
     alt: 'картинка',
     slider: true,
     variant: 'rectangle',
@@ -31,7 +31,7 @@ export const Default: Story = {
 export const CardRectangle: Story = {
   render: () => (
     <div style={{ width: '300px', height: '300px' }}>
-      <Card images={usersData[1].posts} />
+      <Card images={usersData[1]?.posts || []} />
     </div>
   ),
 }
@@ -39,7 +39,7 @@ export const CardRectangle: Story = {
 export const CardCircular: Story = {
   render: () => (
     <div style={{ width: '300px', height: '300px' }}>
-      <Card images={usersData[1].posts} variant="circular" alt="avatar" />
+      <Card images={usersData[1]?.posts || []} variant="circular" alt="avatar" />
     </div>
   ),
 }
@@ -47,7 +47,7 @@ export const CardCircular: Story = {
 export const Slider: Story = {
   render: () => (
     <div style={{ width: '300px', height: '300px' }}>
-      <Card images={usersData[1].posts} slider={true} />
+      <Card images={usersData[1]?.posts || []} slider={true} />
     </div>
   ),
 }
