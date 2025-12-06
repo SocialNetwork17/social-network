@@ -1,7 +1,3 @@
-
-// 19971971qq12Q!
-// mariasemenovadev@gmail.com
-
 'use client'
 
 import styles from "./SignInForm.module.scss";
@@ -20,10 +16,13 @@ import { useLoginMutation } from "@/features/auth/api/useLoginMutation";
 export const SignInForm = () => {
 
 
+
+
     const {
         register,
         handleSubmit,
         formState: { errors },
+
     } = useForm<SignInFormValues>({
         resolver: zodResolver(signInSchema),
         mode: "onBlur",
@@ -33,6 +32,7 @@ export const SignInForm = () => {
     const loginMutation = useLoginMutation();
 
     const onSubmit = (data: SignInFormValues) => {
+
         loginMutation.mutate(data);
     };
 
@@ -44,34 +44,33 @@ export const SignInForm = () => {
 
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputWrapper}>
+                    <div className={`${styles.fieldContainer} ${errors.email ? styles.fieldWithError : ''}`}>
                     <Input
                         label="Email"
                         type="email"
                         placeholder="epam@epam.com"
+                        error={!!errors.email}
+                        errorText={errors.email?.message}
                         required
                         disabled={loginMutation.isPending}
                         {...register("email")}
                     />
-                    {errors.email && (
-                        <div className={styles.error}>{errors.email.message}</div>
-                    )}
+                    </div>
+
                     <Input
                         label="Password"
                         type="password"
                         placeholder="add password"
+                        error={!!errors.password}
+                        errorText={errors.password?.message}
                         required
                         disabled={loginMutation.isPending}
                         {...register("password")}
                     />
-                    {errors.password && (
-                        <div className={styles.error}>{errors.password.message}</div>
-                    )}
-
 
                     {loginMutation.isError && (
-                        <div style={{ color: "red", marginTop: 8 }}>
-                            {(loginMutation.error as any)?.messages?.[0]?.message ??
-                                "The email or password are incorrect. Try again please"}
+                        <div className={styles.serverError}>
+                            The email or password are incorrect. Try again please
                         </div>
                     )}
 

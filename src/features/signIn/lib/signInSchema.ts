@@ -3,7 +3,7 @@ import { z } from "zod";
 export const signInSchema = z.object({
     email: z
         .string()
-        .min(1, "Email is required")
+        .min(3, "Email is required")
         .email("The email must match the format example@example.com"),
 
     password: z

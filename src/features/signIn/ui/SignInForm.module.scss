@@ -3,7 +3,7 @@
 
 .authCard {
   width: 378px;
-  height: 504px;
+  //height: 504px;
 
   margin-top: 36px;
 
@@ -13,6 +13,9 @@
   padding: 24px;
 
   background-color: styles.palette('dark', 500);
+
+
+
 }
 
 .form {
@@ -25,6 +28,19 @@
   flex-direction: column;
   gap: 24px;
   margin-bottom: 36px;
+
+}
+
+.fieldContainer {
+  transition: margin-bottom 0.2s ease;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.fieldWithError {
+  margin-bottom: 32px
 }
 
 
@@ -49,4 +65,11 @@
   @include typo.text-regular-16;
   color: styles.palette('accent', 500);
   text-align: center;
+}
+
+
+
+.serverError {
+  @include typo.text-regular-14;
+  color: styles.palette('danger', 500);
 }

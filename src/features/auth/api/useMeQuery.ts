@@ -9,25 +9,21 @@ export type MeResponse = {
 };
 
 
-
 export const useMeQuery = () => {
-
-    return useQuery<MeResponse | null>({
+    return useQuery({
         queryKey: ["auth", "me"],
-        credentials: "include",
         queryFn: async () => {
             const response = await client.GET("/api/v1/auth/me", {
-                credentials: "include", // чтобы cookie всегда отправлялась
+                credentials: "include",
             });
 
-                if (response.error) {
-                    return null; // ❗ пользователь не авторизован
-                }
+            if (response.error) {
+                return null;
+            }
 
-            return response.data;
+            return response.data; // TypeScript выведет тип автоматически
         },
         retry: false,
         refetchOnWindowFocus: false,
     });
-};
-
+}
