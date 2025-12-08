@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import s from './Select.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
+import * as flags from 'country-flag-icons/react/3x2'
 
-export type Option = { id: string; label: string }
+export type Option = {
+  id: string
+  label: string
+  countryCode?: string
+}
 
 type SelectBoxProps = {
   options: Option[]
   onChange: (option: Option) => void
   placeholder?: string
   disabled?: boolean
+  defaultValue?: Option
   classContainer?: string
   classBox?: string
   classArrow?: string
@@ -24,6 +30,7 @@ const SelectBox = ({
   onChange,
   placeholder = 'Select an option',
   disabled = false,
+  defaultValue,
   classContainer = '',
   classBox = '',
   classArrow = '',
@@ -35,7 +42,7 @@ const SelectBox = ({
 }: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [selectedOption, setSelectedOption] = useState<Option | null>(defaultValue || null)
   const selectRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -52,7 +59,13 @@ const SelectBox = ({
   const handleSelect = (option: Option) => {
     onChange(option)
     setIsOpen(false)
-    setSelectedOption(option.label)
+    setSelectedOption(option)
+  }
+
+  const getFlagComponent = (countryCode?: string) => {
+    if (!countryCode) return null
+    const FlagComponent = flags[countryCode as keyof typeof flags]
+    return FlagComponent ? <FlagComponent className={s.flag} /> : null
   }
 
   return (
@@ -71,7 +84,16 @@ const SelectBox = ({
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
-        <span className={s.selectValue}>{selectedOption ? selectedOption : placeholder}</span>
+        <span className={s.selectValue}>
+          {selectedOption ? (
+            <>
+              {getFlagComponent(selectedOption.countryCode)}
+              {selectedOption.label}
+            </>
+          ) : (
+            placeholder
+          )}
+        </span>
         <div className={s.selectArrow + ' ' + classArrow} style={styleArrow}>
           <Icon iconId={'arrow-down'} size={24} />
         </div>
@@ -83,13 +105,14 @@ const SelectBox = ({
             <div
               key={option.id}
               className={`${s.selectOption} ${classOption} ${
-                selectedOption === option.id ? 'selected' : ''
+                selectedOption?.id === option.id ? 'selected' : ''
               }`}
               style={styleOption}
               onClick={() => handleSelect(option)}
               onMouseEnter={e => e.currentTarget.classList.add('hovered')}
               onMouseLeave={e => e.currentTarget.classList.remove('hovered')}
             >
+              {getFlagComponent(option.countryCode)}
               {option.label}
             </div>
           ))}
