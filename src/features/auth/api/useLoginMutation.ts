@@ -43,8 +43,8 @@ export const useLoginMutation = () => {
             //  обновляем me query с информацией о пользователе
             queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
 
-            // редирект на профиль
-            window.location.href = PATH.PROFILE;
+            // редирект на main
+            window.location.href = PATH.MAIN;
         },
     });
 };

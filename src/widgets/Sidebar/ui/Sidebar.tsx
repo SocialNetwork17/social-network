@@ -6,23 +6,22 @@ import { Icon } from '@/shared/ui/Icon/Icon'
 import { menuItems } from '@/widgets/Sidebar/ui/Sidebar.config'
 import { useState } from 'react'
 import { LogOut } from '@/shared/ui/LogOut/LogOut'
+import { useLogoutMutation } from '@/features/auth/api/useLogoutMutation'
+import { useMeQuery } from '@/features/auth/api/useMeQuery'
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
   const bottomItems = menuItems.slice(5)
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+  const logoutMutation = useLogoutMutation()
+  const { data } = useMeQuery()
 
   const handleLogout = () => {
     setIsLogoutModalOpen(true)
   }
 
   const handleLogoutConfirm = () => {
-    // TODO: добавить реальную логику выхода
-    console.log('Logging out...')
-    // Например:
-    // localStorage.removeItem('authToken')
-    // router.push('/login')
-    alert('Logout successful!') // Временная заглушка
+    logoutMutation.mutate()
   }
 
   const handleLogoutClose = () => {
@@ -72,7 +71,7 @@ export const Sidebar = () => {
         isOpen={isLogoutModalOpen}
         onConfirmAction={handleLogoutConfirm}
         onCloseAction={handleLogoutClose}
-        email="Epam@epam.com" // Можно динамически подставлять email пользователя
+        email={data?.email}
       />
     </>
   )

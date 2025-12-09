@@ -8,12 +8,13 @@
   padding: 0 60px;
 }
 
-.main, .mainAside {
+ .main{
   flex: 1 1 auto;
   height: 100%;
   width: 100%;
-}
 
-.mainAside {
-  padding-left: 184px;
+  // Когда внутри .layout есть aside (сайдбар)
+  .layout:has(aside) & {
+    padding-left: 184px;
+  }
 }
