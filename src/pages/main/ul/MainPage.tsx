@@ -4,7 +4,7 @@ import Posts from './Posts/Posts'
 import MainPageSkeleton from './MainPageSkeleton/MainPageSkeleton'
 
 export default function MainPage() {
-  const isLoading = true // позже появиться хук
+  const isLoading = false // позже появиться хук
 
   if (isLoading) {
     return (
