@@ -13,6 +13,7 @@ import {useState} from "react";
 import {useRegistration} from "@/features/signUp/model/useRegistration";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
 
 type Props = {}
 
@@ -41,7 +42,7 @@ export const SignUpForm = (props: Props) => {
 
     const {mutate: registration, isPending, isError, error} = useRegistration()
 
-    const onSubmit: SubmitHandler<RegistrationType> = (data) =>  {
+    const onSubmit: SubmitHandler<RegistrationType> = (data) => {
         setEmail(data.email)
         registration(data, {
             onSuccess: () => {
@@ -49,34 +50,15 @@ export const SignUpForm = (props: Props) => {
                 setChecked(prevState => !prevState)
                 setIsModalOpen(!isModalOpen)
             },
-            onError: (error) => {
-                //под вопросом
-                const message = error.message
-
-                if (message.includes("email")) {
-                    setError("email", {
-                        type: "server",
-                        message: message,
-                    });
-                }
-
-                if (message.includes("Password")) {
-                    setError("password", {
-                        type: "server",
-                        message: message,
-                    });
-                }
-
-                if (message.includes("username") || message.includes("userName")) {
-                    setError("userName", {
-                        type: "server",
-                        message: message,
-                    });
-                }
-                setEmail('')
+            onError: (error: unknown)=> {
+                const err = error as ErrorWithMessageResponse
+                setError(err.field as keyof RegistrationType, {
+                    message: err.message,
+                })
             }
         })
     }
+
     return (
         <div className={styles.authCard}>
             <SingUpFormTitle/>
@@ -140,7 +122,7 @@ export const SignUpForm = (props: Props) => {
                     type={"submit"}
 
                 >
-                    {isPending && <Spinner/>}  Sign up
+                    {isPending && <Spinner/>} Sign up
                 </Button>
                 <div className={styles.helperText}>
                     <div>Do you have an account?</div>
@@ -151,15 +133,13 @@ export const SignUpForm = (props: Props) => {
                     </div>
                 </div>
             </form>
-            {isModalOpen && (
-                <Modal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(!isModalOpen)}
-                    title={"Email sent"}
-                >
-                    We have sent a link to confirm your email to {email}
-                </Modal>
-            )}
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(!isModalOpen)}
+                title={"Email sent"}
+            >
+                We have sent a link to confirm your email to {email}
+            </Modal>
         </div>
     )
 }

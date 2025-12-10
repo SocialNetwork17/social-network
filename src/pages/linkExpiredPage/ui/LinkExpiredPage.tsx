@@ -20,7 +20,7 @@ export const LinkExpiredPage = () => {
         handleSubmit,
         setError,
         reset: resetForm,
-        formState: { errors },
+        formState: {errors},
     } = useForm<ResendEmailType>({
         resolver: zodResolver(resendEmailSchema),
         mode: "onSubmit",
@@ -34,7 +34,7 @@ export const LinkExpiredPage = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 
-    const onSubmit: SubmitHandler<ResendEmailType>  = (data: ResendEmailType) => {
+    const onSubmit: SubmitHandler<ResendEmailType> = (data: ResendEmailType) => {
         setEmail(data.email)
         resendConfirmation(data.email, {
             onSuccess: () => {
@@ -61,7 +61,7 @@ export const LinkExpiredPage = () => {
             <div className={styles.description}>
                 Looks like the verification link has expired. Not to worry, we can send the link again
             </div>
-            <form className={styles.inputContainer} onSubmit={ handleSubmit(onSubmit)}>
+            <form className={styles.inputContainer} onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     label={"Email"}
                     type={"email"}
@@ -82,14 +82,13 @@ export const LinkExpiredPage = () => {
                 </div>
             </form>
             <Image src={confirmCodeImg} alt={'linkExpiredImg'}/>
-            {isModalOpen && <Modal
+            <Modal
                 isOpen={isModalOpen}
                 title={"Email sent"}
-                onClose={()=> setIsModalOpen(!isModalOpen)}
+                onClose={() => setIsModalOpen(!isModalOpen)}
             >
-                    We have sent a link to confirm your email to {email}
+                We have sent a link to confirm your email to {email}
             </Modal>
-            }
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import {components} from "@/shared/api/schema";
 
 const usernameRegex = /^[0-9A-Za-z_-]+$/;
 
@@ -26,3 +27,4 @@ export const registrationSchema = z.object({
     });
 
 export type RegistrationType = z.infer<typeof registrationSchema>
+
