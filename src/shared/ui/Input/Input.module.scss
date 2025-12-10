@@ -1,8 +1,9 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
 
 .inputContainer {
-  @include styles.input-container
+  @include styles.input-container;
 }
 
 .inputWrapper {
@@ -18,20 +19,26 @@
 .label {
   position: relative;
   @include typo.text-regular-14;
-  color: styles.palette("light", 900);
+  color: styles.palette('light', 900);
 }
 
 .requiredStar {
   position: absolute;
   top: -8px;
-  color: styles.palette("danger", 500);
+  color: styles.palette('danger', 500);
 }
 
 .input {
   @include styles.input;
   @include styles.border-style;
+  @include typo.text-regular-16;
   padding: 0 36px 0 11px;
   transition: border-color 0.2s ease, outline-color 0.2s ease;
+
+}
+
+.input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
 }
 
 .errorInput {
@@ -43,7 +50,6 @@
   top: calc(100% + 2px);
 
   @extend .label;
-  color: styles.palette("danger", 500);
+  color: styles.palette('danger', 500);
   word-break: break-all;
 }
-

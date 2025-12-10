@@ -9,10 +9,12 @@ interface Props {
   alt?: string
   slider?: boolean
   variant?: 'rectangle' | 'circular'
+  width?: number
+  height?: number
 }
 
 export default function Card(props: Props) {
-  const { images, alt = 'фото', slider = false, variant = 'rectangle' } = props
+  const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -37,7 +39,7 @@ export default function Card(props: Props) {
   const showSlider = slider && imagesArray.length > 1
 
   return (
-    <div className={styles.carouselContainer}>
+    <div className={styles.carouselContainer} style={{ height: height, width: width }}>
       {imagesArray.map((image, index) => (
         <div
           key={index}

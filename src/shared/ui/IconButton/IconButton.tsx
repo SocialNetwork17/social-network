@@ -1,46 +1,33 @@
-import {memo, MouseEventHandler} from 'react';
-import styles from "./IconButton.module.scss"
+import { memo, MouseEventHandler } from 'react'
+import styles from './IconButton.module.scss'
+import { Icon } from '@/shared/ui/Icon/Icon'
 
 type Props = {
-    iconId: string
+    iconId: string | null
     onClick?: MouseEventHandler<HTMLButtonElement>
-    width?: string
-    height?: string
+    size?: number
     viewBox?: string
     fill?: string
     disabled?: boolean
-    countMessages?: number
 };
 
 export const IconButton = memo((props: Props) => {
-    const sprite = "/icons-sprite.svg"
-    const {
-        iconId,
-        width,
-        height,
-        viewBox,
-        fill,
-        disabled,
-        onClick,
-        countMessages
-    } = props
+  const { iconId,
+    size,
+    viewBox,
+    fill,
+    disabled,
+    onClick
+  } = props
 
-    return (
-        <button
-            className={`${styles.iconButton} ${disabled ? styles.iconButtonDisabled : ""}`}
-            onClick={onClick}
-            type="button"
-            disabled={disabled}
-        >
-            <svg
-                width={width || "24"}
-                height={height || "24"}
-                viewBox={viewBox || "0 0 24 24"}
-                style={{color: fill || "currentcolor"}}
-            >
-                <use xlinkHref={`${sprite}#${iconId}`}/>
-            </svg>
-            {!!countMessages && <span className={styles.countMessages}>{countMessages}</span>}
-        </button>
-    );
-});
+  return (
+    <button
+      className={`${styles.iconButton} ${disabled ? styles.iconButtonDisabled : ''}`}
+      onClick={onClick}
+      type="button"
+      disabled={disabled}
+    >
+      <Icon iconId={iconId} size={size} />
+    </button>
+  )
+})

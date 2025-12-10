@@ -1,0 +1,143 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  background-color: styles.palette('dark', 300);
+  border-radius: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid styles.palette('dark', 100);
+  max-width: 492px;
+  min-width: 376px;
+  height: auto;
+  overflow: auto;
+  animation: slideIn 0.2s ease-out;
+}
+
+.header {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  height: 60px;
+  width: 100%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: styles.palette('dark', 100);
+  }
+}
+
+.title {
+  @include typo.h1;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #333;
+    background: #f5f5f5;
+    border-radius: 50%;
+  }
+}
+
+.content {
+  @include typo.text-regular-16;
+  display: flex;
+  padding: 24px 24px;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Круг с анимацией
+  &::before {
+    content: '';
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background-color: styles.palette('accent', 100);
+    border-radius: 50%;
+    z-index: 0;
+
+    // Анимационные свойства
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease-in-out;
+  }
+
+  // Анимация при ховере
+  &:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Анимации
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.buttonContainer {
+  width: 96px;
+  padding: 0 20px 20px 0;
+  margin-top: 18px;
+  display: flex;
+  justify-self: flex-end;
+
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
