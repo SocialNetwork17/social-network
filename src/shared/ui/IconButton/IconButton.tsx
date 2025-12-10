@@ -12,8 +12,13 @@ type Props = {
 };
 
 export const IconButton = memo((props: Props) => {
-  const sprite = '/icons-sprite.svg'
-  const { iconId, size, viewBox, fill, disabled, onClick } = props
+  const { iconId,
+    size,
+    viewBox,
+    fill,
+    disabled,
+    onClick
+  } = props
 
   return (
     <button

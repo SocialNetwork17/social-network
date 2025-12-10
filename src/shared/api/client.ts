@@ -67,7 +67,7 @@ const authMiddleware: Middleware = {
         // если получили 401 — пробуем refresh
         if (response.status === 401) {
             try {
-                const newAccessToken = await doRefresh(); 
+                const newAccessToken = await doRefresh();
                 // повторяем исходный запрос с новым access token
                 const original = new Request(request);
                 const headers = new Headers(original.headers);
