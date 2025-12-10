@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './Modal.module.scss'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
+import {Button} from "@/shared/ui/Button/Button";
 
 interface Modal {
   isOpen: boolean
@@ -14,6 +15,10 @@ interface Modal {
 
 export const Modal = (props: Modal) => {
   const { isOpen, onClose, children, title } = props
+
+  const onClickHandler = () => {
+    onClose()
+  }
 
   // Блокировка скролла при открытии модалки
   useEffect(() => {
@@ -56,7 +61,6 @@ export const Modal = (props: Modal) => {
   return createPortal(
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
-        {/* Хедер модалки */}
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
 
@@ -64,14 +68,21 @@ export const Modal = (props: Modal) => {
             <IconButton
               iconId={'logoutBtnCloseSvg'}
               fill="white"
-              width={'24'}
-              height={'24'}
+              size={24}
               onClick={onClose}
             />
           </div>
         </div>
-        {/* Контент модалки */}
         <div className={styles.content}>{children}</div>
+        <div className={styles.buttonContainer}>
+          <Button
+              variant={"primary"}
+              onClickHandler={onClickHandler}
+              disabled={false}
+          >
+            OK
+          </Button>
+        </div>
       </div>
     </div>,
     document.body
