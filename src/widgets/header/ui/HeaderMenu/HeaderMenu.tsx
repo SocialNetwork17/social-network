@@ -3,6 +3,8 @@ import styles from './HeaderMenu.module.scss'
 import SelectBox from '@/shared/ui/select-box/SelectBox'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
+import Link from "next/link";
+import {PATH} from "@/shared/constants/routings";
 
 type HeaderMenu = {
   isLoggedIn: boolean
@@ -52,6 +54,19 @@ export const HeaderMenu = (props: HeaderMenu) => {
             }}
           />
           <div className={`${styles.buttonsBox}`}>
+            {/*// замена на линки*/}
+
+            {/*<Link*/}
+            {/*    href={PATH.SIGN_IN}*/}
+            {/*    >*/}
+            {/*  Log in*/}
+            {/*</Link>*/}
+            {/*<Link*/}
+            {/*    href={PATH.SIGN_UP}*/}
+            {/*    >*/}
+            {/*  Sing up*/}
+            {/*</Link>*/}
+
             <Button variant={'textButton'} disabled={false} width={100} height={36}>
               Log in
             </Button>

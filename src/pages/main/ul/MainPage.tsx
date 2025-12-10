@@ -7,6 +7,7 @@ import {useEffect} from "react";
 import {useRegistrationConfirmation} from "@/pages/main/model/useRegistrationConfirmation";
 import {useRouter} from "next/navigation";
 import {PATH} from "@/shared/constants/routings";
+import MainPageSkeleton from './MainPageSkeleton/MainPageSkeleton'
 
 export default function MainPage() {
 
@@ -29,6 +30,16 @@ export default function MainPage() {
         })
     }, []);
 
+
+  const isLoading = true // позже появиться хук
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <MainPageSkeleton />
+      </div>
+    )
+  }
 
   return (
     <div className={styles.container}>
