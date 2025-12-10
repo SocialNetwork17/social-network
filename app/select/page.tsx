@@ -1,18 +1,25 @@
 'use client'
-import styles from "../../../app/MainPage.module.scss";
+import styles from "../rootLayout.module.scss";
 import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
 import {useState} from "react";
 
-const options: Option[] = [
-    {id: "1", label: "Option 1"},
-    {id: "2", label: "Option 2"},
-    {id: "3", label: "Option 3"},
-    {id: "4", label: "Option 4"},
-    {id: "5", label: "Option 5"},
-    {id: "6", label: "Option 6"},
-    {id: "7", label: "Option 7"},
-    {id: "8", label: "Option 8"},
-];
+// const options: Option[] = [
+//     {id: "1", label: "Option 1"},
+//     {id: "2", label: "Option 2"},
+//     {id: "3", label: "Option 3"},
+//     {id: "4", label: "Option 4"},
+//     {id: "5", label: "Option 5"},
+//     {id: "6", label: "Option 6"},
+//     {id: "7", label: "Option 7"},
+//     {id: "8", label: "Option 8"},
+// ];
+
+const options = [
+    { id: '1', label: 'United States', countryCode: 'US' },
+    { id: '2', label: 'United Kingdom', countryCode: 'GB' },
+    { id: '3', label: 'Canada', countryCode: 'CA' },
+    { id: '4', label: 'No flag example' } // Works without countryCode
+]
 
 const Select = () => {
     const [isDisabled, setDisabled] = useState(false);
@@ -24,10 +31,11 @@ const Select = () => {
     return (
     <div className={styles.page}>
       <main className={styles.main}>
-          <div style={{ display: 'flex', flexDirection: 'row', gap: '50px' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', gap: '50px', marginTop: '50px' }}>
               <SelectBox
                   options={options}
                   onChange={handleSelect}
+                  defaultValue={options[1]} // UK will be pre-selected
                   placeholder="Choose an option"
                   disabled={isDisabled}
               />
