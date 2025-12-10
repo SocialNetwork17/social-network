@@ -27,10 +27,24 @@ const options: Option[] = [
     {id: "8", label: "Option 8"},
 ];
 
+const optionsWithIcons = [
+    { id: '1', label: 'United States', countryCode: 'US' },
+    { id: '2', label: 'United Kingdom', countryCode: 'GB' },
+    { id: '3', label: 'Canada', countryCode: 'CA' },
+]
+
 export const Select: Story = {
     args: {
         options: options,
         placeholder: "Select an option",
+        disabled: false,
+    },
+}
+
+export const SelectWithIcons: Story = {
+    args: {
+        options: optionsWithIcons,
+        defaultValue: optionsWithIcons[1],
         disabled: false,
     },
 }
