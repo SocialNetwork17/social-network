@@ -53,6 +53,7 @@ $white: styles.palette('light', 100);
   &:disabled {
     color: $disabled-text;
     background-color: $active-color;
+    cursor: auto;
   }
 }
 

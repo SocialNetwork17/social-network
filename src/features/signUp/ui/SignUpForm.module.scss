@@ -9,7 +9,7 @@
   margin-top: 24px;
 
   width: 378px;
-  height: 648px;
+  min-height: 648px;
 
   padding: 24px;
 
@@ -19,7 +19,7 @@
   background-color: var(--color-bg-500);
 }
 
-.inputWrapper {
+.inputsWrapper {
   margin-top: 24px;
 
   display: flex;
@@ -31,7 +31,7 @@
 }
 
 .confirmWrapper {
-  margin: 12px 0 12px 0;
+  margin: 24px 0 12px 0;
   padding: 9px;
 }
 
