@@ -23,7 +23,7 @@ export const useMeQuery = () => {
 
             return response.data; // TypeScript выведет тип автоматически
         },
-        retry: false,
+        retry: 1,
         refetchOnWindowFocus: false,
     });
 }
