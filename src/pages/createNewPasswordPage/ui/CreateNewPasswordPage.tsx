@@ -3,15 +3,18 @@
 import styles from './CreateNewPasswordPage.module.scss'
 import {Input} from "@/shared/ui/Input/Input";
 import {Button} from "@/shared/ui/Button/Button";
-import {useForm} from "react-hook-form";
-import {SchemaNewPasswordInputDto } from "@/shared/api/schema";
+import {useForm, useWatch} from "react-hook-form";
+import {
+    SchemaNewPasswordInputDto,
+    SchemaRecaptchaErrorResponseDto,
+    SchemaRecaptchaFieldError
+} from "@/shared/api/schema";
 import {useMutation} from "@tanstack/react-query";
 import {client} from "@/shared/api/client";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {useEffect, useState} from "react";
-import { useSearchParams } from 'next/navigation';
-import {useRouter} from "next/router";
+import {PATH} from "@/shared/constants/routings";
 
 // Схема валидации для создания нового пароля
 const newPasswordSchema = z.object({
@@ -20,7 +23,11 @@ const newPasswordSchema = z.object({
         .max(20, 'Password must be at most 20 characters')
         .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
         .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-        .regex(/\d/, 'Password must contain at least one number'),
+        .regex(/\d/, 'Password must contain at least one number')
+        .regex(
+            /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/,
+            'Password must contain at least one special character'
+        ),
     confirmPassword: z.string()
 }).refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
@@ -28,6 +35,15 @@ const newPasswordSchema = z.object({
 });
 
 type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
+
+interface ApiError {
+    statusCode: number;
+    messages: Array<{
+        message: string;
+        field: string;
+    }>;
+    error: string;
+}
 
 export const CreateNewPasswordPage = () => {
     const [recoveryCode, setRecoveryCode] = useState<string | null>(null);
@@ -38,10 +54,11 @@ export const CreateNewPasswordPage = () => {
 
     // Получаем параметры из URL на клиенте
     useEffect(() => {
+        // Проверяем, что мы на клиенте
         if (typeof window === 'undefined') return;
 
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
+        const url = new URL(window.location.href);
+        const code = url.searchParams.get('code');
 
         // Используем setTimeout для отложенного обновления состояния
         const timer = setTimeout(() => {
@@ -61,7 +78,7 @@ export const CreateNewPasswordPage = () => {
         register,
         formState: { errors, isSubmitting, isValid },
         reset,
-        watch
+        control
     } = useForm<NewPasswordFormData >({
             resolver: zodResolver(newPasswordSchema),
             mode: 'onChange', // Валидация при изменении полей
@@ -96,21 +113,31 @@ export const CreateNewPasswordPage = () => {
 
             setTimeout(() => {
                 // Используем window.location для редиректа
-                window.location.href = '/login';
+                window.location.href = PATH.SIGN_IN;
             }, 3000);
         },
-        onError: (error: Error) => {
-            setApiError(error.message);
+        onError: (error: ApiError) => {
+            debugger
+            console.error('Recovery error:', error);
 
-            // Если сервер возвращает специфические ошибки для полей:
-            // if (error.response?.data?.errors) {
-            //     Object.entries(error.response.data.errors).forEach(([field, message]) => {
-            //         setError(field as keyof NewPasswordFormData, {
-            //             type: 'server',
-            //             message: message as string
-            //         });
-            //     });
-            // }
+            // Сначала очищаем все ошибки
+            setApiError(null);
+
+            if (typeof error === 'object' && 'statusCode' in error) {
+                const apiError = error;
+
+                console.log(apiError.statusCode === 400 && apiError.messages)
+
+                if (apiError.statusCode === 400 && apiError.messages) {
+                    debugger
+                    apiError.messages.forEach((errMsg) => {
+                        if (errMsg.message === 'Password recovery code is invalid') {
+                            // Используем window.location для редиректа
+                            window.location.href = PATH.LINK_EXPIRED;
+                        }
+                    });
+                }
+            }
         }
     })
 
@@ -128,8 +155,17 @@ export const CreateNewPasswordPage = () => {
     }
 
     // Отслеживаем значения для динамической валидации
-    const newPasswordValue = watch('newPassword');
-    const confirmPasswordValue = watch('confirmPassword');
+    const newPasswordValue = useWatch({
+        control,
+        name: 'newPassword',
+        defaultValue: ''
+    });
+
+    const confirmPasswordValue = useWatch({
+        control,
+        name: 'confirmPassword',
+        defaultValue: ''
+    });
 
 
     return (
@@ -143,7 +179,7 @@ export const CreateNewPasswordPage = () => {
                         error={!!errors.newPassword}
                         label={'New password'}
                         type={'password'}
-                        placeholder={'Enter new password'}
+                        placeholder={'******************'}
                         required={false}
                         disabled={isPending || isSubmitting}
                     />
@@ -160,26 +196,7 @@ export const CreateNewPasswordPage = () => {
 
                 </div>
                 <p className={styles.text}>Your password must be between 6 and 20 characters</p>
-                <div className={styles.validationRules}>
-                    <p className={styles.text}>Your password must:</p>
-                    <ul className={styles.rulesList}>
-                        <li className={newPasswordValue?.length >= 6 && newPasswordValue?.length <= 20 ? styles.valid : ''}>
-                            Be between 6 and 20 characters
-                        </li>
-                        <li className={/[A-Z]/.test(newPasswordValue || '') ? styles.valid : ''}>
-                            Contain at least one uppercase letter
-                        </li>
-                        <li className={/[a-z]/.test(newPasswordValue || '') ? styles.valid : ''}>
-                            Contain at least one lowercase letter
-                        </li>
-                        <li className={/\d/.test(newPasswordValue || '') ? styles.valid : ''}>
-                            Contain at least one number
-                        </li>
-                        <li className={newPasswordValue === confirmPasswordValue && newPasswordValue ? styles.valid : ''}>
-                            Passwords must match
-                        </li>
-                    </ul>
-                </div>
+
                 <Button
                     variant={'primary'}
                     type="submit"

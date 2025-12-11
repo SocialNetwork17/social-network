@@ -5,51 +5,22 @@ import {Input} from "@/shared/ui/Input/Input";
 import {Button} from "@/shared/ui/Button/Button";
 import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
-import {Recaptcha} from "@/shared/ui/Recaptcha/Recaptcha";
 import {useRef, useState} from "react";
-import {useMutation, UseMutationResult, useQueryClient} from '@tanstack/react-query';
+import {useMutation } from '@tanstack/react-query';
 import {client} from "@/shared/api/client";
 import {useForm} from "react-hook-form";
-import {SchemaPasswordRecoveryInputDto} from "@/shared/api/schema";
+import {SchemaPasswordRecoveryInputDto, SchemaRecaptchaErrorResponseDto} from "@/shared/api/schema";
 import {RecaptchaNew} from "@/shared/ui/Recaptcha/RecaptchaNew";
 import {Modal} from "@/shared/ui/Modal/Modal";
 
-// Тип для структуры ошибки
-type ApiErrorResponse = {
-    statusCode: number;
-    messages: Array<{
-        message: string;
-        field: string;
-    }>;
-    error: string;
-}
-
-// Определяем типы на основе схемы OpenAPI/Swagger если они есть
-type ErrorResponse = {
-    statusCode: number;
-    messages: Array<{
-        message: string;
-        field: string;
-    }>;
-    error: string;
-}
-
-// Тип для мутации
-type RecoveryMutation = UseMutationResult<
-    unknown, // тип успешного ответа
-    ErrorResponse | Error | string, // тип ошибки
-    SchemaPasswordRecoveryInputDto, // тип входных данных
-    unknown // контекст
->;
-
 export const ForgotPasswordPage = () => {
     const [linkSent, setLinkSent] = useState(false);
-    const [recaptchaError, setRecaptchaError] = useState(false);
-    const [apiError, setApiError] = useState<string | null>(null);
-    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({}); // Для ошибок полей
+    const [, setRecaptchaError] = useState(false);
+    const [, setApiError] = useState<string | null>(null);
+    const [, setFieldErrors] = useState<Record<string, string>>({}); // Для ошибок полей
     const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
     const recaptchaRef = useRef<{ getToken: () => string | null; reset?: () => void }>(null);
-    const [emailError, setEmailError] = useState<string | null>(null);
+    const [emailError] = useState<string | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(true)
     const [userEmail, setUserEmail] = useState<string>('');
 
@@ -58,7 +29,6 @@ export const ForgotPasswordPage = () => {
         register,
         formState: { errors },
         setError,
-        getValues,
         clearErrors
     } = useForm<SchemaPasswordRecoveryInputDto>()
 
@@ -91,7 +61,7 @@ export const ForgotPasswordPage = () => {
             setFieldErrors({});
             setRecaptchaToken(null);
         },
-        onError: (error: ErrorResponse | Error | string) => {
+        onError: (error: SchemaRecaptchaErrorResponseDto | Error | string) => {
             console.error('Recovery error:', error);
 
             // Сначала очищаем все ошибки
@@ -115,10 +85,10 @@ export const ForgotPasswordPage = () => {
             } else if (error instanceof Error) {
                 setApiError(error.message);
 
-                if (error.message.includes('reCAPTCHA')) {
-                    setRecaptchaError(true);
-                }
-            } else if (typeof error === 'string') {
+                // if (error.message.includes('reCAPTCHA')) {
+                //     setRecaptchaError(true);
+                // }
+            } else {
                 setApiError(error);
             }
 

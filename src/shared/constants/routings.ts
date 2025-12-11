@@ -4,4 +4,5 @@ export const PATH = {
   SIGN_IN: '/sign-in',
   SERVICES: '/services',
   POLICY: '/policy',
+  LINK_EXPIRED: '/link-expired'
 } as const
