@@ -3,7 +3,6 @@ import '@/styles/base/_global.scss'
 import { Header } from '@/widgets/header/ui/Header'
 import styles from './rootLayout.module.scss'
 import { QueryProvider } from '@/shared/providers/queryProvider/ui/QueryProvider'
-import { AuthSidebar } from '@/widgets/Sidebar/ui/AuthSidebar'
 
 export const metadata: Metadata = {
   title: 'Unity Gram',
@@ -21,7 +20,6 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           <div className={styles.layout}>
-            <AuthSidebar />
             <main className={styles.main}>
               {children}
             </main>

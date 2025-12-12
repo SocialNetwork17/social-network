@@ -143,7 +143,7 @@ const Pagination = ({
         <SelectBox
           options={options}
           onChange={handleSelect}
-          placeholder="10"
+          defaultValue={options[0]}
           disabled={disabled}
           styleContainer={{ fontSize: '14px', fontWeight: '400', height: '100%' }}
           styleBox={{ padding: '0 1px 0 5px', gap: 0, height: '100%' }}

@@ -1,4 +1,4 @@
-@use "../src/styles/abstract";
+@use '../src/styles/abstract';
 
 .layout {
   @include abstract.container;
@@ -8,13 +8,15 @@
   padding: 0 60px;
 }
 
- .main{
+.main {
   flex: 1 1 auto;
   height: 100%;
   width: 100%;
+  padding: 0 94px;
 
   // Когда внутри .layout есть aside (сайдбар)
   .layout:has(aside) & {
     padding-left: 184px;
+    padding: 0;
   }
 }
