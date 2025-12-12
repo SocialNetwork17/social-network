@@ -13,16 +13,21 @@ import {SchemaPasswordRecoveryInputDto, SchemaRecaptchaErrorResponseDto} from "@
 import {RecaptchaNew} from "@/shared/ui/Recaptcha/RecaptchaNew";
 import {Modal} from "@/shared/ui/Modal/Modal";
 
+// Тип для ref reCAPTCHA
+type RecaptchaRef = {
+    getToken: () => Promise<string | null>
+    reset: () => void
+}
+
 export const ForgotPasswordPage = () => {
     const [linkSent, setLinkSent] = useState(false);
-    const [, setRecaptchaError] = useState(false);
-    const [, setApiError] = useState<string | null>(null);
-    const [, setFieldErrors] = useState<Record<string, string>>({}); // Для ошибок полей
     const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
-    const recaptchaRef = useRef<{ getToken: () => string | null; reset?: () => void }>(null);
     const [emailError] = useState<string | null>(null);
-    const [isModalOpen, setIsModalOpen] = useState(true)
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const [userEmail, setUserEmail] = useState<string>('');
+
+    // Используем правильный тип для ref
+    const recaptchaRef = useRef<RecaptchaRef>(null)
 
     const {
         handleSubmit,
@@ -32,7 +37,7 @@ export const ForgotPasswordPage = () => {
         clearErrors
     } = useForm<SchemaPasswordRecoveryInputDto>()
 
-    const {mutate} = useMutation({
+    const {mutate, reset: resetMutation} = useMutation({
 
         mutationFn: async (data: SchemaPasswordRecoveryInputDto) => {
 
@@ -56,17 +61,10 @@ export const ForgotPasswordPage = () => {
         onSuccess: () => {
             setIsModalOpen(true);
             setLinkSent(true);
-            setRecaptchaError(false);
-            setApiError(null);
-            setFieldErrors({});
             setRecaptchaToken(null);
         },
         onError: (error: SchemaRecaptchaErrorResponseDto | Error | string) => {
             console.error('Recovery error:', error);
-
-            // Сначала очищаем все ошибки
-            setApiError(null);
-            setFieldErrors({});
 
             if (typeof error === 'object' && 'statusCode' in error) {
                 const apiError = error;
@@ -82,16 +80,7 @@ export const ForgotPasswordPage = () => {
                         }
                     });
                 }
-            } else if (error instanceof Error) {
-                setApiError(error.message);
-
-                // if (error.message.includes('reCAPTCHA')) {
-                //     setRecaptchaError(true);
-                // }
-            } else {
-                setApiError(error);
             }
-
             // Сброс reCAPTCHA
             setRecaptchaToken(null);
             if (recaptchaRef.current?.reset) {
@@ -101,39 +90,33 @@ export const ForgotPasswordPage = () => {
     })
 
     const handleRecaptchaVerify = (token: string) => {
-        console.log('Recaptcha verified:', token);
-        setRecaptchaToken(token);
-        setRecaptchaError(false);
+        setRecaptchaToken(token)
     }
 
 
     const onSubmit = (data: SchemaPasswordRecoveryInputDto) => {
         clearErrors(); // Очищаем все ошибки react-hook-form
-        setApiError(null);
-        setFieldErrors({});
 
         // Валидация reCAPTCHA
         if (!recaptchaToken) {
-            setRecaptchaError(true);
-            setApiError('Please complete the reCAPTCHA verification.');
             return;
         }
-
-        setRecaptchaError(false);
         mutate(data);
     }
 
     const handleSendAgain = () => {
-        setLinkSent(false);
-        setRecaptchaToken(null);
-        setRecaptchaError(false);
-        setApiError(null);
-        setFieldErrors({});
+        setLinkSent(false)
+        setRecaptchaToken(null)
+        clearErrors()
 
+        // Сбрасываем mutation состояние
+        resetMutation()
+
+        // Сбрасываем reCAPTCHA
         if (recaptchaRef.current?.reset) {
-            recaptchaRef.current.reset();
+            recaptchaRef.current.reset()
         }
-    };
+    }
 
     return (
         <div className={styles.ForgotPasswordPage}>
@@ -168,7 +151,8 @@ export const ForgotPasswordPage = () => {
                         </div>
                     </>) :
                     (<>
-                        <p className={`${styles.text} ${styles.successText}`}>The link has been sent by email.<br/>
+                        <p className={`${styles.text} ${styles.successText}`}>
+                            The link has been sent by email.<br/>
                             If you don’t receive an email send link again</p>
                         <div className={styles.buttonContainer}>
                             <Button variant={'primary'} disabled={false} type={"submit"} onClick={handleSendAgain}>
@@ -186,7 +170,7 @@ export const ForgotPasswordPage = () => {
             </div>
             {!linkSent &&
                 <div className={styles.recaptchaContainer}>
-                    <RecaptchaNew  onVerify={handleRecaptchaVerify}/>
+                    <RecaptchaNew  onVerify={handleRecaptchaVerify} ref={recaptchaRef}/>
                 </div>
             }
             <Modal

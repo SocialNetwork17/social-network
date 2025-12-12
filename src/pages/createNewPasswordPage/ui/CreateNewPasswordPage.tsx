@@ -3,18 +3,14 @@
 import styles from './CreateNewPasswordPage.module.scss'
 import {Input} from "@/shared/ui/Input/Input";
 import {Button} from "@/shared/ui/Button/Button";
-import {useForm, useWatch} from "react-hook-form";
-import {
-    SchemaNewPasswordInputDto,
-    SchemaRecaptchaErrorResponseDto,
-    SchemaRecaptchaFieldError
-} from "@/shared/api/schema";
+import {useForm} from "react-hook-form";
+import {SchemaNewPasswordInputDto,} from "@/shared/api/schema";
 import {useMutation} from "@tanstack/react-query";
 import {client} from "@/shared/api/client";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {useEffect, useState} from "react";
 import {PATH} from "@/shared/constants/routings";
+import {useRouter, useSearchParams} from 'next/navigation';
 
 // Схема валидации для создания нового пароля
 const newPasswordSchema = z.object({
@@ -36,49 +32,28 @@ const newPasswordSchema = z.object({
 
 type NewPasswordFormData = z.infer<typeof newPasswordSchema>;
 
-interface ApiError {
-    statusCode: number;
-    messages: Array<{
-        message: string;
-        field: string;
+type ApiError = {
+    statusCode?: number;
+    messages?: Array<{
+        message?: string;
+        field?: string;
     }>;
-    error: string;
+    error?: string;
 }
 
 export const CreateNewPasswordPage = () => {
-    const [recoveryCode, setRecoveryCode] = useState<string | null>(null);
-    const [apiError, setApiError] = useState<string | null>(null);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
 
+    const router = useRouter()
+    const searchParams = useSearchParams()
 
     // Получаем параметры из URL на клиенте
-    useEffect(() => {
-        // Проверяем, что мы на клиенте
-        if (typeof window === 'undefined') return;
-
-        const url = new URL(window.location.href);
-        const code = url.searchParams.get('code');
-
-        // Используем setTimeout для отложенного обновления состояния
-        const timer = setTimeout(() => {
-            if (!code) {
-                setApiError('Invalid or missing recovery code');
-            } else {
-                setRecoveryCode(code);
-            }
-            setIsLoading(false);
-        }, 0);
-
-        return () => clearTimeout(timer);
-    }, []);
+    const recoveryCode = searchParams ? searchParams.get('code') : null
 
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting, isValid },
         reset,
-        control
     } = useForm<NewPasswordFormData >({
             resolver: zodResolver(newPasswordSchema),
             mode: 'onChange', // Валидация при изменении полей
@@ -102,38 +77,30 @@ export const CreateNewPasswordPage = () => {
             })
             if (response.error) {
                 // Бросаем ошибку с полной структурой ответа
-                throw response.error;
+                throw response.error as unknown;
             }
             return response.data
         },
         onSuccess: () => {
-            setIsSuccess(true);
-            setApiError(null);
             reset();
 
             setTimeout(() => {
-                // Используем window.location для редиректа
-                window.location.href = PATH.SIGN_IN;
+                router.push(PATH.SIGN_IN);
             }, 3000);
         },
-        onError: (error: ApiError) => {
-            debugger
+        onError: (error: unknown) => {
             console.error('Recovery error:', error);
 
-            // Сначала очищаем все ошибки
-            setApiError(null);
+            if (error && typeof error === 'object') {
+                const apiError = error as ApiError;
 
-            if (typeof error === 'object' && 'statusCode' in error) {
-                const apiError = error;
-
-                console.log(apiError.statusCode === 400 && apiError.messages)
+                console.log('API Error details:', apiError);
 
                 if (apiError.statusCode === 400 && apiError.messages) {
-                    debugger
                     apiError.messages.forEach((errMsg) => {
                         if (errMsg.message === 'Password recovery code is invalid') {
-                            // Используем window.location для редиректа
-                            window.location.href = PATH.LINK_EXPIRED;
+                            router.push(PATH.LINK_EXPIRED);
+                            return;
                         }
                     });
                 }
@@ -143,30 +110,14 @@ export const CreateNewPasswordPage = () => {
 
     const onSubmit = (data: NewPasswordFormData) => {
         if (!recoveryCode) {
-            setApiError('Recovery code is missing. Please use the link from your email.');
             return;
         }
 
-        setApiError(null);
         mutate({
             newPassword: data.newPassword,
             recoveryCode: recoveryCode
         });
     }
-
-    // Отслеживаем значения для динамической валидации
-    const newPasswordValue = useWatch({
-        control,
-        name: 'newPassword',
-        defaultValue: ''
-    });
-
-    const confirmPasswordValue = useWatch({
-        control,
-        name: 'confirmPassword',
-        defaultValue: ''
-    });
-
 
     return (
         <div className={styles.CreateNewPasswordPage}>
@@ -200,7 +151,7 @@ export const CreateNewPasswordPage = () => {
                 <Button
                     variant={'primary'}
                     type="submit"
-                    disabled={isPending || isSubmitting || !isValid}
+                    disabled={isPending || isSubmitting || !isValid || !recoveryCode}
                 >
                     Create new password
                 </Button>
