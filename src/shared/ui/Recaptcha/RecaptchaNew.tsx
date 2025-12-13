@@ -6,6 +6,7 @@ export type RecaptchaProps = {
   onVerify?: (token: string) => void
   className?: string
   siteKey?: string
+  onError?: () => void;
 }
 
 export const RecaptchaNew = forwardRef<{
