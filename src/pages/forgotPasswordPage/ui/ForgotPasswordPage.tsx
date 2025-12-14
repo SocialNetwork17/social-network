@@ -5,7 +5,7 @@ import {Input} from "@/shared/ui/Input/Input";
 import {Button} from "@/shared/ui/Button/Button";
 import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
-import { useRef } from "react";
+import {useEffect, useRef} from "react";
 import {RecaptchaNew} from "@/shared/ui/Recaptcha/RecaptchaNew";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {useForgotPassword} from "@/pages/forgotPasswordPage/model/useForgotPassword";
@@ -26,6 +26,7 @@ export const ForgotPasswordPage = () => {
         isButtonDisabled,
         handleSubmit,
         register,
+        clearErrors,
         onSubmit,
         handleSendAgain,
         handleModalClose,
@@ -33,6 +34,13 @@ export const ForgotPasswordPage = () => {
         handleRecaptchaVerify,
         handleRecaptchaError,
     } = useForgotPassword();
+
+    useEffect(() => {
+        // Сбрасываем reCAPTCHA при ошибке email
+        if (errors.email?.message === 'User with this email doesn\'t exist' && recaptchaRef.current) {
+            recaptchaRef.current.reset();
+        }
+    }, [errors.email]);
 
     const recaptchaRef = useRef<RecaptchaRef>(null);
 
@@ -46,6 +54,13 @@ export const ForgotPasswordPage = () => {
                     pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                         message: 'Invalid email address'
+                    },
+                    validate: {
+                        noSpaces: (value) =>
+                            !value.includes(' ') || 'Email should not contain spaces',
+                        validDomain: (value) =>
+                            /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value) ||
+                            'Please enter a valid email address',
                     }
                 })}
                        errorText={errors.email?.message}
@@ -55,8 +70,11 @@ export const ForgotPasswordPage = () => {
                        placeholder={'Epam@epam.com'}
                        required={false}
                        onChange={(e) => {
-                           // Обновляем email в state при изменении
                            handleEmailChange(e.target.value);
+                           // Сбрасываем ошибку при начале редактирования
+                           if (errors.email?.message === 'User with this email doesn\'t exist') {
+                               clearErrors('email');
+                           }
                        }}
                 />
                 <p className={styles.text}>

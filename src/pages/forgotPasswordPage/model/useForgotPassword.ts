@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { client } from "@/shared/api/client";
 import { SchemaPasswordRecoveryInputDto, SchemaRecaptchaErrorResponseDto } from "@/shared/api/schema";
 
+
+
 export const useForgotPassword = () => {
     const [linkSent, setLinkSent] = useState(false);
     const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
@@ -18,12 +20,18 @@ export const useForgotPassword = () => {
         formState: { errors },
         setError,
         clearErrors,
+        //watch,
+        trigger
     } = useForm<SchemaPasswordRecoveryInputDto>({
         mode: 'onChange',
         defaultValues: {
             email: ''
-        }
+        },
+        criteriaMode: 'all'
     });
+
+    // Следим за значением email для динамической валидации
+    //const emailValue = watch('email')
 
     // Кнопка ДИЗАБЛИТСЯ ТОЛЬКО если email не заполнен ИЛИ reCAPTCHA не установлена
     const isButtonDisabled = !userEmail || !recaptchaToken;
@@ -50,10 +58,13 @@ export const useForgotPassword = () => {
         onSuccess: () => {
             setIsModalOpen(true);
             setLinkSent(true);
-            setRecaptchaToken(null);
+            handleResetRecaptcha();
         },
         onError: (error: SchemaRecaptchaErrorResponseDto | Error | string) => {
             console.error('Recovery error:', error);
+
+            // Всегда сбрасываем reCAPTCHA при любой ошибке
+            handleResetRecaptcha();
 
             if (typeof error === 'object' && 'statusCode' in error) {
                 const apiError = error as SchemaRecaptchaErrorResponseDto;
@@ -82,12 +93,30 @@ export const useForgotPassword = () => {
         setRecaptchaToken(null);
     };
 
-    const onSubmit = (data: SchemaPasswordRecoveryInputDto) => {
+    // Функция для сброса reCAPTCHA
+    const handleResetRecaptcha = () => {
+        setRecaptchaToken(null);
+        clearErrors('recaptcha');
+    };
+
+    const onSubmit = async (data: SchemaPasswordRecoveryInputDto) => {
         clearErrors();
 
-        if (!recaptchaToken) {
+        // Валидируем форму перед отправкой
+        const isFormValid = await trigger();
+
+        if (!isFormValid) {
             return;
         }
+
+        if (!recaptchaToken) {
+            setError('recaptcha', {
+                type: 'manual',
+                message: 'Please complete reCAPTCHA verification'
+            });
+            return;
+        }
+
         mutate(data);
     };
 
@@ -101,8 +130,15 @@ export const useForgotPassword = () => {
         setIsModalOpen(false);
     };
 
-    const handleEmailChange = (email: string) => {
+    const handleEmailChange = async (email: string) => {
         setUserEmail(email);
+
+        // Триггерим валидацию email при изменении
+        if (email) {
+            await trigger('email');
+        } else {
+            clearErrors('email');
+        }
     };
 
     return {
@@ -123,6 +159,7 @@ export const useForgotPassword = () => {
         // Обработчики
         handleRecaptchaVerify,
         handleRecaptchaError,
+        handleResetRecaptcha,
         onSubmit,
         handleSendAgain,
         handleModalClose,
