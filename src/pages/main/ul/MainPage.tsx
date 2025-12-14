@@ -28,10 +28,10 @@ export default function MainPage() {
                 router.push(PATH.LINK_EXPIRED)
             }
         })
-    }, []);
+    }, [])
 
 
-  const isLoading = true // позже появиться хук
+  const isLoading = false // позже появиться хук
 
   if (isLoading) {
     return (
