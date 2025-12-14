@@ -3,8 +3,8 @@ import styles from './HeaderMenu.module.scss'
 import SelectBox, {Option} from '@/shared/ui/select-box/SelectBox'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
-import Link from "next/link";
-import {PATH} from "@/shared/constants/routings";
+import Link from 'next/link'
+import { PATH } from '@/shared/constants/routings'
 
 type HeaderMenu = {
   isLoggedIn: boolean
@@ -54,25 +54,16 @@ export const HeaderMenu = (props: HeaderMenu) => {
             defaultValue={languages[1]} // GB will be pre-selected
           />
           <div className={`${styles.buttonsBox}`}>
-            {/*// замена на линки*/}
-
-            {/*<Link*/}
-            {/*    href={PATH.SIGN_IN}*/}
-            {/*    >*/}
-            {/*  Log in*/}
-            {/*</Link>*/}
-            {/*<Link*/}
-            {/*    href={PATH.SIGN_UP}*/}
-            {/*    >*/}
-            {/*  Sing up*/}
-            {/*</Link>*/}
-
-            <Button variant={'textButton'} disabled={false} width={100} height={36}>
-              Log in
-            </Button>
-            <Button variant={'primary'} disabled={false} width={100} height={36}>
-              Sing up
-            </Button>
+            <Link href={PATH.SIGN_IN}>
+              <Button variant={'textButton'} disabled={false} width={100} height={36}>
+                Log in
+              </Button>
+            </Link>
+            <Link href={PATH.SIGN_UP}>
+              <Button variant={'primary'} disabled={false} width={100} height={36}>
+                Sing up
+              </Button>
+            </Link>
           </div>
         </>
       )}
