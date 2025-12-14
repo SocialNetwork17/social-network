@@ -7,6 +7,10 @@
   --color-text: #{abstract.palette('light', 100)};
   --color-accent: #{abstract.palette('accent', 500)};
   --border-color-default: #{abstract.palette('dark', 100)};
+  --border-color-on-hover: #{abstract.palette('light', 100)};
+  --color-disabled: #{abstract.palette('dark', 100)};
+  --color-arrow: #{abstract.palette('light', 100)};
+  --color-option-bg: #{abstract.palette('dark', 300)};
 
   // для цвета бордера
   --border-color: var(--border-color-default);
@@ -19,6 +23,9 @@ html.light {
   --color-text: #{abstract.palette('dark', 900)};
   --color-accent: #{abstract.palette('accent', 300)};
   --border-color-default: #{abstract.palette('dark', 700)};
+  --border-color-on-hover: #{abstract.palette('dark', 100)};
+  --color-arrow: #{abstract.palette('dark', 100)};
+  --color-option-bg: #{abstract.palette('light', 300)};
 }
 
 // const [theme, setTheme] = useState<'light' | 'dark'>('dark')
