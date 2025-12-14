@@ -1,5 +1,5 @@
 'use client'
-import styles from "../page.module.css";
+import styles from "../rootLayout.module.scss";
 import {useState} from "react";
 import Pagination from "@/shared/ui/pagination/Pagination";
 import {Option} from "@/shared/ui/select-box/SelectBox";

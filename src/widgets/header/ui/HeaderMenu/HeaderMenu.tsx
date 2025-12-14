@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './HeaderMenu.module.scss'
-import SelectBox from '@/shared/ui/select-box/SelectBox'
+import SelectBox, {Option} from '@/shared/ui/select-box/SelectBox'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
+import Link from 'next/link'
+import { PATH } from '@/shared/constants/routings'
 
 type HeaderMenu = {
   isLoggedIn: boolean
@@ -11,14 +13,18 @@ type HeaderMenu = {
 }
 
 export const HeaderMenu = (props: HeaderMenu) => {
-  const [languageValue, setLanguageValue] = useState<string>('1')
 
   const { isLoggedIn, countMessage, onClickHandler } = props
 
   const languages = [
-    { id: '1', label: 'Russian' },
-    { id: '2', label: 'English' },
+    { id: '1', label: 'Russian', countryCode: 'RU' },
+    { id: '2', label: 'English', countryCode: 'GB' },
+    { id: '3', label: 'Canadian', countryCode: 'CA' },
   ]
+
+  const handleSelect = (option: Option) => {
+    console.log('Selected:', option);
+  };
 
   return (
     <div className={`${styles.menuBox}`}>
@@ -36,28 +42,28 @@ export const HeaderMenu = (props: HeaderMenu) => {
           </div>
           <SelectBox
             options={languages}
-            value={languageValue}
-            onChange={option => {
-              setLanguageValue(option.id)
-            }}
+            onChange={handleSelect}
+            defaultValue={languages[1]} // GB will be pre-selected
           />
         </>
       ) : (
         <>
           <SelectBox
             options={languages}
-            value={languageValue}
-            onChange={option => {
-              setLanguageValue(option.id)
-            }}
+            onChange={handleSelect}
+            defaultValue={languages[1]} // GB will be pre-selected
           />
           <div className={`${styles.buttonsBox}`}>
-            <Button variant={'textButton'} disabled={false} width={100} height={36}>
-              Log in
-            </Button>
-            <Button variant={'primary'} disabled={false} width={100} height={36}>
-              Sing up
-            </Button>
+            <Link href={PATH.SIGN_IN}>
+              <Button variant={'textButton'} disabled={false} width={100} height={36}>
+                Log in
+              </Button>
+            </Link>
+            <Link href={PATH.SIGN_UP}>
+              <Button variant={'primary'} disabled={false} width={100} height={36}>
+                Sing up
+              </Button>
+            </Link>
           </div>
         </>
       )}

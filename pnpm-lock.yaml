@@ -23,9 +23,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.91.1
         version: 5.91.1(@tanstack/react-query@5.90.11(react@19.2.0))(react@19.2.0)
-      '@tanstack/react-router':
-        specifier: ^1.141.1
-        version: 1.141.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      country-flag-icons:
+        specifier: ^1.6.4
+        version: 1.6.4
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -35,9 +35,6 @@ importers:
       openapi-fetch:
         specifier: ^0.15.0
         version: 0.15.0
-      openapi-typescript-helpers:
-        specifier: ^0.0.15
-        version: 0.0.15
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -47,12 +44,6 @@ importers:
       react-dom:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
-      react-google-invisible-recaptcha:
-        specifier: ^0.2.12
-        version: 0.2.12(react@19.2.0)
-      react-google-recaptcha:
-        specifier: ^3.1.0
-        version: 3.1.0(react@19.2.0)
       react-hook-form:
         specifier: ^7.65.0
         version: 7.65.0(react@19.2.0)
@@ -96,9 +87,6 @@ importers:
       '@tanstack/eslint-plugin-query':
         specifier: ^5.91.2
         version: 5.91.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
-      '@types/grecaptcha':
-        specifier: ^3.0.9
-        version: 3.0.9
       '@types/node':
         specifier: ^20
         version: 20.19.23
@@ -108,9 +96,6 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.2.2(@types/react@19.2.2)
-      '@types/react-google-recaptcha':
-        specifier: ^2.1.9
-        version: 2.1.9
       '@vitest/browser-playwright':
         specifier: ^4.0.7
         version: 4.0.7(playwright@1.56.1)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1))(vitest@4.0.7)
@@ -1197,10 +1182,6 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/history@1.141.0':
-    resolution: {integrity: sha512-LS54XNyxyTs5m/pl1lkwlg7uZM3lvsv2FIIV1rsJgnfwVCnI+n4ZGZ2CcjNT13BPu/3hPP+iHmliBSscJxW5FQ==}
-    engines: {node: '>=12'}
-
   '@tanstack/query-core@5.90.11':
     resolution: {integrity: sha512-f9z/nXhCgWDF4lHqgIE30jxLe4sYv15QodfdPDKYAk7nAEjNcndy4dHz3ezhdUaR23BpWa4I2EH4/DZ0//Uf8A==}
 
@@ -1218,31 +1199,11 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
-  '@tanstack/react-router@1.141.1':
-    resolution: {integrity: sha512-pLQ6ZFCh5s86ewZIAu2wQc2svf+DqttD7CFd1NPSxdEU20KvMMj9RPQdDHj/pbf2VvB3i1nEDxjli/Z0PBvnCQ==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      react: '>=18.0.0 || >=19.0.0'
-      react-dom: '>=18.0.0 || >=19.0.0'
-
-  '@tanstack/react-store@0.8.0':
-    resolution: {integrity: sha512-1vG9beLIuB7q69skxK9r5xiLN3ztzIPfSQSs0GfeqWGO2tGIyInZx0x1COhpx97RKaONSoAb8C3dxacWksm1ow==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
   '@tanstack/react-virtual@3.13.12':
     resolution: {integrity: sha512-Gd13QdxPSukP8ZrkbgS2RwoZseTTbQPLnQEn7HY/rqtM+8Zt95f7xKC7N0EsKs7aoz0WzZ+fditZux+F8EzYxA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
-  '@tanstack/router-core@1.141.1':
-    resolution: {integrity: sha512-fR1GGpp6v3dVKu4KIAjEh+Sd0qGLQd/wvCOVHeopSY6aFidXKCzwrS5cBOBqoPPWTKmn6CdW1a0CzFr5Furdog==}
-    engines: {node: '>=12'}
-
-  '@tanstack/store@0.8.0':
-    resolution: {integrity: sha512-Om+BO0YfMZe//X2z0uLF2j+75nQga6TpTJgLJQBiq85aOyZNIhkCgleNcud2KQg4k4v9Y9l+Uhru3qWMPGTOzQ==}
 
   '@tanstack/virtual-core@3.13.12':
     resolution: {integrity: sha512-1YBOJfRHV4sXUmWsFSf5rQor4Ss82G8dQWLRbnk3GA4jeP8hQt1hxXh0tmflpC0dz3VgEv/1+qwPyLeWkQuPFA==}
@@ -1297,9 +1258,6 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/grecaptcha@3.0.9':
-    resolution: {integrity: sha512-fFxMtjAvXXMYTzDFK5NpcVB7WHnrHVLl00QzEGpuFxSAC789io6M+vjcn+g5FTEamIJtJr/IHkCDsqvJxeWDyw==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -1316,9 +1274,6 @@ packages:
     resolution: {integrity: sha512-9KQPoO6mZCi7jcIStSnlOWn2nEF3mNmyr3rIAsGnAbQKYbRLyqmeSc39EVgtxXVia+LMT8j3knZLAZAh+xLmrw==}
     peerDependencies:
       '@types/react': ^19.2.0
-
-  '@types/react-google-recaptcha@2.1.9':
-    resolution: {integrity: sha512-nT31LrBDuoSZJN4QuwtQSF3O89FVHC4jLhM+NtKEmVF5R1e8OY0Jo4//x2Yapn2aNHguwgX5doAq8Zo+Ehd0ug==}
 
   '@types/react@19.2.2':
     resolution: {integrity: sha512-6mDvHUFSjyT2B2yeNx2nUgMxh9LtOWvkhIU3uePn2I2oyNymUAX1NIsdgviM4CH+JSrp2D2hsMvJOkxY+0wNRA==}
@@ -1897,9 +1852,6 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  cookie-es@2.0.0:
-    resolution: {integrity: sha512-RAj4E421UYRgqokKUmotqAwuplYw15qtdXfY+hGzgCJ/MBjCVZcSoHK/kH9kocfjRjcDME7IiDWR/1WX1TM2Pg==}
-
   cosmiconfig@9.0.0:
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
     engines: {node: '>=14'}
@@ -1908,6 +1860,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  country-flag-icons@1.6.4:
+    resolution: {integrity: sha512-Z3Zi419FI889tlElMsVhCIS5eRkiLDWixr576J5DPiTe5RGxpbRi+enMpHdYVp5iK5WFjr8P/RgyIFAGhFsiFg==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -2489,9 +2444,6 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
-  hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
-
   hookified@1.12.2:
     resolution: {integrity: sha512-aokUX1VdTpI0DUsndvW+OiwmBpKCu/NgRsSSkuSY0zq8PY6Q6a+lmOfAFDXAAOtBqJELvcWY9L1EVtzjbQcMdg==}
 
@@ -2664,10 +2616,6 @@ packages:
 
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
-
-  isbot@5.1.32:
-    resolution: {integrity: sha512-VNfjM73zz2IBZmdShMfAUg10prm6t7HFUQmNAEOAVS4YH92ZrZcvkMcGX6cIgBJAzWDzPent/EeAtYEHNPNPBQ==}
-    engines: {node: '>=18'}
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
@@ -3160,11 +3108,6 @@ packages:
   randombytes@2.1.0:
     resolution: {integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==}
 
-  react-async-script@1.2.0:
-    resolution: {integrity: sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q==}
-    peerDependencies:
-      react: '>=16.4.1'
-
   react-day-picker@9.11.3:
     resolution: {integrity: sha512-7lD12UvGbkyXqgzbYIGQTbl+x29B9bAf+k0pP5Dcs1evfpKk6zv4EdH/edNc8NxcmCiTNXr2HIYPrSZ3XvmVBg==}
     engines: {node: '>=18'}
@@ -3184,16 +3127,6 @@ packages:
     resolution: {integrity: sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==}
     peerDependencies:
       react: ^19.2.0
-
-  react-google-invisible-recaptcha@0.2.12:
-    resolution: {integrity: sha512-K16BPZLNb+ZkdIDv/PPvXdq7D0kZdpC+BGZCWDKwS87mXDFf73YBPFF/rlw97iaK3Vdcmsdm84TwBWd4yIrnEA==}
-    peerDependencies:
-      react: 16.* || ^17.0.0-0
-
-  react-google-recaptcha@3.1.0:
-    resolution: {integrity: sha512-cYW2/DWas8nEKZGD7SCu9BSuVz8iOcOLHChHyi7upUuVhkpkhYG/6N3KDiTQ3XAiZ2UAZkfvYKMfAHOzBOcGEg==}
-    peerDependencies:
-      react: '>=16.4.1'
 
   react-hook-form@7.65.0:
     resolution: {integrity: sha512-xtOzDz063WcXvGWaHgLNrNzlsdFgtUWcb32E6WFaGTd7kPZG3EeDusjdZfUsPwKCKVXy1ZlntifaHZ4l8pAsmw==}
@@ -3328,16 +3261,6 @@ packages:
 
   serialize-javascript@6.0.2:
     resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==}
-
-  seroval-plugins@1.4.0:
-    resolution: {integrity: sha512-zir1aWzoiax6pbBVjoYVd0O1QQXgIL3eVGBMsBsNmM8Ukq90yGaWlfx0AB9dTS8GPqrOrbXn79vmItCUP9U3BQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      seroval: ^1.0
-
-  seroval@1.4.0:
-    resolution: {integrity: sha512-BdrNXdzlofomLTiRnwJTSEAaGKyHHZkbMXIywOh7zlzp4uZnXErEwl9XZ+N1hJSNpeTtNxWvVwN0wUzAIQ4Hpg==}
-    engines: {node: '>=10'}
 
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
@@ -3617,9 +3540,6 @@ packages:
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
 
-  tiny-warning@1.0.3:
-    resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
-
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -3756,11 +3676,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  uuid@3.4.0:
-    resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
-    hasBin: true
 
   vite-plugin-storybook-nextjs@3.1.0:
     resolution: {integrity: sha512-cV+C7Xq23LBp74zsnSwF03d7RuadsK5kWuldBHVyCBA0qVmje+FzeE9N+KraCY2EEUl5fCTEwxKBGuMB37BtwA==}
@@ -4897,8 +4812,6 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/history@1.141.0': {}
-
   '@tanstack/query-core@5.90.11': {}
 
   '@tanstack/query-devtools@5.91.1': {}
@@ -4914,41 +4827,11 @@ snapshots:
       '@tanstack/query-core': 5.90.11
       react: 19.2.0
 
-  '@tanstack/react-router@1.141.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@tanstack/history': 1.141.0
-      '@tanstack/react-store': 0.8.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@tanstack/router-core': 1.141.1
-      isbot: 5.1.32
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-
-  '@tanstack/react-store@0.8.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@tanstack/store': 0.8.0
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-      use-sync-external-store: 1.6.0(react@19.2.0)
-
   '@tanstack/react-virtual@3.13.12(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@tanstack/virtual-core': 3.13.12
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-
-  '@tanstack/router-core@1.141.1':
-    dependencies:
-      '@tanstack/history': 1.141.0
-      '@tanstack/store': 0.8.0
-      cookie-es: 2.0.0
-      seroval: 1.4.0
-      seroval-plugins: 1.4.0(seroval@1.4.0)
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-
-  '@tanstack/store@0.8.0': {}
 
   '@tanstack/virtual-core@3.13.12': {}
 
@@ -5027,8 +4910,6 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/grecaptcha@3.0.9': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
@@ -5040,10 +4921,6 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/react-dom@19.2.2(@types/react@19.2.2)':
-    dependencies:
-      '@types/react': 19.2.2
-
-  '@types/react-google-recaptcha@2.1.9':
     dependencies:
       '@types/react': 19.2.2
 
@@ -5728,8 +5605,6 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  cookie-es@2.0.0: {}
-
   cosmiconfig@9.0.0(typescript@5.9.3):
     dependencies:
       env-paths: 2.2.1
@@ -5738,6 +5613,8 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
+
+  country-flag-icons@1.6.4: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -6469,10 +6346,6 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
-  hoist-non-react-statics@3.3.2:
-    dependencies:
-      react-is: 16.13.1
-
   hookified@1.12.2: {}
 
   html-escaper@2.0.2: {}
@@ -6634,8 +6507,6 @@ snapshots:
       get-intrinsic: 1.3.0
 
   isarray@2.0.5: {}
-
-  isbot@5.1.32: {}
 
   isexe@2.0.0: {}
 
@@ -7103,12 +6974,6 @@ snapshots:
       safe-buffer: 5.2.1
     optional: true
 
-  react-async-script@1.2.0(react@19.2.0):
-    dependencies:
-      hoist-non-react-statics: 3.3.2
-      prop-types: 15.8.1
-      react: 19.2.0
-
   react-day-picker@9.11.3(react@19.2.0):
     dependencies:
       '@date-fns/tz': 1.4.1
@@ -7139,18 +7004,6 @@ snapshots:
     dependencies:
       react: 19.2.0
       scheduler: 0.27.0
-
-  react-google-invisible-recaptcha@0.2.12(react@19.2.0):
-    dependencies:
-      prop-types: 15.8.1
-      react: 19.2.0
-      uuid: 3.4.0
-
-  react-google-recaptcha@3.1.0(react@19.2.0):
-    dependencies:
-      prop-types: 15.8.1
-      react: 19.2.0
-      react-async-script: 1.2.0(react@19.2.0)
 
   react-hook-form@7.65.0(react@19.2.0):
     dependencies:
@@ -7316,12 +7169,6 @@ snapshots:
     dependencies:
       randombytes: 2.1.0
     optional: true
-
-  seroval-plugins@1.4.0(seroval@1.4.0):
-    dependencies:
-      seroval: 1.4.0
-
-  seroval@1.4.0: {}
 
   set-function-length@1.2.2:
     dependencies:
@@ -7713,8 +7560,6 @@ snapshots:
 
   tiny-invariant@1.3.3: {}
 
-  tiny-warning@1.0.3: {}
-
   tinybench@2.9.0: {}
 
   tinyexec@0.3.2: {}
@@ -7874,8 +7719,6 @@ snapshots:
       react: 19.2.0
 
   util-deprecate@1.0.2: {}
-
-  uuid@3.4.0: {}
 
   vite-plugin-storybook-nextjs@3.1.0(next@16.0.0(@babel/core@7.28.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.93.3))(storybook@10.0.5(@testing-library/dom@10.4.1)(prettier@3.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1)))(typescript@5.9.3)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1)):
     dependencies:

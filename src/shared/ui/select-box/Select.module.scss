@@ -5,32 +5,31 @@
   position: relative;
   cursor: pointer;
   max-width: 100%;
-  background-color: styles.palette('dark', 500);
+  background-color: var(--color-bg-500);
   @include typo.text-regular-16;
   &:focus-visible {
-    outline: 2px solid styles.palette('accent', 500);
+    outline: 2px solid var(--color-accent-500);
     outline-offset: 2px;
     border-radius: 2px;
   }
 }
 
 .selectBox {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 24px;
   padding: 6px 12px;
-  border: 1px solid styles.palette('dark', 100);
+  border: 1px solid var(--border-color-default);
   border-radius: 2px;
-  background-color: inherit;
   transition: all 0.3s ease;
-  position: relative;
   &:hover {
-    border-color: styles.palette('light', 100);
+    border-color: var(--border-color-on-hover);
   }
 }
 
 .selectBox.open {
-  border-color: styles.palette('light', 100);
+  border-color: var(--border-color-on-hover);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   .selectArrow {
@@ -40,20 +39,23 @@
 
 .selectBox.disabled {
   background-color: inherit;
-  color: styles.palette('dark', 100);
+  color: var(--color-disabled);
   cursor: not-allowed;
-  border-color: styles.palette('dark', 100);
+  border-color: var(--color-disabled);
   &:hover {
-    border-color: styles.palette('dark', 100);
+    border-color: var(--color-disabled);
     box-shadow: none;
     transform: none;
   }
   .selectValue {
-    color: styles.palette('dark', 100);
+    color: var(--color-disabled);
   }
 }
 
 .selectValue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: inherit;
   color: inherit;
 }
@@ -64,7 +66,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  fill: styles.palette('light', 100);
+  fill: var(--color-arrow);
   transition: transform 0.3s ease;
 }
 
@@ -73,8 +75,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: inherit;
-  border: 1px solid styles.palette('light', 100);
+  background-color: inherit;
+  border: 1px solid var(--border-color-on-hover);
   border-top: none;
   border-radius: 0 0 2px 2px;
   z-index: 1000;
@@ -84,14 +86,22 @@
 }
 
 .selectOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 6px 12px;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   &:hover {
-    background-color: styles.palette('dark', 300);
-    color: styles.palette('accent', 500);
+    background-color: var(--color-option-bg);
+    color: var(--color-accent);
     transform: translateX(2px);
   }
+}
+
+.flag {
+  height: 20px;
+  width: 20px;
 }
