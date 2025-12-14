@@ -28,11 +28,12 @@ html.light {
   --color-option-bg: #{abstract.palette('light', 300)};
 }
 
-// const [theme, setTheme] = useState<'light' | 'dark'>('light')
+// const [theme, setTheme] = useState<'light' | 'dark'>('dark')
 
 // useEffect(() => {
 //  document.documentElement.classList.toggle('light', theme === 'light')
 //}, [theme])
+
 
 // В useEffect описываем такую логику
 
