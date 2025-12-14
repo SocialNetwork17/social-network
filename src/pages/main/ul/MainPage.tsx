@@ -28,7 +28,7 @@ export default function MainPage() {
                 router.push(PATH.LINK_EXPIRED)
             }
         })
-    }, []);
+    }, [])
 
 
   const isLoading = false // позже появиться хук

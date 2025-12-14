@@ -12,11 +12,6 @@ export const RootLayoutClient = ({children}: Props) => {
 
     const {isAuth, isLoading} = useAuth()
 
-
-    if(isLoading) {
-        return <div>"Loading...."</div>
-    }
-
     return (
         <>
             <Header/>

@@ -21,11 +21,12 @@ html.light {
   --border-color-default: #{abstract.palette('dark', 700)};
 }
 
-// const [theme, setTheme] = useState<'light' | 'dark'>('light')
+// const [theme, setTheme] = useState<'light' | 'dark'>('dark')
 
 // useEffect(() => {
 //  document.documentElement.classList.toggle('light', theme === 'light')
 //}, [theme])
+
 
 // В useEffect описываем такую логику
 
