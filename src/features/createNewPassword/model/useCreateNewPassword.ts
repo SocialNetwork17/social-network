@@ -1,0 +1,34 @@
+'use client'
+
+import { useMutation } from "@tanstack/react-query";
+import { client } from "@/shared/api/client";
+import { SchemaNewPasswordInputDto } from "@/shared/api/schema";
+
+export const useCreateNewPassword = () => {
+
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: async (data: SchemaNewPasswordInputDto) => {
+            if (!data.recoveryCode) {
+                throw new Error('Recovery code is missing');
+            }
+
+            const response = await client.POST('/api/v1/auth/new-password', {
+                body: {
+                    newPassword: data.newPassword,
+                    recoveryCode: data.recoveryCode,
+                }
+            });
+
+            if (response.error) {
+                throw response.error as unknown;
+            }
+            return response.data;
+        }
+    });
+
+    return {
+        mutate,
+        isPending,
+    };
+};

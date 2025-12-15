@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import {ForgotPasswordPage} from './ForgotPasswordPage'
+import {ForgotPasswordForm} from './ForgotPasswordForm'
 
 const meta = {
-  title: 'shared/ui/ForgotPasswordPage',
-  component: ForgotPasswordPage,
+  title: 'shared/ui/ForgotPasswordForm',
+  component: ForgotPasswordForm,
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof ForgotPasswordPage>
+} satisfies Meta<typeof ForgotPasswordForm>
 
 export default meta
 
-type Story = StoryObj<typeof ForgotPasswordPage>
+type Story = StoryObj<typeof ForgotPasswordForm>
 
 export const Default: Story = {
   render: () => (
@@ -23,7 +23,7 @@ export const Default: Story = {
         justifyContent: 'center',
       }}
     >
-      <ForgotPasswordPage />
+      <ForgotPasswordForm />
     </div>
   ),
 }
