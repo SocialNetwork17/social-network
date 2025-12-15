@@ -15,7 +15,7 @@ export const useForgotPassword = () => {
             const response = await client.POST('/api/v1/auth/password-recovery', {
                 body: {
                     email: body.data.email,
-                    baseUrl: "http://localhost:3000/createNewPassword",
+                    baseUrl: "http://localhost:3000/create-new-password",
                     recaptcha: body.recaptchaToken
                 }
             });
