@@ -2,7 +2,6 @@ import {useMutation} from "@tanstack/react-query"
 import {RegistrationType} from "../lib/registrationSchema"
 import {client} from "@/shared/api/client";
 import {handleError} from "@/shared/utils/handleError";
-import {ServerError} from "@/shared/types/types";
 
 export const useRegistration = () => {
 

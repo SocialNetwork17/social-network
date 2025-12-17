@@ -5,12 +5,12 @@ import {resendEmailSchema, ResendEmailType} from "@/pages/linkExpiredPage/lib/li
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/shared/ui/Button/Button";
-import {useResendConfirmationCode} from "@/pages/linkExpiredPage/model/useResendConfirmationCode";
 import confirmCodeImg from "@/../public/registrationCodeExpired.svg"
 import Image from "next/image";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {useState} from "react";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {useResendConfirmationCode} from "@/pages/linkExpiredPage/api/useResendConfirmationCode";
 
 
 export const LinkExpiredPage = () => {
