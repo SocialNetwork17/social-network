@@ -1,9 +1,10 @@
 import styles from "../../rootLayout.module.scss";
+import {CreateNewPasswordPage} from "@/pages/createNewPasswordPage/ui/CreateNewPasswordPage";
 
 export default function Home() {
     return (
         <div className={styles.page}>
-            forgot password
+            <CreateNewPasswordPage/>
         </div>
     );
 }

@@ -5,14 +5,12 @@
   font-family: 'Roboto', Arial, sans-serif;
   font-weight: 500;
   width: 314px;
-  height: 124px;
-  margin: 20px 0;
-  padding: 8px 7px 37px 7px;
   border: 1px solid transparent;
 
   // Error state styling - red border when verification fails
   &.error {
     border: 1px solid styles.palette('danger', 500);
+    padding: 8px 7px 11px 7px;
   }
 }
 
@@ -27,6 +25,7 @@
 
 // Main container for reCAPTCHA component
 .recaptchaContainer {
+  margin: 0 auto;
   width: 300px;
   height: 79px;
   display: flex;

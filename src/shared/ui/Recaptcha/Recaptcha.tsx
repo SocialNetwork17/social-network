@@ -1,42 +1,65 @@
 'use client'
-import React from 'react'
+import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react'
 import s from './Recaptcha.module.scss'
+import {SimpleRecaptcha} from "@/shared/ui/Recaptcha/SimpleRecaptcha/SimpleRecaptcha";
 
 export type RecaptchaProps = {
-  // State values
-  isLoading?: boolean
-  isChecked?: boolean
-  isError?: boolean
-  isExpired?: boolean
-  // Event handlers - use Action suffix for Server Actions
-  onCheckboxChangeAction?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  // Event handlers
+  onVerify?: (token: string) => void
   // Optional className for styling
   className?: string
 }
 
-export const Recaptcha = ({
-  isLoading = false,
-  isChecked = false,
-  isError = false,
-  isExpired = false,
-  onCheckboxChangeAction,
-  className = '',
-}: RecaptchaProps) => {
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // If external handler is provided, call it
-    if (onCheckboxChangeAction) {
-      onCheckboxChangeAction(event)
-      return
-    }
+export const Recaptcha = forwardRef<{ getToken: () => string | null }, RecaptchaProps>(({
+                                                                                          onVerify,
+                                                                                          className = '',
+                                                                                        }: RecaptchaProps, ref) => {
 
-    // Otherwise use default behavior (for demonstration)
-    // Prevent interaction during loading or when already checked
-    if (isLoading || isChecked) {
-      event.preventDefault()
-      return
-    }
+  const [isLoading, setIsLoading] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [isExpired, setIsExpired] = useState(false)
 
-    console.log('reCAPTCHA clicked - implement your own logic in onCheckboxChangeAction prop')
+  const simpleRecaptchaRef = useRef<{
+    execute: () => void;
+    reset: () => void;
+    getToken: () => string | null;
+  }>(null)
+
+  // Экспортируем метод getToken через ref
+  useImperativeHandle(ref, () => ({
+    getToken: () => simpleRecaptchaRef.current?.getToken() || null
+  }))
+
+  const handleCheckboxChange = () => {
+    if (isChecked || isLoading) return
+
+    setIsLoading(true)
+    setIsError(false)
+
+    // Запускаем invisible reCAPTCHA
+    simpleRecaptchaRef.current?.execute()
+  }
+
+  const handleVerify = (token: string) => {
+    setIsChecked(true)
+    setIsLoading(false)
+    setIsError(false)
+    setIsExpired(false)
+    onVerify?.(token)
+  }
+
+  const handleExpired = () => {
+    setIsChecked(false)
+    setIsExpired(true)
+    setIsError(false)
+    setIsLoading(false)
+  }
+
+  const handleError = () => {
+    setIsError(true)
+    setIsLoading(false)
+    simpleRecaptchaRef.current?.reset()
   }
 
   return (
@@ -103,6 +126,18 @@ export const Recaptcha = ({
       </div>
       {/* Error message displayed below the reCAPTCHA */}
       {isError && <p className={s.errorText}>Please verify that you are not a robot</p>}
+      {/* Invisible reCAPTCHA */}
+      {/* SimpleRecaptcha с invisible размером */}
+      <SimpleRecaptcha
+          ref={simpleRecaptchaRef}
+          onVerify={handleVerify}
+          onExpired={handleExpired}
+          onError={handleError}
+          size="invisible"
+          theme="light"
+      />
     </section>
   )
-}
+})
+
+Recaptcha.displayName = 'Recaptcha'
