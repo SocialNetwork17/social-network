@@ -6,7 +6,7 @@ type Props = {}
 export const SingUpFormTitle = (props: Props) => {
   return (
     <div className={styles.titleWrapper}>
-      <div className={styles.title}>Sing Up</div>
+      <div className={styles.title}>Sign Up</div>
       <div className={styles.iconContainer}>
         <IconButton iconId={'googleIcon'} size={36} />
         <IconButton iconId={'githubIcon'} size={36} />
