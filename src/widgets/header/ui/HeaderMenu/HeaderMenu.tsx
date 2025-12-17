@@ -61,7 +61,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
             </Link>
             <Link href={PATH.SIGN_UP}>
               <Button variant={'primary'} disabled={false} width={100} height={36}>
-                Sing up
+                Sign up
               </Button>
             </Link>
           </div>
