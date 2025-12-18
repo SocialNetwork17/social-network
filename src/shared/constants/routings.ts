@@ -8,5 +8,5 @@ export const PATH = {
   POLICY: '/policy',
   CONGRATULATIONS: '/congratulations',
   LINK_EXPIRED: '/link-expired',
-  FORGOT_PASSWORD: '/forgot-password'
+  CREATE_NEW_PASSWORD: "/create-new-password",
 } as const

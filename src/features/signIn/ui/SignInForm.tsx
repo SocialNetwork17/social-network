@@ -11,12 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema, SignInFormValues } from "@/features/signIn/lib/signInSchema";
 import { useLoginMutation } from "@/features/auth/api/useLoginMutation";
 
-
-
 export const SignInForm = () => {
-
-
-
 
     const {
         register,
