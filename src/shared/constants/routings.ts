@@ -9,4 +9,10 @@ export const PATH = {
   CONGRATULATIONS: '/congratulations',
   LINK_EXPIRED: '/link-expired',
   CREATE_NEW_PASSWORD: "/create-new-password",
+  RECOVERY_CODE: '/recovery-code',
+
+
+  //CALLBACK - ПУТИ ДЛЯ ПЕРЕНАПРАВЛЕНИЯ С ПОЧТЫ
+  REGISTRATION_CALLBACK: '/callback/registration',
+  RECOVERY_CALLBACK: '/callback/recovery',
 } as const

@@ -4,17 +4,25 @@ import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import Image from "next/image";
 import confirmCodeImg from "../../../../public/registrationCodeExpired.svg";
 import {Modal} from "@/shared/ui/Modal/Modal";
-import {useResendConfirmationCode} from "@/pages/linkExpiredPage/api/useResendConfirmationCode";
 import {useState} from "react";
 import styles from "@/pages/recoveryCodePage/ui/RecoveryCodePage.module.scss"
 import {usePasswordRecoveryMutation} from "@/pages/recoveryCodePage/api/usePasswordRecoveryMutation";
 
 export const RecoveryCodePage = () => {
 
+
     const {mutate: passwordRecovery, isPending} = usePasswordRecoveryMutation()
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     const onClickHandler = () => {
+        const email = localStorage.getItem('recoveryEmail')
+        if(!email) return
+        passwordRecovery(email, {
+            onSuccess: () => {
+                setIsModalOpen(!isModalOpen)
+            }
+        })
     }
 
 
@@ -41,7 +49,7 @@ export const RecoveryCodePage = () => {
                 title={"Email sent"}
                 onClose={() => setIsModalOpen(!isModalOpen)}
             >
-                We have sent a link to confirm your email to
+                We have sent a link to confirm your email to {localStorage.getItem('recoveryEmail')}
             </Modal>
         </div>
     );

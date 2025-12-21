@@ -1,5 +1,7 @@
 import {useMutation} from "@tanstack/react-query";
 import {client} from "@/shared/api/client";
+import {PATH} from "@/shared/constants/routings";
+import {handleError} from "@/shared/utils/handleError";
 
 export const usePasswordRecoveryMutation = () => {
     const mutation =  useMutation({
@@ -8,7 +10,7 @@ export const usePasswordRecoveryMutation = () => {
             const response = await client.POST("/api/v1/auth/password-recovery-resending", {
                 body: {
                     email: email,
-                    baseUrl:"http://localhost:3000"
+                    baseUrl:`http://localhost:3000${PATH.RECOVERY_CALLBACK}`
                 }
             })
             return response.data

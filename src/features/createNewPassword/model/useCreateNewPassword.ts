@@ -3,6 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { client } from "@/shared/api/client";
 import { SchemaNewPasswordInputDto } from "@/shared/api/schema";
+import {handleError} from "@/shared/utils/handleError";
 
 export const useCreateNewPassword = () => {
 
@@ -21,7 +22,7 @@ export const useCreateNewPassword = () => {
             });
 
             if (response.error) {
-                throw response.error as unknown;
+                handleError(response.error)
             }
             return response.data;
         }

@@ -58,6 +58,7 @@ export const ForgotPasswordForm = () => {
 
     // Основная функция обработки отправки формы
     const onSubmit = (data: ForgotPasswordInput) => {
+        localStorage.setItem('recoveryEmail', data.email)
         // Проверяем наличие токена reCAPTCHA перед отправкой
         if (!recaptchaToken) {
             return;

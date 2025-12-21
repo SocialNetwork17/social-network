@@ -133,7 +133,7 @@ export const CreateNewPasswordForm = () => {
                 <Button
                     variant={'primary'}
                     type="submit"
-                    disabled={!canSubmit}
+                    disabled={!errors}
                 >
                     {isPending ? 'Creating...' : 'Create new password'}
                 </Button>
