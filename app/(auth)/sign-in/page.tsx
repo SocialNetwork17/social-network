@@ -1,4 +1,4 @@
-import { SignInPage } from "@/pages/signInPage/ui/SignInPage";
+import { SignInPage } from "@/pages/auth/signInPage/ui/SignInPage";
 
 import styles from "../../rootLayout.module.scss";
 

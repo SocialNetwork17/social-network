@@ -1,12 +1,12 @@
 import React from 'react'
 
 type IconProps = {
-    iconId: string | null
-    size?: number
-    viewBox?: string
-    className?: string
-    fill?: string
-    stroke?: string
+  iconId: string | null
+  size?: number
+  viewBox?: string
+  className?: string
+  fill?: string
+  stroke?: string
 }
 
 export const Icon = (props: IconProps) => {

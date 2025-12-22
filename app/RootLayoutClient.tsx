@@ -2,7 +2,7 @@
 import {Header} from "@/widgets/header/ui/Header";
 import styles from "./rootLayout.module.scss";
 import {useAuth} from "@/shared/hooks/useAuth";
-import {Sidebar} from "@/widgets/Sidebar/ui/Sidebar";
+import {Sidebar} from "@/widgets/sidebar/ui/Sidebar";
 
 type Props = {
     children: React.ReactNode

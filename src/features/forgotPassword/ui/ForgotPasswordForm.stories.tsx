@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import {ForgotPasswordForm} from './ForgotPasswordForm'
+import { ForgotPasswordForm } from './ForgotPasswordForm'
 
 const meta = {
   title: 'shared/ui/ForgotPasswordForm',
@@ -27,5 +27,3 @@ export const Default: Story = {
     </div>
   ),
 }
-
-

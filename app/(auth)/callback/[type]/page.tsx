@@ -1,4 +1,4 @@
-import {EmailCallbackPage} from "@/pages/emailCallBackPage/ui/EmailCallbackPage";
+import {EmailCallbackPage} from "@/pages/auth/emailCallBackPage/ui/EmailCallbackPage";
 
 export default function EmailCallback() {
     return (

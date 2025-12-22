@@ -11,7 +11,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  animation: skChaseDotAnimation 2.0s infinite ease-in-out both;
+  animation: skChaseDotAnimation 2s infinite ease-in-out both;
 
   &:before {
     content: '';
@@ -20,7 +20,7 @@
     height: 25%;
     background-color: var(--color-text);
     border-radius: 100%;
-    animation: skChaseDotBeforeAnimation 2.0s infinite ease-in-out both;
+    animation: skChaseDotBeforeAnimation 2s infinite ease-in-out both;
   }
 
   @for $i from 1 through 6 {
@@ -41,7 +41,8 @@
 }
 
 @keyframes skChaseDotAnimation {
-  80%, 100% {
+  80%,
+  100% {
     transform: rotate(360deg);
   }
 }
@@ -50,7 +51,8 @@
   50% {
     transform: scale(0.4);
   }
-  100%, 0% {
-    transform: scale(1.0);
+  100%,
+  0% {
+    transform: scale(1);
   }
 }

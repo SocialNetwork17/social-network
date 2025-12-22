@@ -1,9 +1,9 @@
-import styles from "./Loader.module.scss";
+import styles from './Loader.module.scss'
 
 export const Loader = () => {
-    return (
-        <div className={styles.wrapper}>
-            <div className={styles.spinner}></div>
-        </div>
-    );
-};
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.spinner}></div>
+    </div>
+  )
+}

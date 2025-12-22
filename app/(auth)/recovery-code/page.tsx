@@ -1,4 +1,4 @@
-import {RecoveryCodePage} from "@/pages/recoveryCodePage/ui/RecoveryCodePage";
+import {RecoveryCodePage} from "@/pages/auth/recoveryCodePage/ui/RecoveryCodePage";
 
 
 export default function Congratulation() {
