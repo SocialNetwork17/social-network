@@ -1,5 +1,4 @@
-import { z } from 'zod'
-import { components } from '@/shared/api/schema'
+import {z} from 'zod'
 
 const usernameRegex = /^[0-9A-Za-z_-]+$/
 

@@ -1,9 +1,9 @@
 'use client'
 
-import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { useState } from 'react'
-import { EmptyErrorResponse, ServerError } from '@/shared/types/types'
+import {MutationCache, QueryCache, QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+import {useState} from 'react'
+import {EmptyErrorResponse} from '@/shared/types/types'
 
 export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [client] = useState(

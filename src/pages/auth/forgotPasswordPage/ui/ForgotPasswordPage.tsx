@@ -1,9 +1,7 @@
 import styles from './ForgotPasswordPage.module.scss'
 import { ForgotPasswordForm } from '@/features/forgotPassword/ui/ForgotPasswordForm'
 
-type Props = {}
-
-export const ForgotPasswordPage = (props: Props) => {
+export const ForgotPasswordPage = () => {
   return (
     <div className={styles.authPage}>
       <ForgotPasswordForm />

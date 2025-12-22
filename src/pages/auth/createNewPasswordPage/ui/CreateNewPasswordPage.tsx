@@ -1,9 +1,7 @@
 import styles from './CreateNewPasswordPage.module.scss'
 import { CreateNewPasswordForm } from '@/features/createNewPassword/ui/CreateNewPasswordForm'
 
-type Props = {}
-
-export const CreateNewPasswordPage = (props: Props) => {
+export const CreateNewPasswordPage = () => {
   return (
     <div className={styles.authPage}>
       <CreateNewPasswordForm />

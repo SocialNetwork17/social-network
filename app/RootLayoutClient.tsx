@@ -10,7 +10,7 @@ type Props = {
 
 export const RootLayoutClient = ({children}: Props) => {
 
-    const {isAuth, isLoading} = useAuth()
+    const {isAuth} = useAuth()
 
     return (
         <>

@@ -1,7 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
-import { client } from '@/shared/api/client'
-import { PATH } from '@/shared/constants/routings'
-import { handleError } from '@/shared/utils/handleError'
+import {useMutation} from '@tanstack/react-query'
+import {client} from '@/shared/api/client'
+import {PATH} from '@/shared/constants/routings'
 
 export const usePasswordRecoveryMutation = () => {
   const mutation = useMutation({
