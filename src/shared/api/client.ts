@@ -124,10 +124,9 @@ const authMiddleware: Middleware = {
 // if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
 
 export const client = createClient<paths>({
-    baseUrl,
-    headers: {}
-});
+  baseUrl,
+  headers: {},
+})
 
+client.use(authMiddleware)
 
-// подключаем middleware
-client.use(authMiddleware);

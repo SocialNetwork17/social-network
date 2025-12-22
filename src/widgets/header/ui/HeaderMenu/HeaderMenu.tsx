@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './HeaderMenu.module.scss'
-import SelectBox, {Option} from '@/shared/ui/select-box/SelectBox'
+import SelectBox, { Option } from '@/shared/ui/select-box/SelectBox'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
 import Link from 'next/link'
@@ -13,7 +13,6 @@ type HeaderMenu = {
 }
 
 export const HeaderMenu = (props: HeaderMenu) => {
-
   const { isLoggedIn, countMessage, onClickHandler } = props
 
   const languages = [
@@ -23,8 +22,8 @@ export const HeaderMenu = (props: HeaderMenu) => {
   ]
 
   const handleSelect = (option: Option) => {
-    console.log('Selected:', option);
-  };
+    console.log('Selected:', option)
+  }
 
   return (
     <div className={`${styles.menuBox}`}>

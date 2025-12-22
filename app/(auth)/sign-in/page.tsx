@@ -1,6 +1,4 @@
-import { SignInPage } from "@/pages/signInPage/ui/SignInPage";
-
-import styles from "../../rootLayout.module.scss";
+import {SignInPage} from "@/pages/auth/signInPage/ui/SignInPage";
 
 export default function Home() {
     return (

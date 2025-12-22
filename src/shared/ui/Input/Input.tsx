@@ -1,7 +1,7 @@
 'use client'
-import React, {forwardRef, HTMLInputTypeAttribute, useState} from 'react'
+import React, { forwardRef, HTMLInputTypeAttribute, useState } from 'react'
 import styles from './Input.module.scss'
-import {IconButton} from '../IconButton/IconButton'
+import { IconButton } from '../IconButton/IconButton'
 
 type Props = {
   label: string
@@ -14,16 +14,7 @@ type Props = {
 } & React.InputHTMLAttributes<HTMLInputElement>
 
 export const Input = forwardRef<HTMLInputElement, Props>((props: Props, ref) => {
-  const {
-    label,
-    type,
-    placeholder,
-    required,
-    error,
-    errorText,
-    disabled,
-    ...rest
-  } = props
+  const { label, type, placeholder, required, error, errorText, disabled, ...rest } = props
 
   const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type)
 

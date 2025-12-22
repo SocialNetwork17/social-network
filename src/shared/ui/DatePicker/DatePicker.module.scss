@@ -1,5 +1,5 @@
-@use "../../../styles/abstract" as styles;
-@use "../../../styles/base/typography" as typo;
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
 
 /* -------------------- Wrapper + Label -------------------- */
 .datePickerWrapper {
@@ -10,7 +10,7 @@
 
 .label {
   @include typo.text-regular-14;
-  color: styles.palette("light", 900);
+  color: styles.palette('light', 900);
   display: block;
   margin-bottom: 8px;
 }
@@ -30,10 +30,10 @@
 
 /* -------------------- Input -------------------- */
 .input {
-  border: 1px solid styles.palette("dark", 300);
-  background-color: styles.palette("dark", 500);
+  border: 1px solid styles.palette('dark', 300);
+  background-color: styles.palette('dark', 500);
   border-radius: 2px;
-  color: styles.palette("light", 100);
+  color: styles.palette('light', 100);
   height: 44px;
   width: 100%;
   padding: 6px 48px 6px 12px;
@@ -46,7 +46,7 @@
   &:hover,
   &.open,
   &:focus {
-    border-color: styles.palette("accent", 700);
+    border-color: styles.palette('accent', 700);
   }
 
   &:focus {
@@ -54,16 +54,16 @@
   }
 
   &.disabled {
-    background-color: styles.palette("dark", 500);
-    color: styles.palette("dark", 300);
+    background-color: styles.palette('dark', 500);
+    color: styles.palette('dark', 300);
     cursor: not-allowed;
     pointer-events: none;
   }
 
   /* ---------- Ошибка ---------- */
   &.error {
-    border-color: styles.palette("danger", 500);
-    color: styles.palette("danger", 500);
+    border-color: styles.palette('danger', 500);
+    color: styles.palette('danger', 500);
   }
 }
 
@@ -93,16 +93,16 @@
 
   /* Красная иконка при ошибке */
   &.error svg {
-    color: styles.palette("danger", 500);
-    fill: styles.palette("danger", 500);
+    color: styles.palette('danger', 500);
+    fill: styles.palette('danger', 500);
   }
 }
 
 /* -------------------- Panel (Calendar) -------------------- */
 .panel {
-  border: 1px solid styles.palette("dark", 300);
+  border: 1px solid styles.palette('dark', 300);
   border-radius: 2px;
-  background-color: styles.palette("dark", 500);
+  background-color: styles.palette('dark', 500);
   position: absolute;
   z-index: 50;
   width: 328px;
@@ -113,19 +113,19 @@
 
   /* ----------- Today ----------- */
   :global(.rdp-day_today) {
-    color: styles.palette("accent", 500);
+    color: styles.palette('accent', 500);
     font-weight: 700;
   }
 
   /* ----------- Weekend ----------- */
   :global(.rdp-day_weekend) {
-    color: styles.palette("danger", 300);
+    color: styles.palette('danger', 300);
   }
 
   /* ----------- Outside ----------- */
   :global(.rdp-day_outside) {
     opacity: 0.5;
-    color: styles.palette("light", 900);
+    color: styles.palette('light', 900);
   }
 
   /* ----------- Disabled ----------- */
@@ -137,14 +137,14 @@
   /* ----------- Hover ----------- */
   :global(.rdp-day) {
     &:hover:not(
-      .rdp-day_disabled,
-      .rdp-day_selected,
-      .rdp-day_range_start,
-      .rdp-day_range_middle,
-      .rdp-day_range_end
-    ) {
-      background-color: styles.palette("danger", 500);
-      color: styles.palette("light", 100);
+        .rdp-day_disabled,
+        .rdp-day_selected,
+        .rdp-day_range_start,
+        .rdp-day_range_middle,
+        .rdp-day_range_end
+      ) {
+      background-color: styles.palette('danger', 500);
+      color: styles.palette('light', 100);
       border-radius: 50%;
     }
   }
@@ -170,11 +170,11 @@
   :global(.rdp-day_range_start),
   :global(.rdp-day_range_middle),
   :global(.rdp-day_range_end) {
-    background-color: styles.palette("accent", 900);
-    color: styles.palette("light", 100);
+    background-color: styles.palette('accent', 900);
+    color: styles.palette('light', 100);
 
     &:hover {
-      background-color: styles.palette("accent", 700);
+      background-color: styles.palette('accent', 700);
     }
   }
 }
@@ -182,7 +182,7 @@
 /* -------------------- Error message -------------------- */
 .errorMessage {
   min-height: 20px;
-  color: styles.palette("danger", 500);
+  color: styles.palette('danger', 500);
   margin-top: 4px;
   font-size: 12px;
 }

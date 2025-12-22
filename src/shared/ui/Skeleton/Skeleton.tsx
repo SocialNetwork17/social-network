@@ -9,5 +9,10 @@ type Props = {
 export default function Skeleton(props: Props) {
   const { height, width, bordeRadius = 2 } = props
 
-  return <div style={{ height: height, width: width, borderRadius: bordeRadius}} className={styles.container}></div>
+  return (
+    <div
+      style={{ height: height, width: width, borderRadius: bordeRadius }}
+      className={styles.container}
+    ></div>
+  )
 }

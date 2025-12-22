@@ -4,7 +4,7 @@ import { ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './Modal.module.scss'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
-import {Button} from "@/shared/ui/Button/Button";
+import { Button } from '@/shared/ui/Button/Button'
 
 interface Modal {
   isOpen: boolean
@@ -65,21 +65,12 @@ export const Modal = (props: Modal) => {
           <h2 className={styles.title}>{title}</h2>
 
           <div className={styles.iconContainer}>
-            <IconButton
-              iconId={'logoutBtnCloseSvg'}
-              fill="white"
-              size={24}
-              onClick={onClose}
-            />
+            <IconButton iconId={'logoutBtnCloseSvg'} fill="white" size={24} onClick={onClose} />
           </div>
         </div>
         <div className={styles.content}>{children}</div>
         <div className={styles.buttonContainer}>
-          <Button
-              variant={"primary"}
-              onClickHandler={onClickHandler}
-              disabled={false}
-          >
+          <Button variant={'primary'} onClickHandler={onClickHandler} disabled={false}>
             OK
           </Button>
         </div>

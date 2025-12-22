@@ -1,5 +1,5 @@
 import styles from "../../rootLayout.module.scss";
-import {ForgotPasswordPage} from "@/pages/forgotPasswordPage/ui/ForgotPasswordPage";
+import {ForgotPasswordPage} from "@/pages/auth/forgotPasswordPage/ui/ForgotPasswordPage";
 
 export default function Home() {
     return (

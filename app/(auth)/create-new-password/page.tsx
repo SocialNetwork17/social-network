@@ -1,5 +1,5 @@
 import styles from "../../rootLayout.module.scss";
-import {CreateNewPasswordPage} from "@/pages/createNewPasswordPage/ui/CreateNewPasswordPage";
+import {CreateNewPasswordPage} from "@/pages/auth/createNewPasswordPage/ui/CreateNewPasswordPage";
 
 export default function Home() {
     return (

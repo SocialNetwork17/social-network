@@ -1,4 +1,4 @@
-import {CongratulationPage} from "@/pages/congratulationPage/ui/CongratulationPage";
+import {CongratulationPage} from "@/pages/auth/congratulationPage/ui/CongratulationPage";
 
 
 export default function Congratulation() {
