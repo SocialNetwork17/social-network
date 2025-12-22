@@ -14,9 +14,11 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  margin: 0 94px;
 
   .layout:has(aside) & {
     padding-left: 184px;
+    margin: 0;
   }
 }
 

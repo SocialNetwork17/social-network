@@ -46,18 +46,16 @@ async function doRefresh(): Promise<string> {
     return refreshPromise;
 }
 
-
-
 const authMiddleware: Middleware = {
     async onRequest({ request, options }) {
 
         // добавляем Authorization если accessToken есть в tokenService
         const accessToken = tokenService.get();
         if (accessToken) {
-            request.headers.set("Authorization", `Bearer ${accessToken}`);
+            request.headers.set("Authorization", `Bearer ${accessToken}`)
         }
 
-        return request;
+        return request
 
     },
     async onResponse({ request, response, options }) {
@@ -99,6 +97,4 @@ export const client = createClient<paths>({
     headers: {}
 });
 
-
-// подключаем middleware
 client.use(authMiddleware);

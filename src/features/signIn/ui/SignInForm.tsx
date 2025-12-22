@@ -6,10 +6,11 @@ import {Input} from "@/shared/ui/Input/Input";
 import Link from "next/link";
 import {PATH} from "@/shared/constants/routings";
 import {Button} from "@/shared/ui/Button/Button";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchema, SignInFormValues } from "@/features/signIn/lib/signInSchema";
-import { useLoginMutation } from "@/features/auth/api/useLoginMutation";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {SignInFormValues, signInSchema} from "@/features/signIn/lib/signInSchema";
+import {useLoginMutation} from "@/features/signIn/api/useLoginMutation";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 export const SignInForm = () => {
 
@@ -24,13 +25,11 @@ export const SignInForm = () => {
     });
     
 
-    const loginMutation = useLoginMutation();
+    const {mutate: loginMutation, isPending, isError} = useLoginMutation();
 
     const onSubmit = (data: SignInFormValues) => {
-
-        loginMutation.mutate(data);
+        loginMutation(data)
     };
-
 
 
     return (
@@ -47,7 +46,7 @@ export const SignInForm = () => {
                         error={!!errors.email}
                         errorText={errors.email?.message}
                         required
-                        disabled={loginMutation.isPending}
+                        disabled={isPending}
                         {...register("email")}
                     />
                     </div>
@@ -59,11 +58,11 @@ export const SignInForm = () => {
                         error={!!errors.password}
                         errorText={errors.password?.message}
                         required
-                        disabled={loginMutation.isPending}
+                        disabled={isPending}
                         {...register("password")}
                     />
 
-                    {loginMutation.isError && (
+                    {isError && (
                         <div className={styles.serverError}>
                             The email or password are incorrect. Try again please
                         </div>
@@ -75,9 +74,9 @@ export const SignInForm = () => {
                     <Link href={PATH.FORGOT_PASSWORD} className={styles.fargotPasswordLink}>Forgot Password</Link>
 
                     <Button variant={"primary"}
-                            disabled={loginMutation.isPending}
+                            disabled={isPending}
                             type="submit">
-                        Sign In
+                        {isPending && <Spinner/>  } Sign In
                     </Button>
 
 

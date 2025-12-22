@@ -14,6 +14,7 @@ import {ForgotPasswordInput, forgotPasswordSchema} from "@/features/forgotPasswo
 import {zodResolver} from "@hookform/resolvers/zod";
 import {SchemaRecaptchaErrorResponseDto} from "@/shared/api/schema";
 import {isValid} from "zod/v3";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 // Тип для ref reCAPTCHA компонента
 type RecaptchaRef = {
@@ -58,6 +59,7 @@ export const ForgotPasswordForm = () => {
 
     // Основная функция обработки отправки формы
     const onSubmit = (data: ForgotPasswordInput) => {
+        localStorage.setItem('recoveryEmail', data.email)
         // Проверяем наличие токена reCAPTCHA перед отправкой
         if (!recaptchaToken) {
             return;
@@ -128,7 +130,7 @@ export const ForgotPasswordForm = () => {
                                 disabled={!isValid || !recaptchaToken || !!errors.email || isPending}
                                 type={"submit"}
                             >
-                                {isPending ? 'Sending...' : 'Send Link'}
+                                {isPending && <Spinner/>} Send Link
                             </Button>
                         </div>
                     </>
@@ -145,7 +147,7 @@ export const ForgotPasswordForm = () => {
                                 type={"button"}
                                 onClick={handleSendAgain}
                             >
-                                Send Link Again
+                                {isPending && <Spinner/>  } Send Link Again
                             </Button>
                         </div>
                     </>

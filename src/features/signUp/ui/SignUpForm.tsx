@@ -10,10 +10,10 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {registrationSchema, RegistrationType} from "@/features/signUp/lib/registrationSchema";
 import {useState} from "react";
-import {useRegistration} from "@/features/signUp/model/useRegistration";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {ErrorWithMessageResponse} from "@/shared/types/types";
+import {useRegistration} from "@/features/signUp/api/useRegistration";
 
 type Props = {}
 
@@ -118,7 +118,7 @@ export const SignUpForm = (props: Props) => {
                 </div>
                 <Button
                     variant={'primary'}
-                    disabled={!isValid || !checked}
+                    disabled={!isValid || !checked || isPending}
                     type={"submit"}
 
                 >

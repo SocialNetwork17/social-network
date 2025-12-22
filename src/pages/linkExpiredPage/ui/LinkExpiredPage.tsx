@@ -5,12 +5,13 @@ import {resendEmailSchema, ResendEmailType} from "@/pages/linkExpiredPage/lib/li
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/shared/ui/Button/Button";
-import {useResendConfirmationCode} from "@/pages/linkExpiredPage/model/useResendConfirmationCode";
 import confirmCodeImg from "@/../public/registrationCodeExpired.svg"
 import Image from "next/image";
 import {Modal} from "@/shared/ui/Modal/Modal";
 import {useState} from "react";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {useResendRegistrationCode} from "@/pages/linkExpiredPage/api/useResendRegistrationCode";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
 
 
 export const LinkExpiredPage = () => {
@@ -23,29 +24,29 @@ export const LinkExpiredPage = () => {
         formState: {errors},
     } = useForm<ResendEmailType>({
         resolver: zodResolver(resendEmailSchema),
-        mode: "onSubmit",
+        mode: "all",
         defaultValues: {
             email: ""
         }
     })
 
-    const {mutate: resendConfirmation, isError, isPending, error, reset} = useResendConfirmationCode()
+    const {mutate: resendRegistrationCode, isError, isPending, error, reset} = useResendRegistrationCode()
     const [email, setEmail] = useState('')
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 
     const onSubmit: SubmitHandler<ResendEmailType> = (data: ResendEmailType) => {
         setEmail(data.email)
-        resendConfirmation(data.email, {
+        resendRegistrationCode(data.email, {
             onSuccess: () => {
                 resetForm()
                 setIsModalOpen(!isModalOpen)
             },
-            onError: (error) => {
-                const message = error.message
-                setError("email", {
+            onError: (error: unknown) => {
+                const err = error as ErrorWithMessageResponse
+                setError(err.field as keyof ResendEmailType, {
                     type: "server",
-                    message: message
+                    message: err.message
                 })
                 setEmail('')
             }
@@ -75,7 +76,7 @@ export const LinkExpiredPage = () => {
                     <Button
                         type={"submit"}
                         variant={"primary"}
-                        disabled={false}
+                        disabled={isPending}
                     >
                         {isPending && <Spinner/>}Resend verification link
                     </Button>
