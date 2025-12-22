@@ -8,11 +8,16 @@ import { useState } from 'react'
 import { LogOut } from '@/shared/ui/LogOut/LogOut'
 import { useLogoutMutation } from '@/features/auth/api/useLogoutMutation'
 import { useMeQuery } from '@/features/auth/api/useMeQuery'
+import { Path } from './Sidebar.config'
+import {CreatePostModal} from "@/entites/posts/createPost/ui/CreatePostModal";
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
   const bottomItems = menuItems.slice(5)
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
+
   const logoutMutation = useLogoutMutation()
   const { data } = useMeQuery()
 
@@ -33,15 +38,29 @@ export const Sidebar = () => {
       <aside className={s.sidebar}>
         <nav className={s.navSidebar}>
           <ul className={s.sidebarList}>
-            {mainItems.map(item => (
-              <SidebarLink
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                disabled={item.disabled}
-              />
-            ))}
+            {mainItems.map(item => {
+              if (item.href === Path.Create) {
+                return (
+                    <SidebarLink
+                        key={item.href}
+                        href="#"
+                        label={item.label}
+                        icon={item.icon}
+                        disabled={item.disabled}
+                        onClick={(e) => { e?.preventDefault(); setIsCreateOpen(true) }}
+                    />
+                )
+              }
+              return (
+                  <SidebarLink
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      icon={item.icon}
+                      disabled={item.disabled}
+                  />
+              )
+            })}
           </ul>
           <div className={s.bottomSection}>
             <ul className={s.sidebarList}>
@@ -73,6 +92,9 @@ export const Sidebar = () => {
         onCloseAction={handleLogoutClose}
         email={data?.email}
       />
+
+
+      <CreatePostModal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
     </>
   )
 }
