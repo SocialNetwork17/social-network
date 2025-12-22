@@ -8,7 +8,6 @@ import { PATH } from '@/shared/constants/routings'
 import { useRef, useState } from 'react'
 import { RecaptchaNew } from '@/shared/ui/Recaptcha/RecaptchaNew'
 import { Modal } from '@/shared/ui/Modal/Modal'
-import { useForgotPassword } from '@/features/forgotPassword/model/useForgotPassword'
 import { useForm } from 'react-hook-form'
 import {
   ForgotPasswordInput,
@@ -18,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SchemaRecaptchaErrorResponseDto } from '@/shared/api/schema'
 import { isValid } from 'zod/v3'
 import { Spinner } from '@/shared/ui/Spinner/Spinner'
+import {useForgotPassword} from "@/features/forgotPassword/api/useForgotPassword";
 
 // Тип для ref reCAPTCHA компонента
 type RecaptchaRef = {

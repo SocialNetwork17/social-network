@@ -3,16 +3,13 @@
 import styles from './CreateNewPasswordForm.module.scss'
 import { Input } from '@/shared/ui/Input/Input'
 import { Button } from '@/shared/ui/Button/Button'
-import { useCreateNewPassword } from '../model/useCreateNewPassword'
 import { useForm } from 'react-hook-form'
-import {
-  NewPasswordFormData,
-  newPasswordSchema,
-} from '@/features/createNewPassword/lib/createNewPasswordSchema'
+import {NewPasswordFormData, newPasswordSchema,} from '@/features/createNewPassword/lib/createNewPasswordSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PATH } from '@/shared/constants/routings'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Spinner } from '@/shared/ui/Spinner/Spinner'
+import {useCreateNewPassword} from "@/features/createNewPassword/api/useCreateNewPassword";
 
 export const CreateNewPasswordForm = () => {
   const router = useRouter()
