@@ -118,7 +118,7 @@ export const SignUpForm = (props: Props) => {
                 </div>
                 <Button
                     variant={'primary'}
-                    disabled={!isValid || !checked}
+                    disabled={!isValid || !checked || isPending}
                     type={"submit"}
 
                 >

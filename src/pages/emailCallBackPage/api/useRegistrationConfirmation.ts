@@ -4,7 +4,7 @@ import {handleError} from "@/shared/utils/handleError";
 
 export const useRegistrationConfirmation = ()=> {
     const mutation = useMutation({
-        mutationKey: ['registration-confirmation'],
+        mutationKey: ['auth', 'registration-confirmation'],
         mutationFn: async (code: string) => {
             const response = await client.POST('/api/v1/auth/registration-confirmation', {
                 body: {

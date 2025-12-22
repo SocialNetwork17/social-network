@@ -40,7 +40,7 @@ export const RecoveryCodePage = () => {
                         variant={"primary"}
                         disabled={false}
                     >
-                        {isPending && <Spinner/>}Resend link
+                        {isPending && <Spinner/>} Resend link
                     </Button>
                 </div>
             <Image src={confirmCodeImg} alt={'linkExpiredImg'}/>

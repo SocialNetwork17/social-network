@@ -4,7 +4,7 @@ import {handleError} from "@/shared/utils/handleError";
 
 export const useCheckRecoveryCode = ()=> {
     const mutation = useMutation({
-        mutationKey: ['check-recoveryCode'],
+        mutationKey: ['auth', 'check-recoveryCode'],
         mutationFn: async (code: string) => {
             const response = await client.POST('/api/v1/auth/check-recovery-code', {
                 body: {

@@ -9,6 +9,7 @@ export const useCreateNewPassword = () => {
 
 
     const { mutate, isPending } = useMutation({
+        mutationKey: ['auth', 'createNewPassword'],
         mutationFn: async (data: SchemaNewPasswordInputDto) => {
             if (!data.recoveryCode) {
                 throw new Error('Recovery code is missing');

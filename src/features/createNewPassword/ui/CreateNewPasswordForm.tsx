@@ -3,33 +3,25 @@
 import styles from './CreateNewPasswordForm.module.scss'
 import {Input} from "@/shared/ui/Input/Input";
 import {Button} from "@/shared/ui/Button/Button";
-import { useCreateNewPassword } from '../model/useCreateNewPassword';
+import {useCreateNewPassword} from '../model/useCreateNewPassword';
 import {useForm} from "react-hook-form";
 import {NewPasswordFormData, newPasswordSchema} from "@/features/createNewPassword/lib/createNewPasswordSchema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {PATH} from "@/shared/constants/routings";
 import {useSearchParams, useRouter} from "next/navigation";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
-// Типизация ошибок API
-type ApiError = {
-    statusCode?: number;
-    messages?: Array<{
-        message?: string;
-        field?: string;
-    }>;
-    error?: string;
-}
 
 export const CreateNewPasswordForm = () => {
-    // Хуки Next.js для работы с роутингом и параметрами URL
+
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    // Инициализация формы с react-hook-form и валидацией через Zod
+
     const {
         handleSubmit,
         register,
-        formState: { errors, isSubmitting, isValid },
+        formState: {errors, isSubmitting, isValid},
         reset,
     } = useForm<NewPasswordFormData>({
         resolver: zodResolver(newPasswordSchema), // Интеграция Zod для валидации
@@ -40,64 +32,30 @@ export const CreateNewPasswordForm = () => {
         }
     });
 
-    // Получение recovery code из query параметров URL
+
     const recoveryCode = searchParams ? searchParams.get('code') : null;
 
-    // Кастомный хук для мутации создания нового пароля (React Query)
-    const {
-        mutate: createNewPassword,
-        isPending,
-    } = useCreateNewPassword();
+    const {mutate: createNewPassword, isPending,} = useCreateNewPassword();
 
-    // Основная функция обработки отправки формы
     const onSubmit = (data: NewPasswordFormData) => {
-        // Защита: проверка наличия recovery code перед отправкой
-        if (!recoveryCode) {
-            console.error('No recovery code found');
-            return;
-        }
+        if (!recoveryCode) return
 
-        // Вызов мутации для создания нового пароля
         createNewPassword({
             newPassword: data.newPassword,
             recoveryCode: recoveryCode
         }, {
-            // Обработка успешного ответа
             onSuccess: () => {
-                reset(); // Сброс формы к дефолтным значениям
-
-                // Перенаправление на страницу входа через 3 секунды
-                setTimeout(() => {
-                    router.push(PATH.SIGN_IN);
-                }, 3000);
+                reset();
+                router.push(PATH.SIGN_IN)
             },
-            // Обработка ошибок
-            onError: (error: unknown) => {
-                console.error('Recovery error:', error);
-
-                // Проверка и обработка структурированных ошибок API
-                if (error && typeof error === 'object') {
-                    const apiError = error as ApiError;
-
-                    console.log('API Error details:', apiError);
-
-                    // Обработка ошибки невалидного кода восстановления
-                    if (apiError.statusCode === 400 && apiError.messages) {
-                        apiError.messages.forEach((errMsg) => {
-                            if (errMsg.message === 'Password recovery code is invalid') {
-                                // Перенаправление на страницу просроченной ссылки
-                                router.push(PATH.LINK_EXPIRED);
-                                return;
-                            }
-                        });
-                    }
-                }
+            onError: () => {
+                router.push(PATH.LINK_EXPIRED_RECOVERY_CODE)
             }
         });
     };
 
     // проверка возможности отправки формы
-    const canSubmit = !isPending && !isSubmitting && isValid && !!recoveryCode;
+    const canSubmit = !isPending && !isSubmitting && isValid && !!recoveryCode
 
     return (
         <div className={styles.CreateNewPasswordPage}>
@@ -133,9 +91,9 @@ export const CreateNewPasswordForm = () => {
                 <Button
                     variant={'primary'}
                     type="submit"
-                    disabled={!errors}
+                    disabled={!canSubmit}
                 >
-                    {isPending ? 'Creating...' : 'Create new password'}
+                    { isPending && <Spinner/>} Create new password
                 </Button>
             </form>
         </div>

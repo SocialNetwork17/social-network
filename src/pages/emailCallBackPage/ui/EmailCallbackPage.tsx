@@ -32,7 +32,7 @@ export const EmailCallbackPage = () => {
                     router.push(PATH.CONGRATULATIONS)
                 },
                 onError: () => {
-                    router.push(PATH.LINK_EXPIRED)
+                    router.push(PATH.LINK_EXPIRED_EMAIL)
                 }
             })
         }
@@ -42,7 +42,7 @@ export const EmailCallbackPage = () => {
                     router.push(`${PATH.CREATE_NEW_PASSWORD}?code=${code}`)
                 },
                 onError: () => {
-                    router.push(PATH.RECOVERY_CODE)
+                    router.push(PATH.LINK_EXPIRED_RECOVERY_CODE)
                 }
             })
         }
