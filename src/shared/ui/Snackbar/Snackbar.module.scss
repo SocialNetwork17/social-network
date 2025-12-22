@@ -1,0 +1,99 @@
+@use '../../../styles/base/typography' as typo;
+@use '../../../styles/abstract' as styles;
+
+.snackbar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  min-width: 387px;
+  max-width: 500px;
+  padding: 12px 24px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  z-index: 1000;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+
+  &.exiting {
+    animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+}
+
+.snackbarContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.snackbarMessage {
+  @include typo.text-regular-16;
+}
+
+.snackbarClose {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Типы snackbar
+.success {
+  background: styles.palette('success', 900);
+  border: 1px solid styles.palette('success', 500);
+}
+
+.error {
+  background: #660a1d;
+  border: 1px solid #cc1439;
+}
+
+// Анимации
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
