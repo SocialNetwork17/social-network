@@ -15,30 +15,9 @@ type Images = {
   width: number
   height: number
   fileSize: number
-  createdAt: string
-  uploadId: string
+  createdAt: string | undefined
+  uploadId?: string
 }
-
-export type Post = {
-  id: number
-  userName: string
-  description: string
-  location: string
-  images: Images[]
-  createdAt: string
-  updatedAt: string
-  ownerId: 1
-  avatarOwner: string
-  owner: {
-    firstName: string
-    lastName: string
-  }
-  likesCount: number
-  isLiked: boolean
-  avatarWhoLikes: boolean
-}
-
-type PostData = Post[]
 
 export const usersData: UsersData = {
   1: {
@@ -118,6 +97,27 @@ export const usersData: UsersData = {
     ],
   },
 }
+
+export type Post = {
+  id: number
+  userName: string
+  description: string
+  location: string
+  images: Images[]
+  createdAt: string
+  updatedAt: string
+  ownerId: 1
+  avatarOwner: string
+  owner: {
+    firstName: string
+    lastName: string
+  }
+  likesCount: number
+  isLiked: boolean
+  avatarWhoLikes: boolean
+}
+
+type PostData = Post[]
 
 export const postsData: PostData = [
   {
@@ -301,3 +301,39 @@ export const postsData: PostData = [
     avatarWhoLikes: false,
   },
 ]
+
+export type Profile = {
+  id: number
+  userName: string 
+  firstName: string | null
+  lastName: string | null
+  city: string | null
+  country: string | null
+  region: string | null
+  dateOfBirth: string | null
+  aboutMe: string | null
+  avatars: Array<Images | null>
+  createdAt: string
+}
+
+export const myProfile: Profile = {
+  id: 1,
+  userName: 'user1',
+  firstName: 'John',
+  lastName: 'Doe',
+  city: 'London',
+  country: 'Great Britain',
+  region: 'Cambridgeshire',
+  dateOfBirth: '2020-01-01',
+  aboutMe: 'About me',
+  avatars: [
+    {
+      url: '/mock-images/userPhoto-1.png',
+      width: 300,
+      height: 300,
+      fileSize: 300,
+      createdAt: '2025-12-22T13:49:27.575Z',
+    },
+  ],
+  createdAt: '2025-12-22T13:49:27.575Z',
+}
