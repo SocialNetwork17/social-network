@@ -1,37 +1,24 @@
-import { client } from '@/shared/api/client'
+'use client'
+
 import { useAuth } from '@/shared/hooks/useAuth'
-import UserProfile from '@/shared/ui/UserProfile/UserProfile'
-import { useQuery } from '@tanstack/react-query'
+import styles from './MyProfile.module.scss'
+import { useDataProfile } from '../api/useDataProfile'
+import ProfileHeader from '@/shared/ui/UserProfile/ProfileHeader/ProfileHeader'
+import { useAllPosts } from '../api/useAllPosts'
+import PostSimple from '@/shared/ui/UserProfile/Posts/PostSimple'
 
 export default function MyProfile() {
   const { isAuth } = useAuth()
+  const { data, isLoading, isError } = useDataProfile()
+  const { data: postsData } = useAllPosts()
 
-  const query = useQuery({
-    queryKey: ['profile'],
-    queryFn: async () => {
-      const response = await client.GET('/api/v1/users/profile')
-      return response.data
-    },
-  })
-
-  if (query.isLoading) {
-    return (
-        <div>Загрузка профиля...</div>
-    )
-  }
-
-  if (query.error) {
-    return (
-        <div>Ошибка</div>
-    )
-  }
+  if (isLoading) return <div>Загрузка профиля...</div>
+  if (isError) return <div>Ошибка</div>
 
   return (
-    <div>
-      <UserProfile
-        user={query.data}
-        type={isAuth ? 'profile' : 'unauthorized'}
-      />
+    <div className={styles.container}>
+      <ProfileHeader user={data} type={isAuth ? 'profile' : 'unauthorized'} />
+      <PostSimple postsArray={postsData?.items}/>
     </div>
   )
 }

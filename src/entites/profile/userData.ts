@@ -301,10 +301,11 @@ export const postsData: PostData = [
     avatarWhoLikes: false,
   },
 ]
+//переделанные типы, пока оставляю, немного позже удалю лишнее
 
 export type Profile = {
   id: number
-  userName: string 
+  userName: string
   firstName: string | null
   lastName: string | null
   city: string | null
@@ -336,4 +337,28 @@ export const myProfile: Profile = {
     },
   ],
   createdAt: '2025-12-22T13:49:27.575Z',
+}
+export type PostsArray = {
+  id: number
+  userName: string
+  description: string
+  location: string | null
+  images: Images[]
+  createdAt: string
+  updatedAt: string
+  avatarOwner: string
+  ownerId: number
+  owner: {
+    firstName: string | null
+    lastName: string | null
+  }
+  likesCount: number
+  isLiked: boolean
+  avatarWhoLikes: []
+}
+
+export type AllPosts = {
+  totalCount: number
+  pageSize: number
+  items: PostsArray[]
 }
