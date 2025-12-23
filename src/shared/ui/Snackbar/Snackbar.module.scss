@@ -4,7 +4,7 @@
 .snackbar {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 14%;
   min-width: 387px;
   max-width: 500px;
   padding: 12px 24px;
@@ -37,24 +37,11 @@
 }
 
 .snackbarClose {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 24px;
-  line-height: 1;
   cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 4px;
   transition: all 0.2s ease;
-  flex-shrink: 0;
 
   &:hover {
-    color: white;
     background: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
   }
@@ -71,8 +58,8 @@
 }
 
 .error {
-  background: #660a1d;
-  border: 1px solid #cc1439;
+  background: styles.palette('danger', 900);
+  border: 1px solid styles.palette('danger', 500);
 }
 
 // Анимации

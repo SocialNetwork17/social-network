@@ -5,7 +5,7 @@ import { Input } from '@/shared/ui/Input/Input'
 import { Button } from '@/shared/ui/Button/Button'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
-import { useRef, useState } from 'react'
+import {FormEvent, useRef, useState} from 'react'
 import { RecaptchaNew } from '@/shared/ui/Recaptcha/RecaptchaNew'
 import { Modal } from '@/shared/ui/Modal/Modal'
 import { useForm } from 'react-hook-form'
@@ -15,7 +15,6 @@ import {
 } from '@/features/forgotPassword/lib/forgotPasswordSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SchemaRecaptchaErrorResponseDto } from '@/shared/api/schema'
-import { isValid } from 'zod/v3'
 import { Spinner } from '@/shared/ui/Spinner/Spinner'
 import {useForgotPassword} from "@/features/forgotPassword/api/useForgotPassword";
 
@@ -37,7 +36,7 @@ export const ForgotPasswordForm = () => {
     handleSubmit,
     register,
     setError,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ForgotPasswordInput>({
     mode: 'onBlur',
     resolver: zodResolver(forgotPasswordSchema),
@@ -57,6 +56,7 @@ export const ForgotPasswordForm = () => {
   const handleSendAgain = () => {
     setLinkSent(false)
     setRecaptchaToken(null)
+    recaptchaRef.current?.reset()
     resetMutation()
   }
 
@@ -81,11 +81,13 @@ export const ForgotPasswordForm = () => {
           setIsModalOpen(true)
           setLinkSent(true)
           setRecaptchaToken(null)
+          recaptchaRef.current?.reset()
         },
         // Обработка ошибок
         onError: (error: SchemaRecaptchaErrorResponseDto | Error | string) => {
           // Всегда сбрасываем reCAPTCHA при любой ошибке
           setRecaptchaToken(null)
+          recaptchaRef.current?.reset()
 
           // Проверяем структуру ошибки (ошибка API)
           if (typeof error === 'object' && 'statusCode' in error) {
@@ -109,11 +111,16 @@ export const ForgotPasswordForm = () => {
     )
   }
 
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    handleSubmit(onSubmit)(event)
+  }
+
   return (
     <div className={styles.ForgotPasswordPage}>
       <h2 className={styles.title}>Forgot Password</h2>
 
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.form} onSubmit={handleFormSubmit}>
         <Input
           {...register('email')}
           errorText={errors.email?.message}
@@ -176,6 +183,7 @@ export const ForgotPasswordForm = () => {
             }}
             onError={() => {
               setRecaptchaToken(null) // Сбрасываем токен при ошибке
+              recaptchaRef.current?.reset()
             }}
           />
         </div>

@@ -23,6 +23,6 @@ export const Error: Story = {
 export const Success: Story = {
   args: {
     type: "success",
-    message: 'Your settings are saved'
+      message: 'Your settings are saved',
   },
 }
