@@ -12,10 +12,11 @@ type Props = {
   variant?: 'rectangle' | 'circular'
   width?: number
   height?: number
+  onClick?: () => void
 }
 
 export default function Card(props: Props) {
-  const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width } = props
+  const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width, onClick } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -44,6 +45,7 @@ export default function Card(props: Props) {
       {imagesArray.map((image, index) => (
         <div
           key={index}
+          onClick={onClick}
           className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
         >
           <Image

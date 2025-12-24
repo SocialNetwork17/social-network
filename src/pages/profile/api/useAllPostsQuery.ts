@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 import { AllPosts } from '@/entites/profile/userData'
 
-export const useAllPosts = (
+export const useAllPostsQuery = (
   pageSize: number = 12,
   sortDirection: 'asc' | 'desc' = 'desc',
   endCursorPostId?: number

@@ -354,7 +354,7 @@ export type PostsArray = {
   }
   likesCount: number
   isLiked: boolean
-  avatarWhoLikes: []
+  avatarWhoLikes: [] | boolean
 }
 
 export type AllPosts = {

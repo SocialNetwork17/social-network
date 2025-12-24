@@ -1,7 +1,7 @@
 import { useQuery} from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 
-export const useDataProfile = () => {
+export const useDataProfileQuery = () => {
   return useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
