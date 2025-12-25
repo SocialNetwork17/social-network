@@ -31,14 +31,22 @@ export default function PostSimple(props: Props) {
   return (
     <>
       <div className={styles.postContainer}>
-        {postsArray.map(post => (
-          <div key={post.id}>
-            <Card images={post.images[0]?.url} onClick={() => handleImageClick(post.id)} />
-          </div>
-        ))}
+        {postsArray.map(post => {
+          const imageSlider = post.images.map(image => image.url)
+          return (
+            <div key={post.id}>
+              <Card images={imageSlider} onClick={() => handleImageClick(post.id)} />
+            </div>
+          )
+        })}
       </div>
-      {selectedPost && data && (
-        <ImageModal isOpen={isModalOpen} onClose={closeModal} postInfo={data} isLoading={isLoading}/>
+      {selectedPost && data && isModalOpen && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          postInfo={data}
+          isLoading={isLoading}
+        />
       )}
     </>
   )
