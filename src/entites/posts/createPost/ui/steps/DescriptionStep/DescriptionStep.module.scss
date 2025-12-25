@@ -1,0 +1,246 @@
+@use '../../../../../../styles/abstract/index' as styles;
+
+.container {
+  display: flex;
+  height: 564px;
+  max-height: 80vh;
+  border-radius: 2px;
+  overflow: hidden;
+  width: 972px;
+}
+
+.imageSection {
+  flex: 1;
+  position: relative;
+
+}
+
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.navigationOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.arrowsWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+    z-index: 100;
+  }
+}
+
+.dotsWrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+    z-index: 100;
+  }
+}
+
+.descriptionSection {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #4c4c4c;
+  min-width: 300px;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+
+.publicationHeader {
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  color: #8e8e8e;
+}
+
+.textareaContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #4c4c4c;
+  border-radius: 2px;
+  overflow: hidden;
+
+}
+
+.textarea {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  background: black;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e4f1fb;
+  outline: none;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #8e8e8e;
+  }
+
+  &:focus {
+    color: #e4f1fb;
+  }
+}
+
+
+.charCounter {
+  font-size: 13px;
+  color: #8e8e8e;
+  margin-left: auto
+}
+
+.publishInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.publishStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.publishLabel {
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+.publishValue {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.charLimitInfo {
+  font-size: 13px;
+  color: #8e8e8e;
+}
+
+.charLimit {
+  font-weight: 500;
+  color: #262626;
+}
+
+.errorMessage {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  color: #ef4444;
+  font-size: 14px;
+  text-align: center;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  color: #999;
+  font-size: 16px;
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    min-width: auto;
+    max-height: none;
+  }
+
+  .imageSection {
+    height: 300px;
+  }
+
+  .descriptionSection {
+    border-left: none;
+    border-top: 1px solid #e0e0e0;
+  }
+}

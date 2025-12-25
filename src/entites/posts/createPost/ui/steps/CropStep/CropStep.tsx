@@ -1,21 +1,43 @@
-'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
 import type { ImageItem } from '@/entites/posts/createPost/model/types'
 import { getCroppedImg } from '../../../lib/imageUtils'
+import s from './CropStep.module.scss'
+import { DeleteButton } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/DeleteButton'
+import { NavigationArrows } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/NavigationArrows'
+import { NavigationDots } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/NavigationDots'
+import { AspectRatioPanel } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/AspectRatioPanel'
+import { ZoomPanel } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/ZoomPanel'
+import { ToolButtons } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/ToolButtons'
 
 type Props = {
     image?: ImageItem
     onUpdate: (partial: Partial<ImageItem>) => void
     onApplyRef?: (fn: () => Promise<void>) => void
+    images: ImageItem[]
+    activeIndex: number
+    setActiveIndex: React.Dispatch<React.SetStateAction<number>>
+    setImages: React.Dispatch<React.SetStateAction<ImageItem[]>>
+    setStep: React.Dispatch<React.SetStateAction<'UPLOAD' | 'CROP' | 'DESCRIPTION'>>
 }
 
-export const CropStep = ({ image, onUpdate, onApplyRef }: Props) => {
+export const CropStep = ({
+                             image,
+                             onUpdate,
+                             onApplyRef,
+                             images,
+                             activeIndex,
+                             setActiveIndex,
+                             setImages,
+                             setStep
+                         }: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [aspect, setAspect] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
+    const [showAspectTools, setShowAspectTools] = useState(false)
+    const [showZoomTools, setShowZoomTools] = useState(false)
 
     const applyCrop = useCallback(async () => {
         if (!image || !croppedAreaPixels) return
@@ -37,7 +59,7 @@ export const CropStep = ({ image, onUpdate, onApplyRef }: Props) => {
             alert('Crop failed')
         }
     }, [image, crop, zoom, aspect, croppedAreaPixels, onUpdate])
-    // 🔹 инициализация из ImageItem при переключении activeIndex
+
     useEffect(() => {
         if (!image) return
 
@@ -46,14 +68,11 @@ export const CropStep = ({ image, onUpdate, onApplyRef }: Props) => {
         setAspect(image.aspect ?? 1)
     }, [image])
 
-    // 🔹 передаём функцию наружу, чтобы CreatePostModal мог вызвать applyCrop перед Next
     useEffect(() => {
         if (onApplyRef) {
             onApplyRef(applyCrop)
         }
     }, [applyCrop, onApplyRef])
-
-
 
     const onCropComplete = useCallback(
         (_croppedArea: Area, croppedAreaPixels: Area) => {
@@ -62,26 +81,53 @@ export const CropStep = ({ image, onUpdate, onApplyRef }: Props) => {
         []
     )
 
+    const handleDelete = () => {
+        const toDelete = images[activeIndex]
+        if (toDelete) {
+            URL.revokeObjectURL(toDelete.url)
+            if (toDelete.croppedPreviewUrl) {
+                URL.revokeObjectURL(toDelete.croppedPreviewUrl)
+            }
+        }
+
+        const newImages = images.filter((_, i) => i !== activeIndex)
+        setImages(newImages)
+
+        if (newImages.length === 0) {
+            setActiveIndex(0)
+            setStep('UPLOAD')
+        } else if (activeIndex >= newImages.length) {
+            setActiveIndex(newImages.length - 1)
+        }
+    }
+
+    const handleAspectButtonClick = () => {
+        setShowAspectTools(!showAspectTools)
+        setShowZoomTools(false)
+    }
+
+    const handleZoomButtonClick = () => {
+        setShowZoomTools(!showZoomTools)
+        setShowAspectTools(false)
+    }
+
+    const handlePrev = () => {
+        setActiveIndex(i => i - 1)
+    }
+
+    const handleNext = () => {
+        setActiveIndex(i => i + 1)
+    }
+
+    const handleDotClick = (index: number) => {
+        setActiveIndex(index)
+    }
+
     if (!image) return null
 
     return (
-        <div
-            style={{
-                width: 492,
-                height: 564,
-                display: 'flex',
-                flexDirection: 'column',
-            }}
-        >
-            {/* Crop area */}
-            <div
-                style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: 380,
-                    background: '#222',
-                }}
-            >
+        <div className={s.cropAreaWrapper}>
+            <div className={s.cropArea}>
                 <Cropper
                     image={image.url}
                     crop={crop}
@@ -91,36 +137,40 @@ export const CropStep = ({ image, onUpdate, onApplyRef }: Props) => {
                     onZoomChange={setZoom}
                     onCropComplete={onCropComplete}
                 />
-            </div>
 
-            {/* Tools */}
-            <div
-                style={{
-                    padding: 12,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 12,
-                    flexGrow: 1,
-                }}
-            >
-                <div style={{ display: 'flex', gap: 8 }}>
-                    <button onClick={() => setAspect(1)}>1:1</button>
-                    <button onClick={() => setAspect(4 / 5)}>4:5</button>
-                    <button onClick={() => setAspect(16 / 9)}>16:9</button>
-                    <button onClick={() => setAspect(9 / 16)}>9:16</button>
-                </div>
+                <DeleteButton onClick={handleDelete} />
 
-                <div>
-                    <label>Zoom</label>
-                    <input
-                        type="range"
-                        min={1}
-                        max={3}
-                        step={0.01}
-                        value={zoom}
-                        onChange={e => setZoom(+e.target.value)}
+                <ToolButtons
+                    onAspectButtonClick={handleAspectButtonClick}
+                    onZoomButtonClick={handleZoomButtonClick}
+                />
+
+                {showAspectTools && (
+                    <AspectRatioPanel
+                        aspect={aspect}
+                        onAspectChange={setAspect}
                     />
-                </div>
+                )}
+
+                {showZoomTools && (
+                    <ZoomPanel
+                        zoom={zoom}
+                        onZoomChange={setZoom}
+                    />
+                )}
+
+                <NavigationArrows
+                    activeIndex={activeIndex}
+                    imagesLength={images.length}
+                    onPrev={handlePrev}
+                    onNext={handleNext}
+                />
+
+                <NavigationDots
+                    images={images}
+                    activeIndex={activeIndex}
+                    onDotClick={handleDotClick}
+                />
             </div>
         </div>
     )

@@ -1,124 +1,169 @@
-'use client'
 
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import type { ImageItem } from '@/entites/posts/createPost/model/types'
-import {
-    useUploadImagesMutation,
-    useCreatePostMutation,
-} from '@/entites/posts/createPost/model/usePostsMutations'
+import { useUploadImagesMutation } from '../../../model/useUploadImagesMutation'
+import { useCreatePostMutation } from '@/entites/posts/createPost/model/useCreatePostMutation'
+import s from './DescriptionStep.module.scss'
+import { NavigationArrows } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/NavigationArrows'
+import { NavigationDots } from '@/entites/posts/createPost/ui/steps/CropStep/CropNavigate/NavigationDots'
 
 type Props = {
     images: ImageItem[]
     description: string
     setDescription: (s: string) => void
-    onBack: () => void
     onClose: () => void
+    onPublishRef?: (fn: () => Promise<void>) => void
+    activeIndex: number
+    setActiveIndex: (index: number) => void
 }
 
 export const DescriptionStep = ({
                                     images,
                                     description,
                                     setDescription,
-                                    onBack,
                                     onClose,
+                                    onPublishRef,
+                                    activeIndex,
+                                    setActiveIndex,
                                 }: Props) => {
     const uploadMut = useUploadImagesMutation()
     const createMut = useCreatePostMutation()
 
-    const handlePublish = async () => {
-        try {
-            const files = images.map(it =>
-                it.croppedBlob
-                    ? new File([it.croppedBlob], it.file.name || 'img.jpg', {
-                        type: 'image/jpeg',
-                    })
-                    : it.file
-            )
+    //С useCallback функция мемоизируется и не пересоздается при каждом рендере
+    const handlePublish = useCallback(async () => {
+        if (images.length === 0) return
 
+        const files = images.map(it =>
+            it.croppedBlob
+                ? new File([it.croppedBlob], it.file.name, { type: 'image/jpeg' })
+                : it.file
+        )
+
+        try {
             const uploaded = await uploadMut.mutateAsync(files)
 
-            const childrenMetadata = uploaded.map(img => ({
-                uploadId: img.uploadId,
-            }))
-
-            await createMut.mutateAsync({ description, childrenMetadata })
+            await createMut.mutateAsync({
+                description,
+                childrenMetadata: uploaded.map(i => ({ uploadId: i.uploadId })),
+            })
 
             onClose()
-        } catch (err: any) {
-            console.error(err)
-            alert(err?.message || 'Publish failed')
+        } catch (error) {
+            console.error('Publish failed:', error)
+        }
+    }, [images, description, uploadMut, createMut, onClose])
+
+    //useEffect для передачи функции публикации родителю
+    //Вызывается при изменении handlePublish или onPublishRef
+    useEffect(() => {
+        onPublishRef?.(handlePublish)
+    }, [handlePublish, onPublishRef])
+
+    const handlePrev = () => {
+        if (images.length <= 1) return
+        const newIndex = activeIndex > 0 ? activeIndex - 1 : images.length - 1
+        setActiveIndex(newIndex)
+    }
+
+    const handleNext = () => {
+        if (images.length <= 1) return
+        const newIndex = activeIndex < images.length - 1 ? activeIndex + 1 : 0
+        setActiveIndex(newIndex)
+    }
+
+    const handleDotClick = (index: number) => {
+        if (index >= 0 && index < images.length) {
+            setActiveIndex(index)
         }
     }
 
-    // ✅ создаём preview URL один раз
-    useEffect(() => {
-        images.forEach(it => {
-            if (it.croppedBlob && !it.croppedPreviewUrl) {
-                it.croppedPreviewUrl = URL.createObjectURL(it.croppedBlob)
-            }
-        })
+    if (images.length === 0) {
+        return (
+            <div className={s.emptyState}>
+                <p>No images to display</p>
+            </div>
+        )
+    }
 
-        // ✅ cleanup
-        return () => {
-            images.forEach(it => {
-                if (it.croppedPreviewUrl) {
-                    URL.revokeObjectURL(it.croppedPreviewUrl)
-                    it.croppedPreviewUrl = undefined
-                }
-            })
-        }
-    }, [images])
+    const currentImage = images[activeIndex]
 
     return (
-        <div>
-            {/* превью выбранных изображений */}
-            <div style={{ display: 'flex', gap: 8 }}>
-                {images.map(it => (
-                    <img
-                        key={it.id}
-                        src={it.croppedPreviewUrl ?? it.url}
-                        style={{
-                            width: it.croppedBlob ? 'auto' : 120,
-                            height: 120,
-                            objectFit: it.croppedBlob ? 'contain' : 'cover',
-                        }}
-                    />
-                ))}
-            </div>
+        <div className={s.container}>
+            {/* Левая часть - изображение с навигацией */}
+            <div className={s.imageSection}>
+                <div className={s.imageContainer}>
+                    {currentImage && (
+                        <img
+                            key={currentImage.id}
+                            src={currentImage.croppedPreviewUrl ?? currentImage.url}
+                            className={s.previewImage}
+                            alt="Preview"
+                        />
+                    )}
 
-            {/* описание поста */}
-            <div style={{ marginTop: 12 }}>
-                <textarea
-                    rows={4}
-                    maxLength={500}
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    placeholder="Write a description (optional, max 500 chars)"
-                    style={{ width: '100%' }}
-                />
-            </div>
-
-            {/* кнопки */}
-            <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-                <button onClick={onBack}>Back</button>
-
-                <button
-                    onClick={handlePublish}
-                    disabled={uploadMut.isPending || createMut.isPending}
-                >
-                    {uploadMut.isPending || createMut.isPending
-                        ? 'Publishing...'
-                        : 'Publish'}
-                </button>
-
-                <button onClick={onClose}>Cancel</button>
-            </div>
-
-            {(uploadMut.isError || createMut.isError) && (
-                <div style={{ color: 'red', marginTop: 8 }}>
-                    Publish failed
+                    {/* Стрелки навигации */}
+                    {images.length > 1 && (
+                        <div className={s.navigationArrowsWrapper}>
+                            <NavigationArrows
+                                activeIndex={activeIndex}
+                                imagesLength={images.length}
+                                onPrev={handlePrev}
+                                onNext={handleNext}
+                            />
+                        </div>
+                    )}
                 </div>
-            )}
+
+                {/* Точки навигации */}
+                {images.length > 1 && (
+                    <div className={s.navigationDotsWrapper}>
+                        <NavigationDots
+                            images={images}
+                            activeIndex={activeIndex}
+                            onDotClick={handleDotClick}
+                        />
+                    </div>
+                )}
+            </div>
+
+            {/* Правая часть - описание */}
+            <div className={s.descriptionSection}>
+                {/* Профиль пользователя */}
+                <div className={s.profileSection}>
+                    <div className={s.avatar}>U</div>
+                    <div className={s.profileInfo}>
+                        <span className={s.username}>URLProfile</span>
+                    </div>
+                </div>
+
+                {/* Заголовок Publication */}
+                <div className={s.publicationHeader}>
+                    <p className={s.sectionSubtitle}>Add publication descriptions</p>
+                </div>
+
+                {/* Текстареа для описания */}
+                <div className={s.textareaContainer}>
+                    <textarea
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                        placeholder="Add publication description..."
+                        className={s.textarea}
+                        rows={8}
+                        maxLength={500}
+                    />
+
+                </div>
+                        <span className={s.charCounter}>
+                            {description.length}/500
+                        </span>
+
+                {/* Сообщение об ошибке */}
+                {(uploadMut.isError || createMut.isError) && (
+                    <div className={s.errorMessage}>
+                        Failed to publish. Please try again.
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

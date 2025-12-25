@@ -28,7 +28,7 @@ export const SidebarLink = ({ href, label, icon, disabled = false, onClick }: Si
     ? `${s.sidebarLink} ${s.activeLink}`
     : s.sidebarLink
 
-  // Если есть onClick, то используем button или обрабатываем клик в Link
+  // Если есть onClick, то используем button
   if (onClick) {
     return (
         <li className={s.sidebarItem}>

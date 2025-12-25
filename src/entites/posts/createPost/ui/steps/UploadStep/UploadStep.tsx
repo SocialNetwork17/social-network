@@ -5,6 +5,7 @@ import type { ImageItem } from '@/entites/posts/createPost/model/types'
 import { v4 as uuidv4 } from 'uuid'
 import {Button} from "@/shared/ui/Button/Button";
 import {Icon} from "@/shared/ui/Icon/Icon";
+import s from './UploadStep.module.scss'
 
 type Props = {
     images: ImageItem[]
@@ -18,9 +19,12 @@ const ALLOWED = ['image/jpeg', 'image/png']
 export const UploadStep = ({ images, setImages, onNext }: Props) => {
     const ref = useRef<HTMLInputElement | null>(null)
 
+    //Скрыть нативный input и использовать красивую кнопку, которая триггерит клик на скрытом input.
     const trigger = () => ref.current?.click()
 
+    //обработки выбора файлов через элемент <input type="file">
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+
         const files = e.target.files
         if (!files || files.length === 0) return
 
@@ -29,7 +33,7 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
             const f: File = files.item(i)!
             if (!ALLOWED.includes(f.type)) {
                 alert('The photo must be JPEG or PNG')
-                continue
+                continue //Без continue пришлось бы делать вложенные условия:
             }
             if (f.size > MAX_SIZE) {
                 alert('The photo must be less than 20 Mb')
@@ -47,9 +51,6 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
                 croppedAreaPixels: null,
                 croppedBlob: null,
             })
-
-            // MVP: only first file — remove break to accept multiple
-            // break ❗️
         }
 
         if (newItems.length) {
@@ -57,25 +58,16 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
             onNext()
         }
 
-        // reset input so same file can be selected again
         e.currentTarget.value = ''
     }
 
     return (
-        <div style={{ padding: 20 }}>
-            <div style={{
-                width: 222,
-                height: 222,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'black',
-                borderRadius: 2 }}>
-
+        <div className={s.addPhotoWrapper}>
+            <div className={s.iconWrapper}>
                 <Icon iconId={'create-post-icon'} size={48} fill={'white'} viewBox={'0 0 48 48'}/>
             </div>
 
-            <p>Select photo (JPEG/PNG, max 20MB)</p>
+            {/*<p>Select photo (JPEG/PNG, max 20MB)</p>*/}
             <Button
                 disabled={false}
                 variant={"primary"}
@@ -85,7 +77,7 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
                 type="file"
                 accept="image/jpeg,image/png"
                 multiple
-                style={{ display: 'none' }}
+                style={{ display: 'none' }} //скрыт
                 onChange={handleChange} />
         </div>
     )

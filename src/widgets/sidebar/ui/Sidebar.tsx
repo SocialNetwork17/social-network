@@ -3,13 +3,13 @@
 import s from './Sidebar.module.scss'
 import { SidebarLink } from './SidebarLink/SidebarLink'
 import { Icon } from '@/shared/ui/Icon/Icon'
-import { menuItems } from '@/widgets/Sidebar/ui/Sidebar.config'
+import { menuItems } from '@/widgets/sidebar/ui/Sidebar.config'
 import { useState } from 'react'
 import { LogOut } from '@/shared/ui/LogOut/LogOut'
-import { useLogoutMutation } from '@/features/auth/api/useLogoutMutation'
-import { useMeQuery } from '@/features/auth/api/useMeQuery'
+import { useLogoutMutation } from '@/widgets/sidebar/api/useLogoutMutation'
+import { useMeQuery } from '@/shared/api/useMeQuery'
 import { Path } from './Sidebar.config'
-import {CreatePostModal} from "@/entites/posts/createPost/ui/CreatePostModal";
+import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
@@ -47,7 +47,9 @@ export const Sidebar = () => {
                         label={item.label}
                         icon={item.icon}
                         disabled={item.disabled}
-                        onClick={(e) => { e?.preventDefault(); setIsCreateOpen(true) }}
+                        onClick={(e) => {
+                          e?.preventDefault(); // Не выполняй стандартное поведение элемента
+                          setIsCreateOpen(true) }}
                     />
                 )
               }
@@ -94,7 +96,7 @@ export const Sidebar = () => {
       />
 
 
-      <CreatePostModal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+      <CreatePostWizard isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
     </>
   )
 }

@@ -1,0 +1,18 @@
+.addPhotoWrapper {
+  padding: 72px 135px 108px;
+  margin: 0 auto;
+  //border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.iconWrapper {
+  width: 222px;
+  height: 222px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 2;
+}
