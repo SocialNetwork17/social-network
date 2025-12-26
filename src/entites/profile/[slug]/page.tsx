@@ -13,6 +13,7 @@ export default function Home() {
   if (!user) {
     return <div>User not found</div>
   }
+
   return (
     <div className={styles.page}>
       <UserProfile user={user} type="profile" />
