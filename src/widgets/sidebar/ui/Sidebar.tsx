@@ -41,6 +41,7 @@ export const Sidebar = () => {
             {mainItems.map(item => {
               if (item.href === Path.Create) {
                 return (
+                    // TODO заменить на кнопку
                     <SidebarLink
                         key={item.href}
                         href="#"
@@ -48,7 +49,7 @@ export const Sidebar = () => {
                         icon={item.icon}
                         disabled={item.disabled}
                         onClick={(e) => {
-                          e?.preventDefault(); // Не выполняй стандартное поведение элемента
+                          e?.preventDefault(); // Предотвращает переход по ссылке
                           setIsCreateOpen(true) }}
                     />
                 )
@@ -96,7 +97,9 @@ export const Sidebar = () => {
       />
 
 
-      <CreatePostWizard isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
+      <CreatePostWizard
+          isOpen={isCreateOpen}
+          onClose={() => setIsCreateOpen(false)} />
     </>
   )
 }

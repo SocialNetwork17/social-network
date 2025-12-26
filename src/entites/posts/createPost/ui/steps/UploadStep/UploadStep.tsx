@@ -1,5 +1,3 @@
-'use client'
-
 import React, { ChangeEvent, useRef } from 'react'
 import type { ImageItem } from '@/entites/posts/createPost/model/types'
 import { v4 as uuidv4 } from 'uuid'
@@ -17,15 +15,15 @@ const MAX_SIZE = 20 * 1024 * 1024
 const ALLOWED = ['image/jpeg', 'image/png']
 
 export const UploadStep = ({ images, setImages, onNext }: Props) => {
-    const ref = useRef<HTMLInputElement | null>(null)
+    const ref = useRef<HTMLInputElement | null>(null) // ← Здесь будет жить ссылка на <input>
 
-    //Скрыть нативный input и использовать красивую кнопку, которая триггерит клик на скрытом input.
-    const trigger = () => ref.current?.click()
+    const trigger = () => ref.current?.click()// ← клик по <input>
 
     //обработки выбора файлов через элемент <input type="file">
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 
         const files = e.target.files
+
         if (!files || files.length === 0) return
 
         const newItems: ImageItem[] = []
@@ -47,7 +45,6 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
                 crop: { x: 0, y: 0 },
                 zoom: 1,
                 aspect: 1,
-                rotation: 0,
                 croppedAreaPixels: null,
                 croppedBlob: null,
             })
@@ -67,7 +64,6 @@ export const UploadStep = ({ images, setImages, onNext }: Props) => {
                 <Icon iconId={'create-post-icon'} size={48} fill={'white'} viewBox={'0 0 48 48'}/>
             </div>
 
-            {/*<p>Select photo (JPEG/PNG, max 20MB)</p>*/}
             <Button
                 disabled={false}
                 variant={"primary"}

@@ -23,8 +23,7 @@ export type ImageItem = {
     // crop-related state
     crop: { x: number; y: number }
     zoom: number
-    aspect: number
-    rotation: number
+    aspect: number //соотношение сторон
 
     croppedAreaPixels: CropArea | null
     croppedBlob: Blob | null

@@ -31,6 +31,7 @@ export const DescriptionStep = ({
 
     //С useCallback функция мемоизируется и не пересоздается при каждом рендере
     const handlePublish = useCallback(async () => {
+
         if (images.length === 0) return
 
         const files = images.map(it =>
@@ -41,6 +42,8 @@ export const DescriptionStep = ({
 
         try {
             const uploaded = await uploadMut.mutateAsync(files)
+            //когда операции идут друг за другом и нужны данные из предыдущей — используем mutateAsync
+            // . Если операция одна или независимая — можно обычный mutate.
 
             await createMut.mutateAsync({
                 description,
@@ -55,6 +58,7 @@ export const DescriptionStep = ({
 
     //useEffect для передачи функции публикации родителю
     //Вызывается при изменении handlePublish или onPublishRef
+    //Кнопка публикации находится в родителе, а логика публикации (handlePublish) - тут
     useEffect(() => {
         onPublishRef?.(handlePublish)
     }, [handlePublish, onPublishRef])

@@ -48,9 +48,12 @@ export const CreatePostWizard = ({ isOpen, onClose }: Props) => {
         onClose()
     }
 
-    // корректировка индекса активного изображения, чтобы предотвратить ситуацию, когда activeIndex указывает на несуществующее изображение
+    // корректировка индекса активного изображения, чтобы предотвратить ситуацию,
+    // когда activeIndex указывает на несуществующее изображение
     useEffect(() => {
-        if (step === 'CROP' && images.length > 0 && activeIndex >= images.length) {
+        if (step === 'CROP' &&
+            images.length > 0 &&
+            activeIndex >= images.length) {
             setActiveIndex(images.length - 1)
         }
     }, [step, images, activeIndex])
@@ -98,10 +101,11 @@ export const CreatePostWizard = ({ isOpen, onClose }: Props) => {
                 >
                     <CropStep
                         image={images[activeIndex]}
-                        onUpdate={partial =>
-                            setImages(prev =>
-                                prev.map((it, i) =>
-                                    i === activeIndex ? { ...it, ...partial } : it
+                        onUpdate={partial => // partial = те самые данные от ребенка
+                            setImages(prev => // prev = текущий массив images
+                                prev.map((it, i) =>// если это текущее фото
+                                    i === activeIndex ? { ...it, ...partial } // СЛИВАЕМ старое фото + новые данные
+                                        : it
                                 )
                             )
                         }
