@@ -96,6 +96,16 @@ export const DescriptionStep = ({
             {/* Левая часть - изображение с навигацией */}
             <div className={s.imageSection}>
                 <div className={s.imageContainer}>
+                    {/*{ currentImage && (*/}
+                    {/*    <Card*/}
+                    {/*        key={currentImage.id}*/}
+                    {/*        images={currentImage.croppedPreviewUrl ?? currentImage.url}*/}
+                    {/*        slider={true}*/}
+                    {/*    />*/}
+                    {/*)*/}
+
+                    {/*}*/}
+
                     {currentImage && (
                         <img
                             key={currentImage.id}
