@@ -9,7 +9,7 @@ export const usePasswordRecoveryMutation = () => {
       const response = await client.POST('/api/v1/auth/password-recovery-resending', {
         body: {
           email: email,
-          baseUrl: `http://localhost:3000${PATH.RECOVERY_CALLBACK}`,
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}${PATH.RECOVERY_CALLBACK}`,
         },
       })
       return response.data
