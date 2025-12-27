@@ -3,8 +3,6 @@ import type { paths } from '@/shared/api/schema'
 import { Middleware } from 'openapi-fetch'
 import { tokenService } from '@/shared/api/tokenService'
 
-const baseUrl: string = 'https://inctagram.work'
-
 // mutex - это механизм обновления accessToken с защитой от параллельных запросов.
 //Автоматически получает новый accessToken через refreshToken
 // Гарантирует, что только один запрос на обновление выполняется в один момент времени
@@ -77,8 +75,8 @@ const authMiddleware: Middleware = {
   async onError({ error }) {},
 }
 
-// const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL;
-// if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+ const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL;
+ if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
 
 export const client = createClient<paths>({
   baseUrl,
