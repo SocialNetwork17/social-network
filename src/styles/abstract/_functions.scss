@@ -1,12 +1,13 @@
 //данный код был взят из gpt, для возможности использовать palette("accents",900) -
 // выбирает нужный цвет из палитры цветов
+@use 'sass:meta';
 @use 'sass:map';
 @use 'palette' as *;
 
 @function palette($name, $shade: null) {
   $value: map.get($colors, $name);
 
-  @if type-of($value) == 'map' and $shade != null {
+  @if meta.type-of($value) == 'map' and $shade != null {
     @return map.get($value, $shade);
   }
   @return $value;
