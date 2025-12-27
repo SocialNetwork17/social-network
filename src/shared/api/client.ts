@@ -2,7 +2,10 @@ import createClient from 'openapi-fetch'
 import type { paths } from '@/shared/api/schema'
 import { Middleware } from 'openapi-fetch'
 import { tokenService } from '@/shared/api/tokenService'
+debugger
 
+const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL
+if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
 // mutex - это механизм обновления accessToken с защитой от параллельных запросов.
 //Автоматически получает новый accessToken через refreshToken
 // Гарантирует, что только один запрос на обновление выполняется в один момент времени
@@ -41,7 +44,7 @@ async function doRefresh(): Promise<string> {
 }
 
 const authMiddleware: Middleware = {
-  async onRequest({ request, options }) {
+  async onRequest({request, options}) {
     // добавляем Authorization если accessToken есть в tokenService
     const accessToken = tokenService.get()
     if (accessToken) {
@@ -50,7 +53,7 @@ const authMiddleware: Middleware = {
 
     return request
   },
-  async onResponse({ request, response, options }) {
+  async onResponse({request, response, options}) {
     if (response.ok) return response
 
     // если получили 401 — пробуем refresh
@@ -61,7 +64,7 @@ const authMiddleware: Middleware = {
         const original = new Request(request)
         const headers = new Headers(original.headers)
         headers.set('Authorization', `Bearer ${newAccessToken}`)
-        const retry = new Request(original, { headers })
+        const retry = new Request(original, {headers})
         return fetch(retry)
       } catch (e) {
         // refresh не удался — пробрасываем оригинальный response дальше
@@ -72,11 +75,9 @@ const authMiddleware: Middleware = {
     // другое не-OK поведение — проброс
     return response
   },
-  async onError({ error }) {},
+  async onError({error}) {
+  },
 }
-
- const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL;
- if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
 
 export const client = createClient<paths>({
   baseUrl,

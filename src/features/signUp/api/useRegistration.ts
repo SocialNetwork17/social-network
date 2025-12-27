@@ -13,7 +13,7 @@ export const useRegistration = () => {
           userName: data.userName,
           email: data.email,
           password: data.password,
-          baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}${PATH.REGISTRATION_CALLBACK}`,
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_DOMAIN}${PATH.REGISTRATION_CALLBACK}`,
         },
       })
       if (response.error) {
