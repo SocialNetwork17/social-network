@@ -2,7 +2,6 @@ import createClient from 'openapi-fetch'
 import type { paths } from '@/shared/api/schema'
 import { Middleware } from 'openapi-fetch'
 import { tokenService } from '@/shared/api/tokenService'
-debugger
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL
 if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
