@@ -12,7 +12,7 @@ WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
-ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_BASE_URL=https://inctagram.work
 ENV NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
 
 RUN npm run build:production
