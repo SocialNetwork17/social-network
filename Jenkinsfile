@@ -3,6 +3,9 @@ def app
 pipeline {
     agent any
     environment {
+        NEXT_PUBLIC_BASE_URL = $NEXT_PUBLIC_BASE_URL
+        NEXT_PUBLIC_RECAPTCHA_SITE_KEY = $NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        NEXT_PUBLIC_BASE_DOMAIN = $NEXT_PUBLIC_BASE_DOMAIN
         ENV_TYPE = "production"
         PORT = 4074
         NAMESPACE = "unitygram-ru"
@@ -24,7 +27,12 @@ pipeline {
             steps {
                 echo "Build image started..."
                     script {
-                        app = docker.build("${env.DOCKER_BUILD_NAME}")
+                        app = docker.build("${env.DOCKER_BUILD_NAME}",
+                       "--build-arg NEXT_PUBLIC_BASE_URL=${env.NEXT_PUBLIC_BASE_URL} " +
+                                               "--build-arg NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY} " +
+                                               "--build-arg NEXT_PUBLIC_BASE_DOMAIN=${env.NEXT_PUBLIC_BASE_DOMAIN} " +
+                                               "."
+                                           )
                     }
                 echo "Build image finished..."
             }
