@@ -7,7 +7,7 @@ import { RegistrationType } from '@/features/signUp/lib/registrationSchema'
 export const useRegistration = () => {
   const mutation = useMutation({
     mutationKey: ['auth', 'registration'],
-    mutationFn: async (data: RegistrationType) => {
+    mutationFn:  async (data: RegistrationType) => {
       const response = await client.POST('/api/v1/auth/registration', {
         body: {
           userName: data.userName,
