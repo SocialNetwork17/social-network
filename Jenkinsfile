@@ -3,9 +3,9 @@ def app
 pipeline {
     agent any
     environment {
-        NEXT_PUBLIC_BASE_URL = $NEXT_PUBLIC_BASE_URL
-        NEXT_PUBLIC_RECAPTCHA_SITE_KEY = $NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-        NEXT_PUBLIC_BASE_DOMAIN = $NEXT_PUBLIC_BASE_DOMAIN
+        NEXT_PUBLIC_BASE_URL = "https://unitygram.ru"
+        NEXT_PUBLIC_RECAPTCHA_SITE_KEY = "6LdHxG4qAAAAAPKRxEHrlV5VvLFHIf2BO5NMI8YM"
+        NEXT_PUBLIC_BASE_DOMAIN = "https://unitygram.ru"
         ENV_TYPE = "production"
         PORT = 4074
         NAMESPACE = "unitygram-ru"
