@@ -3,12 +3,12 @@
 import { useEffect } from 'react'
 import styles from './ImageModal.module.scss'
 import Card from '../../Card/Card'
-import { SchemaPublicProfileViewModel } from '@/shared/api/schema'
+import { SchemaPostViewModel } from '@/shared/api/schema'
 
 type Props = {
   isOpen: boolean
   onClose: () => void
-  postInfo: SchemaPublicProfileViewModel
+  postInfo: SchemaPostViewModel
   alt?: string
   isLoading: boolean
 }

@@ -1,11 +1,11 @@
-import { Profile } from '@/entites/profile/userData'
 import Card from '../../Card/Card'
 import styles from './ProfileHeader.module.scss'
 import Skeleton from '../../Skeleton/Skeleton'
+import { SchemaProfileViewModel } from '@/shared/api/schema'
 
 //тут нужно с типами разобраться как корректно пропсы поубирать из общих компонентов
 type Props = {
-  user: Profile | null | undefined
+  user: SchemaProfileViewModel
   type: 'profile' | 'friend' | 'user' | 'unauthorized'
 }
 
