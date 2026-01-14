@@ -1,8 +1,13 @@
 import styles from './UserAmount.module.scss'
 
-export default function UserAmount() {
-  const totalRegisteredUser = '009213' //приходят данные с backend
-  const arrayTotalUser = totalRegisteredUser.split('')
+type Props = {
+  totalRegisteredUser?: number
+}
+
+export default function UserAmount(props: Props) {
+  const { totalRegisteredUser = 0 } = props
+
+  const arrayTotalUser = totalRegisteredUser.toString().split('')
 
   return (
     <div className={styles.container}>

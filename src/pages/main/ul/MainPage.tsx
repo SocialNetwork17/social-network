@@ -1,13 +1,12 @@
 'use client'
 import styles from './MainPage.module.scss'
 import UserAmount from './UserAmount/UserAmount'
-import Posts from './Posts/Posts'
 import MainPageSkeleton from './MainPageSkeleton/MainPageSkeleton'
 import { useAllPostsQuery } from '../api/useAllPostsQuery'
+import PostsWithText from '../../../shared/ui/Posts/PostsWithText/PostsWithText'
 
 export default function MainPage() {
-  const { isLoading } = useAllPostsQuery()
-  
+  const { data: lastAddedPosts, isLoading } = useAllPostsQuery()
 
   if (isLoading) {
     return (
@@ -19,8 +18,8 @@ export default function MainPage() {
 
   return (
     <div className={styles.container}>
-      <UserAmount />
-      <Posts />
+      <UserAmount totalRegisteredUser={lastAddedPosts?.totalUsers} />
+      {lastAddedPosts?.items.length && <PostsWithText posts={lastAddedPosts.items} />}
     </div>
   )
 }

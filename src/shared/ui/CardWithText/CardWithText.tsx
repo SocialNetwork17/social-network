@@ -1,21 +1,21 @@
 import styles from './CardWithText.module.scss'
-import { Post } from '@/entites/profile/userData'
 import Card from '../Card/Card'
+import { SchemaPostViewModel } from '@/shared/api/schema'
 
 type Props = {
-  user: Post
+  post: SchemaPostViewModel
 }
 
 export default function CardWithText(props: Props) {
-  const { user } = props
+  const { post } = props
 
-  const urls = user.images.map(image => image.url)
+  const urls = post.images.map(image => image.url)
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <Card images={urls} slider={true} />
       </div>
-      <div>{user.description}</div>
+      <div>{post.description}</div>
     </div>
   )
 }

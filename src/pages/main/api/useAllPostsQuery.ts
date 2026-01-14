@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 import { AllPosts } from '@/entites/profile/userData'
+import { SchemaInfinityPaginatedPosts } from '@/shared/api/schema'
 
 export const useAllPostsQuery = (
   pageSize: number = 12,

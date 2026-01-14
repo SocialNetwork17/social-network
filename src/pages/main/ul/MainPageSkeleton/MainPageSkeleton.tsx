@@ -1,5 +1,5 @@
 import styles from '../UserAmount/UserAmount.module.scss'
-import styles2 from '../Posts/Posts.module.scss'
+import styles2 from '../../../../shared/ui/Posts/PostsWithText/PostsWithText.module.scss'
 import styles3 from './MainPageSkeleton.module.scss'
 import Skeleton from '@/shared/ui/Skeleton/Skeleton'
 

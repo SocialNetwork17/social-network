@@ -5,7 +5,7 @@ import Card from '../../Card/Card'
 import styles from './PostSimple.module.scss'
 import ImageModal from '../../Modal/ImageModal/ImageModal'
 import { usePostQuery } from '@/pages/profile/api/usePostQuery'
-import { useUserPostsQuery } from '@/pages/profile/api/useUserPostsQuery'
+import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 
 type Props = {
   userId: number

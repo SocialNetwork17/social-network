@@ -361,4 +361,5 @@ export type AllPosts = {
   totalCount: number
   pageSize: number
   items: PostsArray[]
+  totalUsers: number
 }

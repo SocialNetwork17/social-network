@@ -3,8 +3,8 @@
 import { useAuth } from '@/shared/hooks/useAuth'
 import styles from './MyProfile.module.scss'
 import { useDataProfileQuery } from '../api/useDataProfileQuery'
-import ProfileHeader from '@/shared/ui/UserProfile/ProfileHeader/ProfileHeader'
-import PostSimple from '@/shared/ui/UserProfile/Posts/PostSimple'
+import ProfileHeader from '@/shared/ui/ProfileHeader/ProfileHeader'
+import PostSimple from '@/shared/ui/Posts/PostSimple/PostSimple'
 
 export default function MyProfile() {
   const { isAuth } = useAuth()
