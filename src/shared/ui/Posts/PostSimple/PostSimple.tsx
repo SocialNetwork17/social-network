@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Card from '../../Card/Card'
 import styles from './PostSimple.module.scss'
 import ImageModal from '../../Modal/ImageModal/ImageModal'
-import { usePostQuery } from '@/pages/profile/api/usePostQuery'
+import { usePostQuery } from '@/shared/api/usePostQuery'
 import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 
 type Props = {
@@ -16,6 +16,7 @@ export default function PostSimple(props: Props) {
 
   const { data: userPosts, isLoading } = useUserPostsQuery(userId)
 
+  //эта часть дублируется
   const [selectedPost, setSelectedPost] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { data: postInfo, isLoading: isLoadingModal } = usePostQuery(selectedPost as number)
@@ -30,7 +31,7 @@ export default function PostSimple(props: Props) {
   }
 
   if (!isLoading && !userPosts?.items) return <div>Пока нет публикаций</div>
-  
+
   return (
     <>
       <div className={styles.postContainer}>
@@ -44,13 +45,16 @@ export default function PostSimple(props: Props) {
             )
           })}
       </div>
+
       {selectedPost && postInfo && isModalOpen && (
+
         <ImageModal
           isOpen={isModalOpen}
           onClose={closeModal}
           postInfo={postInfo}
           isLoading={isLoadingModal}
         />
+        
       )}
     </>
   )
