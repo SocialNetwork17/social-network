@@ -12,6 +12,7 @@ export const RootLayoutClient = ({children}: Props) => {
 
     const {isAuth} = useAuth()
 
+
     return (
         <>
             <Header/>
