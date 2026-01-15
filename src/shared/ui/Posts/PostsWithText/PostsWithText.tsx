@@ -1,17 +1,28 @@
+import { useAllPostsQuery } from '@/shared/api/useAllPostsQuery'
 import styles from './PostsWithText.module.scss'
-import { SchemaPostViewModel } from '@/shared/api/schema'
 import CardWithText from '@/shared/ui/CardWithText/CardWithText'
+import Skeleton from '../../Skeleton/Skeleton'
 
-type Props = {
-  posts: SchemaPostViewModel[]
-}
-
-export default function PostsWith(props: Props) {
-  const { posts } = props
+export default function PostsWith() {
+  const { data: lastAddedPosts, isLoading } = useAllPostsQuery()
 
   return (
     <div className={styles.container}>
-      {posts.map(el => (
+      {isLoading &&
+        Array(4)
+          .fill(null)
+          .map(index => (
+            <div className={styles.wpapper} key={index}>
+              <Skeleton height={240} width={234} />
+              <div className={styles.block}>
+                <Skeleton height={36} width={36} bordeRadius={18} />
+                <Skeleton height={16} width={82} />
+              </div>
+              <Skeleton height={16} width={63} />
+              <Skeleton height={63} width={234} />
+            </div>
+          ))}
+      {lastAddedPosts?.items.map(el => (
         <CardWithText post={el} key={el.id} />
       ))}
     </div>

@@ -3,3 +3,15 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
+.wpapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.block {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}

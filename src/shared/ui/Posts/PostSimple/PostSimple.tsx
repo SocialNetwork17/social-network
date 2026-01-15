@@ -30,6 +30,7 @@ export default function PostSimple(props: Props) {
   }
 
   if (!isLoading && !userPosts?.items) return <div>Пока нет публикаций</div>
+  
   return (
     <>
       <div className={styles.postContainer}>

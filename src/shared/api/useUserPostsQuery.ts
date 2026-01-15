@@ -3,7 +3,7 @@ import { client } from '@/shared/api/client'
 
 export const useUserPostsQuery = (
   userId: number,
-  pageSize: number = 12,
+  pageSize: number = 8,
   sortDirection: 'asc' | 'desc' = 'desc',
   endCursorPostId?: number
 ) => {

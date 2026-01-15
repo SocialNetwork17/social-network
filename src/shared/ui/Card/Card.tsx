@@ -6,7 +6,7 @@ import { useState } from 'react'
 import Skeleton from '../Skeleton/Skeleton'
 
 type Props = {
-  images: string[] | string | null
+  images: string[] | string 
   alt?: string
   slider?: boolean
   variant?: 'rectangle' | 'circular'

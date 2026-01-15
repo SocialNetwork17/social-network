@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
-import { AllPosts } from '@/entites/profile/userData'
-import { SchemaInfinityPaginatedPosts } from '@/shared/api/schema'
+import { SchemaInfinityPaginatedPosts, SchemaPostViewModel } from '@/shared/api/schema'
+
+//добавляла тут дополнительный тип, так как в схеме он отсутствовал
+type AllPosts = SchemaInfinityPaginatedPosts & { items: SchemaPostViewModel[] }
 
 export const useAllPostsQuery = (
-  pageSize: number = 12,
+  pageSize: number = 4,
   sortDirection: 'asc' | 'desc' = 'desc',
   endCursorPostId?: number
 ) => {
