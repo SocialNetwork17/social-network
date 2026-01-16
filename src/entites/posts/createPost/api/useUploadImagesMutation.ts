@@ -1,7 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
 import {client} from "@/shared/api/client";
-import {UploadImageResponseItem} from "@/entites/posts/createPost/model/types";
-//import {PostImageViewModel} from "@/shared/api/schema";
+import {UploadImageResponseItem} from "@/entites/posts/createPost/api/types";
 
 
 export const useUploadImagesMutation = () => {

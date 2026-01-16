@@ -41,17 +41,14 @@ export const Sidebar = () => {
             {mainItems.map(item => {
               if (item.href === Path.Create) {
                 return (
-                    // TODO заменить на кнопку
-                    <SidebarLink
-                        key={item.href}
-                        href="#"
-                        label={item.label}
-                        icon={item.icon}
-                        disabled={item.disabled}
-                        onClick={(e) => {
-                          e?.preventDefault(); // Предотвращает переход по ссылке
-                          setIsCreateOpen(true) }}
-                    />
+                    <button
+                            className={`${s.sidebarLink} ${s.buttonAsLink}`}
+                            onClick={()=>setIsCreateOpen(true)}
+                            type="button"
+                        >
+                          <Icon iconId={'create'} size={24} className={s.sidebarIcon} />
+                          <span>Create</span>
+                        </button>
                 )
               }
               return (

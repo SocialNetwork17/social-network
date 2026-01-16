@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { client } from '@/shared/api/client' // openapi-fetch client for JSON call
+import { client } from '@/shared/api/client'
 
 
 export const useCreatePostMutation = () => {

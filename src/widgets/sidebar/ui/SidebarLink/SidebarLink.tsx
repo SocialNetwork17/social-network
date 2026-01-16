@@ -11,10 +11,10 @@ interface SidebarLinkProps {
   label: string
   icon: string
   disabled?: boolean // ← Должен быть здесь
-  onClick?: (e: React.MouseEvent) => void
+  // onClick?: (e: React.MouseEvent) => void
 }
 
-export const SidebarLink = ({ href, label, icon, disabled = false, onClick }: SidebarLinkProps) => {
+export const SidebarLink = ({ href, label, icon, disabled = false }: SidebarLinkProps) => {
   const pathname = usePathname()
 
   //если pathname равен null, используем '/'
@@ -28,22 +28,6 @@ export const SidebarLink = ({ href, label, icon, disabled = false, onClick }: Si
     ? `${s.sidebarLink} ${s.activeLink}`
     : s.sidebarLink
 
-  // Если есть onClick, то используем button
-  if (onClick) {
-    return (
-        <li className={s.sidebarItem}>
-          <button
-              className={`${linkClasses} ${s.buttonAsLink}`}
-              onClick={onClick}
-              disabled={disabled}
-              type="button"
-          >
-            <Icon iconId={icon} size={24} className={s.sidebarIcon} />
-            <span>{label}</span>
-          </button>
-        </li>
-    )
-  }
 
   // Если ссылка отключена, рендерим span вместо Link
   if (disabled) {

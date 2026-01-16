@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import s from '../CropStep.module.scss'
+import s from '@/entites/posts/createPost/ui/steps/Step2Crop/CropStep.module.scss'
 
 type Props = {
     zoom: number

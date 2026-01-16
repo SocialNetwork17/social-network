@@ -68,48 +68,48 @@ const authMiddleware: Middleware = {
     },
     async onResponse({ request, response, options }) {
 
-        // if (response.ok) return response;
-        //
-        // // если получили 401 — пробуем refresh
-        // if (response.status === 401) {
-        //     try {
-        //         const newAccessToken = await doRefresh();
-        //         // повторяем исходный запрос с новым access token
-        //         const original = new Request(request);
-        //         const headers = new Headers(original.headers);
-        //         headers.set("Authorization", `Bearer ${newAccessToken}`);
-        //         const retry = new Request(original, { headers });
-        //         return fetch(retry);
-        //     } catch (e) {
-        //         // refresh не удался — пробрасываем оригинальный response дальше
-        //         return response;
-        //     }
-        // }
-        //
-        // // другое не-OK поведение — проброс
-        // return response;
+        if (response.ok) return response;
 
+        // если получили 401 — пробуем refresh
         if (response.status === 401) {
             try {
                 const newAccessToken = await doRefresh();
-
-                // Клонируем оригинальный запрос
-                const headers = new Headers(request.headers);
+                // повторяем исходный запрос с новым access token
+                const original = new Request(request);
+                const headers = new Headers(original.headers);
                 headers.set("Authorization", `Bearer ${newAccessToken}`);
-
-                // Повторяем запрос с НОВЫМ токеном
-                // ВАЖНО: Мы возвращаем результат ПОВТОРНОГО запроса
-                const retryResponse = await fetch(request.url, {
-                    ...options,
-                    headers,
-                });
-
-                return retryResponse; // Теперь TanStack Query получит этот ответ, а не 401
+                const retry = new Request(original, { headers });
+                return fetch(retry);
             } catch (e) {
+                // refresh не удался — пробрасываем оригинальный response дальше
                 return response;
             }
         }
+
+        // другое не-OK поведение — проброс
         return response;
+
+        // if (response.status === 401) {
+        //     try {
+        //         const newAccessToken = await doRefresh();
+        //
+        //         // Клонируем оригинальный запрос
+        //         const headers = new Headers(request.headers);
+        //         headers.set("Authorization", `Bearer ${newAccessToken}`);
+        //
+        //         // Повторяем запрос с НОВЫМ токеном
+        //         // ВАЖНО: Мы возвращаем результат ПОВТОРНОГО запроса
+        //         const retryResponse = await fetch(request.url, {
+        //             ...options,
+        //             headers,
+        //         });
+        //
+        //         return retryResponse; // Теперь TanStack Query получит этот ответ, а не 401
+        //     } catch (e) {
+        //         return response;
+        //     }
+        // }
+        // return response;
 
 
     },

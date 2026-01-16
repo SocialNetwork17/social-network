@@ -86,7 +86,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
   padding-bottom: 16px;
 }
 
@@ -127,13 +126,13 @@
 .sectionSubtitle {
   font-size: 14px;
   color: #8e8e8e;
+  padding-bottom: 4px;
 }
 
 .textareaContainer {
   flex: 1;
   display: flex;
   flex-direction: column;
-  border: 1px solid #4c4c4c;
   border-radius: 2px;
   overflow: hidden;
 
@@ -141,7 +140,7 @@
 
 .textarea {
   flex: 1;
-  padding: 16px;
+  padding:6px 12px;
   border: none;
   background: black;
   resize: none;

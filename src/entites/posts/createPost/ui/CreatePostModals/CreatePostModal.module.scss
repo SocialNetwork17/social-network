@@ -1,5 +1,5 @@
-@use '../../../styles/abstract/index' as styles;
-@use '../../../styles/base/typography' as typo;
+@use '../../../../../styles/abstract/index' as styles;
+@use '../../../../../styles/base/typography' as typo;
 
 .backdrop {
     position: fixed;
@@ -22,8 +22,8 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid styles.palette('dark', 100);
 
-    display: inline-block;   // 🔥 важно
-    width: fit-content;      // 🔥 важно
+    display: inline-block;
+    width: fit-content;
 
     //max-width: 492px;
     //min-width: 376px;
@@ -147,4 +147,12 @@ opacity: 0;
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+}
+
+.footer{
+    @include typo.text-regular-16;
+    display: flex;
+    gap: 84px;
+    justify-content: center;
+    padding-bottom: 36px;
 }

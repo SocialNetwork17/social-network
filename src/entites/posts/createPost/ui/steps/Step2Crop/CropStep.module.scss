@@ -17,7 +17,7 @@
 .toolsPanel {
 
   position: absolute;
-  bottom: 62px;
+  bottom: 70px;
   left: 20px;
   z-index: 10;
   border-radius: 2px;
@@ -157,72 +157,151 @@
 
 //NavigationArrows ✅
 
-.navigationArrows {
+//.navigationArrows {
+//
+//  position: absolute;
+//  left: 0;
+//  right: 26px;
+//  top: 50%;
+//  transform: translateY(-50%);
+//  display: flex;
+//  justify-content: space-between;
+//padding-left: 26px;
+//  z-index: 10;
+//
+//  &:disabled {
+//    opacity: 0.3;
+//    cursor: not-allowed;
+//  }
+//}
+//
+//.arrowButton {
+//  position: relative;
+//  width: 40px;
+//  height: 40px;
+//  background-color: rgba(0, 0, 0, 0.51);
+//}
+//
+//.arrowButton > * {
+//  position: absolute;
+//  top: 30px;
+//  left: 34px;
+//  transform: translate(-50%, -50%);
+//}
 
+.arrow {
   position: absolute;
-  left: 0;
-  right: 0;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-padding-left: 26px;
   z-index: 10;
 
+  // Цвета и размеры из Card
+  background: styles.palette('dark', 300);
+  opacity: 0.5;
+  border: none;
+  border-radius: 2px;
+
+  // В Card размеры зависят от контейнера, здесь поставим средний фиксированный
+  // или можно взять 48px как в большом Card
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  font-weight: bold;
+  font-size: 40px; // Для символов ‹ и ›
+  color: styles.palette('light', 100);
+  transition: background 0.4s ease, color 0.4s ease;
+
+  &:hover {
+    background: styles.palette('light', 100);
+    color: styles.palette('dark', 300);
+    opacity: 1; // Делаем ярче при наведении
+  }
+
   &:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+    display: none; // Скрываем, как в Card
   }
 }
 
-.arrowButton {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.51);
+.arrowLeft {
+  left: 12px;
 }
 
-.arrowButton > * {
-  position: absolute;
-  top: 30px;
-  left: 34px;
-  transform: translate(-50%, -50%);
+.arrowRight {
+  right: 12px;
 }
 
 // NavigationDots ✅
-.dotsContainer {
-  //border: 1px solid red;
+//.dotsContainer {
+//  //border: 1px solid red;
+//  position: absolute;
+//  bottom: 5px;
+//  left: 0;
+//  right: 0;
+//  display: flex;
+//  justify-content: center;
+//  z-index: 10;
+//}
+//
+//.dotsWrapper {
+//  display: flex;
+//  gap: 8px;
+//  background-color: styles.palette('dark', 300);
+//  padding: 8px;
+//  border-radius: 2px;
+//}
+//
+//.dotButton {
+//  width: 8px;
+//  height: 8px;
+//  border-radius: 50%;
+//  border: none;
+//  background-color: styles.palette('light', 500);
+//  cursor: pointer;
+//  padding: 0;
+//  transition: all 0.3s ease;
+//  transform: scale(1);
+//
+//  &.activeDot {
+//    background-color: styles.palette('accent', 500);
+//    transform: scale(1.2);
+//  }
+//}
+.dots {
   position: absolute;
-  bottom: 5px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
+  bottom: 12px; // Отступ снизу как в Card
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10;
-}
 
-.dotsWrapper {
   display: flex;
-  gap: 8px;
-  background-color: styles.palette('dark', 300);
+  gap: 12px;
   padding: 8px;
   border-radius: 2px;
+  background: styles.palette('dark', 300);
+  opacity: 0.5; // Полупрозрачная подложка как в Card
 }
 
-.dotButton {
+.dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   border: none;
-  background-color: styles.palette('light', 500);
+  background: styles.palette('light', 100); // Белый цвет из Card
   cursor: pointer;
   padding: 0;
-  transition: all 0.3s ease;
-  transform: scale(1);
+  transition: background 0.2s ease;
 
-  &.activeDot {
-    background-color: styles.palette('accent', 500);
-    transform: scale(1.2);
+  &.active {
+    background: styles.palette('accent', 500); // Активный цвет
+  }
+
+  &:hover {
+    opacity: 0.8;
   }
 }
 
@@ -230,7 +309,7 @@ padding-left: 26px;
 
 .cropTools {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 20px;
   z-index: 10;
   border-radius: 2px;
@@ -249,7 +328,7 @@ padding-left: 26px;
 
 .zoomTools {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 62px; // 20px (отступ слева) + 36px (ширина первой кнопки) + 6px (отступ)
   z-index: 10;
   border-radius: 2px;
@@ -266,12 +345,30 @@ padding-left: 26px;
   }
 }
 
+.applyButtonWrapper{
+  position: absolute;
+  bottom: 30px;
+  left: 110px;
+  z-index: 10;
+  border-radius: 2px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: styles.palette('dark', 300);
+  cursor: pointer;
+
+  &:hover {
+    background-color: styles.palette('dark', 400);
+  }
+}
+
 
 //ZoomPanel
 .zoomPanel {
 
   position: absolute;
-  bottom: 62px;
+  bottom: 70px;
   left: 62px; // Та же позиция по X что и кнопка зума
   z-index: 10;
   border-radius: 2px;

@@ -19,15 +19,12 @@ export type ImageItem = {
     id: string
     file: File
     url: string
-
-    // crop-related state
     crop: { x: number; y: number }
     zoom: number
-    aspect: number //соотношение сторон
-
-    croppedAreaPixels: CropArea | null
-    croppedBlob: Blob | null
-
+    aspect: number
+    croppedAreaPixels?: CropArea
+    croppedBlob?: Blob
     croppedPreviewUrl?: string
-    uploadInfo?: unknown
+    isCropped: boolean
+    filter: string
 }

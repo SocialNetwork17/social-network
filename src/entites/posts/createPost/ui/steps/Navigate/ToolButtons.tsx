@@ -1,7 +1,6 @@
-'use client'
 
 import React from 'react'
-import s from '../CropStep.module.scss'
+import s from '@/entites/posts/createPost/ui/steps/Step2Crop/CropStep.module.scss'
 import { IconButton } from "@/shared/ui/IconButton/IconButton"
 
 type Props = {
@@ -25,6 +24,7 @@ export const ToolButtons = ({ onAspectButtonClick, onZoomButtonClick }: Props) =
                     onClick={onZoomButtonClick}
                 />
             </div>
+
         </>
     )
 }
