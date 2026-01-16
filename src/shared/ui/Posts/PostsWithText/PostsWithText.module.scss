@@ -1,5 +1,11 @@
 .container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.wpapper {
+  display: flex;
   flex-direction: column;
   gap: 12px;
 }

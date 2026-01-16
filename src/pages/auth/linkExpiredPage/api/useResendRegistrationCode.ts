@@ -10,7 +10,7 @@ export const useResendRegistrationCode = () => {
       const response = await client.POST('/api/v1/auth/registration-email-resending', {
         body: {
           email: email,
-          baseUrl: `http://localhost:3000/${PATH.REGISTRATION_CALLBACK}`,
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_DOMAIN}${PATH.REGISTRATION_CALLBACK}`,
         },
       })
       if (response.error) {
