@@ -43,7 +43,9 @@ export const Sidebar = () => {
                 return (
                     <button
                             className={`${s.sidebarLink} ${s.buttonAsLink}`}
-                            onClick={()=>setIsCreateOpen(true)}
+                            onClick={() => {
+                              setIsCreateOpen(true);
+                            }}
                             type="button"
                         >
                           <Icon iconId={'create'} size={24} className={s.sidebarIcon} />
@@ -95,6 +97,7 @@ export const Sidebar = () => {
 
 
       <CreatePostWizard
+
           isOpen={isCreateOpen}
           onClose={() => setIsCreateOpen(false)} />
     </>

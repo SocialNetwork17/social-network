@@ -44,6 +44,7 @@ export const CreatePostWizard = ({ isOpen, onClose }: Props) => {
         } else {
             handleClose()
         }
+    }
 
 
     // Собираем шапку в зависимости от шага
@@ -181,5 +182,4 @@ export const CreatePostWizard = ({ isOpen, onClose }: Props) => {
             />
         </>
     )
-}
 }
