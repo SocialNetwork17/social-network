@@ -1,18 +1,23 @@
 'use client'
 
 import s from './Sidebar.module.scss'
+import { SidebarLink } from './SidebarLink/SidebarLink'
 import { Icon } from '@/shared/ui/Icon/Icon'
+import { menuItems } from '@/widgets/sidebar/ui/Sidebar.config'
 import { useState } from 'react'
 import { LogOut } from '@/shared/ui/LogOut/LogOut'
-import { useMeQuery } from '@/shared/api/useMeQuery'
-import { menuItems } from '@/widgets/sidebar/ui/Sidebar.config'
-import { SidebarLink } from '@/widgets/sidebar/ui/SidebarLink/SidebarLink'
 import { useLogoutMutation } from '@/widgets/sidebar/api/useLogoutMutation'
+import { useMeQuery } from '@/shared/api/useMeQuery'
+import { Path } from './Sidebar.config'
+import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
   const bottomItems = menuItems.slice(5)
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
+
   const logoutMutation = useLogoutMutation()
   const { data } = useMeQuery()
 
@@ -33,15 +38,31 @@ export const Sidebar = () => {
       <aside className={s.sidebar}>
         <nav className={s.navSidebar}>
           <ul className={s.sidebarList}>
-            {mainItems.map(item => (
-              <SidebarLink
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                disabled={item.disabled}
-              />
-            ))}
+            {mainItems.map(item => {
+              if (item.href === Path.Create) {
+                return (
+                    <button
+                            className={`${s.sidebarLink} ${s.buttonAsLink}`}
+                            onClick={() => {
+                              setIsCreateOpen(true);
+                            }}
+                            type="button"
+                        >
+                          <Icon iconId={'create'} size={24} className={s.sidebarIcon} />
+                          <span>Create</span>
+                        </button>
+                )
+              }
+              return (
+                  <SidebarLink
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      icon={item.icon}
+                      disabled={item.disabled}
+                  />
+              )
+            })}
           </ul>
           <div className={s.bottomSection}>
             <ul className={s.sidebarList}>
@@ -73,6 +94,12 @@ export const Sidebar = () => {
         onCloseAction={handleLogoutClose}
         email={data?.email}
       />
+
+
+      <CreatePostWizard
+
+          isOpen={isCreateOpen}
+          onClose={() => setIsCreateOpen(false)} />
     </>
   )
 }

@@ -1,0 +1,84 @@
+@use '../../../../../../styles/abstract/index' as styles;
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 50% 50% */
+  height: 564px; /* или auto, если нужно динамически */
+  width: 972px;
+  gap: 16px; /* немного пространства между колонками */
+  padding: 16px;
+}
+
+
+.previewArea {
+
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* квадрат */
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.previewImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* RIGHT */
+.filtersArea {
+  padding: 16px;
+  //overflow-y: auto;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.filterItem {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  padding: 4px;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  span {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+  }
+}
+
+.active {
+  outline: 2px solid #4c9aff;
+  border-radius: 6px;
+}
+
+// Копируем размеры и логику позиционирования из CropStep
+.filterAreaWrapper {
+  width: 490px;
+  height: 504px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterArea {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: styles.palette('dark', 900); // Фон за картинкой
+  overflow: hidden;
+}
