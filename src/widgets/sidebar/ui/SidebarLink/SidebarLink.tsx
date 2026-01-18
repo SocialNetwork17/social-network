@@ -11,6 +11,7 @@ interface SidebarLinkProps {
   label: string
   icon: string
   disabled?: boolean // ← Должен быть здесь
+  // onClick?: (e: React.MouseEvent) => void
 }
 
 export const SidebarLink = ({ href, label, icon, disabled = false }: SidebarLinkProps) => {
@@ -26,6 +27,7 @@ export const SidebarLink = ({ href, label, icon, disabled = false }: SidebarLink
     : isActive
     ? `${s.sidebarLink} ${s.activeLink}`
     : s.sidebarLink
+
 
   // Если ссылка отключена, рендерим span вместо Link
   if (disabled) {
