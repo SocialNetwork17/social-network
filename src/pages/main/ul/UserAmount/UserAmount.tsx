@@ -1,10 +1,11 @@
-import { useAllPostsQuery } from '../../../../shared/api/useAllPostsQuery'
+import { useUserTotalCountQuery } from '../../api/useUserTotalCountQuery'
 import styles from './UserAmount.module.scss'
 
 export default function UserAmount() {
-  const { data: lastAddedPosts, isLoading } = useAllPostsQuery()
+  const { data, isLoading } = useUserTotalCountQuery()
 
-  const arrayTotalUser = lastAddedPosts?.totalUsers.toString().split('')
+
+  const arrayTotalUser =  data?.totalCount?.toString().padStart(6, '0').split('')
 
   return (
     <div className={styles.container}>

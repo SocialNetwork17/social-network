@@ -1,11 +1,11 @@
 import Card from '../Card/Card'
 import styles from './ProfileHeader.module.scss'
 import Skeleton from '../Skeleton/Skeleton'
-import { SchemaProfileViewModel } from '@/shared/api/schema'
+import { SchemaProfileViewModel, SchemaPublicProfileViewModel } from '@/shared/api/schema'
 import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 
 type Props = {
-  user: SchemaProfileViewModel
+  user: SchemaProfileViewModel | SchemaPublicProfileViewModel
   type: 'profile' | 'friend' | 'user' | 'unauthorized'
 }
 
@@ -17,7 +17,7 @@ export default function ProfileHeader(props: Props) {
   return (
     <div className={styles.profileContainer}>
       {!user?.avatars.length && <Skeleton width={192} height={192} bordeRadius={96} />}
-      {user?.avatars[0]?.url && <Card images={user.avatars[0]?.url} />}
+      {user?.avatars[0]?.url && <Card images={user.avatars[0]?.url} variant="circular"/>}
       <div className={styles.info}>
         <div>
           <h2 style={{ display: 'inline-block' }}>{user?.userName}</h2>
