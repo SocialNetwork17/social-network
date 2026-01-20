@@ -20,7 +20,7 @@ type ConfirmationDialogProps = {
 }
 
 export const ConfirmationDialog = ({
-                                       isOpen, //показать / скрыть модалку
+                                       //показать / скрыть модалку
                                        title, // заголовок
                                        description, // содержимое (текст, JSX, что угодно)
 
@@ -78,7 +78,6 @@ export const ConfirmationDialog = ({
 
     return (
         <CreatePostModal
-            isOpen={isOpen}
             title={title}
             footer={footer}
             onClose={handleClose}

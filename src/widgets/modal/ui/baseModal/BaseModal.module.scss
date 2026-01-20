@@ -1,0 +1,26 @@
+@use '../../../../styles/base/typography' as typo;
+
+.modal {
+  width: 438px;
+  min-height: 240px;
+  overflow: auto;
+
+  background-color: var(--color-option-bg);
+  border-radius: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-disabled);
+
+  animation: slideIn 0.2s ease-out;
+}
+
+.titleWrapper {
+  padding: 12px 24px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-disabled);
+
+  @include typo.h1
+}
+
+

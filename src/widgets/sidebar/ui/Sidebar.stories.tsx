@@ -1,9 +1,8 @@
 // Sidebar.stories.tsx
 
-import { SidebarLinkUI } from './SidebarLink/SidebarLinkUI'
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import {SidebarLinkUI} from './SidebarLink/SidebarLinkUI'
+import {Meta, StoryObj} from '@storybook/nextjs-vite'
 import {SidebarUI} from "@/widgets/sidebar/ui/SidebarUI";
-//import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   title: 'shared/ui/Sidebar',

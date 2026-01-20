@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
-import type { ImageItem } from '@/entites/posts/createPost/api/types'
+import React, {useMemo} from 'react'
+import type {ImageItem} from '@/entites/posts/createPost/api/types'
 import Card from '@/shared/ui/Card/Card'
 import s from './DescriptionStep.module.scss'
-import { useMeQuery } from '@/shared/api/useMeQuery'
+import {useMeQuery} from '@/shared/api/useMeQuery'
 
 type Props = {
     images: ImageItem[]

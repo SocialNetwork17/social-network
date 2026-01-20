@@ -1,37 +1,33 @@
 'use client'
 
 import s from './Sidebar.module.scss'
-import { SidebarLink } from './SidebarLink/SidebarLink'
-import { Icon } from '@/shared/ui/Icon/Icon'
-import { menuItems } from '@/widgets/sidebar/ui/Sidebar.config'
-import { useState } from 'react'
-import { LogOut } from '@/shared/ui/LogOut/LogOut'
-import { useLogoutMutation } from '@/widgets/sidebar/api/useLogoutMutation'
-import { useMeQuery } from '@/shared/api/useMeQuery'
-import { Path } from './Sidebar.config'
-import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
+import {SidebarLink} from './SidebarLink/SidebarLink'
+import {Icon} from '@/shared/ui/Icon/Icon'
+import {menuItems} from '@/widgets/sidebar/ui/Sidebar.config'
+import {useMeQuery} from '@/shared/api/useMeQuery'
+import {Path} from './Sidebar.config'
+import {useModal} from "@/widgets/modal/model/modal.context";
+import {createPostModalAC, logoutModalAC} from "@/widgets/modal/model/modal.types";
 
 export const Sidebar = () => {
   const mainItems = menuItems.slice(0, 5)
   const bottomItems = menuItems.slice(5)
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
-  const [isCreateOpen, setIsCreateOpen] = useState(false)
-
-  const logoutMutation = useLogoutMutation()
+  const { pushModal  } = useModal()
   const { data } = useMeQuery()
 
-  const handleLogout = () => {
-    setIsLogoutModalOpen(true)
+  const handleLogoutOpen = () => {
+    pushModal(logoutModalAC({
+      title: 'Log Out',
+      email: data?.email || '',
+      description: 'Are you really want to log out of your account '
+    }))
   }
 
-  const handleLogoutConfirm = () => {
-    logoutMutation.mutate()
+  const handleOpenCreateModal = () => {
+    pushModal(createPostModalAC())
   }
 
-  const handleLogoutClose = () => {
-    setIsLogoutModalOpen(false)
-  }
 
   return (
     <>
@@ -42,10 +38,9 @@ export const Sidebar = () => {
               if (item.href === Path.Create) {
                 return (
                     <button
+                            key={item.href}
                             className={`${s.sidebarLink} ${s.buttonAsLink}`}
-                            onClick={() => {
-                              setIsCreateOpen(true);
-                            }}
+                            onClick={handleOpenCreateModal}
                             type="button"
                         >
                           <Icon iconId={'create'} size={24} className={s.sidebarIcon} />
@@ -78,7 +73,7 @@ export const Sidebar = () => {
             </ul>
 
             <div className={s.logoutContainer}>
-              <button className={`${s.sidebarLink} ${s.logoutButton}`} onClick={handleLogout}>
+              <button className={`${s.sidebarLink} ${s.logoutButton}`} onClick={handleLogoutOpen}>
                 <Icon iconId="logOut" size={24} className={s.sidebarIcon} />
                 <span>Log Out</span>
               </button>
@@ -86,20 +81,6 @@ export const Sidebar = () => {
           </div>
         </nav>
       </aside>
-
-      {/* Компонент модального окна выхода */}
-      <LogOut
-        isOpen={isLogoutModalOpen}
-        onConfirmAction={handleLogoutConfirm}
-        onCloseAction={handleLogoutClose}
-        email={data?.email}
-      />
-
-
-      <CreatePostWizard
-
-          isOpen={isCreateOpen}
-          onClose={() => setIsCreateOpen(false)} />
     </>
   )
 }
