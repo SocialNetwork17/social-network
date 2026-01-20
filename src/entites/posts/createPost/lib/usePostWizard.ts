@@ -1,16 +1,18 @@
-import {useState, useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {usePostImageState} from './usePostImageState'
 import {getCroppedImg} from '@/entites/posts/createPost/lib/imageUtils'
 import {useUploadImagesMutation} from '@/entites/posts/createPost/api/useUploadImagesMutation'
 import {useCreatePostMutation} from '@/entites/posts/createPost/api/useCreatePostMutation'
-import {ImageItem} from "@/entites/posts/createPost/api/types";
+import {useModal} from "@/widgets/modal/model/modal.context";
 
-type WizardStep = 'UPLOAD' | 'CROP' | 'FILTERS' | 'DESCRIPTION'
+export type WizardStep = 'UPLOAD' | 'CROP' | 'FILTERS' | 'DESCRIPTION'
 
 
-export const usePostWizard = (onClose: () => void) => {
+export const usePostWizard = () => {
     const [step, setStep] = useState<WizardStep>('UPLOAD') // текущий шаг
     const [description, setDescription] = useState('') // текст поста
+
+    const {clearModals} = useModal()
 
     // Подключаем стейт картинок
     const imageState = usePostImageState()
@@ -29,8 +31,8 @@ export const usePostWizard = (onClose: () => void) => {
         resetImages()
         setStep('UPLOAD')
         setDescription('')
-        onClose()
-    }, [resetImages, onClose])
+        clearModals()
+    }, [resetImages, clearModals])
 
     //вызывается, когда пользователь выбрал файлы: создаёт ImageItem, переключает шаг на кроп
     const handleImagesUpload = (files: File[]) => {

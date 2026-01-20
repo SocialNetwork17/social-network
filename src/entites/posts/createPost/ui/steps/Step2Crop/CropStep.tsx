@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import Cropper from 'react-easy-crop'
 import type {Area} from 'react-easy-crop'
+import Cropper from 'react-easy-crop'
 import type {ImageItem} from '@/entites/posts/createPost/api/types'
 import s from './CropStep.module.scss'
 import {ToolButtons} from "@/entites/posts/createPost/ui/steps/Navigate/ToolButtons";
@@ -18,7 +18,7 @@ type Props = {
     onDelete: () => void
 }
 
-export const CropStep = ({images, activeIndex, onUpdate, onIndexChange, onDelete}: Props) => {
+export const CropStep = ({ images, activeIndex, onUpdate, onIndexChange, onDelete}: Props) => {
     const currentImage = images[activeIndex]
 
     const [showAspectTools, setShowAspectTools] = useState(false)

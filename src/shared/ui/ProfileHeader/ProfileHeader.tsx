@@ -1,8 +1,8 @@
 import Card from '../Card/Card'
 import styles from './ProfileHeader.module.scss'
 import Skeleton from '../Skeleton/Skeleton'
-import { SchemaProfileViewModel } from '@/shared/api/schema'
-import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
+import {SchemaProfileViewModel} from '@/shared/api/schema'
+import {useUserPostsQuery} from '@/shared/api/useUserPostsQuery'
 
 type Props = {
   user: SchemaProfileViewModel

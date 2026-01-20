@@ -11,6 +11,7 @@ export default function MyProfile() {
   const { isAuth } = useAuth()
   const { data, isLoading } = useDataProfileQuery()
 
+
   if (isLoading)
     return (
       <div className={styles.container}>

@@ -1,20 +1,17 @@
 'use client'
 import styles from './LinkExpiredPage.module.scss'
-import { Input } from '@/shared/ui/Input/Input'
-import {
-  resendEmailSchema,
-  ResendEmailType,
-} from '@/pages/auth/linkExpiredPage/lib/linkExpiredSchema'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '@/shared/ui/Button/Button'
+import {Input} from '@/shared/ui/Input/Input'
+import {resendEmailSchema, ResendEmailType,} from '@/pages/auth/linkExpiredPage/lib/linkExpiredSchema'
+import {SubmitHandler, useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Button} from '@/shared/ui/Button/Button'
 import confirmCodeImg from '../../../../../public/registrationCodeExpired.svg'
 import Image from 'next/image'
-import { Modal } from '@/shared/ui/Modal/Modal'
-import { useState } from 'react'
-import { Spinner } from '@/shared/ui/Spinner/Spinner'
-import { useResendRegistrationCode } from '@/pages/auth/linkExpiredPage/api/useResendRegistrationCode'
-import { ErrorWithMessageResponse } from '@/shared/types/types'
+import {Spinner} from '@/shared/ui/Spinner/Spinner'
+import {useResendRegistrationCode} from '@/pages/auth/linkExpiredPage/api/useResendRegistrationCode'
+import {ErrorWithMessageResponse} from '@/shared/types/types'
+import {useModal} from "@/widgets/modal/model/modal.context";
+import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
 
 export const LinkExpiredPage = () => {
   const {
@@ -33,20 +30,21 @@ export const LinkExpiredPage = () => {
 
   const {
     mutate: resendRegistrationCode,
-    isError,
     isPending,
-    error,
-    reset,
   } = useResendRegistrationCode()
-  const [email, setEmail] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+  const {pushModal} = useModal()
 
   const onSubmit: SubmitHandler<ResendEmailType> = (data: ResendEmailType) => {
-    setEmail(data.email)
+
     resendRegistrationCode(data.email, {
       onSuccess: () => {
         resetForm()
-        setIsModalOpen(!isModalOpen)
+        pushModal(registrationConfirmModalAC({
+          title: "Email sent",
+          email: data.email,
+          description: "We have sent a link to confirm your email to "
+        }))
       },
       onError: (error: unknown) => {
         const err = error as ErrorWithMessageResponse
@@ -54,7 +52,6 @@ export const LinkExpiredPage = () => {
           type: 'server',
           message: err.message,
         })
-        setEmail('')
       },
     })
   }
@@ -82,9 +79,6 @@ export const LinkExpiredPage = () => {
         </div>
       </form>
       <Image src={confirmCodeImg} alt={'linkExpiredImg'} />
-      <Modal isOpen={isModalOpen} title={'Email sent'} onClose={() => setIsModalOpen(!isModalOpen)}>
-        We have sent a link to confirm your email to {email}
-      </Modal>
     </div>
   )
 }
