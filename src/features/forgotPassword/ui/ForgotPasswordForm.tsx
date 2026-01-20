@@ -17,7 +17,6 @@ import {useForgotPassword} from "@/features/forgotPassword/api/useForgotPassword
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
 
-// Тип для ref reCAPTCHA компонента
 type RecaptchaRef = {
   getToken: () => Promise<string | null>
   reset: () => void
@@ -30,7 +29,6 @@ export const ForgotPasswordForm = () => {
   const {pushModal} = useModal()
 
 
-  // Инициализация формы с react-hook-form
   const {
     handleSubmit,
     register,
