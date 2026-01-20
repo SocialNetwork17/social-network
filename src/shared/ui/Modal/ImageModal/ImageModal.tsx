@@ -20,6 +20,8 @@ export default function ImageModal(props: Props) {
 
   const { data } = useDataProfileQuery()
 
+
+
   // Блокируем скролл при открытии модалки
   useEffect(() => {
     if (isOpen) {

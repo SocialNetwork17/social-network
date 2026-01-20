@@ -5,10 +5,9 @@ import styles from './ImageModalHeader.module.scss'
 import { useDataProfileQuery } from "@/pages/profile/api/useDataProfileQuery"
 import s from "@/widgets/sidebar/ui/Sidebar.module.scss"
 import { Icon } from "@/shared/ui/Icon/Icon"
-import { Modal } from "@/shared/ui/Modal/Modal"
-import { Button } from "@/shared/ui/Button/Button"
-import { useDeletePost } from "@/shared/api/usePostDelete"
 import { usePostQuery } from "@/shared/api/usePostQuery"
+import {useModal} from "@/widgets/modal/model/modal.context";
+import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
 
 type ImageModalHeaderProps = {
     onEditClick?: () => void
@@ -19,16 +18,14 @@ type ImageModalHeaderProps = {
 
 export default function ImageModalHeader({
                                              postId,
-                                             onEditClick,
-                                             onDeleteClick,
-                                             onPostDeleted,
+                                             onPostDeleted
 
                                          }: ImageModalHeaderProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
-    const deletePostMutation = useDeletePost()
+    const {pushModal} = useModal()
+
     const { data: dataProfile } = useDataProfileQuery()
     const { data: postInfo} = usePostQuery(postId)
 
@@ -58,29 +55,13 @@ export default function ImageModalHeader({
 
     const handleEdit = () => {
         setIsMenuOpen(false)
-        onEditClick?.()
+
     }
 
     const handleDeleteClick = () => {
         setIsMenuOpen(false)
-        onDeleteClick?.()
-        setIsModalOpen(true)
-    }
+        pushModal(deletePostModalAC({title: 'Delete Post', description: 'Are you sure you want to delete this post?', postId: postId }))
 
-    const handleDeleteConfirm = async () => {
-        try {
-            if (postInfo?.id) {
-                await deletePostMutation.mutateAsync(postInfo.id)
-                setIsModalOpen(false)
-                onPostDeleted?.()
-            }
-        } catch (error) {
-            console.error('Delete post error:', error)
-        }
-    }
-
-    const closeModal = () => {
-        setIsModalOpen(false)
     }
 
     // Если пост не найден
@@ -146,37 +127,6 @@ export default function ImageModalHeader({
                             </button>
                         </div>
                     )}
-
-                    <Modal
-                        isOpen={isModalOpen}
-                        onClose={closeModal}
-                        title={'Delete Post'}
-                        showButton={false}
-                    >
-                        <div className={styles.modalContent}>
-                            <p className={styles.modalText}>
-                                Are you sure you want to delete this post?
-                            </p>
-                            <div className={styles.buttonsBlock}>
-                                <Button
-                                    variant="outline"
-                                    onClick={handleDeleteConfirm}
-                                    disabled={deletePostMutation.isPending}
-                                    width={96}
-                                >
-                                    {deletePostMutation.isPending ? 'Deleting...' : 'Yes'}
-                                </Button>
-                                <Button
-                                    variant="primary"
-                                    onClick={closeModal}
-                                    disabled={deletePostMutation.isPending}
-                                    width={96}
-                                >
-                                    No
-                                </Button>
-                            </div>
-                        </div>
-                    </Modal>
                 </div>
             )}
         </div>
