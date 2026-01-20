@@ -10,11 +10,12 @@ interface Modal {
   isOpen: boolean
   onClose: () => void
   children: ReactNode
-  title: string
+  title: string,
+  showButton?: boolean
 }
 
 export const Modal = (props: Modal) => {
-  const { isOpen, onClose, children, title } = props
+  const { isOpen, onClose, children, title, showButton = true } = props
 
   const onClickHandler = () => {
     onClose()
@@ -69,11 +70,14 @@ export const Modal = (props: Modal) => {
           </div>
         </div>
         <div className={styles.content}>{children}</div>
-        <div className={styles.buttonContainer}>
-          <Button variant={'primary'} onClickHandler={onClickHandler} disabled={false}>
-            OK
-          </Button>
-        </div>
+
+        {showButton && (
+          <div className={styles.buttonContainer}>
+            <Button variant={'primary'} onClickHandler={onClickHandler} disabled={false}>
+              OK
+            </Button>
+          </div>
+        )}
       </div>
     </div>,
     document.body
