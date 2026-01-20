@@ -11,7 +11,7 @@ import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
 export const RecoveryCodePage = () => {
 
   const { mutate: passwordRecovery, isPending } = usePasswordRecoveryMutation()
-    const {openModal} = useModal()
+    const {pushModal} = useModal()
 
 
 
@@ -20,7 +20,7 @@ export const RecoveryCodePage = () => {
     if (!email) return
     passwordRecovery(email, {
       onSuccess: () => {
-          openModal(registrationConfirmModalAC({
+          pushModal(registrationConfirmModalAC({
               title: "Email sent",
               email: email,
               description: 'We have sent a link to confirm your email to '}

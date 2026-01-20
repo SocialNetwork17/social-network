@@ -7,7 +7,6 @@ import {Button} from '@/shared/ui/Button/Button'
 import {usePostWizard, WizardStep} from "@/entites/posts/createPost/lib/usePostWizard"
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {FiltersStep} from '@/entites/posts/createPost/ui/steps/Step3Filters/FiltersStep'
-import {useModal} from "@/widgets/modal/model/modal.context";
 
 type Props = {
     setStep: (step: WizardStep) => void

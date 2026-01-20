@@ -33,14 +33,14 @@ export const LinkExpiredPage = () => {
     isPending,
   } = useResendRegistrationCode()
 
-  const {openModal} = useModal()
+  const {pushModal} = useModal()
 
   const onSubmit: SubmitHandler<ResendEmailType> = (data: ResendEmailType) => {
 
     resendRegistrationCode(data.email, {
       onSuccess: () => {
         resetForm()
-        openModal(registrationConfirmModalAC({
+        pushModal(registrationConfirmModalAC({
           title: "Email sent",
           email: data.email,
           description: "We have sent a link to confirm your email to "

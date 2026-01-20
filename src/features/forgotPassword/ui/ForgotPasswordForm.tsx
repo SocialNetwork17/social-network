@@ -27,7 +27,7 @@ export const ForgotPasswordForm = () => {
   // Состояния компонента
   const [linkSent, setLinkSent] = useState(false)
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
-  const {openModal} = useModal()
+  const {pushModal} = useModal()
 
 
   // Инициализация формы с react-hook-form
@@ -74,7 +74,7 @@ export const ForgotPasswordForm = () => {
       {
         // Обработка успешного ответа
         onSuccess: () => {
-          openModal(registrationConfirmModalAC({
+          pushModal(registrationConfirmModalAC({
             title: "Email sent",
             email: data.email,
             description: "We have sent a link to confirm your email to "
