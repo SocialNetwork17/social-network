@@ -53,6 +53,7 @@ export const ModalWrapper = () => {
 
     const renderModal = (modal: ModalState) => {
         switch (modal.type) {
+            case 'DELETE_POST':
             case 'CONFIRM_REGISTRATION':
             case 'CONFIRM_LOGOUT':
             case 'CANCEL_CREATE_POST':

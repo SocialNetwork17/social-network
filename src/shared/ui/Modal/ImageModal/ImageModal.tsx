@@ -5,6 +5,9 @@ import styles from './ImageModal.module.scss'
 import Card from '../../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import {EditPostHeader} from "@/shared/ui/Modal/EditPostHeader/EditPostHeader";
+import ImageModalHeader from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader";
+import {useDataProfileQuery} from "@/pages/profile/api/useDataProfileQuery";
+
 
 type Mode = 'view' | 'edit'
 
@@ -22,6 +25,10 @@ export default function ImageModal(props: Props) {
   const { isOpen, onClose, postInfo, alt = '', mode } = props
 
   const [text, setText] = useState(postInfo.description)
+
+
+  const { data } = useDataProfileQuery()
+
 
 
   // Блокируем скролл при открытии модалки
@@ -51,6 +58,10 @@ export default function ImageModal(props: Props) {
 
   const imageSlider = postInfo.images.map(image => image.url)
 
+  const handlePostDeleted = () => {
+    onClose() // Закрываем родительскую модалку после удаления
+  }
+
   if (!isOpen) return null
 
   return (
@@ -73,6 +84,13 @@ export default function ImageModal(props: Props) {
 
       <div className={styles.modalContent}>
         <Card images={imageSlider} slider={true} width={490} height={564}/>
+        <div className={styles.modalDescription}>
+          <ImageModalHeader
+              postId={postInfo.id}
+              onPostDeleted={handlePostDeleted}
+          />
+          {postInfo.description}
+        </div>
         {/*<div>{postInfo.description}</div>*/}
 
         {mode === 'view' && ( //🌱

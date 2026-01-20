@@ -10,6 +10,7 @@ import {RegistrationConfirmModalContent} from "@/widgets/modal/ui/baseModal/regi
 import {
     CancelCreatePostModalContent
 } from "@/widgets/modal/ui/baseModal/cancelCreatePostModalContent/CancelCreatePostModalContent";
+import {DeletePostModalContent} from "@/widgets/modal/ui/baseModal/deletePostModalContent/DeletePostModalContent";
 
 type Props = {
     modal: ModalState
@@ -21,6 +22,8 @@ export const BaseModal = ({modal}: Props) => {
 
     const currentContent = (): ReactNode | null => {
         switch (modal.type) {
+            case "DELETE_POST":
+                return <DeletePostModalContent modal={modal} />
             case "CONFIRM_REGISTRATION":
                 return <RegistrationConfirmModalContent modal={modal} />
             case "CONFIRM_LOGOUT":
