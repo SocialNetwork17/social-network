@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
-import type { ImageItem } from '@/entites/posts/createPost/api/types'
-import { FILTER_PRESETS } from '@/entites/posts/createPost/ui/steps/Step3Filters/filters'
-import { NavigationArrows } from "@/entites/posts/createPost/ui/steps/Navigate/NavigationArrows"
-import { NavigationDots } from "@/entites/posts/createPost/ui/steps/Navigate/NavigationDots"
+import React, {useMemo} from 'react'
+import type {ImageItem} from '@/entites/posts/createPost/api/types'
+import {FILTER_PRESETS} from '@/entites/posts/createPost/ui/steps/Step3Filters/filters'
+import {NavigationArrows} from "@/entites/posts/createPost/ui/steps/Navigate/NavigationArrows"
+import {NavigationDots} from "@/entites/posts/createPost/ui/steps/Navigate/NavigationDots"
 import s from './FiltersStep.module.scss'
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 }
 
 
-export const FiltersStep = ({ images, activeIndex, onUpdate, onIndexChange }: Props) => {
+export const FiltersStep = ({images, activeIndex, onUpdate, onIndexChange }: Props) => {
     const currentImage = images[activeIndex]
     if (!currentImage) return null
 

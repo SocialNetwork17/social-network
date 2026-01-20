@@ -1,9 +1,7 @@
-
-import React, {useRef, ChangeEvent, useState} from 'react'
-import { Button } from "@/shared/ui/Button/Button"
-import { Icon } from "@/shared/ui/Icon/Icon"
+import React, {ChangeEvent, useRef, useState} from 'react'
+import {Button} from "@/shared/ui/Button/Button"
+import {Icon} from "@/shared/ui/Icon/Icon"
 import s from './UploadStep.module.scss'
-import { ConfirmationDialog } from '../../CreatePostModals/ConfirmationDialog';
 
 // валидация
 const MAX_SIZE = 20 * 1024 * 1024
@@ -82,15 +80,6 @@ export const UploadStep = ({ onUpload, remainingSlots }: Props) => {
                 hidden //прячем инпут
                 onChange={handleChange}
             />
-
-
-            <ConfirmationDialog
-                isOpen={!!alertMessage}
-                title="Error"
-                description={alertMessage}
-                onConfirm={() => setAlertMessage(null)}
-            />
-
         </div>
     )
 }
