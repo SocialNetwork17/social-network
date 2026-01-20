@@ -1,17 +1,22 @@
+import { SchemaPostViewModel } from '@/shared/api/schema'
+
 export type ModalStack = ModalState[]
 export type ModalState =
-    | { type: "NONE", payload: {description: string, title: string} }
+    | { type: "NONE", payload: { description: string, title: string } }
     | LogOutModalType
     | RegistrationConfirmModalType
     | CreatePostModalType
     | CancelCreatePostModalType
-
+    | EditPostModalType
+    | OpenViewPostModalAC
 
 
 export type LogOutModalType = ReturnType<typeof logoutModalAC>
 export type RegistrationConfirmModalType = ReturnType<typeof registrationConfirmModalAC>
 export type CreatePostModalType = ReturnType<typeof createPostModalAC>
 export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalAC>
+export type EditPostModalType = ReturnType<typeof openEditPostModalAC> //🌱
+export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC> //🌱
 
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
@@ -30,4 +35,14 @@ export const createPostModalAC = () => {
 
 export const cancelCreatePostModalAC = (payload: { title: string, description: string }) => {
     return {type: 'CANCEL_CREATE_POST', payload: {...payload}} as const
+}
+
+export const openEditPostModalAC = (payload: { //🌱
+    post: SchemaPostViewModel
+}) => {
+    return {type: 'EDIT_POST', payload} as const
+}
+
+export const openViewPostModalAC = (payload: { post: SchemaPostViewModel })  => { //🌱
+    return {type: 'VIEW_POST', payload} as const
 }

@@ -6,6 +6,7 @@ import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
+import ImageModal from "@/shared/ui/Modal/ImageModal/ImageModal";
 
 
 export const ModalWrapper = () => {
@@ -58,6 +59,32 @@ export const ModalWrapper = () => {
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
+
+
+            case 'EDIT_POST': //🌱
+                return (
+                    <ImageModal
+                        isOpen
+                        postInfo={modal.payload.post}
+                        mode="edit"
+                        onClose={popModal}
+                        isLoading={false}
+                    />
+                )
+
+            case 'VIEW_POST': //🌱
+                return (
+                    <ImageModal
+                        isOpen
+                        postInfo={modal.payload.post}
+                        mode="view"
+                        onClose={popModal}
+                        isLoading={false}
+                    />
+                )
+
+
+
             default:
                 return null
         }
