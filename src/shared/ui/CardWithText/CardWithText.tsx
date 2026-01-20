@@ -4,8 +4,8 @@ import { SchemaPostViewModel } from '@/shared/api/schema'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
 import Skeleton from '../Skeleton/Skeleton'
-import { Button } from '@headlessui/react'
 import { useState } from 'react'
+import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 
 type Props = {
   post: SchemaPostViewModel
@@ -18,6 +18,7 @@ export default function CardWithText(props: Props) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const urls = post.images.map(image => image.url)
+  const dateTime = getTimeAgo(post.createdAt)
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -34,6 +35,7 @@ export default function CardWithText(props: Props) {
         </div>
       </Link>
       <div className={styles.postDesc}>
+        <div className={styles.time}>{dateTime}</div>
         <div className={`${styles.text} ${isExpanded ? styles.expanded : ''}`}>
           {post.description}
         </div>

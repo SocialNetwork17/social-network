@@ -38,7 +38,7 @@ export default function Profile(props: Props) {
         <div className={styles.postContainer}>
           {Array(8)
             .fill(null)
-            .map(index => (
+            .map((_, index) => (
               <div key={index}>
                 <Skeleton height={240} width={234} />
               </div>
