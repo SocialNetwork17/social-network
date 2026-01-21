@@ -3,7 +3,6 @@ import Card from '../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
-import Skeleton from '../Skeleton/Skeleton'
 import { useEffect, useRef, useState } from 'react'
 import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 
@@ -44,7 +43,9 @@ export default function CardWithText(props: Props) {
           {post.avatarOwner ? (
             <Card images={post.avatarOwner} width={36} height={36} variant="circular" />
           ) : (
-            <Skeleton width={36} height={36} bordeRadius={18} />
+            <div className={styles.avatarPlaceholder}>
+              {(post.userName?.charAt(0) || 'U').toUpperCase()}
+            </div>
           )}
           <div>{post.userName}</div>
         </div>
@@ -57,7 +58,7 @@ export default function CardWithText(props: Props) {
           </span>
           {showButton && (
             <button onClick={() => setIsExpanded(!isExpanded)} className={styles.buttonInline}>
-               {isExpanded ? 'Hide' : 'Show more'}
+              {isExpanded ? 'Hide' : 'Show more'}
             </button>
           )}
         </div>

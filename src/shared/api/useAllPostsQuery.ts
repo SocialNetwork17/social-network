@@ -11,7 +11,7 @@ export const useAllPostsQuery = (
   endCursorPostId?: number
 ) => {
   return useQuery<AllPosts, Error>({
-    queryKey: ['all posts', { pageSize, sortDirection, endCursorPostId }],
+    queryKey: ['posts', 'feed', { pageSize, sortDirection, endCursorPostId }],
     queryFn: async () => {
       const response = await client.GET(`/api/v1/posts/all/{endCursorPostId}`, {
         params: {
