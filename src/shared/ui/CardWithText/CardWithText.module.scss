@@ -1,3 +1,5 @@
+@use '../../../styles/base/typography' as typo;
+
 .container {
   width: 234px;
   height: 391px;
@@ -19,54 +21,58 @@
   }
 
   .postDesc {
-    position: relative;
-
-    .text {
-      --line-height: 1.5em;
-      --max-lines: 3;
-
-      line-height: var(--line-height);
-      max-height: calc(var(--line-height) * var(--max-lines));
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* кнопка "Show more" отредактировать*/
-    .text.expanded {
-      max-height: none;
-    }
-
-    .text:not(.expanded)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: var(--line-height);
-      pointer-events: none;
-    }
-
-    .showMoreBtn {
-      margin-top: 8px;
-      background: none;
-      border: none;
-      color: var(--color-accent);
-      cursor: pointer;
-    }
-
     .time {
+      @include typo.text-small;
       color: var(--color-small-text);
-      font-size: 12px;
       outline: none;
+      margin-bottom: 3px;
+    }
+
+    .textContainer {
+      position: relative;
+      max-height: 192px;
+      overflow: hidden;
+
+      .text {
+        @include typo.text-regular-14;
+
+        &:not(.expanded) {
+          display: -webkit-box;
+          -webkit-line-clamp: 3; // Вендорный префикс, необходим для работы
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          position: relative;
+        }
+
+        &.expanded {
+          max-height: none;
+          -webkit-line-clamp: initial; // Вендорный префикс, необходим для работы
+        }
+      }
+
+      .buttonInline {
+        position: absolute;
+        right: 0;
+        bottom: 1px;
+        background: var(--color-bg);
+        color: var(--color-accent);
+        border: none;
+        padding-left: 10px;
+        cursor: pointer;
+        @include typo.text-regular-14;
+        white-space: nowrap;
+        text-decoration: underline;
+        z-index: 1;
+
+        &::before {
+          content: '...';
+          position: absolute;
+          left: -10px;
+          color: var(--color-text);
+          background: var(--color-bg);
+          font-weight: bold;
+        }
+      }
     }
   }
 }
-
-// text-align:left;
-// vertical-align:text-top;
-// font-size:14px;
-// font-family:Inter;
-// line-height:24px;
-// border-style:hidden;
-// outline:none;
-// width:234px;

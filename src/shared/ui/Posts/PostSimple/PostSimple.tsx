@@ -39,8 +39,8 @@ export default function PostSimple(props: Props) {
           userPosts?.items.map(post => {
             const imageSlider = post.images.map(image => image.url)
             return (
-              <div key={post.id}>
-                <Card images={imageSlider} onClick={() => handleImageClick(post.id)} />
+              <div key={post.id} style={{maxWidth: "234px"}}>
+                <Card images={imageSlider} onClick={() => handleImageClick(post.id)}/>
               </div>
             )
           })}
