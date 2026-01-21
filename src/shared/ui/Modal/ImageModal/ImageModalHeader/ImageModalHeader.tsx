@@ -2,12 +2,13 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import styles from './ImageModalHeader.module.scss'
-import { useDataProfileQuery } from "@/pages/profile/api/useDataProfileQuery"
+
 import s from "@/widgets/sidebar/ui/Sidebar.module.scss"
 import { Icon } from "@/shared/ui/Icon/Icon"
 import { usePostQuery } from "@/shared/api/usePostQuery"
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
+import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
 
 type ImageModalHeaderProps = {
     onEditClick?: () => void
@@ -26,7 +27,7 @@ export default function ImageModalHeader({
 
     const {pushModal} = useModal()
 
-    const { data: dataProfile } = useDataProfileQuery()
+    const { data: dataProfile } = useDataMyProfileQuery()
     const { data: postInfo} = usePostQuery(postId)
 
     // Проверяем, является ли текущий пользователь владельцем поста

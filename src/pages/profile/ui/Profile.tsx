@@ -1,15 +1,23 @@
 'use client'
 
 import { useAuth } from '@/shared/hooks/useAuth'
-import styles from './MyProfile.module.scss'
-import { useDataProfileQuery } from '../api/useDataProfileQuery'
+import styles from './Profile.module.scss'
+
 import ProfileHeader from '@/shared/ui/ProfileHeader/ProfileHeader'
 import PostSimple from '@/shared/ui/Posts/PostSimple/PostSimple'
 import Skeleton from '@/shared/ui/Skeleton/Skeleton'
+import { useDataMyProfileQuery } from '../api/useDataMyProfileQuery'
+import { useDataProfileQuery } from '../api/useDataProfileQuery'
 
-export default function MyProfile() {
+type Props = {
+  ownerId?: number
+}
+
+export default function Profile(props: Props) {
+  const { ownerId } = props
+
   const { isAuth } = useAuth()
-  const { data, isLoading } = useDataProfileQuery()
+  const { data, isLoading } = ownerId ? useDataProfileQuery(ownerId) : useDataMyProfileQuery()
 
 
   if (isLoading)
@@ -31,7 +39,7 @@ export default function MyProfile() {
         <div className={styles.postContainer}>
           {Array(8)
             .fill(null)
-            .map(index => (
+            .map((_, index) => (
               <div key={index}>
                 <Skeleton height={240} width={234} />
               </div>

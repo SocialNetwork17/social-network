@@ -8,7 +8,7 @@ export const useUserPostsQuery = (
   endCursorPostId?: number
 ) => {
   return useQuery({
-    queryKey: ['user posts by userId', { pageSize, sortDirection, endCursorPostId, userId }],
+    queryKey: ['posts', 'via-profile', { pageSize, sortDirection, endCursorPostId, userId }],
     queryFn: async () => {
       const response = await client.GET(`/api/v1/posts/user/{userId}/{endCursorPostId}`, {
         params: {

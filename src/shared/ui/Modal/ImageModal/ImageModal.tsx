@@ -5,7 +5,8 @@ import styles from './ImageModal.module.scss'
 import Card from '../../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import ImageModalHeader from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader";
-import {useDataProfileQuery} from "@/pages/profile/api/useDataProfileQuery";
+import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
+
 
 type Props = {
   isOpen: boolean
@@ -18,7 +19,7 @@ type Props = {
 export default function ImageModal(props: Props) {
   const { isOpen, onClose, postInfo, alt = '' } = props
 
-  const { data } = useDataProfileQuery()
+  const { data } = useDataMyProfileQuery()
 
 
 

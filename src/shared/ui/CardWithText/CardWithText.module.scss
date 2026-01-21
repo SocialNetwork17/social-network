@@ -1,10 +1,90 @@
+@use '../../../styles/base/typography' as typo;
+
 .container {
   width: 234px;
   height: 391px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
   .card {
     width: 100%;
     height: 100%;
     max-height: 240px;
+  }
+
+  .userInfo {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 12px;
+
+    .avatarPlaceholder {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include typo.h2;
+    }
+  }
+
+  .postDesc {
+    .time {
+      @include typo.text-small;
+      color: var(--color-small-text);
+      outline: none;
+      margin-bottom: 3px;
+    }
+
+    .textContainer {
+      position: relative;
+      max-height: 192px;
+      overflow: hidden;
+
+      .text {
+        @include typo.text-regular-14;
+
+        &:not(.expanded) {
+          display: -webkit-box;
+          -webkit-line-clamp: 3; // Вендорный префикс, необходим для работы
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          position: relative;
+        }
+
+        &.expanded {
+          max-height: none;
+          -webkit-line-clamp: initial; // Вендорный префикс, необходим для работы
+        }
+      }
+
+      .buttonInline {
+        position: absolute;
+        right: 0;
+        bottom: 1px;
+        background: var(--color-bg);
+        color: var(--color-accent);
+        border: none;
+        padding-left: 10px;
+        cursor: pointer;
+        @include typo.text-regular-14;
+        white-space: nowrap;
+        text-decoration: underline;
+        z-index: 1;
+
+        &::before {
+          content: '...';
+          position: absolute;
+          left: -10px;
+          color: var(--color-text);
+          background: var(--color-bg);
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
