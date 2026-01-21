@@ -1,23 +1,24 @@
 'use client'
 import styles from './SignUpForm.module.scss'
-import { SingUpFormTitle } from '@/features/signUp/ui/singUpFormTitle/SingUpFormTitle'
-import { Input } from '@/shared/ui/Input/Input'
-import { Checkbox } from '@/shared/ui/Checkbox/Checkbox'
+import {SingUpFormTitle} from '@/features/signUp/ui/singUpFormTitle/SingUpFormTitle'
+import {Input} from '@/shared/ui/Input/Input'
+import {Checkbox} from '@/shared/ui/Checkbox/Checkbox'
 import Link from 'next/link'
-import { PATH } from '@/shared/constants/routings'
-import { Button } from '@/shared/ui/Button/Button'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { registrationSchema, RegistrationType } from '@/features/signUp/lib/registrationSchema'
-import { useState } from 'react'
-import { Modal } from '@/shared/ui/Modal/Modal'
-import { Spinner } from '@/shared/ui/Spinner/Spinner'
-import { ErrorWithMessageResponse } from '@/shared/types/types'
-import { useRegistration } from '@/features/signUp/api/useRegistration'
+import {PATH} from '@/shared/constants/routings'
+import {Button} from '@/shared/ui/Button/Button'
+import {SubmitHandler, useForm} from 'react-hook-form'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {registrationSchema, RegistrationType} from '@/features/signUp/lib/registrationSchema'
+import {useState} from 'react'
+import {Spinner} from '@/shared/ui/Spinner/Spinner'
+import {ErrorWithMessageResponse} from '@/shared/types/types'
+import {useRegistration} from '@/features/signUp/api/useRegistration'
+import {useModal} from "@/widgets/modal/model/modal.context";
+import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
 
-type Props = {}
 
-export const SignUpForm = (props: Props) => {
+
+export const SignUpForm = () => {
   const {
     register,
     handleSubmit,
@@ -36,18 +37,19 @@ export const SignUpForm = (props: Props) => {
   })
 
   const [checked, setChecked] = useState<boolean>(false)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [email, setEmail] = useState<string>('')
-
-  const { mutate: registration, isPending, isError, error } = useRegistration()
+  const {pushModal} = useModal()
+  const { mutate: registration, isPending } = useRegistration()
 
   const onSubmit: SubmitHandler<RegistrationType> = data => {
-    setEmail(data.email)
     registration(data, {
       onSuccess: () => {
         reset()
         setChecked(prevState => !prevState)
-        setIsModalOpen(!isModalOpen)
+        pushModal(registrationConfirmModalAC({
+          title: "Email sent",
+          email: data.email,
+          description: 'We have sent a link to confirm your email to '
+        }))
       },
       onError: (error: unknown) => {
         const err = error as ErrorWithMessageResponse
@@ -125,9 +127,6 @@ export const SignUpForm = (props: Props) => {
           </div>
         </div>
       </form>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(!isModalOpen)} title={'Email sent'}>
-        We have sent a link to confirm your email to {email}
-      </Modal>
     </div>
   )
 }

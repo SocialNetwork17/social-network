@@ -19,6 +19,7 @@ export default function Profile(props: Props) {
   const { isAuth } = useAuth()
   const { data, isLoading } = ownerId ? useDataProfileQuery(ownerId) : useDataMyProfileQuery()
 
+
   if (isLoading)
     return (
       <div className={styles.container}>

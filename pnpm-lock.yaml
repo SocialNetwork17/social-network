@@ -108,6 +108,9 @@ importers:
       '@types/react-google-recaptcha':
         specifier: 2.1.9
         version: 2.1.9
+      '@types/uuid':
+        specifier: ^11.0.0
+        version: 11.0.0
       '@vitest/browser-playwright':
         specifier: 4.0.7
         version: 4.0.7(playwright@1.56.1)(vite@7.2.0(@types/node@20.19.23)(jiti@2.6.1)(sass@1.93.3)(terser@5.44.1))(vitest@4.0.7)
@@ -1306,6 +1309,10 @@ packages:
 
   '@types/use-sync-external-store@0.0.6':
     resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
+
+  '@types/uuid@11.0.0':
+    resolution: {integrity: sha512-HVyk8nj2m+jcFRNazzqyVKiZezyhDKrGUA3jlEcg/nZ6Ms+qHwocba1Y/AaVaznJTAM9xpdFSh+ptbNrhOGvZA==}
+    deprecated: This is a stub types definition. uuid provides its own type definitions, so you do not need this installed.
 
   '@typescript-eslint/eslint-plugin@8.46.2':
     resolution: {integrity: sha512-ZGBMToy857/NIPaaCucIUQgqueOiq7HeAKkhlvqVV4lm089zUFW6ikRySx2v+cAhKeUCPuWVHeimyk6Dw1iY3w==}
@@ -5126,6 +5133,10 @@ snapshots:
   '@types/resolve@1.20.6': {}
 
   '@types/use-sync-external-store@0.0.6': {}
+
+  '@types/uuid@11.0.0':
+    dependencies:
+      uuid: 13.0.0
 
   '@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)':
     dependencies:
