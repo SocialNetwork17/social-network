@@ -11,6 +11,9 @@ export const useUpdatePostMutation = () => {
 
     return useMutation({
         mutationFn: async ({ postId, description }: UpdatePostArgs) => {
+
+            await client.GET("/api/v1/auth/me").catch(() => null);
+
             const response = await client.PUT('/api/v1/posts/{postId}', {
                 params: {
                     path: {
@@ -26,17 +29,27 @@ export const useUpdatePostMutation = () => {
                 throw response.error
             }
 
-            return null // 204 No Content
+            return null
         },
 
         onSuccess: (_, { postId }) => {
-            queryClient.invalidateQueries({
-                queryKey: ['post', postId],
-            })
+            // queryClient.invalidateQueries({
+            //     queryKey: ['post', postId],
+            // })
+            //
+            // queryClient.invalidateQueries({
+            //     queryKey: ['userPosts'],
+            // })
 
             queryClient.invalidateQueries({
-                queryKey: ['userPosts'],
+                queryKey: ['posts', 'via-profile'],
+                exact: false, // exact: false означает "все, что начинается с этого ключа"
             })
+            queryClient.invalidateQueries({
+                queryKey: ['posts', 'feed'],
+                exact: false, // exact: false означает "все, что начинается с этого ключа"
+            })
+
         },
     })
 }

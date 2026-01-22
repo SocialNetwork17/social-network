@@ -6,14 +6,13 @@ import Card from '../../Card/Card'
 import {SchemaPostViewModel} from '@/shared/api/schema'
 import {EditPostHeader} from "@/shared/ui/Modal/ImageModal/EditPostHeader/EditPostHeader";
 import ImageModalHeader from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader";
-import {useDataProfileQuery} from "@/pages/profile/api/useDataProfileQuery";
 import {useUpdatePostMutation} from '@/shared/api/useUpdatePostMutation'
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import { useModal } from '@/widgets/modal/model/modal.context'
-import { openViewPostModalAC } from '@/widgets/modal/model/modal.types'
+import {EditPostModalType, OpenViewPostModalAC, openViewPostModalAC} from '@/widgets/modal/model/modal.types'
 import {Button} from "@/shared/ui/Button/Button";
+import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 
-type Mode = 'view' | 'edit'
 
 type Props = {
     isOpen: boolean
@@ -21,20 +20,19 @@ type Props = {
     postInfo?: SchemaPostViewModel
     alt?: string
     isLoading?: boolean
-    postId?: number
-    mode?: Mode
+    modal: OpenViewPostModalAC | EditPostModalType
 }
 
 
 export default function ImageModal(props: Props) {
-    const {isOpen, onClose, postId, alt = '', mode} = props
+    const {isOpen, onClose, alt = '', modal} = props
 
     const [text, setText] = useState('')
     const { pushModal } = useModal()
     const {mutateAsync, isPending} = useUpdatePostMutation()
-    const { data: postInfo, isLoading } = usePostQuery(postId)
+    const { data: postInfo, isLoading } = usePostQuery(modal.payload.postId)
+    const { data } = useDataMyProfileQuery()
 
-    //const {data} = useDataProfileQuery()
 
     // Блокируем скролл при открытии модалки
     useEffect(() => {
@@ -50,10 +48,10 @@ export default function ImageModal(props: Props) {
     }, [isOpen])
 
     useEffect(() => {
-        if (postInfo && mode === 'edit') {
-            setText(postInfo.description)
+        if (postInfo && modal.type === 'EDIT_POST') {
+            setText(postInfo.description);
         }
-    }, [postInfo, mode])
+    }, [postInfo, modal?.type]);
 
 
     const handleEscapeKey = (e: KeyboardEvent) => {
@@ -89,7 +87,8 @@ export default function ImageModal(props: Props) {
         pushModal(openViewPostModalAC({ postId: postInfo!.id }))
     }
 
-    if (!isOpen) return null
+
+    if (!isOpen || !modal) return null;
 
     return (
         <div
@@ -103,7 +102,7 @@ export default function ImageModal(props: Props) {
 
             <div className={styles.modalContent}>
 
-                {mode === 'edit' && (
+                {modal.type === 'EDIT_POST' && (
                     <EditPostHeader
                         onCancel={handleCancelEdit}
                     />
@@ -119,11 +118,11 @@ export default function ImageModal(props: Props) {
                     />
                     {/*{postInfo.description}*/}
 
-                    {mode === 'view' && (
+                    {modal.type === 'VIEW_POST' && (
                         <div>{postInfo.description}</div>
                     )}
 
-                    {mode === 'edit' && (
+                    {modal.type === 'EDIT_POST' && (
                         <div className={styles.editSection}>
 
                             <p className={styles.helpText}>
@@ -151,13 +150,17 @@ export default function ImageModal(props: Props) {
 
                 </div>
 
-                <button
-                    onClick={onClose}
-                    className={styles.closeButton}
-                    aria-label="Закрыть модальное окно"
-                >
-                    ✕
-                </button>
+                {modal.type !== 'EDIT_POST' && (
+                    <button
+                        onClick={onClose}
+                        className={styles.closeButton}
+                        aria-label="Закрыть модальное окно"
+                    >
+                        ✕
+                    </button>
+                )
+                }
+
             </div>
         </div>
     )

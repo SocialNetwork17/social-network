@@ -64,8 +64,7 @@ export const ModalWrapper = () => {
                 return (
                     <ImageModal
                         isOpen
-                        postId={modal.payload.postId}
-                        mode="view"
+                        modal={modal}
                         onClose={popModal}
                     />
                 )
@@ -73,8 +72,7 @@ export const ModalWrapper = () => {
                 return (
                     <ImageModal
                         isOpen
-                        postId={modal.payload.postId}
-                        mode="edit"
+                        modal={modal}
                         onClose={popModal}
                     />
                 )

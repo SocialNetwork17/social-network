@@ -7,7 +7,7 @@ export const useDataProfileQuery = (profileId: number) => {
     queryFn: async () => {
       const response = await client.GET('/api/v1/public-user/profile/{profileId}', {
         params: {
-        path: {
+          path: {
             profileId: profileId
           },
         }

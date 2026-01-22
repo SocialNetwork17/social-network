@@ -42,10 +42,10 @@ export const cancelCreatePostModalAC = (payload: { title: string, description: s
 
 export const openViewPostModalAC = (payload: { postId: number }) => ({
     type: 'VIEW_POST',
-    payload,
+    payload: {...payload},
 } as const)
 
 export const openEditPostModalAC = (payload: { postId: number }) => ({
     type: 'EDIT_POST',
-    payload,
+    payload: {...payload},
 } as const)
