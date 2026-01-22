@@ -20,14 +20,16 @@ export const SidebarLink = ({ href, label, icon, disabled = false }: SidebarLink
   //если pathname равен null, используем '/'
   const safePathname = pathname || '/'
 
-  const isActive = href === '/' ? safePathname === '/' : safePathname.startsWith(href)
+  // const isActive = href === '/' ? safePathname === '/' : safePathname.startsWith(href)
+
+  const isActive =
+    safePathname === href || safePathname === `${href}/` || safePathname.startsWith(`${href}?`)
 
   const linkClasses = disabled
     ? `${s.sidebarLink} ${s.disabled}`
     : isActive
-    ? `${s.sidebarLink} ${s.activeLink}`
-    : s.sidebarLink
-
+      ? `${s.sidebarLink} ${s.activeLink}`
+      : s.sidebarLink
 
   // Если ссылка отключена, рендерим span вместо Link
   if (disabled) {

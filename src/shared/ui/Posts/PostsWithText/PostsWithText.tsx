@@ -31,7 +31,7 @@ export default function PostsWith() {
         {isLoading &&
           Array(4)
             .fill(null)
-            .map(index => (
+            .map((_, index) => (
               <div className={styles.wpapper} key={index}>
                 <Skeleton height={240} width={234} />
                 <div className={styles.block}>

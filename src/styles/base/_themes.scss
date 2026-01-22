@@ -11,6 +11,7 @@
   --color-disabled: #{abstract.palette('dark', 100)};
   --color-arrow: #{abstract.palette('light', 100)};
   --color-option-bg: #{abstract.palette('dark', 300)};
+  --color-small-text: #{abstract.palette('light', 900)};
 
   // для цвета бордера
   --border-color: var(--border-color-default);

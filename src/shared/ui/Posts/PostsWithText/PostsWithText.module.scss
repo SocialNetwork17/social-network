@@ -1,7 +1,8 @@
 .container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: start;
+  gap: 12px;
 }
 
 .wpapper {
