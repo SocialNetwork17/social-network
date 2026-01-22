@@ -7,9 +7,9 @@ import styles from './PostSimple.module.scss'
 // import { usePostQuery } from '@/shared/api/usePostQuery'
 import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 
-import { useModal } from '@/widgets/modal/model/modal.context' // 🌱
-import { openViewPostModalAC } from '@/widgets/modal/model/modal.types' //🌱
-import {SchemaPostViewModel} from "@/shared/api/schema"; // 🌱
+import { useModal } from '@/widgets/modal/model/modal.context'
+import { openViewPostModalAC } from '@/widgets/modal/model/modal.types'
+import {SchemaPostViewModel} from "@/shared/api/schema";
 
 
 type Props = {
@@ -35,10 +35,10 @@ export default function PostSimple(props: Props) {
   //   setSelectedPost(null)
   // }
 
-  const { pushModal } = useModal() // 🌱
+  const { pushModal } = useModal()
 
-  const handleImageClick = (post: SchemaPostViewModel) => { //🌱
-    pushModal(openViewPostModalAC({ post })) //🌱
+  const handleImageClick = (post: SchemaPostViewModel) => {
+    pushModal(openViewPostModalAC({ postId: post.id }))
   }
 
 
@@ -52,7 +52,7 @@ export default function PostSimple(props: Props) {
             const imageSlider = post.images.map(image => image.url)
             return (
               <div key={post.id}>
-                <Card images={imageSlider} onClick={() => handleImageClick(post)} /> //🌱
+                <Card images={imageSlider} onClick={() => handleImageClick(post)} />
               </div>
             )
           })}

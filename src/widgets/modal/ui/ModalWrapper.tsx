@@ -60,32 +60,24 @@ export const ModalWrapper = () => {
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
-
-
-            case 'EDIT_POST': //🌱
+            case 'VIEW_POST':
                 return (
                     <ImageModal
                         isOpen
-                        postInfo={modal.payload.post}
-                        mode="edit"
-                        onClose={popModal}
-                        isLoading={false}
-                    />
-                )
-
-            case 'VIEW_POST': //🌱
-                return (
-                    <ImageModal
-                        isOpen
-                        postInfo={modal.payload.post}
+                        postId={modal.payload.postId}
                         mode="view"
                         onClose={popModal}
-                        isLoading={false}
                     />
                 )
-
-
-
+            case 'EDIT_POST':
+                return (
+                    <ImageModal
+                        isOpen
+                        postId={modal.payload.postId}
+                        mode="edit"
+                        onClose={popModal}
+                    />
+                )
             default:
                 return null
         }

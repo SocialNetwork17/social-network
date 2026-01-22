@@ -1,3 +1,7 @@
+@use '../../../../styles/abstract/index' as styles;
+@use '../../../../styles/base/typography' as typo;
+
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -74,5 +78,54 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+
+.editSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 24px;
+}
+
+.saveButton {
+  align-self: flex-end;
+padding-top: 260px;
+}
+
+.helpText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 171%;
+  color: styles.palette('light', 900);
+  padding-top: 24px;
+}
+
+.textarea {
+  padding: 6px 12px;
+  background: black;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e4f1fb;
+  outline: none;
+  font-family: inherit;
+
+
+  /* Авто-высота с ограничением */
+  min-height: 120px; /* минимальная высота */
+  max-height: 500px; /* максимальная высота */
+  height: auto; /* для начального состояния */
+
+  /* Плавное изменение высоты */
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #8e8e8e;
+  }
+
+  &:focus {
+    color: #e4f1fb;
   }
 }

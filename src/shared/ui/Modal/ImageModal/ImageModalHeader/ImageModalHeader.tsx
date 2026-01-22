@@ -8,6 +8,8 @@ import { Icon } from "@/shared/ui/Icon/Icon"
 import { usePostQuery } from "@/shared/api/usePostQuery"
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
+import { openEditPostModalAC } from "@/widgets/modal/model/modal.types"
+
 
 type ImageModalHeaderProps = {
     onEditClick?: () => void
@@ -24,7 +26,7 @@ export default function ImageModalHeader({
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
-    const {pushModal} = useModal()
+    const { pushModal, popModal } = useModal()
 
     const { data: dataProfile } = useDataProfileQuery()
     const { data: postInfo} = usePostQuery(postId)
@@ -56,6 +58,10 @@ export default function ImageModalHeader({
     const handleEdit = () => {
         setIsMenuOpen(false)
 
+        if (!postInfo) return
+
+        popModal() // закрываем VIEW_POST
+        pushModal(openEditPostModalAC({ postId }))
     }
 
     const handleDeleteClick = () => {

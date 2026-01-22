@@ -5,9 +5,9 @@ export type ModalState =
     | RegistrationConfirmModalType
     | CreatePostModalType
     | CancelCreatePostModalType
-    | EditPostModalType
-    | OpenViewPostModalAC
     | DeletePostModalType
+    | OpenViewPostModalAC
+    | EditPostModalType
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -15,9 +15,8 @@ export type LogOutModalType = ReturnType<typeof logoutModalAC>
 export type RegistrationConfirmModalType = ReturnType<typeof registrationConfirmModalAC>
 export type CreatePostModalType = ReturnType<typeof createPostModalAC>
 export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalAC>
-export type EditPostModalType = ReturnType<typeof openEditPostModalAC> //🌱
-export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC> //🌱
-
+export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC>
+export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
     return {type: 'CONFIRM_LOGOUT', payload: {...payload}} as const
@@ -41,12 +40,12 @@ export const cancelCreatePostModalAC = (payload: { title: string, description: s
     return {type: 'CANCEL_CREATE_POST', payload: {...payload}} as const
 }
 
-export const openEditPostModalAC = (payload: { //🌱
-    post: SchemaPostViewModel
-}) => {
-    return {type: 'EDIT_POST', payload} as const
-}
+export const openViewPostModalAC = (payload: { postId: number }) => ({
+    type: 'VIEW_POST',
+    payload,
+} as const)
 
-export const openViewPostModalAC = (payload: { post: SchemaPostViewModel })  => { //🌱
-    return {type: 'VIEW_POST', payload} as const
-}
+export const openEditPostModalAC = (payload: { postId: number }) => ({
+    type: 'EDIT_POST',
+    payload,
+} as const)
