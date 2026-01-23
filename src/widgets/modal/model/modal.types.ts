@@ -8,6 +8,8 @@ export type ModalState =
     | OpenViewPostModalAC
     | EditPostModalType
     | CancelEditPostModalType
+    | UploadErrorModalType
+
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -18,6 +20,8 @@ export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalA
 export type CancelEditPostModalType = ReturnType<typeof openCancelEditPostModalAC>
 export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC>
 export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
+export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
+
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
     return {type: 'CONFIRM_LOGOUT', payload: {...payload}} as const
@@ -55,3 +59,12 @@ export const openCancelEditPostModalAC = (payload: { title: string, description:
     type: 'CANCEL_EDIT_POST',
     payload: {...payload},
 } as const)
+
+export const uploadErrorModalAC = (payload: {
+    title: string
+    description: string
+}) => ({
+    type: 'UPLOAD_ERROR',
+    payload,
+} as const)
+
