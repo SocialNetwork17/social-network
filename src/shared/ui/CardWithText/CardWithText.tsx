@@ -1,3 +1,4 @@
+'use client'
 import styles from './CardWithText.module.scss'
 import Card from '../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'

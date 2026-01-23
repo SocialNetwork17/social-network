@@ -17,12 +17,20 @@ export const useDeletePost = () => {
 
         onSuccess: (_, postId) => {
             // Инвалидируем кэш постов после успешного удаления
+            // queryClient.invalidateQueries({
+            //     predicate: (query) => {
+            //         // Преобразуем ключ в строку для поиска
+            //         const keyString = JSON.stringify(query.queryKey).toLowerCase()
+            //         return keyString.includes('post') || keyString.includes('profile')
+            //     }
+            // })
             queryClient.invalidateQueries({
-                predicate: (query) => {
-                    // Преобразуем ключ в строку для поиска
-                    const keyString = JSON.stringify(query.queryKey).toLowerCase()
-                    return keyString.includes('post') || keyString.includes('profile')
-                }
+                queryKey: ['posts', 'via-profile'],
+                exact: false, // exact: false означает "все, что начинается с этого ключа"
+            })
+            queryClient.invalidateQueries({
+                queryKey: ['posts', 'feed'],
+                exact: false, // exact: false означает "все, что начинается с этого ключа"
             })
         },
         onError: (error) => {

@@ -1,86 +1,128 @@
 'use client'
 
-import { useEffect } from 'react'
+import {useEffect, useState} from 'react'
 import styles from './ImageModal.module.scss'
 import Card from '../../Card/Card'
-import { SchemaPostViewModel } from '@/shared/api/schema'
+import {EditPostHeader} from "@/shared/ui/Modal/ImageModal/EditPostHeader/EditPostHeader";
 import ImageModalHeader from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader";
-import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
+import {useUpdatePostMutation} from '@/shared/api/useUpdatePostMutation'
+import {usePostQuery} from "@/shared/api/usePostQuery";
+import {useModal} from '@/widgets/modal/model/modal.context'
+import {
+    EditPostModalType,
+    openCancelEditPostModalAC,
+    OpenViewPostModalAC,
+    openViewPostModalAC
+} from '@/widgets/modal/model/modal.types'
+import {Button} from "@/shared/ui/Button/Button";
+import {IconButton} from "@/shared/ui/IconButton/IconButton";
 
 
 type Props = {
-  isOpen: boolean
-  onClose: () => void
-  postInfo: SchemaPostViewModel
-  alt?: string
-  isLoading: boolean
+    modal: OpenViewPostModalAC | EditPostModalType
 }
 
 export default function ImageModal(props: Props) {
-  const { isOpen, onClose, postInfo, alt = '' } = props
+    const { modal} = props
 
-  const { data } = useDataMyProfileQuery()
+    const [text, setText] = useState('')
+    const { pushModal, clearModals } = useModal()
+    const {mutateAsync, isPending} = useUpdatePostMutation()
+    const { data: postInfo, isLoading } = usePostQuery(modal.payload.postId)
 
+    useEffect(() => {
+        if (postInfo && modal.type === 'EDIT_POST') {
+            setText(postInfo.description);
+        }
+    }, [postInfo, modal?.type])
 
+    if (isLoading || !postInfo) return null
 
-  // Блокируем скролл при открытии модалки
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-      document.addEventListener('keydown', handleEscapeKey)
+    const imageSlider = postInfo.images.map(image => image.url)
+
+    const handleCloseViewPostModal = () => {
+        clearModals()
     }
 
-    return () => {
-      document.body.style.overflow = 'unset'
-      document.removeEventListener('keydown', handleEscapeKey)
+    const handleSave = async () => {
+        try {
+            await mutateAsync({
+                postId: postInfo!.id,
+                description: text,
+            })
+            clearModals()
+            pushModal(openViewPostModalAC({ postId: postInfo!.id }))
+        } catch (error) {
+            console.error('Failed to update post:', error)
+        }
+
     }
-  }, [isOpen])
 
-  const handleEscapeKey = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      onClose()
+    const onCloseEditPostModal = () => {
+        if(text === postInfo.description) {
+            clearModals()
+            pushModal(openViewPostModalAC({postId: postInfo!.id}))
+            return
+        }
+        pushModal(openCancelEditPostModalAC({
+            title: "Edit Post",
+            description: "Are you sure you want to undo the post edit?",
+        }))
     }
-  }
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose()
-    }
-  }
 
-  const imageSlider = postInfo.images.map(image => image.url)
+    return (
+            <div className={styles.modalContent}>
 
-  const handlePostDeleted = () => {
-    onClose() // Закрываем родительскую модалку после удаления
-  }
+                {modal.type === 'EDIT_POST' && (
+                    <EditPostHeader onCloseEditPostModal={onCloseEditPostModal}/>
+                )}
 
-  if (!isOpen) return null
+                <Card images={imageSlider} slider={true} width={490} height={564}/>
+                <div className={styles.modalDescription}>
+                    <ImageModalHeader
+                        postId={postInfo.id}
+                    />
+                    {modal.type === 'VIEW_POST' && (
+                        <div>{postInfo.description}</div>
+                    )}
 
-  return (
-    <div
-      className={styles.modalBackdrop}
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Увеличенное изображение"
-    >
-      <div className={styles.modalContent}>
-        <Card images={imageSlider} slider={true} width={490} height={564}/>
-        <div className={styles.modalDescription}>
-          <ImageModalHeader
-              postId={postInfo.id}
-              onPostDeleted={handlePostDeleted}
-          />
-          {postInfo.description}
-        </div>
-        <button
-          onClick={onClose}
-          className={styles.closeButton}
-          aria-label="Закрыть модальное окно"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  )
+                    {modal.type === 'EDIT_POST' && (
+                        <div className={styles.editSection}>
+
+                            <p className={styles.helpText}>
+                                Add publication descriptions
+                            </p>
+                            <textarea
+                                value={text}
+                                onChange={(e) => setText(e.currentTarget.value)}
+                                className={styles.textarea}
+                            />
+
+                            <div className={styles.saveButton}>
+                                <Button
+                                    variant={'primary'}
+                                    onClick={handleSave}
+                                    disabled={isPending || text === postInfo.description}
+                                    width={136}
+                                    height={36}
+                                >
+                                    {isPending ? 'Saving...' : 'Save Changes'}
+                                </Button>
+                            </div>
+
+                        </div>
+                    )}
+                </div>
+                {
+                    modal.type !== 'EDIT_POST' &&
+                        <div className={styles.closeButton}>
+                            <IconButton
+                                onClick={handleCloseViewPostModal}
+                                iconId={'logoutBtnCloseSvg'}
+                            />
+                        </div>
+                }
+            </div>
+    )
 }

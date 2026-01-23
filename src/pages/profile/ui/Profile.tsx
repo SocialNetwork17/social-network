@@ -7,7 +7,8 @@ import ProfileHeader from '@/shared/ui/ProfileHeader/ProfileHeader'
 import PostSimple from '@/shared/ui/Posts/PostSimple/PostSimple'
 import Skeleton from '@/shared/ui/Skeleton/Skeleton'
 import { useDataMyProfileQuery } from '../api/useDataMyProfileQuery'
-import { useDataProfileQuery } from '../api/useDataProfileQuery'
+import {useDataProfileQuery} from "@/pages/profile/api/useDataProfileQuery";
+
 
 type Props = {
   ownerId?: number

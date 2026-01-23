@@ -1,35 +1,49 @@
 'use client'
 
-import {ModalState} from "@/widgets/modal/model/modal.types";
+import {
+    CancelCreatePostModalType, CancelEditPostModalType,
+    DeletePostModalType,
+    LogOutModalType,
+    RegistrationConfirmModalType
+} from "@/widgets/modal/model/modal.types";
 import styles from './BaseModal.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {LogoutModalContent} from "@/widgets/modal/ui/baseModal/logOutModalContent/LogoutModalContent";
 import {ReactNode} from "react";
-import {RegistrationConfirmModalContent} from "@/widgets/modal/ui/baseModal/registrationConfirmModalContent/RegistrationConfirmModalContent";
+import {
+    RegistrationConfirmModalContent
+} from "@/widgets/modal/ui/baseModal/registrationConfirmModalContent/RegistrationConfirmModalContent";
 import {
     CancelCreatePostModalContent
 } from "@/widgets/modal/ui/baseModal/cancelCreatePostModalContent/CancelCreatePostModalContent";
-import {DeletePostModalContent} from "@/widgets/modal/ui/baseModal/deletePostModalContent/DeletePostModalContent";
+import {
+    CancelDeletePostModalContent
+} from "@/widgets/modal/ui/baseModal/cancelDeletePostModalContent/CancelDeletePostModalContent";
+import {
+    CancelEditPostModalContent
+} from "@/widgets/modal/ui/baseModal/candelEditPostModalContent/CancelEditPostModalContent";
 
 type Props = {
-    modal: ModalState
+    modal: DeletePostModalType | RegistrationConfirmModalType | LogOutModalType | CancelCreatePostModalType | CancelEditPostModalType
 }
 
 export const BaseModal = ({modal}: Props) => {
 
-    const {clearModals, popModal} = useModal()
+    const {stack, clearModals, popModal} = useModal()
 
     const currentContent = (): ReactNode | null => {
         switch (modal.type) {
             case "DELETE_POST":
-                return <DeletePostModalContent modal={modal} />
+                return <CancelDeletePostModalContent modal={modal} />
             case "CONFIRM_REGISTRATION":
                 return <RegistrationConfirmModalContent modal={modal} />
             case "CONFIRM_LOGOUT":
                 return <LogoutModalContent modal={modal} />
             case "CANCEL_CREATE_POST":
                 return <CancelCreatePostModalContent modal={modal} />
+            case "CANCEL_EDIT_POST":
+                return <CancelEditPostModalContent modal={modal} />
             default:
                 return null
         }
@@ -39,8 +53,8 @@ export const BaseModal = ({modal}: Props) => {
     return(
         <div className={styles.modal}>
             <div className={styles.titleWrapper}>
-                <div className={styles.title}>{modal.type !== "NONE" && modal.payload.title}</div>
-                <IconButton iconId={'logoutBtnCloseSvg'} size={24} onClick={()=>modal.type === "CANCEL_CREATE_POST" ? popModal(): clearModals()} />
+                <div className={styles.title}>{modal.payload.title}</div>
+                <IconButton iconId={'logoutBtnCloseSvg'} size={24} onClick={()=>stack.length > 1  ? popModal(): clearModals()} />
             </div>
             {currentContent()}
         </div>

@@ -31,6 +31,7 @@ type Props = {
 }
 
 export const UploadStep = ({ onUpload, remainingSlots }: Props) => {
+
     const [alertMessage, setAlertMessage] = useState<string | null>(null)
 
 
