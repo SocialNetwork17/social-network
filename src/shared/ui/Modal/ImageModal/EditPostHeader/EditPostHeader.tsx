@@ -1,15 +1,17 @@
 import React from 'react';
 import s from './EditPostHeader.module.scss'
+import {IconButton} from "@/shared/ui/IconButton/IconButton";
 
 type Props = {
-    onCancel: () => void,
+    onCloseEditPostModal: () => void,
 }
 
-export const EditPostHeader = ({onCancel}: Props) => {
+export const EditPostHeader = ({onCloseEditPostModal}: Props) => {
+
     return (
         <div className={s.editPostHeader}>
             <p className={s.editTextHeader}>Edit Post</p>
-            <button onClick={onCancel} className={s.closeEditButton}>✕</button>
+            <IconButton iconId={"logoutBtnCloseSvg"} onClick={onCloseEditPostModal}/>
         </div>
     );
 };

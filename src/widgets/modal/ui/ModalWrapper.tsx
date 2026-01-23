@@ -1,4 +1,4 @@
-import {cancelCreatePostModalAC, ModalState} from "@/widgets/modal/model/modal.types";
+import {cancelCreatePostModalAC, ModalState, openCancelEditPostModalAC} from "@/widgets/modal/model/modal.types";
 import styles from './ModalWrapper.module.scss'
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {useLockScroll} from "@/shared/hooks/useLockScroll";
@@ -22,8 +22,7 @@ export const ModalWrapper = () => {
         if (e.target !== e.currentTarget) return
 
         const topModal = stack[stack.length - 1]
-        if(!topModal) return
-        console.log(topModal)
+        if (!topModal) return
 
         switch (topModal.type) {
             case 'CREATE_POST':
@@ -35,11 +34,20 @@ export const ModalWrapper = () => {
                         pushModal(cancelCreatePostModalAC({
                             title: 'Close',
                             description: 'Do you really want to close the creation of a publication?' + 'If you close everything will be deleted'
-
                         }))
                     }
                 }
                 break
+            case 'EDIT_POST':
+                const isConfirmOpen = stack.some(m => m.type === 'CANCEL_EDIT_POST')
+                if (!isConfirmOpen) {
+                    pushModal(openCancelEditPostModalAC({
+                        title: 'Edit Post',
+                        description: "Are you sure you want to undo the post edit?"
+                    }))
+                }
+                break
+
 
             case 'CONFIRM_LOGOUT':
             case 'CONFIRM_REGISTRATION':
@@ -57,23 +65,19 @@ export const ModalWrapper = () => {
             case 'CONFIRM_REGISTRATION':
             case 'CONFIRM_LOGOUT':
             case 'CANCEL_CREATE_POST':
+            case "CANCEL_EDIT_POST":
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
             case 'VIEW_POST':
                 return (
                     <ImageModal
-                        isOpen
-                        modal={modal}
-                        onClose={popModal}
-                    />
+                        modal={modal}/>
                 )
             case 'EDIT_POST':
                 return (
                     <ImageModal
-                        isOpen
                         modal={modal}
-                        onClose={popModal}
                     />
                 )
             default:

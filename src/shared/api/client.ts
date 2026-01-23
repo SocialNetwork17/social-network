@@ -43,16 +43,16 @@ async function doRefresh(): Promise<string> {
 }
 
 const authMiddleware: Middleware = {
-  async onRequest({request, options}) {
+  async onRequest({request}) {
     // добавляем Authorization если accessToken есть в tokenService
     const accessToken = tokenService.get()
-    if (accessToken) {
+    if (accessToken && request) {
       request.headers.set('Authorization', `Bearer ${accessToken}`)
     }
 
     return request
   },
-  async onResponse({request, response, options}) {
+  async onResponse({request, response}) {
     if (response.ok) return response
 
     // если получили 401 — пробуем refresh
@@ -74,7 +74,8 @@ const authMiddleware: Middleware = {
     // другое не-OK поведение — проброс
     return response
   },
-  async onError({error}) {
+  async onError() {
+
   },
 }
 

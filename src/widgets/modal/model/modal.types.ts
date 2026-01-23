@@ -1,6 +1,5 @@
 export type ModalStack = ModalState[]
 export type ModalState =
-    | { type: "NONE", payload: { description: string, title: string } }
     | LogOutModalType
     | RegistrationConfirmModalType
     | CreatePostModalType
@@ -8,6 +7,7 @@ export type ModalState =
     | DeletePostModalType
     | OpenViewPostModalAC
     | EditPostModalType
+    | CancelEditPostModalType
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -15,6 +15,7 @@ export type LogOutModalType = ReturnType<typeof logoutModalAC>
 export type RegistrationConfirmModalType = ReturnType<typeof registrationConfirmModalAC>
 export type CreatePostModalType = ReturnType<typeof createPostModalAC>
 export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalAC>
+export type CancelEditPostModalType = ReturnType<typeof openCancelEditPostModalAC>
 export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC>
 export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 
@@ -47,5 +48,10 @@ export const openViewPostModalAC = (payload: { postId: number }) => ({
 
 export const openEditPostModalAC = (payload: { postId: number }) => ({
     type: 'EDIT_POST',
+    payload: {...payload},
+} as const)
+
+export const openCancelEditPostModalAC = (payload: { title: string, description: string }) => ({
+    type: 'CANCEL_EDIT_POST',
     payload: {...payload},
 } as const)

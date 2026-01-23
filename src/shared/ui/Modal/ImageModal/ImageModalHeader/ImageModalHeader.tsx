@@ -10,20 +10,12 @@ import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
 import { openEditPostModalAC } from "@/widgets/modal/model/modal.types"
 import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 
-
-
 type ImageModalHeaderProps = {
-    onEditClick?: () => void
-    onDeleteClick?: () => void
-    onPostDeleted?: () => void
     postId: number
 }
 
-export default function ImageModalHeader({
-                                             postId,
-                                             onPostDeleted
+export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
 
-                                         }: ImageModalHeaderProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
 
@@ -42,7 +34,6 @@ export default function ImageModalHeader({
                 setIsMenuOpen(false)
             }
         }
-
         if (isMenuOpen) {
             document.addEventListener('click', handleClickOutside)
         }
@@ -60,7 +51,6 @@ export default function ImageModalHeader({
         setIsMenuOpen(false)
 
         if (!postInfo) return
-
         popModal() // закрываем VIEW_POST
         pushModal(openEditPostModalAC({ postId }))
     }
@@ -68,7 +58,6 @@ export default function ImageModalHeader({
     const handleDeleteClick = () => {
         setIsMenuOpen(false)
         pushModal(deletePostModalAC({title: 'Delete Post', description: 'Are you sure you want to delete this post?', postId: postId }))
-
     }
 
     // Если пост не найден
