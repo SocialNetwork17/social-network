@@ -2,6 +2,8 @@ import React, {ChangeEvent, useRef, useState} from 'react'
 import {Button} from "@/shared/ui/Button/Button"
 import {Icon} from "@/shared/ui/Icon/Icon"
 import s from './UploadStep.module.scss'
+import { useModal } from '@/widgets/modal/model/modal.context'
+import { uploadErrorModalAC } from '@/widgets/modal/model/modal.types'
 
 // валидация
 const MAX_SIZE = 20 * 1024 * 1024
@@ -32,8 +34,9 @@ type Props = {
 
 export const UploadStep = ({ onUpload, remainingSlots }: Props) => {
 
-    const [alertMessage, setAlertMessage] = useState<string | null>(null)
+    //const [alertMessage, setAlertMessage] = useState<string | null>(null)
 
+    const { pushModal } = useModal()
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -43,20 +46,32 @@ export const UploadStep = ({ onUpload, remainingSlots }: Props) => {
         const files = Array.from(e.target.files)
         const { validFiles, errors } = validateFiles(files)
 
+        // ошибка валидации
         if (errors.length) {
-            setAlertMessage(errors.join('\n'))
-        }
-
-        if (validFiles.length > remainingSlots) {
-            setAlertMessage(`You can only upload ${remainingSlots} more images.`)
+            pushModal(
+                uploadErrorModalAC({
+                    title: 'Upload error',
+                    description: errors.join('\n'),
+                })
+            )
+            e.target.value = ''
             return
         }
 
-        const finalFiles = validFiles.slice(0, remainingSlots)
-        if (finalFiles.length > 0) {
-            onUpload(finalFiles)
+        // превышен лимит
+        if (validFiles.length > remainingSlots) {
+            pushModal(
+                uploadErrorModalAC({
+                    title: 'Upload error',
+                    description: `You can upload only ${remainingSlots} more images.`,
+                })
+            )
+            e.target.value = ''
+            return
         }
 
+        // ✅ всё ок
+        onUpload(validFiles)
         e.target.value = ''
     }
 

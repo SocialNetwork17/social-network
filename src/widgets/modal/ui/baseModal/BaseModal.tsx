@@ -4,7 +4,7 @@ import {
     CancelCreatePostModalType, CancelEditPostModalType,
     DeletePostModalType,
     LogOutModalType,
-    RegistrationConfirmModalType
+    RegistrationConfirmModalType, UploadErrorModalType
 } from "@/widgets/modal/model/modal.types";
 import styles from './BaseModal.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
@@ -23,9 +23,10 @@ import {
 import {
     CancelEditPostModalContent
 } from "@/widgets/modal/ui/baseModal/candelEditPostModalContent/CancelEditPostModalContent";
+import {UploadErrorModalContent} from "@/widgets/modal/ui/baseModal/uploadErrorModalContent/UploadErrorModalContent";
 
 type Props = {
-    modal: DeletePostModalType | RegistrationConfirmModalType | LogOutModalType | CancelCreatePostModalType | CancelEditPostModalType
+    modal: DeletePostModalType | RegistrationConfirmModalType | LogOutModalType | CancelCreatePostModalType | CancelEditPostModalType | UploadErrorModalType
 }
 
 export const BaseModal = ({modal}: Props) => {
@@ -44,6 +45,8 @@ export const BaseModal = ({modal}: Props) => {
                 return <CancelCreatePostModalContent modal={modal} />
             case "CANCEL_EDIT_POST":
                 return <CancelEditPostModalContent modal={modal} />
+            case 'UPLOAD_ERROR':
+                return <UploadErrorModalContent modal={modal} />
             default:
                 return null
         }
