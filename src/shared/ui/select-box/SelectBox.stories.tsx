@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import SelectBox, { Option } from './SelectBox'
 
 const meta = {
-  title: 'shared/ui/SelectBox',
+  title: 'shared/ui/select-box',
   component: SelectBox,
   parameters: {
     layout: 'centered',
