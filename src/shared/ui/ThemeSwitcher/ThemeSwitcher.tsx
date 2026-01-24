@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import s from './ThemeSwitcher.module.scss'
 import { Button } from '@/shared/ui/Button/Button'
 import {Icon} from "@/shared/ui/Icon/Icon";
 
