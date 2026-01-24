@@ -83,11 +83,15 @@ export default function ImageModal(props: Props) {
                     <ImageModalHeader
                         postId={postInfo.id}
                     />
+                    {/*todo*/}
                     {modal.type === 'VIEW_POST' && (
                         <div>{postInfo.description}</div>
                     )}
 
+
+                    {/*todo*/}
                     {modal.type === 'EDIT_POST' && (
+
                         <div className={styles.editSection}>
 
                             <p className={styles.helpText}>
@@ -110,7 +114,6 @@ export default function ImageModal(props: Props) {
                                     {isPending ? 'Saving...' : 'Save Changes'}
                                 </Button>
                             </div>
-
                         </div>
                     )}
                 </div>

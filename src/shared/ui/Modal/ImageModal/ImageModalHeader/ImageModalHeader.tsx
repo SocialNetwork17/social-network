@@ -27,6 +27,9 @@ export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
     // Проверяем, является ли текущий пользователь владельцем поста
     const isOwner = postInfo?.ownerId === dataProfile?.id
 
+
+    /*todo*/
+
     // Закрытие меню при клике снаружи
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -69,6 +72,7 @@ export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
         <div className={styles.header}>
             <div className={styles.userInfo}>
                 {/* Аватарка пользователя */}
+                {/*todo*/}
                 {postInfo.avatarOwner ? (
                     <img
                         src={postInfo.avatarOwner}
@@ -91,6 +95,7 @@ export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
             </div>
 
             {/* Меню (три точки) - показываем только владельцу поста */}
+            {/*todo*/}
             {isOwner && (
                 <div className={styles.menuWrapper} ref={menuRef}>
                     <button
@@ -100,7 +105,7 @@ export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
                     >
                         ...
                     </button>
-
+                    {/*todo*/}
                     {isMenuOpen && (
                         <div className={styles.dropdownMenu}>
                             <button

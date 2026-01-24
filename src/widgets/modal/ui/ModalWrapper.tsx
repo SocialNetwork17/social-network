@@ -7,7 +7,6 @@ import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
 import ImageModal from "@/shared/ui/Modal/ImageModal/ImageModal";
-import {UploadErrorModalContent} from "@/widgets/modal/ui/baseModal/uploadErrorModalContent/UploadErrorModalContent";
 
 
 export const ModalWrapper = () => {
@@ -50,7 +49,6 @@ export const ModalWrapper = () => {
                 break
 
             case 'UPLOAD_ERROR':
-                break
             case 'CONFIRM_LOGOUT':
             case 'CONFIRM_REGISTRATION':
                 popModal()
@@ -68,6 +66,7 @@ export const ModalWrapper = () => {
             case 'CONFIRM_LOGOUT':
             case 'CANCEL_CREATE_POST':
             case "CANCEL_EDIT_POST":
+            case 'UPLOAD_ERROR':
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
@@ -82,9 +81,6 @@ export const ModalWrapper = () => {
                         modal={modal}
                     />
                 )
-            case 'UPLOAD_ERROR':
-                return <BaseModal modal={modal} />
-
             default:
                 return null
         }

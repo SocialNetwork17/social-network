@@ -13,10 +13,11 @@ type Props = {
 export default function PostsWithText({posts}: Props) {
     const {pushModal} = useModal()
 
+
     const handleImageClick = (postId: number) => {
         pushModal(openViewPostModalAC({postId: postId}))
     }
-
+    /*todo*/
     return (
         <>
             <div className={styles.container}>
@@ -34,10 +35,9 @@ export default function PostsWithText({posts}: Props) {
                                 <Skeleton height={63} width={234}/>
                             </div>
                         ))}
-
                 {posts.items?.map(el => (
-                    <CardWithText post={el} key={el.id} onClick={() => handleImageClick(el.id)}/>
-                ))}
+                <CardWithText post={el} key={el.id} onClick={() => handleImageClick(el.id)}/>
+            ))}
             </div>
         </>
     )

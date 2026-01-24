@@ -60,11 +60,6 @@ export const openCancelEditPostModalAC = (payload: { title: string, description:
     payload: {...payload},
 } as const)
 
-export const uploadErrorModalAC = (payload: {
-    title: string
-    description: string
-}) => ({
-    type: 'UPLOAD_ERROR',
-    payload,
-} as const)
+export const uploadErrorModalAC = (payload: { title: string, description: string }) => ({
+    type: 'UPLOAD_ERROR', payload} as const)
 

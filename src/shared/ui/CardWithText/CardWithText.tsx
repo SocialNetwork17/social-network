@@ -39,6 +39,7 @@ export default function CardWithText(props: Props) {
       <div className={styles.card}>
         <Card images={urls} slider={true} onClick={onClick} />
       </div>
+      {/*todo*/}
       <Link href={PATH.PROFILE + `/${post.ownerId}`}>
         <div className={styles.userInfo}>
           {post.avatarOwner ? (
