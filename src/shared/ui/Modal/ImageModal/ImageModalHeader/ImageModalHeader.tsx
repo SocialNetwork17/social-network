@@ -2,9 +2,6 @@
 
 import s from './ImageModalHeader.module.scss'
 import { usePostQuery } from "@/shared/api/usePostQuery"
-import {useModal} from "@/widgets/modal/model/modal.context";
-import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
-import { openEditPostModalAC } from "@/widgets/modal/model/modal.types"
 import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 import {ThreeDotsMenu} from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ThreeDotsMenu/ThreeDotsMenu";
 
@@ -14,26 +11,10 @@ type ImageModalHeaderProps = {
 
 export default function ImageModalHeader({postId}: ImageModalHeaderProps) {
 
-    const {pushModal, popModal} = useModal()
-
     const {data: dataProfile} = useDataMyProfileQuery()
     const {data: postInfo} = usePostQuery(postId)
 
     const isOwner = postInfo?.ownerId === dataProfile?.id
-
-    const handleEdit = () => {
-        if (!postInfo) return
-        popModal() // закрываем VIEW_POST
-        pushModal(openEditPostModalAC({postId}))
-    }
-
-    const handleDeleteClick = () => {
-        pushModal(deletePostModalAC({
-            title: 'Delete Post',
-            description: 'Are you sure you want to delete this post?',
-            postId: postId
-        }))
-    }
 
     if (!postInfo) {
         return null
@@ -62,7 +43,7 @@ export default function ImageModalHeader({postId}: ImageModalHeaderProps) {
                 <span className={s.userName}>{postInfo.userName}</span>
             </div>
 
-            {isOwner && <ThreeDotsMenu onEdit={handleEdit} onDelete={handleDeleteClick} />}
+            {isOwner && <ThreeDotsMenu postId={postId} />}
         </div>
     )
 }
