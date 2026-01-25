@@ -23,12 +23,13 @@
 
   span {
     font-weight: 700;
+    padding-right: 10px;
   }
 
   .time {
     @include typo.text-small;
     color: var(--color-small-text);
     outline: none;
-    margin-bottom: 3px;
+    margin-top: 5px;
   }
 }

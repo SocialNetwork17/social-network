@@ -1,7 +1,7 @@
 import styles from './CardWithText.module.scss'
 import Card from '../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
-import LinkUserName from '../LinkUserName/LinkUserName'
+import UserName from '../UserName/UserName'
 import ExpandText from './ExpandText/ExpandText'
 
 type Props = {
@@ -18,7 +18,7 @@ export default function CardWithText(props: Props) {
       <div className={styles.card}>
         <Card images={urls} slider={true} onClick={onClick} />
       </div>
-      <LinkUserName post={post} />
+      <UserName post={post} />
       <ExpandText post={post} />
     </div>
   )
