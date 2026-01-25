@@ -9,6 +9,7 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
 import { openEditPostModalAC } from "@/widgets/modal/model/modal.types"
 import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
+import LinkUserName from '@/shared/ui/LinkUserName/LinkUserName'
 
 type ImageModalHeaderProps = {
     postId: number
@@ -70,29 +71,7 @@ export default function ImageModalHeader({postId,}: ImageModalHeaderProps) {
 
     return (
         <div className={styles.header}>
-            <div className={styles.userInfo}>
-                {/* Аватарка пользователя */}
-                {/*todo*/}
-                {postInfo.avatarOwner ? (
-                    <img
-                        src={postInfo.avatarOwner}
-                        alt={`${postInfo.userName || 'User'}'s avatar`}
-                        className={styles.avatar}
-                        onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.style.display = 'none'
-                        }}
-                    />
-                ) : (
-                    <div className={styles.avatarPlaceholder}>
-                        {(postInfo.userName?.charAt(0) || 'U').toUpperCase()}
-                    </div>
-                )}
-                {/* Имя пользователя */}
-                <span className={styles.userName}>
-                    {postInfo.userName || 'Unknown User'}
-                </span>
-            </div>
+            <LinkUserName post={postInfo}/>
 
             {/* Меню (три точки) - показываем только владельцу поста */}
             {/*todo*/}

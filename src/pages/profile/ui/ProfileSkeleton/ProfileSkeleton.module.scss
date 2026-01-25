@@ -1,0 +1,47 @@
+.profileContainer {
+  display: flex;
+  width: 100%;
+  min-height: 204px;
+  gap: 38px;
+  flex-wrap: wrap;
+
+  & > :first-child {
+    width: 204px;
+    height: 204px;
+    flex-shrink: 0;
+  }
+
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 19px;
+
+    & > :first-child {
+      display: flex;
+      justify-content: space-between;
+
+      & div {
+        /*для меняющихся кнопок*/
+        display: flex;
+        gap: 12px;
+      }
+    }
+
+    & > :nth-child(2) {
+      display: flex;
+      gap: 100px;
+
+      @media screen and (max-width: 800px) {
+        gap: 30px;
+      }
+    }
+  }
+}
+
+.postContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}

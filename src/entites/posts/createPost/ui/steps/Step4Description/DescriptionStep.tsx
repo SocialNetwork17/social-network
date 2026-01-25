@@ -22,6 +22,7 @@ export const DescriptionStep = ({ images, description, setDescription }: Props) 
 
     return (
         <div className={s.container}>
+            
             <div className={s.imageSection}>
                 <div className={s.imageContainer}>
                     {previewUrls.length > 0 ? (
