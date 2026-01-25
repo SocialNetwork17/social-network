@@ -23,7 +23,6 @@ export default function PostSimple(props: Props) {
     pushModal(openViewPostModalAC({ postId: post.id }))
   }
 
-  /*todo*/
   if (!isLoading && !userPosts?.items) return <div>Пока нет публикаций</div>
 
   return (

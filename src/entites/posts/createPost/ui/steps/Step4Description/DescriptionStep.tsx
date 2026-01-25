@@ -2,7 +2,8 @@ import React, {useMemo} from 'react'
 import type {ImageItem} from '@/entites/posts/createPost/api/types'
 import Card from '@/shared/ui/Card/Card'
 import s from './DescriptionStep.module.scss'
-import {useMeQuery} from '@/shared/api/useMeQuery'
+import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
+import UserName from '@/shared/ui/UserName/UserName'
 
 type Props = {
     images: ImageItem[]
@@ -17,11 +18,12 @@ export const DescriptionStep = ({ images, description, setDescription }: Props) 
             images.map(img => img.croppedPreviewUrl || img.url),
         [images])
 
-    const { data: me } = useMeQuery()
+      const { data: userInfo } = useDataMyProfileQuery()
 
 
     return (
         <div className={s.container}>
+            
             <div className={s.imageSection}>
                 <div className={s.imageContainer}>
                     {previewUrls.length > 0 ? (
@@ -37,13 +39,7 @@ export const DescriptionStep = ({ images, description, setDescription }: Props) 
             </div>
 
             <div className={s.descriptionSection}>
-                <div className={s.profileSection}>
-                    <div className={s.avatar}>S</div>
-                    <div className={s.profileInfo}>
-                        <span className={s.username}>{me?.userName}</span>
-                    </div>
-                </div>
-
+                {userInfo &&<UserName userInfo={userInfo} />}
                 <div className={s.textareaContainer}>
                     <span className={s.sectionSubtitle}>Add publication descriptions</span>
                     <textarea
