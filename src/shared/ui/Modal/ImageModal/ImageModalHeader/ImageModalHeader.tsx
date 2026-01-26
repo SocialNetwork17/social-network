@@ -10,7 +10,7 @@ type ImageModalHeaderProps = {
     postId: number
 }
 
-export default function ImageModalHeader({postId}: ImageModalHeaderProps) {
+export const ImageModalHeader = ({postId}: ImageModalHeaderProps) => {
 
     const {data: dataProfile} = useDataMyProfileQuery()
     const {data: postInfo} = usePostQuery(postId)
