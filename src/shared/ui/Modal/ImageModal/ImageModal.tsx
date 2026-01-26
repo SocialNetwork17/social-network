@@ -16,21 +16,18 @@ import {
 } from '@/widgets/modal/model/modal.types'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {EditModeSection} from "@/shared/ui/Modal/ImageModal/EditModeSection/EditModeSection";
-
+import Comment from '../../Comment/Comment'
 
 type Props = {
-    modal: OpenViewPostModalAC | EditPostModalType
+  modal: OpenViewPostModalAC | EditPostModalType
 }
 
-
 export default function ImageModal(props: Props) {
-    const {modal} = props
+    const { modal} = props
 
     const [text, setText] = useState('')
-
-    const {clearModals} = useModal()
-
-    const {data: postInfo, isLoading} = usePostQuery(modal.payload.postId)
+    const { pushModal, clearModals } = useModal()
+    const { data: postInfo, isLoading } = usePostQuery(modal.payload.postId)
 
     useEffect(() => {
         if (postInfo && modal.type === 'EDIT_POST') {
@@ -38,15 +35,15 @@ export default function ImageModal(props: Props) {
         }
     }, [postInfo, modal?.type])
 
-
     if (isLoading || !postInfo) return null
-
 
     const imageSlider = postInfo.images.map(image => image.url)
 
     const handleCloseViewPostModal = () => {
         clearModals()
     }
+
+
 
     return (
         <div className={styles.modalContent}>
@@ -63,10 +60,7 @@ export default function ImageModal(props: Props) {
                 <ImageModalHeader
                     postId={postInfo.id}
                 />
-                {/*todo*/}
-                {modal.type === 'VIEW_POST' && (
-                    <div>{postInfo.description}</div>
-                )}
+                {modal.type === 'VIEW_POST' && <Comment post={postInfo} />}
                 {/*todo*/}
                 {modal.type === 'EDIT_POST' && (
                     <EditModeSection text={text}
