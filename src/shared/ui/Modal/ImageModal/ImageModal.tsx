@@ -1,6 +1,5 @@
 'use client'
 
-
 import {useEffect, useState} from 'react'
 import styles from './ImageModal.module.scss'
 import Card from '../../Card/Card'
@@ -10,9 +9,7 @@ import {usePostQuery} from "@/shared/api/usePostQuery";
 import {useModal} from '@/widgets/modal/model/modal.context'
 import {
     EditPostModalType,
-    openCancelEditPostModalAC,
     OpenViewPostModalAC,
-    openViewPostModalAC
 } from '@/widgets/modal/model/modal.types'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {EditModeSection} from "@/shared/ui/Modal/ImageModal/EditModeSection/EditModeSection";
@@ -26,7 +23,7 @@ export default function ImageModal(props: Props) {
     const { modal} = props
 
     const [text, setText] = useState('')
-    const { pushModal, clearModals } = useModal()
+    const {clearModals } = useModal()
     const { data: postInfo, isLoading } = usePostQuery(modal.payload.postId)
 
     useEffect(() => {
@@ -43,8 +40,6 @@ export default function ImageModal(props: Props) {
         clearModals()
     }
 
-
-
     return (
         <div className={styles.modalContent}>
 
@@ -54,14 +49,12 @@ export default function ImageModal(props: Props) {
                                 text={text}/>
             )}
 
-
             <Card images={imageSlider} slider={true} width={490} height={564}/>
             <div className={styles.modalDescription}>
                 <ImageModalHeader
                     postId={postInfo.id}
                 />
                 {modal.type === 'VIEW_POST' && <Comment post={postInfo} />}
-                {/*todo*/}
                 {modal.type === 'EDIT_POST' && (
                     <EditModeSection text={text}
                                      postId={postInfo.id}
