@@ -1,7 +1,7 @@
 import styles from './ProfileSkeleton.module.scss'
-import Skeleton from '@/shared/ui/Skeleton/Skeleton'
+import {Skeleton} from '@/shared/ui/Skeleton/Skeleton'
 
-export default function ProfileSkeleton() {
+export const ProfileSkeleton = () => {
     return (
       <>
         <div className={styles.profileContainer}>

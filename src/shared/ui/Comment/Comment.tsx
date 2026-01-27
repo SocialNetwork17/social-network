@@ -2,7 +2,7 @@
 
 import styles from './Comment.module.scss'
 import { SchemaPostViewModel } from '@/shared/api/schema'
-import Card from '../Card/Card'
+import {Card} from '../Card/Card'
 import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
@@ -12,7 +12,7 @@ type Props = {
   post: SchemaPostViewModel
 }
 
-export default function Comment(props: Props) {
+export const Comment = (props: Props) => {
   const { post } = props
 
   const { popModal } = useModal()

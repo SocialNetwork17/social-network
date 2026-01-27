@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
 import styles from './UserName.module.scss'
 import { SchemaPostViewModel, SchemaProfileViewModel } from '@/shared/api/schema'
-import Card from '../Card/Card'
+import {Card} from '../Card/Card'
 import { useModal } from '@/widgets/modal/model/modal.context'
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
   | { userInfo: SchemaProfileViewModel; post?: never }
 )
 
-export default function UserName(props: Props) {
+export const UserName = (props: Props) => {
   if (props.userInfo) {
     const { userInfo } = props
     return (

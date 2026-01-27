@@ -9,13 +9,13 @@ import { useModal } from '@/widgets/modal/model/modal.context'
 import { deletePostModalAC } from '@/widgets/modal/model/modal.types'
 import { openEditPostModalAC } from '@/widgets/modal/model/modal.types'
 import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
-import UserName from '@/shared/ui/UserName/UserName'
+import {UserName} from '@/shared/ui/UserName/UserName'
 
 type ImageModalHeaderProps = {
   postId: number
 }
 
-export default function ImageModalHeader({ postId }: ImageModalHeaderProps) {
+export const ImageModalHeader = ({ postId }: ImageModalHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 

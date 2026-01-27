@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import styles from './ImageModal.module.scss'
-import Card from '../../Card/Card'
+import {Card} from '../../Card/Card'
 import { EditPostHeader } from '@/shared/ui/Modal/ImageModal/EditPostHeader/EditPostHeader'
-import ImageModalHeader from '@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader'
+import {ImageModalHeader} from '@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader'
 import { useUpdatePostMutation } from '@/shared/api/useUpdatePostMutation'
 import { usePostQuery } from '@/shared/api/usePostQuery'
 import { useModal } from '@/widgets/modal/model/modal.context'
@@ -16,13 +16,13 @@ import {
 } from '@/widgets/modal/model/modal.types'
 import { Button } from '@/shared/ui/Button/Button'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
-import Comment from '../../Comment/Comment'
+import {Comment} from '../../Comment/Comment'
 
 type Props = {
   modal: OpenViewPostModalAC | EditPostModalType
 }
 
-export default function ImageModal(props: Props) {
+export const ImageModal = (props: Props) => {
   const { modal } = props
 
   const [text, setText] = useState('')

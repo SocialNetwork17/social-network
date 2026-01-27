@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import styles from './Card.module.scss'
 import { useState } from 'react'
-import Skeleton from '../Skeleton/Skeleton'
+import {Skeleton} from '../Skeleton/Skeleton'
 
 type Props = {
   images: string[] | string 
@@ -15,7 +15,7 @@ type Props = {
   onClick?: () => void
 }
 
-export default function Card(props: Props) {
+export const Card = (props: Props) => {
   const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width, onClick } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)

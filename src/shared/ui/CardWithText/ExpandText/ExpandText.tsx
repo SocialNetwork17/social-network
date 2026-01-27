@@ -8,7 +8,7 @@ type Props = {
   post: SchemaPostViewModel
 }
 
-export default function ExpandText(props: Props) {
+export const ExpandText = (props: Props) => {
   const { post } = props
 
   const [isExpanded, setIsExpanded] = useState(false)

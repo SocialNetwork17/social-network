@@ -1,16 +1,16 @@
 'use client'
 import styles from './PostsWithText.module.scss'
-import CardWithText from '@/shared/ui/CardWithText/CardWithText'
+import {CardWithText} from '@/shared/ui/CardWithText/CardWithText'
 import { useModal } from '@/widgets/modal/model/modal.context'
 import { openViewPostModalAC } from '@/widgets/modal/model/modal.types'
 import { AllPosts } from '@/pages/main/api/getAllPostsServer'
-import PostWithTextSkeleton from './PostWithTextSkeleton/PostWithTextSkeleton'
+import {PostWithTextSkeleton} from './PostWithTextSkeleton/PostWithTextSkeleton'
 
 type Props = {
   posts: AllPosts
 }
 
-export default function PostsWithText({ posts }: Props) {
+export const PostsWithText = ({ posts }: Props) => {
   const { pushModal } = useModal()
 
   const handleImageClick = (postId: number) => {
