@@ -6,7 +6,7 @@ import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
-import ImageModal from "@/shared/ui/Modal/ImageModal/ImageModal";
+import {ImageModal} from "@/shared/ui/Modal/ImageModal/ImageModal";
 
 
 export const ModalWrapper = () => {

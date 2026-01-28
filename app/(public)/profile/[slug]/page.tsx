@@ -1,6 +1,6 @@
 'use client'
 
-import Profile from '@/pages/profile/ui/Profile'
+import {Profile} from '@/pages/profile/ui/Profile'
 import { useParams } from 'next/navigation'
 
 export default function userProfile() {
