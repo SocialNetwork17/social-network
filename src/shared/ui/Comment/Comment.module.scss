@@ -21,9 +21,13 @@
     @include typo.h2;
   }
 
-  span {
+ .link {
     font-weight: 700;
     padding-right: 10px;
+  }
+
+.comment {
+    word-break: break-word;
   }
 
   .time {

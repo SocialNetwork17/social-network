@@ -2,7 +2,7 @@
 
 import styles from './Comment.module.scss'
 import { SchemaPostViewModel } from '@/shared/api/schema'
-import {Card} from '../Card/Card'
+import { Card } from '../Card/Card'
 import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
@@ -40,9 +40,9 @@ export const Comment = (props: Props) => {
       <div>
         <div>
           <Link href={PATH.PROFILE + `/${post.ownerId}`} onClick={() => handleUserNameClick()}>
-            <span>{post.userName}</span>
+            <span className={styles.link}>{post.userName}</span>
           </Link>
-          {post.description}
+          <span className={styles.comment}>{post.description}</span>
         </div>
         <div className={styles.time}>{dateTime}</div>
       </div>
