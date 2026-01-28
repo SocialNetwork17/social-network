@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import ProfileHeader from './ProfileHeader'
+import {ProfileHeader} from './ProfileHeader'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 // Создаем клиент React Query
