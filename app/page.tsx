@@ -1,4 +1,4 @@
-import MainPage from "@/pages/main/ul/MainPage";
+import {MainPage} from "@/pages/main/ul/MainPage";
 import {getAllPostsServer} from "@/pages/main/api/getAllPostsServer";
 import {getUserTotalCountServer} from "@/pages/main/api/getUserTotalCountServer";
 

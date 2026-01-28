@@ -1,7 +1,7 @@
-import Skeleton from '@/shared/ui/Skeleton/Skeleton'
+import {Skeleton} from '@/shared/ui/Skeleton/Skeleton'
 import styles from './PostWithTextSkeleton.module.scss'
 
-export default function PostWithTextSkeleton() {
+export const PostWithTextSkeleton = () => {
   return (
     <div className={styles.container}>
       {Array(4)

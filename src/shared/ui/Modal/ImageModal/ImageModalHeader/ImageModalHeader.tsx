@@ -4,7 +4,7 @@ import s from './ImageModalHeader.module.scss'
 import { usePostQuery } from "@/shared/api/usePostQuery"
 import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 import {ThreeDotsMenu} from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ThreeDotsMenu/ThreeDotsMenu";
-import UserName from '@/shared/ui/UserName/UserName';
+import {UserName} from '@/shared/ui/UserName/UserName';
 
 type ImageModalHeaderProps = {
     postId: number

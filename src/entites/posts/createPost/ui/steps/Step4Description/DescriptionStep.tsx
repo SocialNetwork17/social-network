@@ -1,9 +1,9 @@
 import React, {useMemo} from 'react'
 import type {ImageItem} from '@/entites/posts/createPost/api/types'
-import Card from '@/shared/ui/Card/Card'
+import {Card} from '@/shared/ui/Card/Card'
 import s from './DescriptionStep.module.scss'
 import { useDataMyProfileQuery } from '@/pages/profile/api/useDataMyProfileQuery'
-import UserName from '@/shared/ui/UserName/UserName'
+import {UserName} from '@/shared/ui/UserName/UserName'
 
 type Props = {
     images: ImageItem[]

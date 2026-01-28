@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from "@/shared/ui/Modal/ImageModal/ImageModal.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
 import {openViewPostModalAC} from "@/widgets/modal/model/modal.types";
@@ -6,7 +6,6 @@ import {useUpdatePostMutation} from "@/shared/api/useUpdatePostMutation";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import {TextArea} from "@/shared/ui/TextArea/TextArea";
-import s from "@/entites/posts/createPost/ui/steps/Step4Description/DescriptionStep.module.scss";
 
 type Props = {
     postId: number,

@@ -15,6 +15,7 @@
 
     .text {
       @include typo.text-regular-14;
+       word-break: break-word; 
 
       &:not(.expanded) {
         display: -webkit-box;

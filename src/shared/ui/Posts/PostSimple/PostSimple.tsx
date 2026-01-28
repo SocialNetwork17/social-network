@@ -1,18 +1,17 @@
 'use client'
 
-import Card from '../../Card/Card'
+import { Card } from '../../Card/Card'
 import styles from './PostSimple.module.scss'
-import {useUserPostsQuery} from '@/shared/api/useUserPostsQuery'
-import {useModal} from '@/widgets/modal/model/modal.context'
-import {openViewPostModalAC} from '@/widgets/modal/model/modal.types'
-import {SchemaPostViewModel} from "@/shared/api/schema";
-
+import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
+import { useModal } from '@/widgets/modal/model/modal.context'
+import { openViewPostModalAC } from '@/widgets/modal/model/modal.types'
+import { SchemaPostViewModel } from '@/shared/api/schema'
 
 type Props = {
   userId: number
 }
 
-export default function PostSimple(props: Props) {
+export const PostSimple = (props: Props) => {
   const { userId } = props
 
   const { data: userPosts, isLoading } = useUserPostsQuery(userId)

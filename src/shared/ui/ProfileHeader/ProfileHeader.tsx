@@ -1,6 +1,6 @@
-import Card from '../Card/Card'
+import {Card} from '../Card/Card'
 import styles from './ProfileHeader.module.scss'
-import Skeleton from '../Skeleton/Skeleton'
+import {Skeleton} from '../Skeleton/Skeleton'
 import { SchemaProfileViewModel, SchemaPublicProfileViewModel } from '@/shared/api/schema'
 import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 
@@ -9,7 +9,7 @@ type Props = {
   type: 'profile' | 'friend' | 'user' | 'unauthorized'
 }
 
-export default function ProfileHeader(props: Props) {
+export const ProfileHeader = (props: Props) => {
   const { user, type } = props
 
   const { data: userPosts } = useUserPostsQuery(user.id)

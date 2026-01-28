@@ -1,12 +1,11 @@
 import styles from './UserAmount.module.scss'
 
 type Props = {
-    totalCount: number
+  totalCount: number
 }
 
-export default function UserAmount({totalCount}: Props) {
-
-  const arrayTotalUser =  totalCount?.toString().padStart(6, '0').split('')
+export const UserAmount = ({ totalCount }: Props) => {
+  const arrayTotalUser = totalCount?.toString().padStart(6, '0').split('')
 
   return (
     <div className={styles.container}>
