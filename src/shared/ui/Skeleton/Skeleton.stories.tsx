@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import Skeleton from './Skeleton'
+import {Skeleton} from './Skeleton'
 
 const meta = {
   title: 'shared/ui/Skeleton',
