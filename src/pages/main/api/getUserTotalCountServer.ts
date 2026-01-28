@@ -1,3 +1,4 @@
+// переписать на fetch
 import { client } from '@/shared/api/client'
 
 export async function getUserTotalCountServer() {

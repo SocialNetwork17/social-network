@@ -31,9 +31,9 @@ export const deletePostModalAC = (payload: { title: string, description: string,
     return {type: 'DELETE_POST', payload: {...payload}} as const
 }
 
-
+// todo - переделать на payload
 export const registrationConfirmModalAC = (payload: { title: string, email: string, description: string }) => {
-    return {type: 'CONFIRM_REGISTRATION', payload: {...payload}} as const
+    return {type: 'CONFIRM_REGISTRATION', payload} as const
 }
 
 

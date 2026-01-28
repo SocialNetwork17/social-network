@@ -11,6 +11,7 @@ type Props = {
 export const ExpandText = (props: Props) => {
   const { post } = props
 
+  // todo - переделать на css ellipses
   const [isExpanded, setIsExpanded] = useState(false)
   const [showButton, setShowButton] = useState(false)
   const textRef = useRef<HTMLDivElement>(null)
@@ -18,6 +19,7 @@ export const ExpandText = (props: Props) => {
   useEffect(() => {
     const checkHeight = () => {
       const charCount = post.description.length
+      //переделать 23 строку
       const needsExpansion = charCount > 120
       if (isExpanded) {
         setShowButton(true)
