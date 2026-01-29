@@ -1,24 +1,22 @@
 'use client'
 
 import styles from './ForgotPasswordForm.module.scss'
-import { Input } from '@/shared/ui/Input/Input'
-import { Button } from '@/shared/ui/Button/Button'
+import {Input} from '@/shared/ui/Input/Input'
+import {Button} from '@/shared/ui/Button/Button'
 import Link from 'next/link'
-import { PATH } from '@/shared/constants/routings'
-import {FormEvent, useRef, useState} from 'react'
-import { RecaptchaNew } from '@/shared/ui/Recaptcha/RecaptchaNew'
-import { Modal } from '@/shared/ui/Modal/Modal'
-import { useForm } from 'react-hook-form'
-import {
-  ForgotPasswordInput,
-  forgotPasswordSchema,
-} from '@/features/forgotPassword/lib/forgotPasswordSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SchemaRecaptchaErrorResponseDto } from '@/shared/api/schema'
-import { Spinner } from '@/shared/ui/Spinner/Spinner'
+import {PATH} from '@/shared/constants/routings'
+import {useRef, useState} from 'react'
+import {RecaptchaNew} from '@/shared/ui/Recaptcha/RecaptchaNew'
+import {useForm} from 'react-hook-form'
+import {ForgotPasswordInput, forgotPasswordSchema,} from '@/features/forgotPassword/lib/forgotPasswordSchema'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {SchemaRecaptchaErrorResponseDto} from '@/shared/api/schema'
+import {isValid} from 'zod/v3'
+import {Spinner} from '@/shared/ui/Spinner/Spinner'
 import {useForgotPassword} from "@/features/forgotPassword/api/useForgotPassword";
+import {useModal} from "@/widgets/modal/model/modal.context";
+import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
 
-// Тип для ref reCAPTCHA компонента
 type RecaptchaRef = {
   getToken: () => Promise<string | null>
   reset: () => void
@@ -26,17 +24,16 @@ type RecaptchaRef = {
 
 export const ForgotPasswordForm = () => {
   // Состояния компонента
-  const [linkSent, setLinkSent] = useState(false) // Флаг отправки ссылки
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null) // Токен reCAPTCHA
-  const [isModalOpen, setIsModalOpen] = useState(false) // Видимость модального окна
-  const [userEmail, setUserEmail] = useState<string>('') // Сохранение email для показа в модалке
+  const [linkSent, setLinkSent] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const {pushModal} = useModal()
 
-  // Инициализация формы с react-hook-form
+
   const {
     handleSubmit,
     register,
     setError,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<ForgotPasswordInput>({
     mode: 'onBlur',
     resolver: zodResolver(forgotPasswordSchema),
@@ -56,7 +53,6 @@ export const ForgotPasswordForm = () => {
   const handleSendAgain = () => {
     setLinkSent(false)
     setRecaptchaToken(null)
-    recaptchaRef.current?.reset()
     resetMutation()
   }
 
@@ -68,8 +64,6 @@ export const ForgotPasswordForm = () => {
       return
     }
 
-    setUserEmail(data.email)
-
     forgotPassword(
       {
         data: data, // Данные формы (email)
@@ -78,16 +72,19 @@ export const ForgotPasswordForm = () => {
       {
         // Обработка успешного ответа
         onSuccess: () => {
-          setIsModalOpen(true)
+          pushModal(registrationConfirmModalAC({
+            title: "Email sent",
+            email: data.email,
+            description: "We have sent a link to confirm your email to "
+          }))
           setLinkSent(true)
           setRecaptchaToken(null)
-          recaptchaRef.current?.reset()
+
         },
         // Обработка ошибок
         onError: (error: SchemaRecaptchaErrorResponseDto | Error | string) => {
           // Всегда сбрасываем reCAPTCHA при любой ошибке
           setRecaptchaToken(null)
-          recaptchaRef.current?.reset()
 
           // Проверяем структуру ошибки (ошибка API)
           if (typeof error === 'object' && 'statusCode' in error) {
@@ -111,16 +108,11 @@ export const ForgotPasswordForm = () => {
     )
   }
 
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault()
-    handleSubmit(onSubmit)(event)
-  }
-
   return (
     <div className={styles.ForgotPasswordPage}>
       <h2 className={styles.title}>Forgot Password</h2>
 
-      <form className={styles.form} onSubmit={handleFormSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register('email')}
           errorText={errors.email?.message}
@@ -183,20 +175,10 @@ export const ForgotPasswordForm = () => {
             }}
             onError={() => {
               setRecaptchaToken(null) // Сбрасываем токен при ошибке
-              recaptchaRef.current?.reset()
             }}
           />
         </div>
       )}
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={'Email sent'}>
-        <div className={styles.modalContant}>
-          <p className={styles.modalText}>
-            We have sent a link to confirm your email to {userEmail}
-          </p>
-          <div className={styles.modalButton}></div>
-        </div>
-      </Modal>
     </div>
   )
 }

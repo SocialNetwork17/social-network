@@ -1,24 +1,18 @@
-'use client'
 import styles from './MainPage.module.scss'
-import UserAmount from './UserAmount/UserAmount'
-import Posts from './Posts/Posts'
-import MainPageSkeleton from './MainPageSkeleton/MainPageSkeleton'
+import {UserAmount} from './UserAmount/UserAmount'
+import {PostsWithText} from '../../../shared/ui/Posts/PostsWithText/PostsWithText'
+import {AllPosts} from "@/pages/main/api/getAllPostsServer";
 
-export default function MainPage() {
-  const isLoading = false // позже появиться хук
+type Props = {
+    posts: AllPosts
+    totalCount: { totalCount: number }
+}
 
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <MainPageSkeleton />
-      </div>
-    )
-  }
-
+export const MainPage = ({posts, totalCount}: Props) =>{
   return (
     <div className={styles.container}>
-      <UserAmount />
-      <Posts />
+      <UserAmount totalCount={totalCount.totalCount} />
+      <PostsWithText posts={posts} />
     </div>
   )
 }

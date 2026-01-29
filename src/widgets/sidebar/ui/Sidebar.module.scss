@@ -48,6 +48,12 @@
   list-style: none;
 }
 
+/* Стиль для кнопки, которая должна выглядеть как ссылка */
+.buttonAsLink {
+  all: unset; // Сбрасываем все стили кнопки
+cursor: pointer;
+}
+
 /* Базовая стилизация ссылок */
 .sidebarLink {
   //font-family: var(--font-family);

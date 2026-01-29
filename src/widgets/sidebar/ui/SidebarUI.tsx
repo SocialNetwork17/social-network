@@ -1,4 +1,3 @@
-// SidebarUI.tsx - вспомогательный компонент для Storybook
 'use client'
 
 import React from 'react'

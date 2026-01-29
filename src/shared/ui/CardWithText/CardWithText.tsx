@@ -1,21 +1,25 @@
 import styles from './CardWithText.module.scss'
-import { Post } from '@/entites/profile/userData'
-import Card from '../Card/Card'
+import {Card} from '../Card/Card'
+import { SchemaPostViewModel } from '@/shared/api/schema'
+import {UserName} from '../UserName/UserName'
+import {ExpandText} from './ExpandText/ExpandText'
 
 type Props = {
-  user: Post
+  post: SchemaPostViewModel
+  onClick?: () => void
 }
 
-export default function CardWithText(props: Props) {
-  const { user } = props
+export const CardWithText = (props: Props) => {
+  const { post, onClick } = props
 
-  const urls = user.images.map(image => image.url)
+  const urls = post.images.map(image => image.url)
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <Card images={urls} slider={true} />
+        <Card images={urls} slider={true} onClick={onClick} />
       </div>
-      <div>{user.description}</div>
+      <UserName post={post} />
+      <ExpandText post={post} />
     </div>
   )
 }

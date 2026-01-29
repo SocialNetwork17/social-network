@@ -3,25 +3,27 @@
 import Image from 'next/image'
 import styles from './Card.module.scss'
 import { useState } from 'react'
+import {Skeleton} from '../Skeleton/Skeleton'
 
-interface Props {
-  images: string[] | string
+type Props = {
+  images: string[] | string 
   alt?: string
   slider?: boolean
   variant?: 'rectangle' | 'circular'
   width?: number
   height?: number
+  onClick?: () => void
 }
 
-export default function Card(props: Props) {
-  const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width } = props
+export const Card = (props: Props) => {
+  const { images, alt = 'фото', slider = false, variant = 'rectangle', height, width, onClick } = props
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
   // Нормализуем images в массив для единообразной работы
   const imagesArray = Array.isArray(images) ? images : [images]
 
-  if (!images.length) return null
+  if (!images.length) return <Skeleton height={204} width={204} />
 
   const nextSlide = () => {
     setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? prevIndex : prevIndex + 1))
@@ -43,11 +45,12 @@ export default function Card(props: Props) {
       {imagesArray.map((image, index) => (
         <div
           key={index}
+          onClick={onClick}
           className={`${styles.slide} ${index === currentIndex ? styles.active : ''}`}
         >
           <Image
             src={image}
-            alt={`${alt} - ${index + 1} of ${images.length}`}
+            alt={`${alt} - ${index + 1} of ${imagesArray.length}`}
             fill={true}
             className={`${styles.image} ${variant === 'circular' ? styles.rounded : ''}`}
             sizes="(max-width: 768px) 100vw, 600px"
@@ -70,7 +73,7 @@ export default function Card(props: Props) {
           <button
             className={`${styles.arrow} ${styles.arrowRight}`}
             onClick={nextSlide}
-            disabled={currentIndex === images.length - 1}
+            disabled={currentIndex === imagesArray.length - 1}
             aria-label="Next image"
           >
             ›

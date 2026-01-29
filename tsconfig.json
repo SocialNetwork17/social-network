@@ -38,10 +38,8 @@
     "**/*.mts",
     ".next\\dev/types/**/*.ts",
     ".next\\dev/types/**/*.ts"
-  ],
+, "src/pages/profile/api"  ],
   "exclude": [
-    "node_modules",
-    "**/*.stories.ts",
-    "**/*.stories.tsx"
+    "node_modules"
   ]
 }

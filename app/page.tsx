@@ -1,9 +1,17 @@
-import MainPage from "@/pages/main/ul/MainPage";
+import {MainPage} from "@/pages/main/ul/MainPage";
+import {getAllPostsServer} from "@/pages/main/api/getAllPostsServer";
+import {getUserTotalCountServer} from "@/pages/main/api/getUserTotalCountServer";
 
-export default function Home() {
+export default async function Home() {
+
+    const [posts, totalCount] = await Promise.all([
+        getAllPostsServer(),
+        getUserTotalCountServer()
+    ])
+
   return (
     <>
-      <MainPage />
+      <MainPage posts={posts} totalCount={totalCount} />
     </>
   )
 }

@@ -6,7 +6,7 @@ type Props = {
   bordeRadius?: number
 }
 
-export default function Skeleton(props: Props) {
+export const Skeleton =(props: Props) => {
   const { height, width, bordeRadius = 2 } = props
 
   return (

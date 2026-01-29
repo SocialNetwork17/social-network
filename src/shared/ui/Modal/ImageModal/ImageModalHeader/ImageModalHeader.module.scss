@@ -1,0 +1,141 @@
+@use '../../../../../styles/abstract' as styles;
+@use '../../../../../styles/base/typography' as typo;
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid styles.palette('dark', 100);
+  width: 100%;
+}
+
+.menuWrapper {
+  position: relative;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 26px;
+  font-weight: bold;
+  border-radius: 50%;
+  color: styles.palette('accent', 500);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: styles.palette('dark', 100);
+  }
+
+  &:focus-visible {
+    outline: 2px solid styles.palette('accent', 500);
+  }
+
+  &[aria-expanded="true"] {
+    background-color: styles.palette('dark', 100);
+  }
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: styles.palette('dark', 500);
+  border: 1px solid styles.palette('dark', 100);
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 137px;
+  margin-top: 5px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  @include typo.text-regular-14;
+  gap: 12px;
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background-color: styles.palette('dark', 100);
+    outline: none;
+  }
+
+  &:active {
+    background-color: styles.palette('dark', 100);
+  }
+
+  &.deleteItem {
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      background-color: styles.palette('dark', 100);
+    }
+
+    &:active {
+      background-color: styles.palette('dark', 100);
+    }
+  }
+}
+
+.dropdownIcon {
+  font-size: 14px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownText {
+  padding-top: 3px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.modalContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalText {
+  margin-bottom: 30px;
+  @include typo.text-regular-16;
+}
+
+.buttonsBlock {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
