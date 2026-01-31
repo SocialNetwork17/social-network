@@ -10,14 +10,13 @@ type ButtonProps = {
   children: ReactNode
   variant: ButtonTheme
   disabled: boolean
-  onClickHandler?: () => void
   icon?: StaticImageData
   width?: string | number
   height?: string | number
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button = (props: ButtonProps) => {
-  const { children, variant, disabled, icon, width, height, onClickHandler, ...rest } = props
+  const { children, variant, disabled, icon, width, height, ...rest } = props
 
   const buttonClass = `${scss.button} ${scss[variant]}`
 
@@ -31,7 +30,6 @@ export const Button = (props: ButtonProps) => {
       className={buttonClass}
       style={buttonStyle}
       disabled={disabled}
-      onClick={onClickHandler}
       {...rest}
     >
       {icon && <Image src={icon} alt={''} width={24} height={24} />}
