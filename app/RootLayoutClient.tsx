@@ -15,8 +15,6 @@ export const RootLayoutClient = ({children}: Props) => {
 
     const {isAuth} = useAuth()
 
-
-
     return (
         <SnackbarProvider>
             <ModalProvider>
