@@ -1,18 +1,21 @@
 'use client'
 import { createContext, useContext } from 'react'
-import {SnackbarStack, SnackbarState} from './snackbar.types'
+import {SnackbarState} from './snackbar.types'
+
+// Новый тип с id
+export interface SnackbarWithId {
+    id: string;
+    data: SnackbarState;
+}
 
 type SnackbarContextValue = {
-    stack: SnackbarStack
+    stack: SnackbarWithId[]
     addSnackbar: (snackbar: SnackbarState) => void
     removeSnackbar: () => void
+    removeSnackbarById: (id: string) => void
     clearSnackbars: () => void
-
-    // Вспомогательные методы для быстрого использования
     successSnackbar: (message: string) => void
     errorSnackbar: (message: string) => void
-    warningSnackbar: (message: string) => void
-    infoSnackbar: (message: string) => void
 }
 
 export const SnackbarContext = createContext<SnackbarContextValue | null>(null)

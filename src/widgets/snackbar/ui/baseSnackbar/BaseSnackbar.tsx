@@ -4,33 +4,24 @@ import styles from './BaseSnackbar.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {
     ErrorSnackbarType,
-    InfoSnackbarType,
     SuccessSnackbarType,
-    WarningSnackbarType
+
 } from "@/widgets/snackbar/model/snackbar.types";
-import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
 
 type Props = {
-    snackbar: ErrorSnackbarType | SuccessSnackbarType | WarningSnackbarType | InfoSnackbarType
-    index: number
+    snackbar: ErrorSnackbarType | SuccessSnackbarType
+    onClose: () => void
 }
 
-export const BaseSnackbar = ({snackbar}: Props) => {
-
-    const { removeSnackbar } = useSnackbar()
-
-    const getSnackbarType  = () => {
+export const BaseSnackbar = ({snackbar, onClose}: Props) => {
+    const getSnackbarType = () => {
         switch (snackbar.type) {
             case 'SUCCESS_SNACKBAR':
                 return 'success'
             case 'ERROR_SNACKBAR':
                 return 'error'
-            case 'WARNING_SNACKBAR':
-                return 'warning'
-            case 'INFO_SNACKBAR':
-                return 'info'
             default:
-                return 'info'
+                return 'error'
         }
     }
 
@@ -44,8 +35,10 @@ export const BaseSnackbar = ({snackbar}: Props) => {
             <div className={styles.snackbarClose}>
                 <IconButton
                     iconId={'logoutBtnCloseSvg'}
-                    fill="white" size={24}
-                    onClick={removeSnackbar} />
+                    fill="white"
+                    size={24}
+                    onClick={onClose}
+                />
             </div>
         </div>
     )

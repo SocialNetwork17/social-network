@@ -10,28 +10,24 @@ export const useDeletePost = () => {
             const response = await client.DELETE(`/api/v1/posts/{postId}`, {
                 params: {
                     path: {
-                        postId: postId,
+                        postId,
                     },
                 },
             })
-            if (!response.data) {
-                throw new Error('No data received from server')
+            // Если есть данные, возвращаем их
+            if (response.data) {
+                return response.data
             }
-
-            return response
+            // Если есть ошибка в response
+            if (response.error) {
+                // Пробрасываем ошибку, чтобы компонент мог её обработать
+                throw response.error
+            }
         },
 
 
 
-        onSuccess: (_, postId) => {
-            // Инвалидируем кэш постов после успешного удаления
-            // queryClient.invalidateQueries({
-            //     predicate: (query) => {
-            //         // Преобразуем ключ в строку для поиска
-            //         const keyString = JSON.stringify(query.queryKey).toLowerCase()
-            //         return keyString.includes('post') || keyString.includes('profile')
-            //     }
-            // })
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['posts', 'via-profile'],
                 exact: false, // exact: false означает "все, что начинается с этого ключа"
@@ -42,9 +38,6 @@ export const useDeletePost = () => {
             })
         },
         onError: (error) => {
-
-            console.error('Error deleting post:', error)
-            // Можно добавить уведомление об ошибке
             return error
         }
     })

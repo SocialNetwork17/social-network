@@ -7,6 +7,7 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import {useDeletePost} from "@/shared/api/usePostDelete";
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
+import {getErrorMessage, getErrorStatusCode} from "@/shared/utils/handleError";
 
 
 type Props = {
@@ -25,17 +26,17 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
     const handleDeleteConfirm = async () => {
         try {
             if (postInfo?.id) {
-                const response = await deletePostMutation.mutateAsync(postInfo.id)
+                await deletePostMutation.mutateAsync(postInfo.id)
                 clearModals()
-                response.response
                 successSnackbar('Removal was successful')
-                // setIsModalOpen(false)
-                // onPostDeleted?.()
             }
         } catch (error) {
-            errorSnackbar(JSON.stringify(error))
+            const errorStatusCode = getErrorStatusCode(error)
+            const errorMessage = getErrorMessage(error)
+            console.error('Delete post errorStatusCode:', errorStatusCode)
             console.error('Delete post error:', error)
-            //errorSnackbar(error)
+            errorSnackbar(errorStatusCode.toString())
+            errorSnackbar(errorMessage)
         }
     }
 
