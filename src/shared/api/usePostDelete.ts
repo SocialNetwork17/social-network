@@ -10,7 +10,7 @@ export const useDeletePost = () => {
             const response = await client.DELETE(`/api/v1/posts/{postId}`, {
                 params: {
                     path: {
-                        postId: 1154549584,
+                        postId: postId,
                     },
                 },
             })
