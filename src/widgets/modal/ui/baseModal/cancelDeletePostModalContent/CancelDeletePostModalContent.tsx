@@ -25,15 +25,17 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
     const handleDeleteConfirm = async () => {
         try {
             if (postInfo?.id) {
-                await deletePostMutation.mutateAsync(postInfo.id)
+                const response = await deletePostMutation.mutateAsync(postInfo.id)
                 clearModals()
+                response.response
                 successSnackbar('Removal was successful')
                 // setIsModalOpen(false)
                 // onPostDeleted?.()
             }
         } catch (error) {
+            errorSnackbar(JSON.stringify(error))
             console.error('Delete post error:', error)
-            errorSnackbar('Delete post error:')
+            //errorSnackbar(error)
         }
     }
 

@@ -5,15 +5,23 @@ export const useDeletePost = () => {
     const queryClient = useQueryClient ()
 
     return useMutation({
+        mutationKey: ['deletePost'],
         mutationFn: async (postId: number) => {
-            return await client.DELETE(`/api/v1/posts/{postId}`, {
+            const response = await client.DELETE(`/api/v1/posts/{postId}`, {
                 params: {
                     path: {
-                        postId,
+                        postId: 1154549584,
                     },
                 },
             })
+            if (!response.data) {
+                throw new Error('No data received from server')
+            }
+
+            return response
         },
+
+
 
         onSuccess: (_, postId) => {
             // Инвалидируем кэш постов после успешного удаления
@@ -34,8 +42,10 @@ export const useDeletePost = () => {
             })
         },
         onError: (error) => {
+
             console.error('Error deleting post:', error)
             // Можно добавить уведомление об ошибке
+            return error
         }
     })
 }

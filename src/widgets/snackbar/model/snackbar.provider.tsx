@@ -18,28 +18,28 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
         setStack([])
     }
 
-    const success = (message: string) => {
+    const successSnackbar = (message: string) => {
         addSnackbar({
             type: 'SUCCESS_SNACKBAR',
             payload: {message}
         })
     }
 
-    const error = (message: string) => {
+    const errorSnackbar = (message: string) => {
         addSnackbar({
             type: 'ERROR_SNACKBAR',
             payload: {message}
         })
     }
 
-    const warning = (message: string) => {
+    const warningSnackbar = (message: string) => {
         addSnackbar({
             type: 'WARNING_SNACKBAR',
             payload: {message}
         })
     }
 
-    const info = (message: string) => {
+    const infoSnackbar = (message: string) => {
         addSnackbar({
             type: 'INFO_SNACKBAR',
             payload: {message}
@@ -53,10 +53,10 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
                 addSnackbar,
                 removeSnackbar,
                 clearSnackbars,
-                success,
-                error,
-                warning,
-                info,
+                successSnackbar,
+                errorSnackbar,
+                warningSnackbar,
+                infoSnackbar,
             }}
         >
             {children}
