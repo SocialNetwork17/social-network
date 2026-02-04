@@ -1,0 +1,39 @@
+@use '../../../styles/base/typography' as typo;
+
+.container {
+  padding: 24px;
+  display: flex;
+  gap: 12px;
+
+  .image {
+    width: 36px;
+  }
+
+  .avatarPlaceholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include typo.h2;
+  }
+
+ .link {
+    font-weight: 700;
+    padding-right: 10px;
+  }
+
+.comment {
+    word-break: break-word;
+  }
+
+  .time {
+    @include typo.text-small;
+    color: var(--color-small-text);
+    outline: none;
+    margin-top: 5px;
+  }
+}
