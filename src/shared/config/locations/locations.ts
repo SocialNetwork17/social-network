@@ -1,0 +1,3 @@
+exprot const locations: Location[] = [{
+
+}]

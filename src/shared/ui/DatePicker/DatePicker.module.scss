@@ -3,6 +3,7 @@
 
 /* -------------------- Wrapper + Label -------------------- */
 .datePickerWrapper {
+  margin-top: 24px;
   width: 100%;
   min-width: 262px;
   position: relative;
@@ -12,7 +13,6 @@
   @include typo.text-regular-14;
   color: styles.palette('light', 900);
   display: block;
-  margin-bottom: 8px;
 }
 
 /* -------------------- Popover -------------------- */

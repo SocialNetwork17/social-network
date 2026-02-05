@@ -8,8 +8,16 @@ import {Controller, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {editProfileSchema, EditProfileType} from "@/features/editProfile/model/editProfile.schema";
 import {Button} from "@/shared/ui/Button/Button";
+import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
+import {useState} from "react";
 
 export const EditProfileForm = () => {
+
+    const [countries, setCountries] = useState<Option[]>( [
+        { id: '1', label: 'Russian', countryCode: 'RU' },
+        { id: '2', label: 'English', countryCode: 'GB' },
+        { id: '3', label: 'Canadian', countryCode: 'CA' },
+    ]);
 
     const { data } =  useDataMyProfileQuery()
     const {
@@ -65,6 +73,10 @@ export const EditProfileForm = () => {
                     />
                 )}
             />
+            <div className={styles.selectsContainer}>
+                <SelectBox label={'Choose your country'} placeholder={'Country'} options={countries} onChange={()=>{}}/>
+                <SelectBox label ={'Choose your city'} placeholder={'City'} options={countries} onChange={()=> {}}/>
+            </div>
 
             <Button
                 variant={"primary"}
