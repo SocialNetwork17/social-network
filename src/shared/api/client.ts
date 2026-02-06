@@ -4,7 +4,7 @@ import { Middleware } from 'openapi-fetch'
 import { tokenService } from '@/shared/api/tokenService'
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL
-if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL is not defined')
 // mutex - это механизм обновления accessToken с защитой от параллельных запросов.
 //Автоматически получает новый accessToken через refreshToken
 // Гарантирует, что только один запрос на обновление выполняется в один момент времени
@@ -32,6 +32,10 @@ async function doRefresh(): Promise<string> {
       const newAccessToken = body?.accessToken // получаем токен из ответа
       if (!newAccessToken) throw new Error('No accessToken returned on refresh') // если токена нет кидаем ошибку
       tokenService.set(newAccessToken) //сохр токен в память
+
+      // Также можем обновить cookie (опционально - нужно для SSR)
+      document.cookie = `accessToken=${newAccessToken}; path=/; max-age=86400`
+
       return newAccessToken
     })()
 
@@ -43,16 +47,30 @@ async function doRefresh(): Promise<string> {
 }
 
 const authMiddleware: Middleware = {
-  async onRequest({request}) {
+  async onRequest({ request }) {
     // добавляем Authorization если accessToken есть в tokenService
-    const accessToken = tokenService.get()
+    let accessToken = tokenService.get()
+
+    // Если нет в памяти, проверяем cookies
+    if (!accessToken && typeof window !== 'undefined') {
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('accessToken='))
+        ?.split('=')[1]
+
+      if (cookieValue) {
+        accessToken = cookieValue
+        tokenService.set(cookieValue)
+      }
+    }
+
     if (accessToken && request) {
       request.headers.set('Authorization', `Bearer ${accessToken}`)
     }
 
     return request
   },
-  async onResponse({request, response}) {
+  async onResponse({ request, response }) {
     if (response.ok) return response
 
     // если получили 401 — пробуем refresh
@@ -63,7 +81,7 @@ const authMiddleware: Middleware = {
         const original = new Request(request)
         const headers = new Headers(original.headers)
         headers.set('Authorization', `Bearer ${newAccessToken}`)
-        const retry = new Request(original, {headers})
+        const retry = new Request(original, { headers })
         return fetch(retry)
       } catch (e) {
         // refresh не удался — пробрасываем оригинальный response дальше
@@ -74,9 +92,7 @@ const authMiddleware: Middleware = {
     // другое не-OK поведение — проброс
     return response
   },
-  async onError() {
-
-  },
+  async onError() {},
 }
 
 export const client = createClient<paths>({
