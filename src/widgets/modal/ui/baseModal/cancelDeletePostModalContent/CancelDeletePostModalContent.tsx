@@ -33,10 +33,30 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
         } catch (error) {
             const errorStatusCode = getErrorStatusCode(error)
             const errorMessage = getErrorMessage(error)
-            console.error('Delete post errorStatusCode:', errorStatusCode)
-            console.error('Delete post error:', error)
-            errorSnackbar(errorStatusCode.toString())
-            errorSnackbar(errorMessage)
+            let finalErrorMessage = 'An error occurred';
+
+            if (errorStatusCode) {
+                switch (errorStatusCode) {
+                    case 404:
+                        finalErrorMessage = 'The post has not been found';
+                        break;
+                    case 403:
+                        finalErrorMessage = 'Forbidden';
+                        break;
+                    case 401:
+                        finalErrorMessage = 'Unauthorized';
+                        break;
+                    default:
+                        finalErrorMessage = `Error: ${errorStatusCode}`;
+                        break;
+                }
+            } else if (errorMessage) {
+                // Если нет кода статуса, но есть сообщение об ошибке
+                finalErrorMessage = errorMessage;
+            }
+
+            // Показываем ошибку один раз
+            errorSnackbar(finalErrorMessage);
         }
     }
 
