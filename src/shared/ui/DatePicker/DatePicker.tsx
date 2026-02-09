@@ -219,7 +219,6 @@ export const DatePicker = ({
           )
         }}
       </Popover>
-
       {hasError && <div className={styles.errorMessage}>{displayError}</div>}
     </div>
   )

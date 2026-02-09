@@ -9,3 +9,13 @@
   display: flex;
   column-gap: 24px;
 }
+
+.textareaContainer {
+  margin-top: 24px;
+}
+
+.divider {
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-option-bg);
+  grid-column: 1 / -1;
+}

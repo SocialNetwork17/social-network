@@ -40,4 +40,4 @@ export const editProfileSchema = z.object({
         .optional(),
 });
 
-export type EditProfileType = z.infer<typeof editProfileSchema>;
+export type EditProfileType = z.infer<typeof editProfileSchema>

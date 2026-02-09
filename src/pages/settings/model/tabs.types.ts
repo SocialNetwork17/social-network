@@ -5,13 +5,13 @@ export const SettingsTabs = {
     PAYMENTS: 'payments',
 } as const
 
-export type SettingsTab = typeof SettingsTabs[keyof typeof SettingsTabs]
+export type SettingsTabType = typeof SettingsTabs[keyof typeof SettingsTabs]
 
 
 export type TabsType = TabType[]
 
 export type TabType = {
-    type: SettingsTab
+    type: SettingsTabType
     description: string
 }
 
