@@ -9,7 +9,8 @@ export type ModalState =
     | EditPostModalType
     | CancelEditPostModalType
     | UploadErrorModalType
-
+    | UploadAvatarModalType
+    | DeleteAvatarModalType
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -21,6 +22,9 @@ export type CancelEditPostModalType = ReturnType<typeof openCancelEditPostModalA
 export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC>
 export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
+export type UploadAvatarModalType = ReturnType<typeof openUploadAvatarModalAC>
+export type DeleteAvatarModalType = ReturnType<typeof deleteAvatarModalAC>
+
 
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
@@ -31,9 +35,9 @@ export const deletePostModalAC = (payload: { title: string, description: string,
     return {type: 'DELETE_POST', payload: {...payload}} as const
 }
 
-
+// todo - переделать на payload
 export const registrationConfirmModalAC = (payload: { title: string, email: string, description: string }) => {
-    return {type: 'CONFIRM_REGISTRATION', payload: {...payload}} as const
+    return {type: 'CONFIRM_REGISTRATION', payload} as const
 }
 
 
@@ -63,3 +67,12 @@ export const openCancelEditPostModalAC = (payload: { title: string, description:
 export const uploadErrorModalAC = (payload: { title: string, description: string }) => ({
     type: 'UPLOAD_ERROR', payload} as const)
 
+export const openUploadAvatarModalAC = (payload: { title: string}) => ({
+    type: 'UPLOAD_AVATAR',
+    payload: {...payload}
+} as const)
+
+export const deleteAvatarModalAC = (payload: { title: string; description: string }) => ({
+    type: 'DELETE_AVATAR',
+    payload: { ...payload },
+} as const)

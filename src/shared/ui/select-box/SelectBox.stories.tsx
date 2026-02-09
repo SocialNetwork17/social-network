@@ -35,6 +35,7 @@ const optionsWithIcons = [
 
 export const Select: Story = {
   args: {
+    label: 'Select an option',
     options: options,
     placeholder: 'Select an option',
     disabled: false,
@@ -43,6 +44,7 @@ export const Select: Story = {
 
 export const SelectWithIcons: Story = {
   args: {
+    label: 'Select an option',
     options: optionsWithIcons,
     defaultValue: optionsWithIcons[1],
     disabled: false,

@@ -1,3 +1,4 @@
+// переписать на fetch
 import {client} from '@/shared/api/client'
 import {
     SchemaInfinityPaginatedPosts,
