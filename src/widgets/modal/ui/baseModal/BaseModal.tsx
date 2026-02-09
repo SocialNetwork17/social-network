@@ -1,7 +1,7 @@
 'use client'
 
 import {
-    CancelCreatePostModalType, CancelEditPostModalType,
+    CancelCreatePostModalType, CancelEditPostModalType, DeleteAvatarModalType,
     DeletePostModalType,
     LogOutModalType,
     RegistrationConfirmModalType, UploadAvatarModalType, UploadErrorModalType
@@ -24,10 +24,18 @@ import {
     CancelEditPostModalContent
 } from "@/widgets/modal/ui/baseModal/candelEditPostModalContent/CancelEditPostModalContent";
 import {UploadErrorModalContent} from "@/widgets/modal/ui/baseModal/uploadErrorModalContent/UploadErrorModalContent";
-import {ProfilePhotoModal} from "@/features/ProfilePhotoUploader/ProfilePhotoModal";
+import {ProfilePhotoModal} from "@/features/editAvatar/ui/ProfilePhotoModal";
+import {DeleteAvatarModalContent} from "@/widgets/modal/ui/baseModal/deleteAvatarModalContent/DeleteAvatarModalContent";
 
 type Props = {
-    modal: DeletePostModalType | RegistrationConfirmModalType | LogOutModalType | CancelCreatePostModalType | CancelEditPostModalType | UploadErrorModalType | UploadAvatarModalType
+    modal: DeletePostModalType
+        | RegistrationConfirmModalType
+        | LogOutModalType
+        | CancelCreatePostModalType
+        | CancelEditPostModalType
+        | UploadErrorModalType
+        | UploadAvatarModalType
+        | DeleteAvatarModalType
 }
 
 export const BaseModal = ({modal}: Props) => {
@@ -50,6 +58,8 @@ export const BaseModal = ({modal}: Props) => {
                 return <UploadErrorModalContent modal={modal} />
             case 'UPLOAD_AVATAR':
                 return <ProfilePhotoModal />
+            case 'DELETE_AVATAR':
+                return <DeleteAvatarModalContent modal={modal} />
             default:
                 return null
         }

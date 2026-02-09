@@ -7,7 +7,7 @@ import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
 import {ImageModal} from "@/shared/ui/Modal/ImageModal/ImageModal";
-import {ProfilePhotoModal} from "@/features/ProfilePhotoUploader/ProfilePhotoModal";
+import {ProfilePhotoModal} from "@/features/editAvatar/ui/ProfilePhotoModal";
 
 
 export const ModalWrapper = () => {
@@ -69,6 +69,7 @@ export const ModalWrapper = () => {
             case "CANCEL_EDIT_POST":
             case 'UPLOAD_ERROR':
             case 'UPLOAD_AVATAR':
+            case 'DELETE_AVATAR':
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
