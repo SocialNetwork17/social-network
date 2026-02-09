@@ -105,3 +105,16 @@
   height: 20px;
   width: 20px;
 }
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  cursor: none;
+  @include typo.text-regular-14;
+  color: styles.palette('light', 900);
+}

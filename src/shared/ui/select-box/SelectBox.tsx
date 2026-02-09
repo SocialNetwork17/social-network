@@ -10,6 +10,7 @@ export type Option = {
 }
 
 type SelectBoxProps = {
+  label?: string
   options: Option[]
   onChange: (option: Option) => void
   placeholder?: string
@@ -39,6 +40,7 @@ const SelectBox = ({
   styleBox,
   styleArrow,
   styleOption,
+  label
 }: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
@@ -69,9 +71,11 @@ const SelectBox = ({
   }
 
   return (
-    <div
+    <div className={s.wrapper}>
+      {label && <label className={s.title}>{label}</label>}
+      <div
       className={`${s.selectContainer} ${classContainer}`}
-      tabIndex={0}
+      // tabIndex={0}
       ref={selectRef}
       style={styleContainer}
     >
@@ -118,6 +122,7 @@ const SelectBox = ({
           ))}
         </div>
       )}
+    </div>
     </div>
   )
 }
