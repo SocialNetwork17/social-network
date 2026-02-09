@@ -54,7 +54,7 @@ export const ProfilePhotoModal = () => {
                             onClick={handleSave}
                             disabled={!avatar.hasPhoto || isPending}
                         >
-                            {isPending ? 'Saving...' : 'Save'}
+                            {isPending ? 'Saving..' : 'Save'}
                         </Button>
                     </div>
 
