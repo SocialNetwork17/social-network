@@ -1,3 +1,30 @@
-.accountManagementContainer {
+@use '../../../../../styles/abstract' as styles;
+@use '../../../../../styles/base/typography' as typo;
 
+.accountManagementContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+.accountManagementTitle {
+  @include typo.text-bold-16;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.radioGroupContainer {
+  border: 1px solid styles.palette('dark', 300);
+  border-radius: 2px;
+  background: styles.palette('dark', 500);
+  padding: 12px 18px;
+}
+.paymentBlock {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 54px;
+}
+
+.paymentBlock span {
+  @include typo.text-regular-14;
 }
