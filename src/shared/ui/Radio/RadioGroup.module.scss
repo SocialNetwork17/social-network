@@ -16,9 +16,11 @@
 .radioList {
   display: flex;
   gap: 16px;
+  align-items: flex-start;
 
   &.vertical {
     flex-direction: column;
+
   }
 
   &.horizontal {

@@ -58,6 +58,7 @@
   @include typo.text-regular-14;
   line-height: 1.2;
   z-index: 1;
+  margin-left: 3px;
 
   .disabled & {
     color: styles.palette('light', 900);

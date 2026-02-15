@@ -1,3 +1,5 @@
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/api/subscriptionApi";
+
 export type ModalStack = ModalState[]
 export type ModalState =
     | LogOutModalType
@@ -11,6 +13,7 @@ export type ModalState =
     | UploadErrorModalType
     | UploadAvatarModalType
     | DeleteAvatarModalType
+    |CreatePaymentModalType
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -24,6 +27,7 @@ export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
 export type UploadAvatarModalType = ReturnType<typeof openUploadAvatarModalAC>
 export type DeleteAvatarModalType = ReturnType<typeof deleteAvatarModalAC>
+export type CreatePaymentModalType = ReturnType<typeof createPaymentModalAC>
 
 
 
@@ -76,3 +80,7 @@ export const deleteAvatarModalAC = (payload: { title: string; description: strin
     type: 'DELETE_AVATAR',
     payload: { ...payload },
 } as const)
+
+export const createPaymentModalAC = (payload: { title: string, description: string, paymentType: PaymentType, typeSubscription: SubscriptionType }) => {
+    return {type: 'CREATE_PAYMENT', payload: {...payload}} as const
+}

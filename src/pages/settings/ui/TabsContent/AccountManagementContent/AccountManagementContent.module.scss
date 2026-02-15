@@ -12,12 +12,35 @@
   margin-bottom: 6px;
 }
 
-.radioGroupContainer {
+.accountManagementContent {
   border: 1px solid styles.palette('dark', 300);
   border-radius: 2px;
   background: styles.palette('dark', 500);
   padding: 12px 18px;
+
 }
+
+.currentSubscriptionBlock {
+  display: flex;
+  gap: 45px;
+  margin-bottom: 22px;
+}
+
+.currentSubscriptionContent {
+
+}
+
+.currentSubscriptionTitle {
+  color: styles.palette('light', 900);
+  @include typo.text-regular-14;
+  margin-bottom: 12px;
+}
+
+.currentSubscriptionDate {
+  @include typo.text-regular-14;
+  font-weight: 600;
+}
+
 .paymentBlock {
   display: flex;
   align-items: center;
