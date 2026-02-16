@@ -19,7 +19,7 @@ export const registrationSchema = z
       .max(20, 'Maximum number of characters 20')
       .regex(
         passwordRegex,
-        'Password must contain: a-z, 0-9 A-Z,! "#$%&\'()*+, -./:;<=>?@[\\]^_`{|}~'
+          'Password must contain: a-z, 0-9, A-Z, ! "#$%&\'()*+, -./:;<=>?@[\\]^_`{|}~'
       ),
     passwordConfirmation: z.string(),
   })

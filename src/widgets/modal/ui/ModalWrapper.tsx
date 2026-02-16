@@ -34,7 +34,7 @@ export const ModalWrapper = () => {
                     if (!isConfirmOpen) {
                         pushModal(cancelCreatePostModalAC({
                             title: 'Close',
-                            description: 'Do you really want to close the creation of a publication?' + 'If you close everything will be deleted'
+                            description: 'Do you really want to close the creation of a publication?' + ' If you close everything will be deleted'
                         }))
                     }
                 }

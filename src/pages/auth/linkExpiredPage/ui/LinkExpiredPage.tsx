@@ -57,28 +57,30 @@ export const LinkExpiredPage = () => {
   }
 
   return (
-    <div className={styles.linkExpiredPage}>
-      <div className={styles.title}>Email verification link expired</div>
-      <div className={styles.description}>
-        Looks like the verification link has expired. Not to worry, we can send the link again
-      </div>
-      <form className={styles.inputContainer} onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label={'Email'}
-          type={'email'}
-          placeholder={'Epam@epam.com'}
-          required={false}
-          error={!!errors.email}
-          errorText={errors.email?.message}
-          {...register('email')}
-        />
-        <div className={styles.buttonContainer}>
-          <Button type={'submit'} variant={'primary'} disabled={isPending}>
-            {isPending && <Spinner />}Resend verification link
-          </Button>
+      <div className={styles.linkExpiredPage}>
+        <div className={styles.title}>Email verification link expired</div>
+        <div className={styles.description}>
+          Looks like the verification link has expired. Not to worry, we can send the link again
         </div>
-      </form>
-      <Image src={confirmCodeImg} alt={'linkExpiredImg'} />
-    </div>
+        <form className={styles.inputContainer} onSubmit={handleSubmit(onSubmit)}>
+          <div className={`${styles.fieldContainer} ${errors.email ? styles.fieldWithError : ''}`}>
+            <Input
+                label={'Email'}
+                type={'email'}
+                placeholder={'Epam@epam.com'}
+                required={false}
+                error={!!errors.email}
+                errorText={errors.email?.message}
+                {...register('email')}
+            />
+          </div>
+          <div className={styles.buttonContainer}>
+            <Button type={'submit'} variant={'primary'} disabled={isPending}>
+              {isPending && <Spinner />}Resend verification link
+            </Button>
+          </div>
+        </form>
+        <Image src={confirmCodeImg} alt={'linkExpiredImg'} />
+      </div>
   )
 }

@@ -12,7 +12,7 @@ export const useDeleteAvatarMutation = () => {
         onSuccess: () => {
             // после удаления — обновляем профиль
             queryClient.invalidateQueries({
-                queryKey: ['profile'],
+                queryKey: ['my profile data'],
             })
         },
     })
