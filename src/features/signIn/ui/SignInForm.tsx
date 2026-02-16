@@ -29,57 +29,63 @@ export const SignInForm = () => {
   }
 
   return (
-    <div className={styles.authCard}>
-      <SignInFormTitle />
+      <div className={styles.authCard}>
+        <SignInFormTitle />
 
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.inputWrapper}>
-          <div className={`${styles.fieldContainer} ${errors.email ? styles.fieldWithError : ''}`}>
-            <Input
-              label="Email"
-              type="email"
-              placeholder="epam@epam.com"
-              error={!!errors.email}
-              errorText={errors.email?.message}
-              required
-              disabled={isPending}
-              {...register('email')}
-            />
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.inputWrapper}>
+            <div className={`${styles.fieldContainer} ${errors.email ? styles.fieldWithError : ''}`}>
+              <Input
+                  label="Email"
+                  type="email"
+                  placeholder="epam@epam.com"
+                  error={!!errors.email}
+                  errorText={errors.email?.message}
+                  required
+                  disabled={isPending}
+                  {...register('email')}
+              />
+            </div>
+
+            <div className={`${styles.fieldContainer} ${errors.password ? styles.fieldWithError : ''}`}>
+              <Input
+                  label="Password"
+                  type="password"
+                  placeholder="**********"
+                  error={!!errors.password}
+                  errorText={errors.password?.message}
+                  required
+                  disabled={isPending}
+                  {...register('password')}
+              />
+            </div>
+
+            {isError && (
+                <div className={styles.serverError}>
+                  The email or password are incorrect. Try again please
+                </div>
+            )}
           </div>
 
-          <Input
-            label="Password"
-            type="password"
-            placeholder="add password"
-            error={!!errors.password}
-            errorText={errors.password?.message}
-            required
-            disabled={isPending}
-            {...register('password')}
-          />
+          <div>
+            <Link href={PATH.FORGOT_PASSWORD} className={styles.fargotPasswordLink}>
+              Forgot Password
+            </Link>
 
-          {isError && (
-            <div className={styles.serverError}>
-              The email or password are incorrect. Try again please
+            <div className={styles.signInButtonContainer}>
+              <Button variant={'primary'} disabled={isPending} type="submit">
+                {isPending && <Spinner />} Sign In
+              </Button>
             </div>
-          )}
-        </div>
 
-        <div>
-          <Link href={PATH.FORGOT_PASSWORD} className={styles.fargotPasswordLink}>
-            Forgot Password
-          </Link>
-
-          <Button variant={'primary'} disabled={isPending} type="submit">
-            {isPending && <Spinner />} Sign In
-          </Button>
-
-          <div className={styles.helperText}>Don’t have an account?</div>
-          <Link href={PATH.SIGN_UP} className={styles.signUpLink}>
-            Sign Up
-          </Link>
-        </div>
-      </form>
-    </div>
+            <div className={styles.helperText}>Don't have an account?</div>
+            <div className={styles.signUpLinkContainer}>
+              <Link href={PATH.SIGN_UP} className={styles.signUpLink}>
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </form>
+      </div>
   )
 }

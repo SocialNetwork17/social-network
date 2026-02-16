@@ -2,5 +2,11 @@
 .title {
   text-align: center;
   @include typo.h1;
-  padding-bottom: 74px;
+}
+.iconContainer {
+  margin-top: 13px;
+
+  display: flex;
+  justify-content: center;
+  gap: 60px;
 }
