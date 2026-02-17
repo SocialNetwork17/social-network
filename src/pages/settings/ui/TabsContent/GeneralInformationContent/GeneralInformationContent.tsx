@@ -1,16 +1,18 @@
 import styles from "./GeneralInformationContent.module.scss"
-import {EditProfileForm} from "@/features/editProfile/ui/EditProfileForm";
-import {Button} from "@/shared/ui/Button/Button";
-import { openUploadAvatarModalAC } from "@/widgets/modal/model/modal.types";
-import {useModal} from "@/widgets/modal/model/modal.context";
 import {EditAvatar} from "@/features/editAvatar/ui/EditAvatar";
+import {UpdateProfileInformationForm} from "@/features/editProfile/ui/UpdateProfileInformationForm";
+import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 
 export const GeneralInformationContent = () => {
+
+    const {data, isLoading} = useDataMyProfileQuery()
+
+    if (!data) return
 
     return (
         <div className={styles.generalInformationContainer}>
             <EditAvatar/>
-            <EditProfileForm/>
+            <UpdateProfileInformationForm profileData={data}/>
         </div>
     )
 }

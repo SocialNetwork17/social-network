@@ -1,73 +1,98 @@
 // @flow
 import * as React from 'react';
+import {useState} from 'react';
 import {Input} from "@/shared/ui/Input/Input";
 import styles from "./UpdateProfileInformationForm.module.scss"
-import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 import {DatePicker} from "@/shared/ui/DatePicker/DatePicker";
-import {Controller, useForm} from "react-hook-form";
+import {Controller, FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {editProfileSchema, EditProfileType} from "@/features/editProfile/model/editProfile.schema";
 import {Button} from "@/shared/ui/Button/Button";
-import SelectBox, {Option} from "@/shared/ui/select-box/SelectBox";
-import {useState} from "react";
+import SelectBox from "@/shared/ui/select-box/SelectBox";
 import {TextArea} from "@/shared/ui/TextArea/TextArea";
-import {useUpdateProfileInformation} from "@/features/editProfile/api/useUpdateProfileInformation";
+import {useUpdateProfileInformationMutation} from "@/features/editProfile/api/useUpdateProfileInformation";
+import {useQueryClient} from "@tanstack/react-query";
+import {City, countries, Country} from "@/shared/constants/geo/countries";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {SchemaProfileViewModel} from "@/shared/api/schema";
 
-export const UpdateProfileInformationForm = () => {
+type Props = {
+    profileData: SchemaProfileViewModel
+}
 
-    const {data: updateProfileInformation} = useUpdateProfileInformation()
+export const UpdateProfileInformationForm = ({profileData}: Props) => {
 
-    const [countries, setCountries] = useState<Option[]>( [
-        { id: '1', label: 'Russian', countryCode: 'RU' },
-        { id: '2', label: 'English', countryCode: 'GB' },
-        { id: '3', label: 'Canadian', countryCode: 'CA' },
-    ]);
+    const queryClient = useQueryClient();
+    const {mutate: updateProfileInformation ,isPending} = useUpdateProfileInformationMutation()
+    const [cities, setCities] = useState<City[]>([])
 
-    const { data } =  useDataMyProfileQuery()
     const {
         register,
         control,
         handleSubmit,
+        setValue,
+        formState: {errors}
 
     } = useForm<EditProfileType>({
         resolver: zodResolver(editProfileSchema),
         defaultValues: {
-            userName: data?.userName ?? '',
-            firstName: data?.firstName ?? '',
-            lastName: data?.lastName ?? '',
+            userName: profileData?.userName,
+            firstName: profileData?.firstName ?? '',
+            lastName: profileData?.lastName ?? '',
+            aboutMe: profileData?.aboutMe ?? '',
+            cityId: "",
+            countryId: ""
         }
     })
 
     const onSubmit = (data: EditProfileType) => {
-        console.log(data)
+        updateProfileInformation(data, {
+            onSuccess: () => {
+                queryClient.invalidateQueries({queryKey: ['my profile data']})
+            },
+            onError: (e) => {
+                console.log(e)
+            }
+        })
     }
 
+    const onError = (errors: FieldErrors<EditProfileType>) => {
+        console.log(errors)
+    }
+
+
     return (
-        <form className={styles.editProfileForm} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.editProfileForm} onSubmit={handleSubmit(onSubmit, onError)}>
             <div className={styles.inputsContainer}>
                 <Input
                     label={'Username'}
                     type={'text'}
                     required={true}
                     {...register("userName")}
+                    error={!!errors.userName}
+                    errorText={errors.userName?.message}
                 />
                 <Input
                     label={'First Name'}
                     type={'text'}
                     required={true}
                     {...register("firstName")}
+                    error={!!errors.firstName}
+                    errorText={errors.firstName?.message}
                 />
                 <Input
                     label={'Last name'}
                     type={'text'}
                     required={true}
                     {...register("lastName")}
+                    error={!!errors.lastName}
+                    errorText={errors.lastName?.message}
                 />
             </div>
             <Controller
                 name="dateOfBirth"
                 control={control}
-                render={({ field, fieldState }) => (
+                render={({field, fieldState}) => (
                     <DatePicker
                         label="Date of Birth"
                         mode="single"
@@ -78,36 +103,66 @@ export const UpdateProfileInformationForm = () => {
                 )}
             />
             <div className={styles.selectsContainer}>
-                <SelectBox label={'Choose your country'} placeholder={'Country'} options={countries} onChange={()=>{}}/>
-                <SelectBox label ={'Choose your city'} placeholder={'City'} options={countries} onChange={()=> {}}/>
+                <Controller
+                    name="countryId"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <SelectBox<Country>
+                            label="Choose your country"
+                            options={countries}
+                            defaultValue={countries.find(c => c.id === field.value)}
+                            onChange={(country) => {
+                                field.onChange(country.id)
+                                setCities(country.cities)
+                                setValue("cityId", "")
+                            }}
+                            placeholder="Country"
+                        />
+                    )}
+                />
+                <Controller
+                    name="cityId"
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <SelectBox<City>
+                            label="Choose your city"
+                            options={cities}
+                            defaultValue={cities.find(c => c.id === field.value)}
+                            disabled={!cities.length}
+                            onChange={(city) => field.onChange(city.id)}
+                            placeholder="City"
+                        />
+                    )}
+                />
             </div>
             <div className={styles.textareaContainer}>
                 <Controller
                     name="aboutMe"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({field, fieldState}) => (
                         <TextArea
                             label="About Me"
                             maxLength={200}
-                            value={data?.aboutMe || ''}
+                            value={profileData?.aboutMe || ''}
                             onChange={field.onChange}
-                            error={!!fieldState.error}
-                            errorText={fieldState.error?.message}
+                            error={!!errors.aboutMe}
+                            errorText={errors.aboutMe?.message}
                         />
                     )}
                 />
             </div>
             <div className={styles.divider}></div>
-            <Button
-                style={{justifySelf: "flex-end"}}
-                variant={"primary"}
-                disabled={false}
-                width={159}
-                height={36}
-                type="submit"
-            >
-                Save Changes
-            </Button>
+            <div className={styles.buttonContainer}>
+                <Button
+                    variant={"primary"}
+                    disabled={isPending}
+                    width={159}
+                    height={36}
+                    type="submit"
+                >
+                    {isPending ? <Spinner/>: 'Save Changes'}
+                </Button>
+            </div>
         </form>
     )
 }

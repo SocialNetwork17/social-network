@@ -3,16 +3,16 @@ import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {deleteAvatarModalAC, openUploadAvatarModalAC} from "@/widgets/modal/model/modal.types";
 import {Card} from "@/shared/ui/Card/Card";
-import {useProfileQuery} from "@/features/editAvatar/lib/useProfileQuery";
 import {Skeleton} from "@/shared/ui/Skeleton/Skeleton";
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useDeleteAvatarMutation} from "@/features/editAvatar/lib/useDeleteAvatarMutation";
 import s from './EditAvatar.module.scss'
 import {Icon} from "@/shared/ui/Icon/Icon";
+import {useDataMyProfileQuery} from "@/pages/profile/api/useDataMyProfileQuery";
 
 export const EditAvatar = () => {
 
-    const {data: profile, isLoading} = useProfileQuery()
+    const {data: profile, isLoading} = useDataMyProfileQuery()
     const {mutate: deleteAvatar, isPending: isDeleting} = useDeleteAvatarMutation()
 
 

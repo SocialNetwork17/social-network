@@ -1,3 +1,7 @@
+.editProfileForm {
+  position: relative;
+}
+
 .inputsContainer {
   display: flex;
   flex-direction: column;
@@ -7,15 +11,23 @@
 .selectsContainer {
   margin-top: 24px;
   display: flex;
+  justify-content: space-between;
   column-gap: 24px;
 }
 
 .textareaContainer {
-  margin-top: 24px;
+  margin: 24px 0 24px;
 }
 
 .divider {
-  margin-bottom: 24px;
+  position: absolute;
+  width: 976px;
+  bottom: 60px;
+  left: -230px;
+
   border-bottom: 1px solid var(--color-option-bg);
-  grid-column: 1 / -1;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
 }

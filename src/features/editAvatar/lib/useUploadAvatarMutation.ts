@@ -21,6 +21,7 @@ export const useUploadAvatarMutation = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
+        mutationKey: ['upload profile avatar'],
         mutationFn: async (file: File): Promise<UploadAvatarResponse> => {
 
             await client.GET("/api/v1/auth/me").catch(() => null);
@@ -38,7 +39,7 @@ export const useUploadAvatarMutation = () => {
 
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['profile'],
+                queryKey: ['my profile data'],
             })
         },
     })

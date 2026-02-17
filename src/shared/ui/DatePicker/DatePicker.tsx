@@ -15,6 +15,8 @@ import {
   DATE_FORMAT,
   RANGE_SEPARATOR,
 } from './utils/date.utils'
+import Link from "next/link";
+import {PATH} from "@/shared/constants/routings";
 
 // утилита для объединения классов
 const cn = (...classes: (string | false | undefined)[]) => classes.filter(Boolean).join(' ')
@@ -219,7 +221,7 @@ export const DatePicker = ({
           )
         }}
       </Popover>
-      {hasError && <div className={styles.errorMessage}>{displayError}</div>}
+      {hasError && <div className={styles.errorMessage}>{displayError}<Link href={PATH.POLICY}><u>Privacy Policy</u></Link></div>}
     </div>
   )
 }

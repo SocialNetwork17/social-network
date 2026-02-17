@@ -1,7 +1,7 @@
 import styles from './MainPage.module.scss'
 import {UserAmount} from './UserAmount/UserAmount'
-import {PostsWithText} from '../../../shared/ui/Posts/PostsWithText/PostsWithText'
 import {AllPosts} from "@/pages/main/api/getAllPostsServer";
+import {PostsWithText} from "@/shared/ui/Posts/PostsWithText/PostsWithText";
 
 type Props = {
     posts: AllPosts
