@@ -27,7 +27,7 @@ const meta = {
       control: { type: 'number' },
       description: 'Button height',
     },
-    onClickHandler: {
+    onClick: {
       action: 'clicked',
       description: 'Button click handler',
     },
@@ -37,7 +37,7 @@ const meta = {
     },
   },
   args: {
-    onClickHandler: fn(),
+    onClick: fn(),
     children: 'Button',
   },
 } satisfies Meta<typeof Button>
