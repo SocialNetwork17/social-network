@@ -13,7 +13,8 @@ export type ModalState =
     | UploadErrorModalType
     | UploadAvatarModalType
     | DeleteAvatarModalType
-    |CreatePaymentModalType
+    | CreatePaymentModalType
+    | InfoModalType
 
 
 export type DeletePostModalType = ReturnType<typeof deletePostModalAC>
@@ -28,7 +29,7 @@ export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
 export type UploadAvatarModalType = ReturnType<typeof openUploadAvatarModalAC>
 export type DeleteAvatarModalType = ReturnType<typeof deleteAvatarModalAC>
 export type CreatePaymentModalType = ReturnType<typeof createPaymentModalAC>
-
+export type InfoModalType = ReturnType<typeof infoModalAC>
 
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
@@ -84,3 +85,8 @@ export const deleteAvatarModalAC = (payload: { title: string; description: strin
 export const createPaymentModalAC = (payload: { title: string, description: string, paymentType: PaymentType, typeSubscription: SubscriptionType }) => {
     return {type: 'CREATE_PAYMENT', payload: {...payload}} as const
 }
+
+export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string, onClose: () => void }) => {
+    return {type: 'INFO', payload: {...payload}} as const
+}
+

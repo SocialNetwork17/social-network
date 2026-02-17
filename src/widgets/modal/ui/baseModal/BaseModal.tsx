@@ -2,7 +2,7 @@
 
 import {
     CancelCreatePostModalType, CancelEditPostModalType, CreatePaymentModalType, DeleteAvatarModalType,
-    DeletePostModalType,
+    DeletePostModalType, InfoModalType,
     LogOutModalType,
     RegistrationConfirmModalType, UploadAvatarModalType, UploadErrorModalType
 } from "@/widgets/modal/model/modal.types";
@@ -29,6 +29,7 @@ import {DeleteAvatarModalContent} from "@/widgets/modal/ui/baseModal/deleteAvata
 import {
     CreatePaymentModalContent
 } from "@/widgets/modal/ui/baseModal/createPaymentModalContent/CreatePaymentModalContent";
+import {InfoModalContent} from "@/widgets/modal/ui/baseModal/infoModalContent/InfoModalContent";
 
 type Props = {
     modal: DeletePostModalType
@@ -40,6 +41,7 @@ type Props = {
         | UploadAvatarModalType
         | DeleteAvatarModalType
         | CreatePaymentModalType
+        | InfoModalType
 }
 
 export const BaseModal = ({modal}: Props) => {
@@ -66,6 +68,8 @@ export const BaseModal = ({modal}: Props) => {
                 return <DeleteAvatarModalContent modal={modal} />
             case "CREATE_PAYMENT":
                 return <CreatePaymentModalContent modal={modal} />
+            case "INFO":
+                return <InfoModalContent modal={modal} />
             default:
                 return null
         }

@@ -14,7 +14,7 @@ type Props = {
 }
 
 export const CreatePaymentModalContent = ({modal}: Props) => {
-    const {popModal, clearModals} = useModal()
+    const {clearModals} = useModal()
     const [agreed, setAgreed] = useState<boolean>(false)
     const { handleCreateSubscription, isCreating } = useSubscriptions()
 
