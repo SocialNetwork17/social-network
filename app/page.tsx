@@ -9,6 +9,8 @@ export default async function Home() {
         getUserTotalCountServer()
     ])
 
+
+
   return (
     <>
       <MainPage posts={posts} totalCount={totalCount} />
