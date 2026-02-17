@@ -1,4 +1,3 @@
-// @flow 
 import * as React from 'react';
 import {Tabs} from "@/shared/ui/Tabs/Tabs";
 import styles from "./SettingsPage.module.scss"

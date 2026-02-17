@@ -1,11 +1,10 @@
-import {SettingsPage} from "@/pages/settings/ui/SettingsPage";
-
+import { Suspense } from "react"
+import { SettingsPage } from "@/pages/settings/ui/SettingsPage"
 
 export default function Settings() {
-
     return (
-        <>
-            <SettingsPage/>
-        </>
+        <Suspense fallback={null}>
+            <SettingsPage />
+        </Suspense>
     )
 }
