@@ -10,7 +10,6 @@ import {
     SubscriptionType, useCurrentSubscription,
     useSubscriptionCosts
 } from "@/features/subscriptions/api/subscriptionApi";
-import {useProfileQuery} from "@/features/editAvatar/lib/useProfileQuery";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import * as React from "react";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
@@ -27,8 +26,7 @@ export const AccountManagementContent = () => {
     const [hasShownError, setHasShownError] = useState(false)
 
     // Получаем данные о стоимости подписок из API
-    const { data: subscriptionCosts, isLoading } = useSubscriptionCosts()
-    const { data: profile, isLoading: isLoadingProfile } = useProfileQuery()
+    const { data: subscriptionCosts } = useSubscriptionCosts()
     const {data: currentSubscription} = useCurrentSubscription()
     const { currentSubscription: currentSubscriptions, handleToggleAutoRenewal, hasActiveSubscription, isBusinessAccount, currentSubscriptionData } = useSubscriptions()
 
