@@ -29,15 +29,17 @@ export const AccountManagementContent = () => {
     // Получаем данные о стоимости подписок из API
     const { data: subscriptionCosts, isLoading } = useSubscriptionCosts()
     const { data: profile, isLoading: isLoadingProfile } = useProfileQuery()
-    const {data: currentSubscriptions} = useCurrentSubscription()
-    const { handleToggleAutoRenewal } = useSubscriptions()
+    const {data: currentSubscription} = useCurrentSubscription()
+    const { currentSubscription: currentSubscriptions, handleToggleAutoRenewal, hasActiveSubscription, isBusinessAccount, currentSubscriptionData } = useSubscriptions()
 
-    console.log(subscriptionCosts)
+    const lastSubscription = currentSubscriptions?.data[currentSubscriptions?.data.length - 1]
+
+    const nextPayment = lastSubscription?.endDateOfSubscription
+    console.log(currentSubscriptions)
+    console.log(lastSubscription )
     const searchParams = useSearchParams()
     const router = useRouter()
     const {pushModal, popModal} = useModal()
-
-
 
     useEffect(() => {
         if (!searchParams) return
@@ -73,8 +75,6 @@ export const AccountManagementContent = () => {
         router.replace('/settings?part=subscriptions')
     }, [searchParams, pushModal, router, hasShownSuccess, hasShownError])
 
-    const currentSubscription = currentSubscriptions?.data.find( subscription => subscription.userId === profile?.id)
-
     // Создаем опции для RadioGroup на основе данных из API
     const costOptions = React.useMemo(() => {
         if (!subscriptionCosts) return []
@@ -104,12 +104,10 @@ export const AccountManagementContent = () => {
 
     // Эффект для установки типа аккаунта на основе подписки
     useEffect(() => {
-        if (currentSubscription) {
+        if (isBusinessAccount) {
             setAccountType('business')
         }
-    }, [currentSubscription]) // Зависимость только от hasActiveSubscription
-
-    console.log(currentSubscription)
+    }, [hasActiveSubscription]) // Зависимость только от hasActiveSubscription
 
     const openSubscriptionModal = (paymentType: PaymentType, typeSubscription: SubscriptionType) => {
         pushModal(createPaymentModalAC({
@@ -134,7 +132,7 @@ export const AccountManagementContent = () => {
 
     return (        
         <div className={styles.accountManagementContainer}>
-            {currentSubscription  &&
+            {isBusinessAccount  &&
             <div className={styles.accountManagementBlock}>
                 <h4 className={styles.accountManagementTitle}>Current Subscription:</h4>
                 <div className={`${styles.accountManagementContent}  ${styles.currentSubscriptionBlock}`}>
@@ -143,7 +141,7 @@ export const AccountManagementContent = () => {
                             Expire at
                         </h5>
                         <p className={styles.currentSubscriptionDate}>
-                            {formatToDDMMYYYY(currentSubscription.endDateOfSubscription)}
+                            {formatToDDMMYYYY(currentSubscriptionData?.endDateOfSubscription)}
                         </p>
                     </div>
                     <div className={styles.currentSubscriptionContent}>
@@ -151,12 +149,12 @@ export const AccountManagementContent = () => {
                             Next payment
                         </h5>
                         <p className={styles.currentSubscriptionDate}>
-                            {formatToDDMMYYYY(currentSubscription.endDateOfSubscription)}
+                            {formatToDDMMYYYY(nextPayment)}
                         </p>
                     </div>
                 </div>
                 <Checkbox label="Auto-Renewal"
-                          checked={currentSubscription?.autoRenewal}
+                          checked={currentSubscription?.hasAutoRenewal}
                           onChangeCheckedAction={handleAutoRenewalChange}
                 />
             </div>
@@ -175,7 +173,7 @@ export const AccountManagementContent = () => {
                     />
                 </div>
             </div>
-            {accountType ===  'business' &&
+            {isBusinessAccount &&
             <div className={styles.accountManagementBlock}>
                 <h4 className={styles.accountManagementTitle}>Your subscription costs:</h4>
                 <div className={styles.accountManagementContent}>

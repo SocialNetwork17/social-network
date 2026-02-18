@@ -1,4 +1,4 @@
-export const formatToDDMMYYYY = (dateString: string): string => {
+export const formatToDDMMYYYY = (dateString: string | undefined): string => {
     if (!dateString) return ''
 
     const date = new Date(dateString)
