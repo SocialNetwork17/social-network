@@ -83,6 +83,7 @@ export const useCreateSubscription = () => {
 
             return data as components['schemas']['PaymentSessionUrlViewModel']
         },
+        retry: 1,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: subscriptionKeys.current() })
             queryClient.invalidateQueries({ queryKey: subscriptionKeys.history() })
