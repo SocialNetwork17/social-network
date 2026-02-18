@@ -1,13 +1,13 @@
 import styles from "./AccountManagementContent.module.scss"
 
 import {RadioGroup} from "@/shared/ui/Radio/RadioGroup";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {createPaymentModalAC, infoModalAC} from "@/widgets/modal/model/modal.types";
 import {
     PaymentType,
-    SubscriptionType, useCurrentSubscription,
+    SubscriptionType, useCancelAutoRenewal, useCurrentSubscription, useRenewAutoRenewal,
     useSubscriptionCosts
 } from "@/features/subscriptions/api/subscriptionApi";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
@@ -21,14 +21,24 @@ type UiSubscriptionType = 'DAY' | 'WEEKLY' | 'MONTHLY'
 export const AccountManagementContent = () => {
     const [accountType, setAccountType] = useState<'personal' | 'business'>('personal')
     const [costsValue, setCostsValue] = useState<UiSubscriptionType>('DAY')
-    const [_, setAutoRenewalSubscription] = useState<boolean>(false)
+    const [optimisticAutoRenewal, setOptimisticAutoRenewal] = useState<boolean | null>(null)
     const [hasShownSuccess, setHasShownSuccess] = useState(false)
     const [hasShownError, setHasShownError] = useState(false)
 
     // Получаем данные о стоимости подписок из API
     const { data: subscriptionCosts } = useSubscriptionCosts()
     const {data: currentSubscription} = useCurrentSubscription()
-    const { currentSubscription: currentSubscriptions, handleToggleAutoRenewal, hasActiveSubscription, isBusinessAccount, currentSubscriptionData } = useSubscriptions()
+    const {
+        currentSubscription: currentSubscriptions,
+        refetchCurrent,
+        hasActiveSubscription,
+        isBusinessAccount,
+        currentSubscriptionData
+    } = useSubscriptions()
+
+    // Мутации для автообновления
+    const cancelAutoRenewal = useCancelAutoRenewal()
+    const renewAutoRenewal = useRenewAutoRenewal()
 
     const lastSubscription = currentSubscriptions?.data[currentSubscriptions?.data.length - 1]
 
@@ -38,6 +48,11 @@ export const AccountManagementContent = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const {pushModal, popModal} = useModal()
+
+    // Определяем текущее состояние auto-renewal (учитываем optimistic update)
+    const currentAutoRenewal = optimisticAutoRenewal !== null
+        ? optimisticAutoRenewal
+        : currentSubscription?.hasAutoRenewal || false
 
     useEffect(() => {
         if (!searchParams) return
@@ -116,17 +131,48 @@ export const AccountManagementContent = () => {
         }))
     }
 
-    const handleAutoRenewalChange = async (isAutoRenewalSubscription: boolean) => {
-        setAutoRenewalSubscription(isAutoRenewalSubscription)
+    // OPTIMISTIC UPDATE для чекбокса
+    const handleAutoRenewalChange = useCallback(async (checked: boolean) => {
+        // Сохраняем предыдущее состояние на случай ошибки
+        const previousValue = currentAutoRenewal
+
+        // Оптимистично обновляем UI
+        setOptimisticAutoRenewal(checked)
+
         try {
-            // Вызываем функцию с булевым значением
-            await handleToggleAutoRenewal(isAutoRenewalSubscription)
+            // Отправляем запрос на сервер
+            if (checked) {
+                await renewAutoRenewal.mutateAsync()
+            } else {
+                await cancelAutoRenewal.mutateAsync()
+            }
+
+            // Обновляем данные с сервера
+            await refetchCurrent()
+            // Сбрасываем optimistic update после успешного запроса
+            setOptimisticAutoRenewal(null)
+
         } catch (error) {
-            // Если ошибка, возвращаем предыдущее состояние
-            setAutoRenewalSubscription(!isAutoRenewalSubscription)
+            // В случае ошибки возвращаем предыдущее значение
+            setOptimisticAutoRenewal(previousValue)
             console.error('Failed to toggle auto-renewal:', error)
+
+            // Показываем ошибку пользователю
+            pushModal(infoModalAC({
+                title: 'Error',
+                description: 'Failed to update auto-renewal. Please try again.',
+                buttonTitle: 'OK',
+                onClose: () => popModal()
+            }))
         }
-    }
+    }, [currentAutoRenewal, renewAutoRenewal, cancelAutoRenewal, refetchCurrent, pushModal, popModal])
+
+    // Сбрасываем optimistic update при размонтировании
+    useEffect(() => {
+        return () => {
+            setOptimisticAutoRenewal(null)
+        }
+    }, [])
 
     return (        
         <div className={styles.accountManagementContainer}>
@@ -152,8 +198,9 @@ export const AccountManagementContent = () => {
                     </div>
                 </div>
                 <Checkbox label="Auto-Renewal"
-                          checked={currentSubscription?.hasAutoRenewal}
+                          checked={currentAutoRenewal}
                           onChangeCheckedAction={handleAutoRenewalChange}
+                          disabled={cancelAutoRenewal.isPending || renewAutoRenewal.isPending}
                 />
             </div>
             }
