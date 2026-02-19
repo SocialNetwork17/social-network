@@ -32,10 +32,6 @@ export const useDeletePost = () => {
                 queryKey: ['posts', 'via-profile'],
                 exact: false, // exact: false означает "все, что начинается с этого ключа"
             })
-            queryClient.invalidateQueries({
-                queryKey: ['posts', 'feed'],
-                exact: false, // exact: false означает "все, что начинается с этого ключа"
-            })
         },
         onError: (error) => {
             return error

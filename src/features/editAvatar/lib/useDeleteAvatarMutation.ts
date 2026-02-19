@@ -5,6 +5,7 @@ export const useDeleteAvatarMutation = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
+        mutationKey: ['delete profile avatar'],
         mutationFn: async () => {
             await client.DELETE('/api/v1/users/profile/avatar')
         },
