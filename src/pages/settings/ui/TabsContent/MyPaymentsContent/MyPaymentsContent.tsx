@@ -1,10 +1,17 @@
 import styles from "./MyPaymentsContent.module.scss"
 import {usePaymentHistory} from "@/features/subscriptions/api/subscriptionApi";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
+import Pagination from "@/shared/ui/pagination/Pagination";
 
 export const MyPaymentsContent = () => {
 
     const { data: arrayPaymentHistory} = usePaymentHistory()
+
+    console.log(arrayPaymentHistory)
+    const changePage = () => {
+        console.log('changePage')
+
+    }
 
     return (
         <>
@@ -16,7 +23,7 @@ export const MyPaymentsContent = () => {
                 <p className={`${styles.myPaymentsHeaderTitle} ${styles.myPaymentsPaymentType}`}>Payment Type</p>
             </div>
             <ul className={styles.myPaymentsBody}>
-                {arrayPaymentHistory?.map(paymentData => (
+                {arrayPaymentHistory?.map((paymentData) => (
                     <li className={styles.myPaymentsElement}>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsDateofPayment}`}>{formatToDDMMYYYY(paymentData.dateOfPayment)}</p>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsEndDate}`}>{formatToDDMMYYYY(paymentData.endDateOfSubscription)}</p>
@@ -34,6 +41,12 @@ export const MyPaymentsContent = () => {
                     </li>
                 ))}
             </ul>
+            <div className={styles.myPaymentsPagination}>
+                <Pagination totalItems={arrayPaymentHistory?.length || 0} itemsPerPage={5}
+                            onPageChange={changePage}
+                            // onSelectChange={}
+                />
+            </div>
         </>
     )
 }

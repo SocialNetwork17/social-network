@@ -15,6 +15,9 @@
   border-bottom: 1px solid styles.palette('dark', 500);
 }
 
+.myPaymentsBody {
+  margin-bottom: 36px;
+}
 
 .myPaymentsHeaderTitle {
   color: styles.palette('light', 100);
@@ -45,4 +48,8 @@
 
 .myPaymentsPaymentType {
   flex: 0 1 110px;
+}
+
+.myPaymentsPagination {
+  margin-bottom: 72px;
 }
