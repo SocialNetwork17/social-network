@@ -2,6 +2,7 @@
 @use '../../../../../styles/base/typography' as typo;
 
 .accountManagementContainer {
+  margin-top: -18px;
   display: flex;
   flex-direction: column;
   gap: 42px;

@@ -6,7 +6,7 @@ import styles from "./TabsContent.module.scss"
 import {
     AccountManagementContent
 } from "@/pages/settings/ui/TabsContent/AccountManagementContent/AccountManagementContent";
-
+import {MyPaymentsContent} from "@/pages/settings/ui/TabsContent/MyPaymentsContent/MyPaymentsContent"
 
 export const TabsContent = () => {
 
@@ -19,6 +19,8 @@ export const TabsContent = () => {
                 return <GeneralInformationContent/>
             case "subscriptions":
                 return <AccountManagementContent/>
+            case "payments":
+                return <MyPaymentsContent/>
             default:
                 return <GeneralInformationContent/>
         }
