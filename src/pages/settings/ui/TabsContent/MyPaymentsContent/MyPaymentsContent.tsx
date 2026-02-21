@@ -2,15 +2,31 @@ import styles from "./MyPaymentsContent.module.scss"
 import {usePaymentHistory} from "@/features/subscriptions/api/subscriptionApi";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
 import Pagination from "@/shared/ui/pagination/Pagination";
+import {useMemo, useState} from "react";
 
 export const MyPaymentsContent = () => {
 
-    const { data: arrayPaymentHistory} = usePaymentHistory()
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10); // или другое значение по умолчанию
 
-    console.log(arrayPaymentHistory)
-    const changePage = () => {
-        console.log('changePage')
+    const { data: arrayPaymentHistory } = usePaymentHistory()
 
+    // Вычисляем элементы для текущей страницы
+    const currentItems = useMemo(() => {
+        if (!arrayPaymentHistory) return [];
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return arrayPaymentHistory.slice(startIndex, endIndex);
+    }, [arrayPaymentHistory, currentPage, itemsPerPage]);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    }
+
+    const handleItemsPerPageChange = (option: { label: string }) => {
+        setItemsPerPage(Number(option.label));
+        setCurrentPage(1); // Сбрасываем на первую страницу при изменении количества элементов
     }
 
     return (
@@ -23,8 +39,8 @@ export const MyPaymentsContent = () => {
                 <p className={`${styles.myPaymentsHeaderTitle} ${styles.myPaymentsPaymentType}`}>Payment Type</p>
             </div>
             <ul className={styles.myPaymentsBody}>
-                {arrayPaymentHistory?.map((paymentData) => (
-                    <li className={styles.myPaymentsElement}>
+                {currentItems?.map((paymentData, index) => (
+                    <li key={index} className={styles.myPaymentsElement}>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsDateofPayment}`}>{formatToDDMMYYYY(paymentData.dateOfPayment)}</p>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsEndDate}`}>{formatToDDMMYYYY(paymentData.endDateOfSubscription)}</p>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsPrice}`}>{`$${paymentData.price}`}</p>
@@ -42,9 +58,11 @@ export const MyPaymentsContent = () => {
                 ))}
             </ul>
             <div className={styles.myPaymentsPagination}>
-                <Pagination totalItems={arrayPaymentHistory?.length || 0} itemsPerPage={5}
-                            onPageChange={changePage}
-                            // onSelectChange={}
+                <Pagination
+                    totalItems={arrayPaymentHistory?.length || 0}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    onSelectChange={handleItemsPerPageChange}
                 />
             </div>
         </>

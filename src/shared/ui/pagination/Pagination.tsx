@@ -1,7 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import s from './Pagination.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
-import SelectBox, { Option } from '@/shared/ui/select-box/SelectBox'
+import SelectBox from '@/shared/ui/select-box/SelectBox'
+export type Option = {
+  id: string
+  label: string
+  value?: any
+}
 
 const options: Option[] = [
   { id: '1', label: '10' },
@@ -150,7 +155,7 @@ const Pagination = ({
           styleArrow={{ width: '16px', height: '16px' }}
           styleOption={{ padding: '0 0 0 5px' }}
         />
-        <span>on page</span>
+        <span className={s.paginationText}>on page</span>
       </div>
     </div>
   )
