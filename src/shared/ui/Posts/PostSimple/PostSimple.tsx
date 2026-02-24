@@ -6,6 +6,7 @@ import { useUserPostsQuery } from '@/shared/api/useUserPostsQuery'
 import { useModal } from '@/widgets/modal/model/modal.context'
 import { openViewPostModalAC } from '@/widgets/modal/model/modal.types'
 import { SchemaPostViewModel } from '@/shared/api/schema'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   userId: number
@@ -13,22 +14,26 @@ type Props = {
 
 export const PostSimple = (props: Props) => {
   const { userId } = props
+  const router = useRouter()
 
-  const { data: userPosts, isLoading } = useUserPostsQuery(userId)
+  const { data: posts, isLoading } = useUserPostsQuery(userId)
 
   const { pushModal } = useModal()
 
   const handleImageClick = (post: SchemaPostViewModel) => {
+    // Добавляем query параметры в URL
+    router.push(`/profile/${userId}?postId=${post.id}`, { scroll: false })
+
     pushModal(openViewPostModalAC({ postId: post.id }))
   }
 
-  if (!isLoading && !userPosts?.items) return <div>Пока нет публикаций</div>
+  if (!isLoading && !posts?.items) return <div>Пока нет публикаций</div>
 
   return (
     <>
       <div className={styles.postContainer}>
-        {userPosts?.items &&
-          userPosts?.items.map(post => {
+        {posts?.items &&
+          posts?.items.map(post => {
             const imageSlider = post.images.map(image => image.url)
             return (
               <div key={post.id}>

@@ -1,11 +1,19 @@
-'use client'
+import { getProfileServer } from '@/pages/profile/api/getProfileServer'
+import { Profile } from '@/pages/profile/ui/Profile'
 
-import {Profile} from '@/pages/profile/ui/Profile'
-import { useParams } from 'next/navigation'
+type PageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
 
-export default function userProfile() {
-  const params = useParams()
-  const userId = Number(params?.slug)
+export const revalidate = 300
 
-  return <Profile ownerId={userId} />
+export default async function UserProfile({ params }: PageProps) {
+  const { slug } = await params
+  const userId = Number(slug)
+
+  const [profileInfo] = await Promise.all([getProfileServer(userId)])
+
+  return <Profile profileInfo={profileInfo} />
 }
