@@ -12,6 +12,7 @@ import { EditModeSection } from '@/shared/ui/Modal/ImageModal/EditModeSection/Ed
 import { Comment } from '../../Comment/Comment'
 import { ImageModalHeader } from '@/shared/ui/Modal/ImageModal/ImageModalHeader/ImageModalHeader'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import {PATH} from "@/shared/constants/routings";
 
 type Props = {
   modal: OpenViewPostModalAC | EditPostModalType
@@ -50,7 +51,7 @@ export const ImageModal = (props: Props) => {
       : pathname // Если других параметров нет
 
     // Обновляем URL
-    router.push(newUrl, { scroll: false })
+    router.push(newUrl ?? PATH.MAIN, { scroll: false })
   }
 
   const handleCloseViewPostModal = () => {
