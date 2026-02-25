@@ -8,13 +8,13 @@ import { useMeQuery } from '@/shared/api/useMeQuery'
 export const Header = () => {
   const [countNotices, setCountNotices] = useState<number>(0)
 
-  const { data: user, isLoading } = useMeQuery() // ➕
+  const { data: user, isLoading } = useMeQuery()
 
   const onClickHandler = () => {
     setCountNotices(countNotices + 1)
   }
 
-  const isLoggedIn = !!user // ➕ тру
+  const isLoggedIn = !!user
 
   return (
     <header className={styles.header}>
@@ -25,7 +25,7 @@ export const Header = () => {
           {!isLoading && (
             <HeaderMenu
               countMessage={countNotices}
-              isLoggedIn={isLoggedIn} // ➕
+              isLoggedIn={isLoggedIn}
               onClickHandler={onClickHandler}
             />
           )}

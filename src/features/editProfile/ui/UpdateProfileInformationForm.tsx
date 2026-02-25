@@ -23,7 +23,7 @@ type Props = {
 export const UpdateProfileInformationForm = ({profileData}: Props) => {
 
     const queryClient = useQueryClient();
-    const {mutate: updateProfileInformation ,isPending} = useUpdateProfileInformationMutation()
+    const {mutate: updateProfileInformation, isPending} = useUpdateProfileInformationMutation()
     const [cities, setCities] = useState<City[]>([])
 
     const {
@@ -31,17 +31,25 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
         control,
         handleSubmit,
         setValue,
-        formState: {errors}
+        formState: {errors, isValid}
 
     } = useForm<EditProfileType>({
         resolver: zodResolver(editProfileSchema),
+        mode: "onChange",
         defaultValues: {
             userName: profileData?.userName,
             firstName: profileData?.firstName ?? '',
             lastName: profileData?.lastName ?? '',
             aboutMe: profileData?.aboutMe ?? '',
-            cityId: "",
-            countryId: ""
+            dateOfBirth: profileData?.dateOfBirth
+                ? new Date(profileData?.dateOfBirth)
+                : undefined,
+            cityId: profileData.city
+                ? profileData.city
+                : undefined,
+            countryId: profileData.country
+                ? profileData.country
+                : undefined,
         }
     })
 
@@ -106,7 +114,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="countryId"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({field, fieldState}) => (
                         <SelectBox<Country>
                             label="Choose your country"
                             options={countries}
@@ -123,7 +131,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="cityId"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({field, fieldState}) => (
                         <SelectBox<City>
                             label="Choose your city"
                             options={cities}
@@ -155,12 +163,12 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
             <div className={styles.buttonContainer}>
                 <Button
                     variant={"primary"}
-                    disabled={isPending}
+                    disabled={isPending || !isValid}
                     width={159}
                     height={36}
                     type="submit"
                 >
-                    {isPending ? <Spinner/>: 'Save Changes'}
+                    {isPending ? <Spinner/> : 'Save Changes'}
                 </Button>
             </div>
         </form>

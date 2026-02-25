@@ -3,7 +3,6 @@ import {client} from "@/shared/api/client";
 import {handleError} from "@/shared/utils/handleError";
 import {EditProfileType} from "@/features/editProfile/model/editProfile.schema";
 
-
 export const useUpdateProfileInformationMutation = () => {
     const mutation = useMutation({
         mutationKey: ['update profile information'],
@@ -11,7 +10,7 @@ export const useUpdateProfileInformationMutation = () => {
             const response = await client.PUT('/api/v1/users/profile', {
                 body: {
                     ...data,
-                    dateOfBirth: data.dateOfBirth.toDateString(),
+                    dateOfBirth: data.dateOfBirth?.toDateString(),
                 },
             })
             if (response.error) {
@@ -20,7 +19,6 @@ export const useUpdateProfileInformationMutation = () => {
             return response.data
         },
         retry: 1,
-
     })
 
     return mutation
