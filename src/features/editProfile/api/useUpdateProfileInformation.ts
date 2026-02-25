@@ -1,6 +1,5 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation} from "@tanstack/react-query";
 import {client} from "@/shared/api/client";
-import {handleError} from "@/shared/utils/handleError";
 import {EditProfileType} from "@/features/editProfile/model/editProfile.schema";
 
 export const useUpdateProfileInformationMutation = () => {
@@ -14,12 +13,11 @@ export const useUpdateProfileInformationMutation = () => {
                 },
             })
             if (response.error) {
-                handleError(response.error)
+                throw response.error
             }
             return response.data
         },
         retry: 1,
     })
-
     return mutation
 }

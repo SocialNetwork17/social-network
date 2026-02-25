@@ -7,7 +7,6 @@ import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
 import {ImageModal} from "@/shared/ui/Modal/ImageModal/ImageModal";
-import {ProfilePhotoModal} from "@/features/editAvatar/ui/ProfilePhotoModal";
 
 
 export const ModalWrapper = () => {

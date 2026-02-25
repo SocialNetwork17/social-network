@@ -36,6 +36,10 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
         timeoutsRef.current.set(id, timeoutId);
     };
 
+    useEffect(() => {
+        console.log("SNACKBAR PROVIDER MOUNTED")
+    }, [])
+
     // Очистка всех таймаутов при размонтировании
     useEffect(() => {
         return () => {

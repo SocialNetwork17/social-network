@@ -15,6 +15,9 @@ import {useQueryClient} from "@tanstack/react-query";
 import {City, countries, Country} from "@/shared/constants/geo/countries";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {SchemaProfileViewModel} from "@/shared/api/schema";
+import {getErrorMessage} from "@/shared/utils/handleError";
+import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
 
 type Props = {
     profileData: SchemaProfileViewModel
@@ -22,7 +25,8 @@ type Props = {
 
 export const UpdateProfileInformationForm = ({profileData}: Props) => {
 
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
+    const {successSnackbar} = useSnackbar()
     const {mutate: updateProfileInformation, isPending} = useUpdateProfileInformationMutation()
     const [cities, setCities] = useState<City[]>([])
 
@@ -31,7 +35,8 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
         control,
         handleSubmit,
         setValue,
-        formState: {errors, isValid}
+        formState: {errors, isValid},
+        setError
 
     } = useForm<EditProfileType>({
         resolver: zodResolver(editProfileSchema),
@@ -56,10 +61,13 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
     const onSubmit = (data: EditProfileType) => {
         updateProfileInformation(data, {
             onSuccess: () => {
+                console.log(1)
+                successSnackbar("Success")
                 queryClient.invalidateQueries({queryKey: ['my profile data']})
             },
-            onError: (e) => {
-                console.log(e)
+            onError: (error: unknown) => {
+                const err = getErrorMessage(error) as ErrorWithMessageResponse
+                setError(err.field as keyof EditProfileType, {message: err.message})
             }
         })
     }
