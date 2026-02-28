@@ -1,13 +1,12 @@
 // @flow
 import * as React from 'react';
 import styles from "./CancelDeletePostModalContent.module.scss"
-import { DeletePostModalType} from "@/widgets/modal/model/modal.types";
+import {DeletePostModalType} from "@/widgets/modal/model/modal.types";
 import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {useDeletePost} from "@/shared/api/usePostDelete";
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
-import {getErrorMessage, getErrorStatusCode} from "@/shared/utils/handleError";
 
 
 type Props = {
@@ -20,7 +19,7 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
     const deletePostMutation = useDeletePost()
     const { data: postInfo} = usePostQuery(modal.payload.postId)
 
-    const { successSnackbar, errorSnackbar } = useSnackbar()
+    const { successSnackbar} = useSnackbar()
 
 
     const handleDeleteConfirm = async () => {
@@ -31,33 +30,27 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
                 successSnackbar('Removal was successful')
             }
         } catch (error) {
-            const errorStatusCode = getErrorStatusCode(error)
-            const errorMessage = getErrorMessage(error)
-            let finalErrorMessage = 'An error occurred';
-
-            if (errorStatusCode) {
-                switch (errorStatusCode) {
-                    case 404:
-                        finalErrorMessage = 'The post has not been found';
-                        break;
-                    case 403:
-                        finalErrorMessage = 'Forbidden';
-                        break;
-                    case 401:
-                        finalErrorMessage = 'Unauthorized';
-                        break;
-                    default:
-                        finalErrorMessage = `Error: ${errorStatusCode}`;
-                        break;
-                }
-            } else if (errorMessage) {
-                // Если нет кода статуса, но есть сообщение об ошибке
-                finalErrorMessage = errorMessage;
+            // const errorStatusCode = getErrorStatusCode(error)
+            // const errorMessage = getErrorMessage(error)
+            // let finalErrorMessage = 'An error occurred';
+            //
+            // if (errorStatusCode) {
+            //     switch (errorStatusCode) {
+            //         case 404:
+            //             finalErrorMessage = 'The post has not been found';
+            //             break;
+            //         case 403:
+            //             finalErrorMessage = 'Forbidden';
+            //             break;
+            //         case 401:
+            //             finalErrorMessage = 'Unauthorized';
+            //             break;
+            //         default:
+            //             finalErrorMessage = `Error: ${errorStatusCode}`;
+            //             break;
+            //     }
+            //
             }
-
-            // Показываем ошибку один раз
-            errorSnackbar(finalErrorMessage);
-        }
     }
 
     return (

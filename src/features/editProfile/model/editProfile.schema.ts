@@ -45,7 +45,7 @@ export const editProfileSchema = z.object({
             return date <= minDate
         }, {
             message: 'A user under 13 cannot create a profile.',
-        }),
+        }).optional(),
 
     aboutMe: z
         .string()

@@ -127,7 +127,10 @@ export const DatePicker = ({
   }
 
   const applyInput = () => {
-    if (!inputValue) return
+    if (!inputValue) {
+      onChange(undefined)
+      return
+    }
     mode === 'single' ? applySingle() : applyRange()
   }
 

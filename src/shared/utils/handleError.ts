@@ -109,7 +109,6 @@ export function getErrorStatusCode(error: unknown): number {
 }
 
 // функция для получения сообщения об ошибке
-export function getErrorMessage(error: unknown): string {
-  const serverError = handleError(error)
-  return serverError.message
+export function getErrorMessage(error: unknown): ErrorWithMessageResponse | EmptyErrorResponse {
+  return handleError(error)
 }

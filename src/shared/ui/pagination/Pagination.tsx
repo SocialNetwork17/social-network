@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import s from './Pagination.module.scss'
 import { Icon } from '@/shared/ui/Icon/Icon'
-import SelectBox, { Option } from '@/shared/ui/select-box/SelectBox'
+import SelectBox, {BaseOption} from '@/shared/ui/select-box/SelectBox'
 
-const options: Option[] = [
+const options: BaseOption[] = [
   { id: '1', label: '10' },
   { id: '2', label: '20' },
   { id: '3', label: '30' },
@@ -18,7 +18,7 @@ export type PaginationProps = {
   onPageChange?: (page: number) => void
   maxVisiblePages?: number
   disabled?: boolean
-  onSelectChange?: (option: Option) => void
+  onSelectChange?: (option: BaseOption) => void
 }
 
 const Pagination = ({
@@ -91,7 +91,7 @@ const Pagination = ({
     }
   }
 
-  const handleSelect = (option: Option) => {
+  const handleSelect = (option: BaseOption) => {
     onSelectChange?.(option)
   }
 

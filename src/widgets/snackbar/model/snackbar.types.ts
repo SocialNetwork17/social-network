@@ -12,13 +12,13 @@ export type ErrorSnackbarType = ReturnType<typeof errorSnackbarAC> & { id?: stri
 export const successSnackbarAC = (payload: {message: string; id?: string}) => {
     return {
         type: 'SUCCESS_SNACKBAR' as const,
-        payload: {...payload}
+        payload
     }
 }
 
 export const errorSnackbarAC = (payload: {message: string; id?: string}) => {
     return {
         type: 'ERROR_SNACKBAR' as const,
-        payload: {...payload}
+        payload
     }
 }
