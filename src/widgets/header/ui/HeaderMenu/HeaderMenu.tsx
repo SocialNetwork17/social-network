@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './HeaderMenu.module.scss'
-import SelectBox, { Option } from '@/shared/ui/select-box/SelectBox'
+import SelectBox, { BaseOption } from '@/shared/ui/select-box/SelectBox'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
     { id: '3', label: 'Canadian', countryCode: 'CA' },
   ]
 
-  const handleSelect = (option: Option) => {
+  const handleSelect = (option: BaseOption) => {
     console.log('Selected:', option)
   }
 

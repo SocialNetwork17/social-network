@@ -15,6 +15,9 @@ import {useQueryClient} from "@tanstack/react-query";
 import {City, countries, Country} from "@/shared/constants/geo/countries";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {SchemaProfileViewModel} from "@/shared/api/schema";
+import {getErrorMessage} from "@/shared/utils/handleError";
+import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
 
 type Props = {
     profileData: SchemaProfileViewModel
@@ -22,8 +25,9 @@ type Props = {
 
 export const UpdateProfileInformationForm = ({profileData}: Props) => {
 
-    const queryClient = useQueryClient();
-    const {mutate: updateProfileInformation ,isPending} = useUpdateProfileInformationMutation()
+    const queryClient = useQueryClient()
+    const {successSnackbar} = useSnackbar()
+    const {mutate: updateProfileInformation, isPending} = useUpdateProfileInformationMutation()
     const [cities, setCities] = useState<City[]>([])
 
     const {
@@ -31,27 +35,39 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
         control,
         handleSubmit,
         setValue,
-        formState: {errors}
+        formState: {errors, isValid},
+        setError
 
     } = useForm<EditProfileType>({
         resolver: zodResolver(editProfileSchema),
+        mode: "onChange",
         defaultValues: {
             userName: profileData?.userName,
             firstName: profileData?.firstName ?? '',
             lastName: profileData?.lastName ?? '',
             aboutMe: profileData?.aboutMe ?? '',
-            cityId: "",
-            countryId: ""
+            dateOfBirth: profileData?.dateOfBirth
+                ? new Date(profileData?.dateOfBirth)
+                : undefined,
+            cityId: profileData.city
+                ? profileData.city
+                : undefined,
+            countryId: profileData.country
+                ? profileData.country
+                : undefined,
         }
     })
 
     const onSubmit = (data: EditProfileType) => {
         updateProfileInformation(data, {
             onSuccess: () => {
+                console.log(1)
+                successSnackbar("Success")
                 queryClient.invalidateQueries({queryKey: ['my profile data']})
             },
-            onError: (e) => {
-                console.log(e)
+            onError: (error: unknown) => {
+                const err = getErrorMessage(error) as ErrorWithMessageResponse
+                setError(err.field as keyof EditProfileType, {message: err.message})
             }
         })
     }
@@ -106,7 +122,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="countryId"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({field, fieldState}) => (
                         <SelectBox<Country>
                             label="Choose your country"
                             options={countries}
@@ -123,7 +139,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="cityId"
                     control={control}
-                    render={({ field, fieldState }) => (
+                    render={({field, fieldState}) => (
                         <SelectBox<City>
                             label="Choose your city"
                             options={cities}
@@ -155,12 +171,12 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
             <div className={styles.buttonContainer}>
                 <Button
                     variant={"primary"}
-                    disabled={isPending}
+                    disabled={isPending || !isValid}
                     width={159}
                     height={36}
                     type="submit"
                 >
-                    {isPending ? <Spinner/>: 'Save Changes'}
+                    {isPending ? <Spinner/> : 'Save Changes'}
                 </Button>
             </div>
         </form>
