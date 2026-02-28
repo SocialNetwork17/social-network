@@ -7,6 +7,7 @@ import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import {useState} from "react";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";
 import {PaymentType, SubscriptionType} from "@/features/subscriptions/api/subscriptionApi";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 
 type Props = {
@@ -40,7 +41,7 @@ export const CreatePaymentModalContent = ({modal}: Props) => {
                         disabled={!agreed || isCreating}
                         onClick={() => handleCreatePayment(modal.payload.typeSubscription, modal.payload.paymentType)}
                 >
-                    OK
+                    {isCreating ? <Spinner/> : 'OK'}
                 </Button>
             </div>
         </>

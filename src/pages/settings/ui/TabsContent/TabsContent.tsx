@@ -5,7 +5,7 @@ import {GeneralInformationContent} from "@/pages/settings/ui/TabsContent/General
 import styles from "./TabsContent.module.scss"
 import {
     AccountManagementContent
-} from "@/pages/settings/ui/TabsContent/AccountManagementContent/AccountManagementContent";
+} from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/AccountManagementContent";
 import {MyPaymentsContent} from "@/pages/settings/ui/TabsContent/MyPaymentsContent/MyPaymentsContent"
 import {SettingsTabs, SettingsTabType} from "@/pages/settings/model/tabs.types";
 

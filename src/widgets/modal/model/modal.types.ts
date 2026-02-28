@@ -86,7 +86,7 @@ export const createPaymentModalAC = (payload: { title: string, description: stri
     return {type: 'CREATE_PAYMENT', payload: {...payload}} as const
 }
 
-export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string, onClose: () => void }) => {
+export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string}) => {
     return {type: 'INFO', payload: {...payload}} as const
 }
 

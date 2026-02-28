@@ -8,18 +8,14 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 
 type Props = {
     modal: InfoModalType
-    onClose?: () => void
 }
 
-export const InfoModalContent = ({modal, onClose}: Props) => {
+export const InfoModalContent = ({modal}: Props) => {
+
+    const {clearModals}=useModal()
 
     const handleClose = () => {
-        if (modal.payload.onClose) {
-            modal.payload.onClose();
-        }
-        if (onClose) {
-            onClose();
-        }
+        clearModals()
     };
 
     return (
