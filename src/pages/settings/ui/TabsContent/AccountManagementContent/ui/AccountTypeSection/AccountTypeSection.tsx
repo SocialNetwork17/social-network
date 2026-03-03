@@ -1,4 +1,4 @@
-import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/AccountTypeSection/AccountTypeSection.module.scss";
+import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/AccountTypeSection/AccountTypeSection.module.scss";
 import {RadioGroup} from "@/shared/ui/Radio/RadioGroup";
 import * as React from "react";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";

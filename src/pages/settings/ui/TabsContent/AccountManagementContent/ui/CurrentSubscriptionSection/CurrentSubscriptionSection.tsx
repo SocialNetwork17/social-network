@@ -1,8 +1,8 @@
-import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/CurrentSubscriptionSection/CurrentSubscriptionSection.module.scss";
+import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/CurrentSubscriptionSection/CurrentSubscriptionSection.module.scss";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";
-import {useAutoRenewal} from "@/pages/settings/ui/TabsContent/AccountManagementContent/hooks/useAutoRenewal";
+import {useAutoRenewal} from "@/pages/settings/ui/TabsContent/AccountManagementContent/api/useAutoRenewal";
 
 export const CurrentSubscriptionSection = () => {
 

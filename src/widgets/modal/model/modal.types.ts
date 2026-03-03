@@ -1,4 +1,4 @@
-import {PaymentType, SubscriptionType} from "@/features/subscriptions/api/subscriptionApi";
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/types/subscription.types";
 
 export type ModalStack = ModalState[]
 export type ModalState =
@@ -83,10 +83,10 @@ export const deleteAvatarModalAC = (payload: { title: string; description: strin
 } as const)
 
 export const createPaymentModalAC = (payload: { title: string, description: string, paymentType: PaymentType, typeSubscription: SubscriptionType }) => {
-    return {type: 'CREATE_PAYMENT', payload: {...payload}} as const
+    return {type: 'CREATE_PAYMENT', payload: payload} as const
 }
 
 export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string}) => {
-    return {type: 'INFO', payload: {...payload}} as const
+    return {type: 'INFO', payload: payload} as const
 }
 

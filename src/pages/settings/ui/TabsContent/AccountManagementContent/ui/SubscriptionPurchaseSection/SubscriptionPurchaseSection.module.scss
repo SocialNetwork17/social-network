@@ -1,4 +1,4 @@
-@use '../../../../../../../styles/abstract' as styles;
+@use '../../../../../../../styles/abstract/index' as styles;
 @use '../../../../../../../styles/base/typography' as typo;
 
 .block {
@@ -16,21 +16,17 @@
   border-radius: 2px;
   background: styles.palette('dark', 500);
   padding: 12px 18px;
+  margin-bottom: 16px;
 }
 
-.currentBlock {
+.paymentBlock {
   display: flex;
-  gap: 45px;
-  margin-bottom: 22px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 54px;
 }
 
-.itemTitle {
-  color: styles.palette('light', 900);
+.paymentSeparator {
   @include typo.text-regular-14;
-  margin-bottom: 12px;
-}
-
-.itemDate {
-  @include typo.text-regular-14;
-  font-weight: 600;
+  color: styles.palette('light', 600);
 }

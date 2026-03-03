@@ -5,9 +5,9 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import { infoModalAC} from "@/widgets/modal/model/modal.types";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";
 import {useRouter, useSearchParams} from "next/navigation";
-import {CurrentSubscriptionSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/CurrentSubscriptionSection/CurrentSubscriptionSection";
-import {AccountTypeSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/AccountTypeSection/AccountTypeSection";
-import {SubscriptionPurchaseSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/SubscriptionPurchaseSection/SubscriptionPurchaseSection";
+import {CurrentSubscriptionSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/CurrentSubscriptionSection/CurrentSubscriptionSection";
+import {AccountTypeSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/AccountTypeSection/AccountTypeSection";
+import {SubscriptionPurchaseSection} from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/SubscriptionPurchaseSection/SubscriptionPurchaseSection";
 import {PATH} from "@/shared/constants/routings";
 
 export const AccountManagementContent = () => {

@@ -1,4 +1,4 @@
-@use '../../../../../../../styles/abstract' as styles;
+@use '../../../../../../../styles/abstract/index' as styles;
 @use '../../../../../../../styles/base/typography' as typo;
 
 .block {
@@ -16,4 +16,21 @@
   border-radius: 2px;
   background: styles.palette('dark', 500);
   padding: 12px 18px;
+}
+
+.currentBlock {
+  display: flex;
+  gap: 45px;
+  margin-bottom: 22px;
+}
+
+.itemTitle {
+  color: styles.palette('light', 900);
+  @include typo.text-regular-14;
+  margin-bottom: 12px;
+}
+
+.itemDate {
+  @include typo.text-regular-14;
+  font-weight: 600;
 }

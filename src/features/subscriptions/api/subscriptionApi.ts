@@ -53,7 +53,7 @@ export const usePaymentHistory = (params?: PaymentHistoryParams) => {
         queryFn: async () => {
             const { data, error } = await client.GET('/api/v1/subscriptions/my-payments', {
                 params: {
-                    query: {  // 👈 ВАЖНО: используем query, а не params
+                    query: {
                         pageNumber,
                         pageSize,
                         sortBy: params?.sortBy,

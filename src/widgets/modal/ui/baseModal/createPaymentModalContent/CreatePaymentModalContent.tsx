@@ -6,8 +6,8 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import {useState} from "react";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";
-import {PaymentType, SubscriptionType} from "@/features/subscriptions/api/subscriptionApi";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/types/subscription.types";
 
 
 type Props = {

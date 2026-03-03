@@ -1,4 +1,4 @@
-import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/components/SubscriptionPurchaseSection/SubscriptionPurchaseSection.module.scss";
+import styles from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/SubscriptionPurchaseSection/SubscriptionPurchaseSection.module.scss";
 import {RadioGroup} from "@/shared/ui/Radio/RadioGroup";
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useState} from "react";

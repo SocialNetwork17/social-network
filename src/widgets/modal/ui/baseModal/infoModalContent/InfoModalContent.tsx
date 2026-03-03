@@ -12,7 +12,7 @@ type Props = {
 
 export const InfoModalContent = ({modal}: Props) => {
 
-    const {clearModals}=useModal()
+    const {clearModals} = useModal()
 
     const handleClose = () => {
         clearModals()
