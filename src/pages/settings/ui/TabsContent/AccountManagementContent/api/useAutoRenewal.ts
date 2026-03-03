@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import {
-    useCancelAutoRenewal,
-    useRenewAutoRenewal,
-    useCurrentSubscription
-} from "@/features/subscriptions/api/subscriptionApi";
 import { useSubscriptions } from "@/features/subscriptions/hooks/useSubscriptions";
+import {useCurrentSubscription} from "@/features/subscriptions/model/useCurrentSubscription";
+import {useCancelAutoRenewal} from "@/features/subscriptions/model/useCancelAutoRenewal";
+import {useRenewAutoRenewal} from "@/features/subscriptions/model/useRenewAutoRenewal";
 
 export const useAutoRenewal = () => {
     const [optimisticAutoRenewal, setOptimisticAutoRenewal] = useState<boolean | null>(null);

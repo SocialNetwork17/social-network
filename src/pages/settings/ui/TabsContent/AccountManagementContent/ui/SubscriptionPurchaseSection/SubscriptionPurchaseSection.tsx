@@ -3,9 +3,10 @@ import {RadioGroup} from "@/shared/ui/Radio/RadioGroup";
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useState} from "react";
 import {components} from "@/shared/api/schema";
-import {PaymentType, SubscriptionType, useSubscriptionCosts} from "@/features/subscriptions/api/subscriptionApi";
 import {createPaymentModalAC} from "@/widgets/modal/model/modal.types";
 import {useModal} from "@/widgets/modal/model/modal.context";
+import {useSubscriptionCosts} from "@/features/subscriptions/model/useSubscriptionCosts";
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/model/subscription.types";
 
 type SubscriptionTypeFromSchema = components['schemas']['CreateSubscriptionInputDto']['typeSubscription'];
 

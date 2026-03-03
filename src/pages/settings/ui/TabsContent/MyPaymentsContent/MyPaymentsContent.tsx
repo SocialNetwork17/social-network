@@ -1,8 +1,8 @@
 import styles from "./MyPaymentsContent.module.scss"
-import {usePaymentHistory} from "@/features/subscriptions/api/subscriptionApi";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
 import Pagination from "@/shared/ui/pagination/Pagination";
 import {useEffect, useState} from "react";
+import {usePaymentHistory} from "@/features/subscriptions/model/usePaymentHistory";
 
 export const MyPaymentsContent = () => {
     const [pageNumber, setPageNumber] = useState(1);

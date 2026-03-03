@@ -1,4 +1,4 @@
-import {PaymentType, SubscriptionType} from "@/features/subscriptions/types/subscription.types";
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/model/subscription.types";
 
 export type ModalStack = ModalState[]
 export type ModalState =

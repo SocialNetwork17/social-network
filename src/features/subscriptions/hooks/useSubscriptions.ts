@@ -1,15 +1,13 @@
 'use client'
 
 import { useCallback } from 'react'
-import {
-    useCurrentSubscription,
-    useSubscriptionCosts,
-    usePaymentHistory,
-    useCreateSubscription,
-    useCancelAutoRenewal,
-    useRenewAutoRenewal,
-} from '../api/subscriptionApi'
 import type { components } from '@/shared/api/schema'
+import {useCurrentSubscription} from "@/features/subscriptions/model/useCurrentSubscription";
+import {useSubscriptionCosts} from "@/features/subscriptions/model/useSubscriptionCosts";
+import {usePaymentHistory} from "@/features/subscriptions/model/usePaymentHistory";
+import {useCreateSubscription} from "@/features/subscriptions/model/useCreateSubscription";
+import {useCancelAutoRenewal} from "@/features/subscriptions/model/useCancelAutoRenewal";
+import {useRenewAutoRenewal} from "@/features/subscriptions/model/useRenewAutoRenewal";
 
 type SubscriptionType = components['schemas']['CreateSubscriptionInputDto']['typeSubscription']
 type PaymentType = components['schemas']['CreateSubscriptionInputDto']['paymentType']

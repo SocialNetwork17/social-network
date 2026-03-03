@@ -7,7 +7,7 @@ import {Checkbox} from "@/shared/ui/Checkbox/Checkbox";
 import {useState} from "react";
 import {useSubscriptions} from "@/features/subscriptions/hooks/useSubscriptions";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
-import {PaymentType, SubscriptionType} from "@/features/subscriptions/types/subscription.types";
+import {PaymentType, SubscriptionType} from "@/features/subscriptions/model/subscription.types";
 
 
 type Props = {
