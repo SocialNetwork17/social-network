@@ -2,32 +2,37 @@ import styles from "./MyPaymentsContent.module.scss"
 import {usePaymentHistory} from "@/features/subscriptions/api/subscriptionApi";
 import {formatToDDMMYYYY} from "@/shared/utils/dateFormat";
 import Pagination from "@/shared/ui/pagination/Pagination";
-import {useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 
 export const MyPaymentsContent = () => {
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(10); // Значение по умолчанию из Swagger
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10); // или другое значение по умолчанию
+    const { data, isLoading, error } = usePaymentHistory({
+        pageNumber,
+        pageSize,
+    });
 
-    const { data: arrayPaymentHistory } = usePaymentHistory()
+    const payments = data?.items || [];
+    const totalCount = data?.totalCount || 0;
 
-    // Вычисляем элементы для текущей страницы
-    const currentItems = useMemo(() => {
-        if (!arrayPaymentHistory) return [];
-
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return arrayPaymentHistory.slice(startIndex, endIndex);
-    }, [arrayPaymentHistory, currentPage, itemsPerPage]);
+    // Сбрасываем на первую страницу при изменении pageSize
+    useEffect(() => {
+        setPageNumber(1);
+    }, [pageSize]);
 
     const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    }
+        setPageNumber(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-    const handleItemsPerPageChange = (option: { label: string }) => {
-        setItemsPerPage(Number(option.label));
-        setCurrentPage(1); // Сбрасываем на первую страницу при изменении количества элементов
-    }
+    const handlePageSizeChange = (option: { label: string }) => {
+        setPageSize(Number(option.label));
+    };
+
+    if (isLoading) return <div>Payments is loading</div>;
+    if (error) return <div>Error loading payments</div>;
+    if (!payments.length) return <div>No payments found</div>;
 
     return (
         <>
@@ -39,18 +44,18 @@ export const MyPaymentsContent = () => {
                 <p className={`${styles.myPaymentsHeaderTitle} ${styles.myPaymentsPaymentType}`}>Payment Type</p>
             </div>
             <ul className={styles.myPaymentsBody}>
-                {currentItems?.map((paymentData, index) => (
-                    <li key={index} className={styles.myPaymentsElement}>
-                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsDateofPayment}`}>{formatToDDMMYYYY(paymentData.dateOfPayment)}</p>
-                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsEndDate}`}>{formatToDDMMYYYY(paymentData.endDateOfSubscription)}</p>
-                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsPrice}`}>{`$${paymentData.price}`}</p>
+                {payments?.map((payment) => (
+                    <li key={payment.subscriptionId} className={styles.myPaymentsElement}>
+                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsDateofPayment}`}>{formatToDDMMYYYY(payment.dateOfPayment)}</p>
+                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsEndDate}`}>{formatToDDMMYYYY(payment.endDateOfSubscription)}</p>
+                        <p className={`${styles.myPaymentsData} ${styles.myPaymentsPrice}`}>{`$${payment.price}`}</p>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsSubscriptionType}`}>{
-                            paymentData.subscriptionType === "MONTHLY" ? '1 month' : paymentData.subscriptionType === "DAY" ? '1 day' : '7 days'
+                            payment.subscriptionType === "MONTHLY" ? '1 month' : payment.subscriptionType === "DAY" ? '1 day' : '7 days'
                             }
                         </p>
                         <p className={`${styles.myPaymentsData} ${styles.myPaymentsPaymentType}`}>
-                            {paymentData.paymentType === "STRIPE" ? "Stripe" :
-                                paymentData.paymentType === "PAYPAL" ? "PayPal" :
+                            {payment.paymentType === "STRIPE" ? "Stripe" :
+                                payment.paymentType === "PAYPAL" ? "PayPal" :
                                     "Credit card"
                             }
                         </p>
@@ -59,10 +64,11 @@ export const MyPaymentsContent = () => {
             </ul>
             <div className={styles.myPaymentsPagination}>
                 <Pagination
-                    totalItems={arrayPaymentHistory?.length || 0}
-                    itemsPerPage={itemsPerPage}
+                    totalItems={totalCount}
+                    itemsPerPage={pageSize}
+                    currentPage={pageNumber}
                     onPageChange={handlePageChange}
-                    onSelectChange={handleItemsPerPageChange}
+                    onSelectChange={handlePageSizeChange}
                 />
             </div>
         </>

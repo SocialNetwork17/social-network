@@ -4,13 +4,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 import type {components} from '@/shared/api/schema'
 
-// Типы из сгенерированной схемы
-export type SubscriptionType = components['schemas']['CreateSubscriptionInputDto']['typeSubscription']
-export type PaymentType = components['schemas']['CreateSubscriptionInputDto']['paymentType']
-export type CurrentSubscription = components['schemas']['ActiveSubscriptionViewModel']
-export type CurrentSubscriptionResponse = components['schemas']['CurrentActiveSubscriptionsViewModel']
-export type PaymentHistoryItem = components['schemas']['PaymentsViewModel']
-export type SubscriptionCost = components['schemas']['PricingDetailsViewModel']
+import {
+    PaymentHistoryResponse,
+    PaymentHistoryParams,
+    CurrentSubscriptionResponse,
+    SubscriptionCost,
+} from '../types/subscription.types'
 
 // Ключи для query
 export const subscriptionKeys = {
@@ -18,6 +17,8 @@ export const subscriptionKeys = {
     current: () => [...subscriptionKeys.all, 'current'] as const,
     costs: () => [...subscriptionKeys.all, 'costs'] as const,
     history: () => [...subscriptionKeys.all, 'history'] as const,
+    historyWithParams: (pageNumber: number, pageSize: number) =>
+        [...subscriptionKeys.all, 'history', pageNumber, pageSize] as const,
 }
 
 // Query хуки
@@ -26,11 +27,7 @@ export const useCurrentSubscription = () => {
         queryKey: subscriptionKeys.current(),
         queryFn: async () => {
             const { data, error } = await client.GET('/api/v1/subscriptions/current-payment-subscriptions')
-
-            if (error) {
-                throw error
-            }
-
+            if (error) throw error
             return data as CurrentSubscriptionResponse
         },
     })
@@ -41,28 +38,34 @@ export const useSubscriptionCosts = () => {
         queryKey: subscriptionKeys.costs(),
         queryFn: async () => {
             const { data, error } = await client.GET('/api/v1/subscriptions/cost-of-payment-subscriptions')
-
-            if (error) {
-                throw error
-            }
-
+            if (error) throw error
             return data?.data as SubscriptionCost[] || []
         },
     })
 }
 
-export const usePaymentHistory = () => {
+export const usePaymentHistory = (params?: PaymentHistoryParams) => {
+    const pageNumber = params?.pageNumber ?? 1
+    const pageSize = params?.pageSize ?? 12
+
     return useQuery({
-        queryKey: subscriptionKeys.history(),
+        queryKey: subscriptionKeys.historyWithParams(pageNumber, pageSize),
         queryFn: async () => {
-            const { data, error } = await client.GET('/api/v1/subscriptions/my-payments')
+            const { data, error } = await client.GET('/api/v1/subscriptions/my-payments', {
+                params: {
+                    query: {  // 👈 ВАЖНО: используем query, а не params
+                        pageNumber,
+                        pageSize,
+                        sortBy: params?.sortBy,
+                        sortDirection: params?.sortDirection,
+                    }
+                }
+            })
 
-            if (error) {
-                throw error
-            }
-
-            return data as PaymentHistoryItem[]
+            if (error) throw error
+            return data as PaymentHistoryResponse
         },
+        placeholderData: (previousData) => previousData,
     })
 }
 
@@ -77,10 +80,7 @@ export const useCreateSubscription = () => {
                 body: body,
             })
 
-            if (error) {
-                throw error
-            }
-
+            if (error) throw error
             return data as components['schemas']['PaymentSessionUrlViewModel']
         },
         retry: 1,
@@ -98,10 +98,7 @@ export const useCancelAutoRenewal = () => {
         mutationKey: ['cancel-auto-renewal'],
         mutationFn: async () => {
             const { error } = await client.POST('/api/v1/subscriptions/canceled-auto-renewal')
-
-            if (error) {
-                throw error
-            }
+            if (error) throw error
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: subscriptionKeys.current() })
@@ -116,10 +113,7 @@ export const useRenewAutoRenewal = () => {
         mutationKey: ['renew-auto-renewal'],
         mutationFn: async () => {
             const { error } = await client.POST('/api/v1/subscriptions/renew-auto-renewal')
-
-            if (error) {
-                throw error
-            }
+            if (error) throw error
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: subscriptionKeys.current() })
