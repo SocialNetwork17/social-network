@@ -2,7 +2,6 @@ import React from 'react';
 import s from './EditPostHeader.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {openCancelEditPostModalAC, openViewPostModalAC} from "@/widgets/modal/model/modal.types";
-import {useUpdatePostMutation} from "@/shared/api/useUpdatePostMutation";
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import {useModal} from "@/widgets/modal/model/modal.context";
 

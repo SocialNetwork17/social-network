@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "@/shared/ui/Modal/ImageModal/ImageModal.module.scss";
+import styles from "@/features/post/viewPost/ui/ImageModalClient.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
 import {openViewPostModalAC} from "@/widgets/modal/model/modal.types";
 import {useUpdatePostMutation} from "@/shared/api/useUpdatePostMutation";

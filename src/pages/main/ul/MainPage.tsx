@@ -9,6 +9,7 @@ type Props = {
 }
 
 export const MainPage = ({posts, totalCount}: Props) =>{
+
   return (
     <div className={styles.container}>
       <UserAmount totalCount={totalCount.totalCount} />

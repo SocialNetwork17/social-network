@@ -3,6 +3,7 @@ import { useDeleteAvatarMutation } from "@/features/editAvatar/lib/useDeleteAvat
 import { useModal } from "@/widgets/modal/model/modal.context"
 import { DeleteAvatarModalType } from "@/widgets/modal/model/modal.types"
 import s from "./DeleteAvatarModalContent.module.scss"
+import {useRouter} from "next/navigation";
 
 type Props = {
     modal: DeleteAvatarModalType
@@ -11,10 +12,14 @@ type Props = {
 export const DeleteAvatarModalContent = ({ modal }: Props) => {
     const { popModal } = useModal()
     const { mutate: deleteAvatar, isPending } = useDeleteAvatarMutation()
+    const router = useRouter()
 
     const handleDelete = () => {
         deleteAvatar(undefined, {
-            onSuccess: () => popModal(),
+            onSuccess: () => {
+                popModal()
+                router.refresh()
+            }
         })
     }
 

@@ -6,12 +6,13 @@ import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
 import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
-import {ImageModal} from "@/shared/ui/Modal/ImageModal/ImageModal";
+import {ImageModalClient} from "@/features/post/viewPost/ui/ImageModalClient";
+import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
 
 
 export const ModalWrapper = () => {
     const {stack, clearModals, popModal, pushModal} = useModal()
-
+    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
     const [step, setStep] = useState<WizardStep | null>(null)
 
     useLockScroll(stack.length > 0)
@@ -20,7 +21,7 @@ export const ModalWrapper = () => {
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target !== e.currentTarget) return
-
+        deletePostIdFromUrl()
         const topModal = stack[stack.length - 1]
         if (!topModal) return
 
@@ -47,13 +48,11 @@ export const ModalWrapper = () => {
                     }))
                 }
                 break
-
             case 'UPLOAD_ERROR':
             case 'CONFIRM_LOGOUT':
             case 'CONFIRM_REGISTRATION':
                 popModal()
                 break
-
             default:
                 popModal()
         }
@@ -73,16 +72,9 @@ export const ModalWrapper = () => {
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
             case 'VIEW_POST':
-                return (
-                    <ImageModal
-                        modal={modal}/>
-                )
+                return <ImageModalClient modal={modal}/>
             case 'EDIT_POST':
-                return (
-                    <ImageModal
-                        modal={modal}
-                    />
-                )
+                return<ImageModalClient modal={modal}/>
             default:
                 return null
         }
