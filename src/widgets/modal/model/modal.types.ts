@@ -7,7 +7,7 @@ export type ModalState =
     | CreatePostModalType
     | CancelCreatePostModalType
     | DeletePostModalType
-    | OpenViewPostModalAC
+    | OpenViewPostModalType
     | EditPostModalType
     | CancelEditPostModalType
     | UploadErrorModalType
@@ -23,7 +23,7 @@ export type RegistrationConfirmModalType = ReturnType<typeof registrationConfirm
 export type CreatePostModalType = ReturnType<typeof createPostModalAC>
 export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalAC>
 export type CancelEditPostModalType = ReturnType<typeof openCancelEditPostModalAC>
-export type OpenViewPostModalAC = ReturnType<typeof openViewPostModalAC>
+export type OpenViewPostModalType = ReturnType<typeof openViewPostModalAC>
 export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
 export type UploadAvatarModalType = ReturnType<typeof openUploadAvatarModalAC>

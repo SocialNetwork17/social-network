@@ -1,19 +1,25 @@
 'use client'
 
 import s from './Sidebar.module.scss'
-import { SidebarLink } from './SidebarLink/SidebarLink'
-import { Icon } from '@/shared/ui/Icon/Icon'
-import { menuItems } from '@/widgets/sidebar/ui/Sidebar.config'
-import { useMeQuery } from '@/shared/api/useMeQuery'
-import { Path } from './Sidebar.config'
-import { useModal } from '@/widgets/modal/model/modal.context'
-import { createPostModalAC, logoutModalAC } from '@/widgets/modal/model/modal.types'
-import { useAuth } from '@/shared/hooks/useAuth'
+import {SidebarLink} from './SidebarLink/SidebarLink'
+import {Icon} from '@/shared/ui/Icon/Icon'
+import {menuItems} from '@/widgets/sidebar/ui/Sidebar.config'
+import {useMeQuery} from '@/shared/api/useMeQuery'
+import {Path} from './Sidebar.config'
+import {useModal} from '@/widgets/modal/model/modal.context'
+import {createPostModalAC, logoutModalAC} from '@/widgets/modal/model/modal.types'
+import {useAuth} from '@/shared/hooks/useAuth'
+import {PATH} from "@/shared/constants/routings";
+import {usePathname, useRouter} from "next/navigation";
 
 export const Sidebar = () => {
+
   const { user } = useAuth()
-  //todo
-  // const mainItems = menuItems.slice(0, 5)
+  const { pushModal } = useModal()
+  const { data } = useMeQuery()
+  const router = useRouter()
+  const pathname = usePathname()
+
 
   const mainItems = menuItems.slice(0, 5).map(item => {
     if (item.href === Path.Profile && user?.userId) {
@@ -24,10 +30,8 @@ export const Sidebar = () => {
     }
     return item
   })
-  const bottomItems = menuItems.slice(5)
 
-  const { pushModal } = useModal()
-  const { data } = useMeQuery()
+  const bottomItems = menuItems.slice(5)
 
   const handleLogoutOpen = () => {
     pushModal(
@@ -40,6 +44,14 @@ export const Sidebar = () => {
   }
 
   const handleOpenCreateModal = () => {
+    if (!user?.userId) return
+
+    const profilePath = `${PATH.PROFILE}/${user.userId}`
+
+    if (pathname !== profilePath) {
+      console.log("create open")
+      router.push(profilePath)
+    }
     pushModal(createPostModalAC())
   }
 

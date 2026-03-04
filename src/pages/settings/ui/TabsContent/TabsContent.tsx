@@ -28,6 +28,8 @@ export const TabsContent = () => {
         }
     }
 
+
+
     return (
         <div className={styles.tabsContentContainer}>
             {currentContent()}

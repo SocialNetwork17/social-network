@@ -1,35 +1,24 @@
 'use client'
-
-import { useAuth } from '@/shared/hooks/useAuth'
+import {useAuth} from '@/shared/hooks/useAuth'
 import styles from './Profile.module.scss'
-import { ProfileHeader } from '@/shared/ui/ProfileHeader/ProfileHeader'
-import { PostSimple } from '@/shared/ui/Posts/PostSimple/PostSimple'
-import { useDataMyProfileQuery } from '../api/useDataMyProfileQuery'
-import { useDataProfileQuery } from '@/pages/profile/api/useDataProfileQuery'
-import { ProfileSkeleton } from './ProfileSkeleton/ProfileSkeleton'
-import { SchemaProfileViewModel, SchemaPublicProfileViewModel } from '@/shared/api/schema'
+import {ProfileHeader} from '@/shared/ui/ProfileHeader/ProfileHeader'
+import {PostSimple} from '@/shared/ui/Posts/PostSimple/PostSimple'
+import {SchemaProfileViewModel, SchemaPublicProfileViewModel} from '@/shared/api/schema'
+import {AllPosts} from "@/pages/main/api/getAllPostsServer";
 
 type Props = {
-  profileInfo: SchemaProfileViewModel | SchemaPublicProfileViewModel
+    profileInfo: SchemaProfileViewModel | SchemaPublicProfileViewModel
+    userPosts: AllPosts
 }
 
-export const Profile = (props: Props) => {
-  const { profileInfo } = props
+export const Profile = ({profileInfo, userPosts}: Props) => {
 
-  const { isAuth } = useAuth()
-  // const { data, isLoading } = ownerId ? useDataProfileQuery(ownerId) : useDataMyProfileQuery()
+    const {isAuth} = useAuth()
 
-  // if (isLoading)
-  //   return (
-  //     <div className={styles.container}>
-  //       <ProfileSkeleton />
-  //     </div>
-  //   )
-
-  return (
-    <div className={styles.container}>
-      <ProfileHeader user={profileInfo} type={isAuth ? 'profile' : 'unauthorized'} />
-      <PostSimple userId={profileInfo.id} />
-    </div>
-  )
+    return (
+        <div className={styles.container}>
+            <ProfileHeader user={profileInfo} publicationCount={userPosts.totalCount} type={isAuth ? 'profile' : 'unauthorized'}/>
+            <PostSimple posts={userPosts}/>
+        </div>
+    )
 }

@@ -61,8 +61,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
     const onSubmit = (data: EditProfileType) => {
         updateProfileInformation(data, {
             onSuccess: () => {
-                console.log(1)
-                successSnackbar("Success")
+                successSnackbar("Your settings are saved!")
                 queryClient.invalidateQueries({queryKey: ['my profile data']})
             },
             onError: (error: unknown) => {
@@ -76,14 +75,13 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
         console.log(errors)
     }
 
-
     return (
         <form className={styles.editProfileForm} onSubmit={handleSubmit(onSubmit, onError)}>
             <div className={styles.inputsContainer}>
                 <Input
                     label={'Username'}
                     type={'text'}
-                    required={true}
+                    required
                     {...register("userName")}
                     error={!!errors.userName}
                     errorText={errors.userName?.message}
@@ -91,7 +89,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Input
                     label={'First Name'}
                     type={'text'}
-                    required={true}
+                    required
                     {...register("firstName")}
                     error={!!errors.firstName}
                     errorText={errors.firstName?.message}
@@ -99,7 +97,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Input
                     label={'Last name'}
                     type={'text'}
-                    required={true}
+                    required
                     {...register("lastName")}
                     error={!!errors.lastName}
                     errorText={errors.lastName?.message}
@@ -112,6 +110,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                     <DatePicker
                         label="Date of Birth"
                         mode="single"
+                        required
                         value={field.value}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
@@ -122,7 +121,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="countryId"
                     control={control}
-                    render={({field, fieldState}) => (
+                    render={({field}) => (
                         <SelectBox<Country>
                             label="Choose your country"
                             options={countries}
@@ -139,7 +138,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="cityId"
                     control={control}
-                    render={({field, fieldState}) => (
+                    render={({field}) => (
                         <SelectBox<City>
                             label="Choose your city"
                             options={cities}
@@ -155,7 +154,7 @@ export const UpdateProfileInformationForm = ({profileData}: Props) => {
                 <Controller
                     name="aboutMe"
                     control={control}
-                    render={({field, fieldState}) => (
+                    render={({field}) => (
                         <TextArea
                             label="About Me"
                             maxLength={200}
