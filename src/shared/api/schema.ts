@@ -4149,7 +4149,12 @@ export interface operations {
   }
   SubscriptionsController_getMyPayments: {
     parameters: {
-      query?: never
+      query?: {
+        pageNumber?: number
+        pageSize?: number
+        sortBy?: string
+        sortDirection?: 'asc' | 'desc'
+      }
       header?: never
       path?: never
       cookie?: never
@@ -4162,7 +4167,13 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['PaymentsViewModel'][]
+          'application/json': {
+            totalCount: number
+            pagesCount: number
+            page: number
+            pageSize: number
+            items: components['schemas']['PaymentsViewModel'][]
+          }
         }
       }
       /** @description Unauthorized */

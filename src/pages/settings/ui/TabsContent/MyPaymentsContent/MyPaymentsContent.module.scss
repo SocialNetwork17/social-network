@@ -1,0 +1,56 @@
+@use '../../../../../styles/abstract' as styles;
+@use '../../../../../styles/base/typography' as typo;
+
+.myPaymentsHeader, .myPaymentsElement {
+  margin-top: -24px;
+  display: flex;
+  justify-content: space-between;
+  background: styles.palette('dark', 500);
+  padding: 12px 24px;
+}
+
+.myPaymentsElement {
+  margin-top: 0;
+  background: transparent;
+  border-bottom: 1px solid styles.palette('dark', 500);
+}
+
+.myPaymentsBody {
+  margin-bottom: 36px;
+}
+
+.myPaymentsHeaderTitle {
+  color: styles.palette('light', 100);
+  @include typo.h3;
+}
+
+.myPaymentsData {
+  color: styles.palette('light', 100);
+  @include typo.text-regular-14;
+}
+
+.myPaymentsDateofPayment {
+  flex: 0 1 130px;
+}
+
+.myPaymentsEndDate {
+  flex: 0 1 200px;
+}
+
+.myPaymentsPrice {
+  flex: 0 1 55px;
+  text-align: right;
+}
+
+.myPaymentsSubscriptionType {
+  flex: 0 1 145px;
+}
+
+.myPaymentsPaymentType {
+  flex: 0 1 110px;
+}
+
+.myPaymentsPagination {
+  margin-bottom: 72px;
+  display: flex;
+}

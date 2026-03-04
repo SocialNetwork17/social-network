@@ -68,6 +68,8 @@ export const ModalWrapper = () => {
             case 'UPLOAD_ERROR':
             case 'UPLOAD_AVATAR':
             case 'DELETE_AVATAR':
+            case 'CREATE_PAYMENT':
+            case 'INFO':
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>

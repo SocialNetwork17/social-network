@@ -1,8 +1,8 @@
 'use client'
 
 import {
-    CancelCreatePostModalType, CancelEditPostModalType, DeleteAvatarModalType,
-    DeletePostModalType,
+    CancelCreatePostModalType, CancelEditPostModalType, CreatePaymentModalType, DeleteAvatarModalType,
+    DeletePostModalType, InfoModalType,
     LogOutModalType,
     RegistrationConfirmModalType, UploadAvatarModalType, UploadErrorModalType
 } from "@/widgets/modal/model/modal.types";
@@ -26,6 +26,10 @@ import {
 import {UploadErrorModalContent} from "@/widgets/modal/ui/baseModal/uploadErrorModalContent/UploadErrorModalContent";
 import {ProfilePhotoModal} from "@/features/editAvatar/ui/ProfilePhotoModal";
 import {DeleteAvatarModalContent} from "@/widgets/modal/ui/baseModal/deleteAvatarModalContent/DeleteAvatarModalContent";
+import {
+    CreatePaymentModalContent
+} from "@/widgets/modal/ui/baseModal/createPaymentModalContent/CreatePaymentModalContent";
+import {InfoModalContent} from "@/widgets/modal/ui/baseModal/infoModalContent/InfoModalContent";
 
 type Props = {
     modal: DeletePostModalType
@@ -36,6 +40,8 @@ type Props = {
         | UploadErrorModalType
         | UploadAvatarModalType
         | DeleteAvatarModalType
+        | CreatePaymentModalType
+        | InfoModalType
 }
 
 export const BaseModal = ({modal}: Props) => {
@@ -60,6 +66,10 @@ export const BaseModal = ({modal}: Props) => {
                 return <ProfilePhotoModal />
             case 'DELETE_AVATAR':
                 return <DeleteAvatarModalContent modal={modal} />
+            case "CREATE_PAYMENT":
+                return <CreatePaymentModalContent modal={modal} />
+            case "INFO":
+                return <InfoModalContent modal={modal} />
             default:
                 return null
         }

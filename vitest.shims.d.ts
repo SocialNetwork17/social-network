@@ -1,1 +1,1 @@
-/// <reference types="@vitest/browser-playwright" />
+/// <reference model="@vitest/browser-playwright" />
