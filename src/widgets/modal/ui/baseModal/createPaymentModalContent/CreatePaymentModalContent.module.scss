@@ -1,0 +1,16 @@
+@use '../../../../../styles/base/typography' as typo;
+
+.description {
+  margin: 30px 0;
+  padding: 0 24px;
+
+  @include typo.text-regular-16
+}
+
+.buttonsContainer {
+  padding: 0 24px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}

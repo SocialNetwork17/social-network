@@ -59,6 +59,15 @@
   font-size: inherit;
   color: inherit;
 }
+.title {
+  @include typo.text-regular-14;
+  color: styles.palette('light', 900);
+}
+
+.label {
+  cursor: none;
+
+}
 
 .selectArrow {
   display: flex;
@@ -104,4 +113,12 @@
 .flag {
   height: 20px;
   width: 20px;
+}
+
+.wrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

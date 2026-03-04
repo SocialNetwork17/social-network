@@ -1,0 +1,8 @@
+@use '../../../../../../styles/abstract' as styles;
+
+.accountManagementContainer {
+  margin-top: -18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

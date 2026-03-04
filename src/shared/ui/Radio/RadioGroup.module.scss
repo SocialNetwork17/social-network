@@ -1,0 +1,30 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupLabel {
+  @include typo.text-regular-14;
+  color: styles.palette('light', 100);
+  margin-bottom: 4px;
+}
+
+.radioList {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+
+  &.vertical {
+    flex-direction: column;
+
+  }
+
+  &.horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

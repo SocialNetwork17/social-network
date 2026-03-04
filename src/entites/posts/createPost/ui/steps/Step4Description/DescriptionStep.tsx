@@ -20,7 +20,6 @@ export const DescriptionStep = ({ images, description, setDescription }: Props) 
 
       const { data: userInfo } = useDataMyProfileQuery()
 
-
     return (
         <div className={s.container}>
             

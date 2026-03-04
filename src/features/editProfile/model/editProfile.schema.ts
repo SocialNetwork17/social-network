@@ -32,12 +32,41 @@ export const editProfileSchema = z.object({
             'Last name can only contain Latin and Cyrillic letters'
         ),
 
-    dateOfBirth: z.date(),
+    dateOfBirth: z
+        .date()
+        .optional()
+        .superRefine((date, ctx) => {
+            if (!date) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Date of Birth is required',
+                })
+                return
+            }
+
+            const today = new Date()
+            const minDate = new Date(
+                today.getFullYear() - 13,
+                today.getMonth(),
+                today.getDate()
+            )
+
+            if (date > minDate) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'A user under 13 cannot create a profile.',
+                })
+            }
+        }),
 
     aboutMe: z
         .string()
         .max(200, 'Maximum number of characters is 200')
         .optional(),
+
+    countryId: z.string().optional(),
+    cityId: z.string().optional(),
+
 });
 
-export type EditProfileType = z.infer<typeof editProfileSchema>;
+export type EditProfileType = z.infer<typeof editProfileSchema>

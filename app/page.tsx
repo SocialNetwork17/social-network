@@ -2,6 +2,8 @@ import {MainPage} from "@/pages/main/ul/MainPage";
 import {getAllPostsServer} from "@/pages/main/api/getAllPostsServer";
 import {getUserTotalCountServer} from "@/pages/main/api/getUserTotalCountServer";
 
+export const revalidate = 300
+
 export default async function Home() {
 
     const [posts, totalCount] = await Promise.all([
@@ -9,9 +11,5 @@ export default async function Home() {
         getUserTotalCountServer()
     ])
 
-  return (
-    <>
-      <MainPage posts={posts} totalCount={totalCount} />
-    </>
-  )
+    return <MainPage posts={posts} totalCount={totalCount}/>
 }

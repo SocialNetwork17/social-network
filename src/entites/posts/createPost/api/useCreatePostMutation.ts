@@ -24,10 +24,6 @@ export const useCreatePostMutation = () => {
         queryKey: ['posts', 'via-profile'],
         exact: false, // exact: false означает "все, что начинается с этого ключа"
       })
-      qc.invalidateQueries({
-        queryKey: ['posts', 'feed'],
-        exact: false, // exact: false означает "все, что начинается с этого ключа"
-      })
     },
   })
 }

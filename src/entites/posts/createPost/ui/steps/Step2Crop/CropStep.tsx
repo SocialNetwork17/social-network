@@ -9,6 +9,7 @@ import {ZoomPanel} from '@/entites/posts/createPost/ui/steps/Navigate/ZoomPanel'
 import {NavigationArrows} from "@/entites/posts/createPost/ui/steps/Navigate/NavigationArrows";
 import {NavigationDots} from "@/entites/posts/createPost/ui/steps/Navigate/NavigationDots";
 import {DeleteButton} from "@/entites/posts/createPost/ui/steps/Navigate/DeleteButton";
+import {ImageThumbnails} from "@/entites/posts/createPost/ui/steps/ImageThumbnails/ImageThumbnails";
 
 type Props = {
     images: ImageItem[]
@@ -80,6 +81,26 @@ export const CropStep = ({ images, activeIndex, onUpdate, onIndexChange, onDelet
                         onZoomChange={(zoom) => handleUpdate({zoom})}
                     />
                 )}
+
+
+
+                {/* НОВЫЙ БЛОК: Список превью */}
+                <ImageThumbnails
+                    images={images}
+                    activeIndex={activeIndex}
+                    onSelect={onIndexChange}
+                    onRemove={(id) => {
+                        // Если в хуке removeImage принимает id, используем его
+                        // В твоих пропсах CropStep сейчас onDelete без параметров.
+                        // Давай прокинем id в onDelete или вызовем напрямую.
+                        onDelete(); // Сейчас твой onDelete в пропсах удаляет АКТИВНОЕ фото.
+                        // Если хочешь удалять конкретное из списка,
+                        // обнови пропсы CropStep: onDelete: (id: string) => void
+                    }}
+                />
+
+
+
 
                 <NavigationArrows
                     activeIndex={activeIndex}

@@ -1,11 +1,14 @@
 // @flow
 import * as React from 'react';
 import styles from "./CancelDeletePostModalContent.module.scss"
-import { DeletePostModalType} from "@/widgets/modal/model/modal.types";
+import {DeletePostModalType} from "@/widgets/modal/model/modal.types";
 import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {useDeletePost} from "@/shared/api/usePostDelete";
 import {usePostQuery} from "@/shared/api/usePostQuery";
+import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
+import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
+import {useRouter} from "next/navigation";
 
 
 type Props = {
@@ -14,9 +17,13 @@ type Props = {
 
 export const CancelDeletePostModalContent = ({modal}: Props) => {
     const {clearModals, popModal} = useModal()
+    const router = useRouter()
 
     const deletePostMutation = useDeletePost()
     const { data: postInfo} = usePostQuery(modal.payload.postId)
+    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
+
+    const { successSnackbar} = useSnackbar()
 
 
     const handleDeleteConfirm = async () => {
@@ -24,12 +31,32 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
             if (postInfo?.id) {
                 await deletePostMutation.mutateAsync(postInfo.id)
                 clearModals()
-                // setIsModalOpen(false)
-                // onPostDeleted?.()
+                deletePostIdFromUrl()
+                router.refresh()
+                successSnackbar('Removal was successful')
             }
         } catch (error) {
-            console.error('Delete post error:', error)
-        }
+            // const errorStatusCode = getErrorStatusCode(error)
+            // const errorMessage = getErrorMessage(error)
+            // let finalErrorMessage = 'An error occurred';
+            //
+            // if (errorStatusCode) {
+            //     switch (errorStatusCode) {
+            //         case 404:
+            //             finalErrorMessage = 'The post has not been found';
+            //             break;
+            //         case 403:
+            //             finalErrorMessage = 'Forbidden';
+            //             break;
+            //         case 401:
+            //             finalErrorMessage = 'Unauthorized';
+            //             break;
+            //         default:
+            //             finalErrorMessage = `Error: ${errorStatusCode}`;
+            //             break;
+            //     }
+            //
+            }
     }
 
     return (
@@ -42,7 +69,7 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
                         disabled={false}
                         onClick={handleDeleteConfirm}
                 >
-                    YES
+                    {deletePostMutation.isPending ? 'Deleting...' : 'YES' }
                 </Button>
                 <Button variant={'primary'}
                         width={108}

@@ -1,16 +1,16 @@
 'use client'
 
 import styles from './Tabs.module.scss'
-import {SettingsTab, SettingsTabs, TabsType} from "@/pages/settings/model/tabs.types";
+import {SettingsTabs, SettingsTabType, TabsType} from "@/pages/settings/model/tabs.types";
 import {useRouter, useSearchParams} from "next/navigation";
 import {PATH} from "@/shared/constants/routings";
 
 export const Tabs = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const currentPart = (searchParams?.get('part') as SettingsTab) ?? SettingsTabs.INFO
+    const currentPart = (searchParams?.get('part') as SettingsTabType) ?? SettingsTabs.INFO
 
-    const onClickHandler = (tabType: SettingsTab) => {
+    const onClickHandler = (tabType: SettingsTabType) => {
         const params = new URLSearchParams(searchParams?.toString())
         params.set('part', tabType)
         router.push(`${PATH.SETTINGS}?${params.toString()}`)

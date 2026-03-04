@@ -28,3 +28,16 @@
 .buttonContainer {
   margin-top: 30px;
 }
+
+.fieldContainer {
+  transition: margin-bottom 0.2s ease;
+  width: 229px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.fieldWithError {
+  margin-bottom: 54px; // Дополнительный отступ при ошибке
+}

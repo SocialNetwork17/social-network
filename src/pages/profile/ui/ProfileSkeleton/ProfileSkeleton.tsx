@@ -5,7 +5,7 @@ export const ProfileSkeleton = () => {
     return (
       <>
         <div className={styles.profileContainer}>
-          <Skeleton width={192} height={192} bordeRadius={96} />
+          <Skeleton width={192} height={192} borderRadius={96} />
           <div className={styles.info}>
             <div>
               <Skeleton width={103} height={36} />
