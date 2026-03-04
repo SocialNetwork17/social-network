@@ -34,7 +34,16 @@ export const editProfileSchema = z.object({
 
     dateOfBirth: z
         .date()
-        .refine(date => {
+        .optional()
+        .superRefine((date, ctx) => {
+            if (!date) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Date of Birth is required',
+                })
+                return
+            }
+
             const today = new Date()
             const minDate = new Date(
                 today.getFullYear() - 13,
@@ -42,10 +51,13 @@ export const editProfileSchema = z.object({
                 today.getDate()
             )
 
-            return date <= minDate
-        }, {
-            message: 'A user under 13 cannot create a profile.',
-        }).optional(),
+            if (date > minDate) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'A user under 13 cannot create a profile.',
+                })
+            }
+        }),
 
     aboutMe: z
         .string()

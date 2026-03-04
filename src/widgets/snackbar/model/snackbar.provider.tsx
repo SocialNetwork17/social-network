@@ -104,6 +104,7 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
     };
 
     const successSnackbar = (message: string): void => {
+
         addSnackbar({
             type: 'SUCCESS_SNACKBAR',
             payload: {message}

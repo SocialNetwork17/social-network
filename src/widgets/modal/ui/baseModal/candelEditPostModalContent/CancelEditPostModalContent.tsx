@@ -4,6 +4,7 @@ import styles from "../cancelDeletePostModalContent/CancelDeletePostModalContent
 import {CancelEditPostModalType} from "@/widgets/modal/model/modal.types";
 import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
+import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
 
 
 type Props = {
@@ -12,6 +13,12 @@ type Props = {
 
 export const CancelEditPostModalContent = ({modal}: Props) => {
     const {clearModals, popModal} = useModal()
+    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
+
+    const handleClick = () => {
+        clearModals()
+        deletePostIdFromUrl()
+    }
 
     return (
         <>
@@ -21,7 +28,7 @@ export const CancelEditPostModalContent = ({modal}: Props) => {
                         width={108}
                         height={36}
                         disabled={false}
-                        onClick={clearModals}
+                        onClick={handleClick}
                 >
                     YES
                 </Button>

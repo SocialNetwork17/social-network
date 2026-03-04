@@ -3,10 +3,10 @@
 import React, { useState, useRef } from 'react'
 import s from './ThreeDotsMenu.module.scss'
 import { IconButton } from "@/shared/ui/IconButton/IconButton"
-import {DropdownMenu} from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ThreeDotsMenu/DropdownMenu/DropdownMenu";
+import {DropdownMenu} from "@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/DropdownMenu/DropdownMenu";
 import {
     useClickOutside
-} from "@/shared/ui/Modal/ImageModal/ImageModalHeader/ThreeDotsMenu/DropdownMenu/useClickOutside";
+} from "@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/DropdownMenu/useClickOutside";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {deletePostModalAC, openEditPostModalAC} from "@/widgets/modal/model/modal.types";
 

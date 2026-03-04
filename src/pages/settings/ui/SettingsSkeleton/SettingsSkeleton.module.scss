@@ -1,0 +1,23 @@
+.skeletonContainer {
+  display: grid;
+  grid-template-columns: 192px 1fr;
+  column-gap: 38px;
+}
+
+.uploadPhoto, .inputsContainer, .inputContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.inputContainer {
+  row-gap: 4px;
+  justify-items: flex-end;
+}
+
+.countryContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 24px;
+}
+
