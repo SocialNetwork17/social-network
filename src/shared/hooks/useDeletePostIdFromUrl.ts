@@ -19,6 +19,5 @@ export const useDeletePostIdFromUrl = () => {
 
         router.replace(newUrl ?? PATH.MAIN, { scroll: false })
     }
-
     return { deletePostIdFromUrl }
 }
