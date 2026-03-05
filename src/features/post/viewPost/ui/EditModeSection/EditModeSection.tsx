@@ -45,7 +45,7 @@ export const EditModeSection = ({postId, setText, text}: Props) => {
                 Add publication descriptions
             </p>
             <TextArea
-                label={"Edit Post"}
+                label={""}
                 value={text} // Здесь будет старый текст поста
                 onChange={(val) => setText(val)} // Здесь получаем новую строку
                 placeholder={'Add text'}

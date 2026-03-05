@@ -22,7 +22,7 @@ import {
 } from "@/widgets/modal/ui/baseModal/cancelDeletePostModalContent/CancelDeletePostModalContent";
 import {
     CancelEditPostModalContent
-} from "@/widgets/modal/ui/baseModal/candelEditPostModalContent/CancelEditPostModalContent";
+} from "@/widgets/modal/ui/baseModal/cancelEditPostModalContent/CancelEditPostModalContent";
 import {UploadErrorModalContent} from "@/widgets/modal/ui/baseModal/uploadErrorModalContent/UploadErrorModalContent";
 import {ProfilePhotoModal} from "@/features/editAvatar/ui/ProfilePhotoModal";
 import {DeleteAvatarModalContent} from "@/widgets/modal/ui/baseModal/deleteAvatarModalContent/DeleteAvatarModalContent";

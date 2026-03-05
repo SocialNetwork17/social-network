@@ -43,8 +43,8 @@ export const ModalWrapper = () => {
                 const isConfirmOpen = stack.some(m => m.type === 'CANCEL_EDIT_POST')
                 if (!isConfirmOpen) {
                     pushModal(openCancelEditPostModalAC({
-                        title: 'Edit Post',
-                        description: "Are you sure you want to undo the post edit?"
+                        title: 'Close Post',
+                        description: "Do you really want to close the edition of the publication?\nIf you close changes won’t be saved"
                     }))
                 }
                 break

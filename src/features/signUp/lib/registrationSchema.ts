@@ -3,7 +3,7 @@ import {z} from 'zod'
 export const usernameRegex = /^[0-9A-Za-z_-]+$/
 
 const passwordRegex =
-  /^(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]{6,20}$/
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]{6,20}$/
 
 export const registrationSchema = z
   .object({
