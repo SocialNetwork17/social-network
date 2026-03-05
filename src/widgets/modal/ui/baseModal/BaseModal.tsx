@@ -10,7 +10,7 @@ import styles from './BaseModal.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {LogoutModalContent} from "@/widgets/modal/ui/baseModal/logOutModalContent/LogoutModalContent";
-import {ReactNode} from "react";
+import {ReactNode, Suspense} from "react";
 import {
     RegistrationConfirmModalContent
 } from "@/widgets/modal/ui/baseModal/registrationConfirmModalContent/RegistrationConfirmModalContent";
@@ -51,7 +51,11 @@ export const BaseModal = ({modal}: Props) => {
     const currentContent = (): ReactNode | null => {
         switch (modal.type) {
             case "DELETE_POST":
-                return <CancelDeletePostModalContent modal={modal} />
+                return (
+                    <Suspense fallback={null}>
+                        <CancelDeletePostModalContent modal={modal} />
+                    </Suspense>
+                )
             case "CONFIRM_REGISTRATION":
                 return <RegistrationConfirmModalContent modal={modal} />
             case "CONFIRM_LOGOUT":
@@ -59,7 +63,11 @@ export const BaseModal = ({modal}: Props) => {
             case "CANCEL_CREATE_POST":
                 return <CancelCreatePostModalContent modal={modal} />
             case "CANCEL_EDIT_POST":
-                return <CancelEditPostModalContent modal={modal} />
+                return (
+                    <Suspense fallback={null}>
+                        <CancelEditPostModalContent modal={modal} />
+                    </Suspense>
+                )
             case 'UPLOAD_ERROR':
                 return <UploadErrorModalContent modal={modal} />
             case 'UPLOAD_AVATAR':
