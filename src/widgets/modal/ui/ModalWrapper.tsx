@@ -4,7 +4,7 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import {useLockScroll} from "@/shared/hooks/useLockScroll";
 import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
-import {useState} from "react";
+import {Suspense, useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
 import {ImageModalClient} from "@/features/post/viewPost/ui/ImageModalClient";
 import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
@@ -74,9 +74,19 @@ export const ModalWrapper = () => {
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
             case 'VIEW_POST':
-                return <ImageModalClient modal={modal}/>
+                return (
+                    <Suspense fallback={null}>
+                        <ImageModalClient modal={modal}/>
+                    </Suspense>
+
+                )
             case 'EDIT_POST':
-                return<ImageModalClient modal={modal}/>
+                return (
+                    <Suspense fallback={null}>
+                        <ImageModalClient modal={modal}/>
+                    </Suspense>
+
+                )
             default:
                 return null
         }
