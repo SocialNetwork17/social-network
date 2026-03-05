@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import styles from "../cancelDeletePostModalContent/CancelDeletePostModalContent.module.scss"
-import {CancelEditPostModalType} from "@/widgets/modal/model/modal.types";
+import {CancelEditPostModalType, openViewPostModalAC} from "@/widgets/modal/model/modal.types";
 import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
@@ -12,12 +12,15 @@ type Props = {
 }
 
 export const CancelEditPostModalContent = ({modal}: Props) => {
-    const {clearModals, popModal} = useModal()
-    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
+    const {clearModals, popModal, pushModal, stack} = useModal()
+
 
     const handleClick = () => {
+        const editModal = stack.find(m => m.type === 'EDIT_POST')
         clearModals()
-        deletePostIdFromUrl()
+        if (editModal) {
+            pushModal(openViewPostModalAC({postId: editModal.payload.postId}))
+        }
     }
 
     return (
@@ -30,7 +33,7 @@ export const CancelEditPostModalContent = ({modal}: Props) => {
                         disabled={false}
                         onClick={handleClick}
                 >
-                    YES
+                    Yes
                 </Button>
                 <Button variant={'primary'}
                         width={108}
@@ -38,7 +41,7 @@ export const CancelEditPostModalContent = ({modal}: Props) => {
                         disabled={false}
                         onClick={popModal}
                 >
-                    NO
+                    No
                 </Button>
             </div>
         </>

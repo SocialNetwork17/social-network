@@ -23,8 +23,8 @@ export const EditPostHeader = ({postId, text}: Props) => {
             return
         }
         pushModal(openCancelEditPostModalAC({
-            title: "Edit Post",
-            description: "Are you sure you want to undo the post edit?",
+            title: "Close Post",
+            description: "Do you really want to close the edition of the publication?\nIf you close changes won’t be saved",
         }))
     }
 
