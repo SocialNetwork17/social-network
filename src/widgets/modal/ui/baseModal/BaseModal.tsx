@@ -80,6 +80,7 @@ export const BaseModal = ({modal}: Props) => {
                 return <InfoModalContent modal={modal} />
             default:
                 return null
+
         }
     }
 
