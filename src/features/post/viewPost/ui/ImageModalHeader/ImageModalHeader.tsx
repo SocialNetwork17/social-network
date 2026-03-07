@@ -8,9 +8,10 @@ import {UserName} from '@/shared/ui/UserName/UserName';
 
 type ImageModalHeaderProps = {
     postId: number
+    isEditMode?: boolean
 }
 
-export const ImageModalHeader = ({postId}: ImageModalHeaderProps) => {
+export const ImageModalHeader = ({postId, isEditMode}: ImageModalHeaderProps) => {
 
     const {data: dataProfile} = useDataMyProfileQuery()
     const {data: postInfo} = usePostQuery(postId)
@@ -25,7 +26,7 @@ export const ImageModalHeader = ({postId}: ImageModalHeaderProps) => {
         <div className={s.header}>
             <UserName post={postInfo} />
 
-            {isOwner && <ThreeDotsMenu postId={postId} />}
+            {isOwner && !isEditMode &&  <ThreeDotsMenu postId={postId} />}
         </div>
     )
 }

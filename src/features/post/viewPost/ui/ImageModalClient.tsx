@@ -46,7 +46,7 @@ export const ImageModalClient = ({modal}: Props) => {
 
       <Card images={imageSlider} slider={true} width={490} height={564} />
       <div className={styles.modalDescription}>
-        <ImageModalHeader postId={profileInfo.id} />
+        <ImageModalHeader postId={profileInfo.id} isEditMode={modal.type === 'EDIT_POST'} />
         {modal.type === 'VIEW_POST' && <Comment post={profileInfo} />}
         {modal.type === 'EDIT_POST' && (
           <EditModeSection text={text} postId={profileInfo.id} setText={setText} />

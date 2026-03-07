@@ -14,7 +14,7 @@ export const ImageThumbnails = ({ images, activeIndex, onSelect, onRemove }: Thu
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
-            const scrollAmount = 100 // Шаг прокрутки
+            const scrollAmount = 100
             scrollRef.current.scrollBy({
                 left: direction === 'left' ? -scrollAmount : scrollAmount,
                 behavior: 'smooth'

@@ -25,7 +25,7 @@ type DatePickerMode = 'single' | 'range'
 
 type DatePickerProps = {
     label: string
-    required: boolean
+    required?: boolean
     error?: string
     placeholder?: string
     className?: string

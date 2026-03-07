@@ -1,5 +1,5 @@
+'use client'
 import styles from "./AccountManagementContent.module.scss"
-
 import { useEffect, useState} from "react";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import { infoModalAC} from "@/widgets/modal/model/modal.types";
@@ -63,7 +63,3 @@ export const AccountManagementContent = () => {
         </div>
     )
 }
-
-//Todo Посмотреть Машин аккаунт (бизнес персонал)
-//Todo Спинер у батона при оплате
-//Todo как меняется информация о платежах

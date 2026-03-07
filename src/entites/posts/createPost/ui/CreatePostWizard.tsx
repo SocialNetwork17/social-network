@@ -31,6 +31,7 @@ export const CreatePostWizard = ({setStep}: Props) => {
         handleImagesUpload,
         updateImage,
         removeImage,
+        addImages,
 
         // Description
         description,
@@ -120,6 +121,7 @@ export const CreatePostWizard = ({setStep}: Props) => {
                             const imageToDelete = images[activeIndex]
                             if (imageToDelete) removeImage(imageToDelete.id)
                         }}
+                        onAddImages={addImages}
                     />
                 )
 

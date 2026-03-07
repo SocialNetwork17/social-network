@@ -25,7 +25,7 @@ export const SignInForm = () => {
   const { mutate: loginMutation, isPending, isError } = useLoginMutation()
 
   const onSubmit = (data: SignInFormValues) => {
-    loginMutation(data)
+    loginMutation({ ...data, email: data.email.toLowerCase() })
   }
 
   return (
