@@ -1,5 +1,5 @@
 import z from 'zod'
-import { registrationSchema } from '@/features/signUp/lib/registrationSchema'
+import {registrationSchema} from "@/features/signUp/model/registrationSchema";
 
 export const resendEmailSchema = z.object({
   email: registrationSchema.shape.email,
