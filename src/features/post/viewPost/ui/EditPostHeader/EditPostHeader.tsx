@@ -1,33 +1,29 @@
 import React from 'react';
 import s from './EditPostHeader.module.scss'
 import {IconButton} from "@/shared/ui/IconButton/IconButton";
-import {openCancelEditPostModalAC, openViewPostModalAC} from "@/widgets/modal/model/modal.types";
-import {usePostQuery} from "@/shared/api/usePostQuery";
+import {openCancelEditPostModalAC} from "@/widgets/modal/model/modal.types";
 import {useModal} from "@/widgets/modal/model/modal.context";
+import {ViewModeType} from "@/features/post/viewPost/ui/model/imageModalServer.types";
 
 type Props = {
-    postId: number,
-    text: string,
+    setViewMode: (viewMode: ViewModeType) => void
 }
 
-export const EditPostHeader = ({postId, text}: Props) => {
+export const EditPostHeader = ({setViewMode}: Props) => {
 
-    const {data: postInfo} = usePostQuery(postId);
+    const {pushModal} = useModal()
 
-    const {pushModal, clearModals} = useModal()
+    const onCancelEdit = () => {
+        setViewMode('VIEW_POST')
+    }
 
     const onCloseEditPostModal = () => {
-        if (text === postInfo?.description) {
-            clearModals()
-            pushModal(openViewPostModalAC({postId: postInfo!.id}))
-            return
-        }
         pushModal(openCancelEditPostModalAC({
             title: "Close Post",
             description: "Do you really want to close the edition of the publication?\nIf you close changes won’t be saved",
+            onConfirm: onCancelEdit
         }))
     }
-
 
     return (
         <div className={s.editPostHeader}>

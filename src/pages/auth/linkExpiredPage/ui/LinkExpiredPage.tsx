@@ -1,7 +1,6 @@
 'use client'
 import styles from './LinkExpiredPage.module.scss'
 import {Input} from '@/shared/ui/Input/Input'
-import {resendEmailSchema, ResendEmailType,} from '@/pages/auth/linkExpiredPage/lib/linkExpiredSchema'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {Button} from '@/shared/ui/Button/Button'
@@ -12,6 +11,7 @@ import {useResendRegistrationCode} from '@/pages/auth/linkExpiredPage/api/useRes
 import {ErrorWithMessageResponse} from '@/shared/types/types'
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
+import {resendEmailSchema, ResendEmailType} from "@/pages/auth/linkExpiredPage/model/linkExpiredSchema";
 
 export const LinkExpiredPage = () => {
   const {

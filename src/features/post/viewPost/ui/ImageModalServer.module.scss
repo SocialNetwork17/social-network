@@ -2,19 +2,8 @@
 @use '../../../../styles/base/typography' as typo;
 
 
-.modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.75);
-  animation: fadeIn 0.3s ease-out;
-  z-index: 10;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.backdrop {
+  @include styles.backdrop
 }
 
 .modalContent {
@@ -91,7 +80,7 @@
 
 .saveButton {
   align-self: flex-end;
-padding-top: 240px;
+  padding-top: 240px;
 }
 
 .helpText {

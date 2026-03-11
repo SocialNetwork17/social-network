@@ -1,8 +1,8 @@
-import { useMutation } from '@tanstack/react-query'
-import { client } from '@/shared/api/client'
-import { PATH } from '@/shared/constants/routings'
-import { handleError } from '@/shared/utils/handleError'
-import { RegistrationType } from '@/features/signUp/lib/registrationSchema'
+import {useMutation} from '@tanstack/react-query'
+import {client} from '@/shared/api/client'
+import {PATH} from '@/shared/constants/routings'
+import {RegistrationType} from "@/features/signUp/model/registrationSchema";
+
 
 export const useRegistration = () => {
   const mutation = useMutation({
@@ -17,7 +17,7 @@ export const useRegistration = () => {
         },
       })
       if (response.error) {
-        handleError(response.error)
+        throw response.error
       }
       return response.data
     },
