@@ -1,5 +1,5 @@
 import {z} from 'zod'
-import {usernameRegex} from "@/features/signUp/lib/registrationSchema";
+import {usernameRegex} from "@/features/signUp/model/registrationSchema";
 
 
 const nameRegex = /^[A-Za-zА-Яа-яЁё]+$/;
@@ -45,16 +45,36 @@ export const editProfileSchema = z.object({
             }
 
             const today = new Date()
-            const minDate = new Date(
+            const maxDate = new Date(
                 today.getFullYear() - 13,
                 today.getMonth(),
                 today.getDate()
             )
 
-            if (date > minDate) {
+            const minDate = new Date(
+                today.getFullYear() - 100,
+                today.getMonth(),
+                today.getDate()
+            )
+
+            if (date > today) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Date of birth cannot be in the future.',
+                })
+            }
+
+            if (date > maxDate) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message: 'A user under 13 cannot create a profile.',
+                })
+            }
+
+            if (date < minDate) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Age cannot be greater than 100 years.',
                 })
             }
         }),

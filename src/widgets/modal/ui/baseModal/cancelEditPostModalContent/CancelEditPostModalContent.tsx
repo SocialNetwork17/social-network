@@ -1,10 +1,9 @@
 // @flow
 import * as React from 'react';
 import styles from "../cancelDeletePostModalContent/CancelDeletePostModalContent.module.scss"
-import {CancelEditPostModalType, openViewPostModalAC} from "@/widgets/modal/model/modal.types";
+import {CancelEditPostModalType} from "@/widgets/modal/model/modal.types";
 import {Button} from "@/shared/ui/Button/Button";
 import {useModal} from "@/widgets/modal/model/modal.context";
-import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
 
 
 type Props = {
@@ -12,15 +11,12 @@ type Props = {
 }
 
 export const CancelEditPostModalContent = ({modal}: Props) => {
-    const {clearModals, popModal, pushModal, stack} = useModal()
 
+    const {popModal} = useModal()
 
     const handleClick = () => {
-        const editModal = stack.find(m => m.type === 'EDIT_POST')
-        clearModals()
-        if (editModal) {
-            pushModal(openViewPostModalAC({postId: editModal.payload.postId}))
-        }
+        popModal()
+        modal.payload.onConfirm()
     }
 
     return (

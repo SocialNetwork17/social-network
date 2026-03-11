@@ -1,18 +1,15 @@
-import {cancelCreatePostModalAC, ModalState, openCancelEditPostModalAC} from "@/widgets/modal/model/modal.types";
+import {cancelCreatePostModalAC, ModalState} from "@/widgets/modal/model/modal.types";
 import styles from './ModalWrapper.module.scss'
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {useLockScroll} from "@/shared/hooks/useLockScroll";
 import {CreatePostWizard} from "@/entites/posts/createPost/ui/CreatePostWizard";
 import {BaseModal} from "@/widgets/modal/ui/baseModal/BaseModal";
-import {Suspense, useState} from "react";
+import {useState} from "react";
 import {WizardStep} from "@/entites/posts/createPost/lib/usePostWizard";
-import {ImageModalClient} from "@/features/post/viewPost/ui/ImageModalClient";
-import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
 
 
 export const ModalWrapper = () => {
     const {stack, clearModals, popModal, pushModal} = useModal()
-    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
     const [step, setStep] = useState<WizardStep | null>(null)
 
     useLockScroll(stack.length > 0)
@@ -21,7 +18,6 @@ export const ModalWrapper = () => {
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target !== e.currentTarget) return
-        deletePostIdFromUrl()
         const topModal = stack[stack.length - 1]
         if (!topModal) return
 
@@ -37,15 +33,6 @@ export const ModalWrapper = () => {
                             description: 'Do you really want to close the creation of a publication?' + ' If you close everything will be deleted'
                         }))
                     }
-                }
-                break
-            case 'EDIT_POST':
-                const isConfirmOpen = stack.some(m => m.type === 'CANCEL_EDIT_POST')
-                if (!isConfirmOpen) {
-                    pushModal(openCancelEditPostModalAC({
-                        title: 'Close Post',
-                        description: "Do you really want to close the edition of the publication?\nIf you close changes won’t be saved"
-                    }))
                 }
                 break
             case 'UPLOAD_ERROR':
@@ -73,20 +60,6 @@ export const ModalWrapper = () => {
                 return <BaseModal modal={modal}/>
             case 'CREATE_POST':
                 return <CreatePostWizard setStep={setStep}/>
-            case 'VIEW_POST':
-                return (
-                    <Suspense fallback={null}>
-                        <ImageModalClient modal={modal}/>
-                    </Suspense>
-
-                )
-            case 'EDIT_POST':
-                return (
-                    <Suspense fallback={null}>
-                        <ImageModalClient modal={modal}/>
-                    </Suspense>
-
-                )
             default:
                 return null
         }

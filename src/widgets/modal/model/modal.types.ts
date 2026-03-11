@@ -7,8 +7,6 @@ export type ModalState =
     | CreatePostModalType
     | CancelCreatePostModalType
     | DeletePostModalType
-    | OpenViewPostModalType
-    | EditPostModalType
     | CancelEditPostModalType
     | UploadErrorModalType
     | UploadAvatarModalType
@@ -23,8 +21,6 @@ export type RegistrationConfirmModalType = ReturnType<typeof registrationConfirm
 export type CreatePostModalType = ReturnType<typeof createPostModalAC>
 export type CancelCreatePostModalType = ReturnType<typeof cancelCreatePostModalAC>
 export type CancelEditPostModalType = ReturnType<typeof openCancelEditPostModalAC>
-export type OpenViewPostModalType = ReturnType<typeof openViewPostModalAC>
-export type EditPostModalType = ReturnType<typeof openEditPostModalAC>
 export type UploadErrorModalType = ReturnType<typeof uploadErrorModalAC>
 export type UploadAvatarModalType = ReturnType<typeof openUploadAvatarModalAC>
 export type DeleteAvatarModalType = ReturnType<typeof deleteAvatarModalAC>
@@ -33,11 +29,11 @@ export type InfoModalType = ReturnType<typeof infoModalAC>
 
 
 export const logoutModalAC = (payload: { title: string, email: string, description: string }) => {
-    return {type: 'CONFIRM_LOGOUT', payload: {...payload}} as const
+    return {type: 'CONFIRM_LOGOUT', payload} as const
 }
 
 export const deletePostModalAC = (payload: { title: string, description: string, postId: number }) => {
-    return {type: 'DELETE_POST', payload: {...payload}} as const
+    return {type: 'DELETE_POST', payload} as const
 }
 
 // todo - переделать на payload
@@ -51,42 +47,35 @@ export const createPostModalAC = () => {
 }
 
 export const cancelCreatePostModalAC = (payload: { title: string, description: string }) => {
-    return {type: 'CANCEL_CREATE_POST', payload: {...payload}} as const
+    return {type: 'CANCEL_CREATE_POST', payload} as const
 }
 
-export const openViewPostModalAC = (payload: { postId: number }) => ({
-    type: 'VIEW_POST',
-    payload: {...payload},
-} as const)
-
-export const openEditPostModalAC = (payload: { postId: number }) => ({
-    type: 'EDIT_POST',
-    payload: {...payload},
-} as const)
-
-export const openCancelEditPostModalAC = (payload: { title: string, description: string }) => ({
-    type: 'CANCEL_EDIT_POST',
-    payload: {...payload},
-} as const)
-
-export const uploadErrorModalAC = (payload: { title: string, description: string }) => ({
-    type: 'UPLOAD_ERROR', payload} as const)
-
-export const openUploadAvatarModalAC = (payload: { title: string}) => ({
-    type: 'UPLOAD_AVATAR',
-    payload: {...payload}
-} as const)
-
-export const deleteAvatarModalAC = (payload: { title: string; description: string }) => ({
-    type: 'DELETE_AVATAR',
-    payload: { ...payload },
-} as const)
-
-export const createPaymentModalAC = (payload: { title: string, description: string, paymentType: PaymentType, typeSubscription: SubscriptionType }) => {
-    return {type: 'CREATE_PAYMENT', payload: payload} as const
+export const openCancelEditPostModalAC = (payload: { title: string, description: string, onConfirm: () => void }) => {
+    return {type: 'CANCEL_EDIT_POST', payload} as const
 }
 
-export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string}) => {
-    return {type: 'INFO', payload: payload} as const
+export const uploadErrorModalAC = (payload: { title: string, description: string }) => {
+    return {type: 'UPLOAD_ERROR', payload} as const
+}
+
+export const openUploadAvatarModalAC = (payload: { title: string }) => {
+    return {type: 'UPLOAD_AVATAR', payload} as const
+}
+
+export const deleteAvatarModalAC = (payload: { title: string; description: string }) => {
+    return {type: 'DELETE_AVATAR', payload} as const
+}
+
+export const createPaymentModalAC = (payload: {
+    title: string,
+    description: string,
+    paymentType: PaymentType,
+    typeSubscription: SubscriptionType
+}) => {
+    return {type: 'CREATE_PAYMENT', payload} as const
+}
+
+export const infoModalAC = (payload: { title: string, description: string, buttonTitle: string }) => {
+    return {type: 'INFO', payload} as const
 }
 

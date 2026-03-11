@@ -55,7 +55,7 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
             //             finalErrorMessage = `Error: ${errorStatusCode}`;
             //             break;
             //     }
-            //
+
             }
     }
 
