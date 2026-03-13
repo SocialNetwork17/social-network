@@ -7,7 +7,6 @@ import { useMeQuery } from '@/shared/api/useMeQuery'
 import Link from "next/link";
 import { PATH } from '@/shared/constants/routings'
 
-
 export const Header = () => {
   const [countNotices, setCountNotices] = useState<number>(0)
 
