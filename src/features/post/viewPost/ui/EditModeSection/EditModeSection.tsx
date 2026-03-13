@@ -1,46 +1,39 @@
 import React from 'react';
-import styles from "@/features/post/viewPost/ui/ImageModalClient.module.scss";
+import styles from "@/features/post/viewPost/ui/ImageModalServer.module.scss";
 import {Button} from "@/shared/ui/Button/Button";
-import {openViewPostModalAC} from "@/widgets/modal/model/modal.types";
 import {useUpdatePostMutation} from "@/shared/api/useUpdatePostMutation";
-import {useModal} from "@/widgets/modal/model/modal.context";
-import {usePostQuery} from "@/shared/api/usePostQuery";
 import {TextArea} from "@/shared/ui/TextArea/TextArea";
+import {ViewModeType} from "@/features/post/viewPost/ui/model/imageModalServer.types";
+import {SchemaPostViewModel} from "@/shared/api/schema";
+import {useRouter} from "next/navigation";
 
 type Props = {
-    postId: number,
+    imageModalPost: SchemaPostViewModel,
     text: string,
+    setViewMode: (viewMode: ViewModeType) => void
     setText: (value: string) => void,
 }
 
-export const EditModeSection = ({postId, setText, text}: Props) => {
+export const EditModeSection = ({imageModalPost, setText, text, setViewMode}: Props) => {
 
+    const {mutate: updatePostDescriptionMutation, isPending} = useUpdatePostMutation()
+    const router = useRouter()
 
-    const {mutateAsync, isPending} = useUpdatePostMutation()
-
-    const {data: postInfo} = usePostQuery(postId);
-
-    const {pushModal, clearModals} = useModal()
-
-
-    const handleSave = async () => {
-        try {
-            await mutateAsync({
-                postId: postInfo!.id,
-                description: text,
-            })
-            clearModals()
-            pushModal(openViewPostModalAC({postId: postInfo!.id}))
-        } catch (error) {
-            console.error('Failed to update post:', error)
-        }
+    const handleSave = () => {
+        updatePostDescriptionMutation({
+            postId: imageModalPost.id,
+            description: text,
+        }, {
+            onSuccess: () => {
+                setViewMode("VIEW_POST")
+                router.refresh()
+            }
+        })
     }
 
 
     return (
         <div className={styles.editSection}>
-
-
             <p className={styles.helpText}>
                 Add publication descriptions
             </p>
@@ -51,12 +44,11 @@ export const EditModeSection = ({postId, setText, text}: Props) => {
                 placeholder={'Add text'}
             />
 
-
             <div className={styles.saveButton}>
                 <Button
                     variant={'primary'}
                     onClick={handleSave}
-                    disabled={isPending || text === postInfo?.description}
+                    disabled={isPending || text === imageModalPost.description}
                     width={136}
                     height={36}
                 >

@@ -8,13 +8,14 @@ import {PATH} from '@/shared/constants/routings'
 import {Button} from '@/shared/ui/Button/Button'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {registrationSchema, RegistrationType} from '@/features/signUp/lib/registrationSchema'
 import {useState} from 'react'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
-import {ErrorWithMessageResponse} from '@/shared/types/types'
 import {useRegistration} from '@/features/signUp/api/useRegistration'
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
+import {getErrorMessage} from "@/shared/utils/handleError";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
+import {registrationSchema, RegistrationType} from "@/features/signUp/model/registrationSchema";
 
 export const SignUpForm = () => {
   const {
@@ -50,7 +51,7 @@ export const SignUpForm = () => {
         }))
       },
       onError: (error: unknown) => {
-        const err = error as ErrorWithMessageResponse
+        const err = getErrorMessage(error) as ErrorWithMessageResponse
         setError(err.field as keyof RegistrationType, {
           message: err.message,
         })

@@ -8,16 +8,18 @@ import {
     useClickOutside
 } from "@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/DropdownMenu/useClickOutside";
 import {useModal} from "@/widgets/modal/model/modal.context";
-import {deletePostModalAC, openEditPostModalAC} from "@/widgets/modal/model/modal.types";
+import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
+import {ViewModeType} from "@/features/post/viewPost/ui/model/imageModalServer.types";
 
 type ThreeDotsMenuProps = {
     postId: number
+    setViewMode: (viewMode: ViewModeType) => void
 }
 
-export const ThreeDotsMenu = ({ postId }: ThreeDotsMenuProps) => {
+export const ThreeDotsMenu = ({ postId, setViewMode}: ThreeDotsMenuProps) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const {pushModal, popModal} = useModal()
+    const {pushModal} = useModal()
 
     // Закрытие меню при клике снаружи
     const menuRef = useRef<HTMLDivElement>(null)
@@ -31,9 +33,8 @@ export const ThreeDotsMenu = ({ postId }: ThreeDotsMenuProps) => {
     }
 
     const handleEdit = () => {
+        setViewMode("EDIT_POST")
         setIsMenuOpen(false)
-        popModal() // закрываем VIEW_POST
-        pushModal(openEditPostModalAC({postId}))
     }
 
     const handleDeleteClick = () => {
