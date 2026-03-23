@@ -20,22 +20,20 @@ export const TabsContent = () => {
 
     const currentContent = () => {
         switch (currentTab) {
-            case "info":
+            case SettingsTabs.INFO:
                 return <GeneralInformationContent/>
-            case "subscriptions":
+            case SettingsTabs.SUBSCRIPTIONS:
                 return (
                     <Suspense fallback={null}>
                         <AccountManagementContent/>
                     </Suspense>
                 )
-            case "payments":
+            case SettingsTabs.PAYMENTS:
                 return <MyPaymentsContent/>
             default:
                 return <GeneralInformationContent/>
         }
     }
-
-
 
     return (
         <div className={styles.tabsContentContainer}>

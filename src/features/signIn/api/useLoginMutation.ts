@@ -19,7 +19,6 @@ export const useLoginMutation = () => {
       const res = await client.POST('/api/v1/auth/login', {
         body: data,
         credentials: 'include',
-        //важно — отправит HttpOnly refresh cookie на сервак
       })
 
       //Если в ответе есть res.error, выбрасывает исключение с сообщением от сервера или стандартным текстом.
