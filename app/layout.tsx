@@ -12,9 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
 
     return (
-        <html lang="en"
-              //className={'light'}
-        >
+        <html lang="en">
         <body>
         <QueryProvider>
             <RootLayoutClient>
