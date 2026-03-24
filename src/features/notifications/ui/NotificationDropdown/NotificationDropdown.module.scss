@@ -1,0 +1,13 @@
+.notificationCard {
+  position: absolute;
+  top: 36px;
+  right: -35px;
+
+  width: 355px;
+  height: 424px;
+
+  padding: 16px;
+
+  background-color: var(--color-bg-500);
+  border: 1px solid var(--border-color);
+}
