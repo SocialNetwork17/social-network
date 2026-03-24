@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
-// import { PATH } from '@/shared/constants/routings'
+import { PATH } from '@/shared/constants/routings'
 import { tokenService } from '@/shared/api/tokenService'
 
 type LoginArgs = {
@@ -38,10 +38,10 @@ export const useLoginMutation = () => {
       tokenService.set(data.accessToken)
 
       //  обновляем me query с информацией о пользователе
-      queryClient.refetchQueries({ queryKey: ['auth', 'me'] })
+      queryClient.invalidateQueries({ queryKey: ['auth', 'me'] })
 
       // редирект на main
-      // window.location.href = PATH.MAIN
+      window.location.href = PATH.MAIN
     },
   })
 }
