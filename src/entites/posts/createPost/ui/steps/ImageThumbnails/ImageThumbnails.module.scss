@@ -1,0 +1,95 @@
+.wrapper {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.62);
+  padding: 8px;
+  border-radius: 2px;
+  max-width: 250px; /* Чтобы панель не была на весь экран */
+  z-index: 20;
+  //backdrop-filter: blur(4px);
+}
+
+.thumbnailsContainer {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 4px;
+
+  /* Скрываем скроллбар */
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.thumbWrapper {
+  position: relative;
+  flex-shrink: 0;   /* Запрещаем сжатие картинок */
+  width: 66px;      /* Твой новый размер */
+  height: 66px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
+
+  &.activeThumb {
+    border-color: #397df6;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.navBtn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+.removeThumbBtn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #171717;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 5;
+
+  &:hover {
+    background: #ff4d4f;
+  }
+}

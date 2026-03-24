@@ -1,0 +1,29 @@
+@use '../../../../../../styles/abstract/index' as styles;
+@use '../../../../../../styles/base/typography' as typo;
+
+.menuWrapper {
+  position: relative;
+}
+
+.menuButton {
+  padding: 15px 0;
+  cursor: pointer;
+  color: styles.palette('accent', 500);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+
+  &[aria-expanded="true"] button {
+    color: styles.palette('accent', 500);
+  }
+
+  & button {
+    color: styles.palette('light', 100);
+
+    &:hover {
+      color: styles.palette('accent', 500);
+    }
+  }
+}

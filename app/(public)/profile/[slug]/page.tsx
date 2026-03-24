@@ -1,11 +1,27 @@
-'use client'
-
+import {getProfileServer} from '@/pages/profile/api/getProfileServer'
 import {Profile} from '@/pages/profile/ui/Profile'
-import { useParams } from 'next/navigation'
+import {getPostsServer} from "@/pages/profile/api/getPostsServer";
+import {getModalPostByIdServer} from "@/features/post/viewPost/api/getModalPostByIdServer";
 
-export default function userProfile() {
-  const params = useParams()
-  const userId = Number(params?.slug)
+type PageProps = {
+    params: Promise<{
+        slug: string
+    }>
+    searchParams: Promise<{
+        postId: string
+    }>
+}
 
-  return <Profile ownerId={userId} />
+export default async function UserProfile({params, searchParams}: PageProps) {
+    const {slug} = await params
+    const {postId} = await searchParams
+    const userId = Number(slug)
+
+    const [profileInfo, userPosts, imageModalPost] = await Promise.all([
+        getProfileServer(userId),
+        getPostsServer(userId),
+        postId ? getModalPostByIdServer(Number(postId)) : Promise.resolve(undefined)
+    ])
+
+    return <Profile userPosts={userPosts} profileInfo={profileInfo} imageModalPost={imageModalPost}/>
 }

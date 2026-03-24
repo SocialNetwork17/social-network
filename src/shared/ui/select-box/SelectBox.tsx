@@ -1,125 +1,136 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import s from './Select.module.scss'
-import { Icon } from '@/shared/ui/Icon/Icon'
+import {Icon} from '@/shared/ui/Icon/Icon'
 import * as flags from 'country-flag-icons/react/3x2'
 
-export type Option = {
-  id: string
-  label: string
-  countryCode?: string
+export type BaseOption = {
+    id: string
+    label: string
+    countryCode?: string
 }
 
-type SelectBoxProps = {
-  options: Option[]
-  onChange: (option: Option) => void
-  placeholder?: string
-  disabled?: boolean
-  defaultValue?: Option
-  classContainer?: string
-  classBox?: string
-  classArrow?: string
-  classOption?: string
-  styleContainer?: React.CSSProperties
-  styleBox?: React.CSSProperties
-  styleArrow?: React.CSSProperties
-  styleOption?: React.CSSProperties
+type SelectBoxProps<T extends BaseOption> = {
+    label?: string
+    options: T[]
+    onChange: (option: T) => void
+    placeholder?: string
+    disabled?: boolean
+    defaultValue?: T
+    classContainer?: string
+    classBox?: string
+    classArrow?: string
+    classOption?: string
+    styleContainer?: React.CSSProperties
+    styleBox?: React.CSSProperties
+    styleArrow?: React.CSSProperties
+    styleOption?: React.CSSProperties
 }
 
-const SelectBox = ({
-  options = [],
-  onChange,
-  placeholder = 'Select an option',
-  disabled = false,
-  defaultValue,
-  classContainer = '',
-  classBox = '',
-  classArrow = '',
-  classOption = '',
-  styleContainer,
-  styleBox,
-  styleArrow,
-  styleOption,
-}: SelectBoxProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [selectedOption, setSelectedOption] = useState<Option | null>(defaultValue || null)
-  const selectRef = useRef<HTMLDivElement | null>(null)
+const SelectBox = <T extends BaseOption>({
+                                             options = [],
+                                             onChange,
+                                             placeholder = 'Select an option',
+                                             disabled = false,
+                                             defaultValue,
+                                             classContainer = '',
+                                             classBox = '',
+                                             classArrow = '',
+                                             classOption = '',
+                                             styleContainer,
+                                             styleBox,
+                                             styleArrow,
+                                             styleOption,
+                                             label
+                                         }: SelectBoxProps<T>) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
+    const [selectedOption, setSelectedOption] = useState<T | null>(defaultValue || null)
+    const selectRef = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+                setIsOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+
+    useEffect(() => {
+        setSelectedOption(defaultValue || null)
+    }, [defaultValue])
+
+
+    const handleSelect = (option: T) => {
+        onChange(option)
         setIsOpen(false)
-      }
+        setSelectedOption(option)
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    const getFlagComponent = (countryCode?: string) => {
+        if (!countryCode) return null
+        const FlagComponent = flags[countryCode as keyof typeof flags]
+        return FlagComponent ? <FlagComponent className={s.flag}/> : null
+    }
 
-  const handleSelect = (option: Option) => {
-    onChange(option)
-    setIsOpen(false)
-    setSelectedOption(option)
-  }
-
-  const getFlagComponent = (countryCode?: string) => {
-    if (!countryCode) return null
-    const FlagComponent = flags[countryCode as keyof typeof flags]
-    return FlagComponent ? <FlagComponent className={s.flag} /> : null
-  }
-
-  return (
-    <div
-      className={`${s.selectContainer} ${classContainer}`}
-      tabIndex={0}
-      ref={selectRef}
-      style={styleContainer}
-    >
-      <div
-        className={`${s.selectBox} ${classBox} ${isOpen ? s.open : ''} ${
-          isHovered ? 'hovered' : ''
-        } ${disabled ? s.disabled : ''}`}
-        style={styleBox}
-        onMouseEnter={() => !disabled && setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-      >
+    return (
+        <div className={s.wrapper}>
+            {label && <label className={s.title}>{label}</label>}
+            <div
+                className={`${s.selectContainer} ${classContainer}`}
+                // tabIndex={0}
+                ref={selectRef}
+                style={styleContainer}
+            >
+                <div
+                    className={`${s.selectBox} ${classBox} ${isOpen ? s.open : ''} ${
+                        isHovered ? 'hovered' : ''
+                    } ${disabled ? s.disabled : ''}`}
+                    style={styleBox}
+                    onMouseEnter={() => !disabled && setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                >
         <span className={s.selectValue}>
           {selectedOption ? (
-            <>
-              {getFlagComponent(selectedOption.countryCode)}
-              {selectedOption.label}
-            </>
+              <>
+                  {getFlagComponent(selectedOption.countryCode)}
+                  {selectedOption.label}
+              </>
           ) : (
-            placeholder
+              placeholder
           )}
         </span>
-        <div className={s.selectArrow + ' ' + classArrow} style={styleArrow}>
-          <Icon iconId={'arrow-down'} size={24} />
-        </div>
-      </div>
+                    <div className={s.selectArrow + ' ' + classArrow} style={styleArrow}>
+                        <Icon iconId={'arrow-down'} size={24}/>
+                    </div>
+                </div>
 
-      {isOpen && (
-        <div className={s.selectDropdown}>
-          {options.map(option => (
-            <div
-              key={option.id}
-              className={`${s.selectOption} ${classOption} ${
-                selectedOption?.id === option.id ? 'selected' : ''
-              }`}
-              style={styleOption}
-              onClick={() => handleSelect(option)}
-              onMouseEnter={e => e.currentTarget.classList.add('hovered')}
-              onMouseLeave={e => e.currentTarget.classList.remove('hovered')}
-            >
-              {getFlagComponent(option.countryCode)}
-              {option.label}
+                {isOpen && (
+                    <div className={s.selectDropdown}>
+                        {options.map(option => (
+                            <div
+                                key={option.id}
+                                className={`${s.selectOption} ${classOption} ${
+                                    selectedOption?.id === option.id ? 'selected' : ''
+                                }`}
+                                style={styleOption}
+                                onClick={() => handleSelect(option)}
+                                onMouseEnter={e => e.currentTarget.classList.add('hovered')}
+                                onMouseLeave={e => e.currentTarget.classList.remove('hovered')}
+                            >
+                                {getFlagComponent(option.countryCode)}
+                                {option.label}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
-          ))}
         </div>
-      )}
-    </div>
-  )
+    )
 }
 
 export default SelectBox

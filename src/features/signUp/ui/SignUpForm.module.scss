@@ -58,3 +58,16 @@
   @include typo.h3;
   color: styles.palette('accent', 500);
 }
+
+
+.fieldContainer {
+  transition: margin-bottom 0.2s ease;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.fieldWithError {
+  margin-bottom: 32px;
+}

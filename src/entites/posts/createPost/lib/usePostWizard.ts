@@ -4,11 +4,13 @@ import {getCroppedImg} from '@/entites/posts/createPost/lib/imageUtils'
 import {useUploadImagesMutation} from '@/entites/posts/createPost/api/useUploadImagesMutation'
 import {useCreatePostMutation} from '@/entites/posts/createPost/api/useCreatePostMutation'
 import {useModal} from "@/widgets/modal/model/modal.context";
+import {useRouter} from "next/navigation";
 
 export type WizardStep = 'UPLOAD' | 'CROP' | 'FILTERS' | 'DESCRIPTION'
 
 
 export const usePostWizard = () => {
+    const router = useRouter()
     const [step, setStep] = useState<WizardStep>('UPLOAD') // текущий шаг
     const [description, setDescription] = useState('') // текст поста
 
@@ -105,13 +107,12 @@ export const usePostWizard = () => {
         try {
             // 1. Загружаем картинки
             const uploadedImages = await uploadMut.mutateAsync(filesToUpload)
-
             // 2. Создаем пост
             await createMut.mutateAsync({
                 description,
                 childrenMetadata: uploadedImages.map(i => ({uploadId: i.uploadId})),
             })
-
+            router.refresh()
             // 3. Успех
             handleClose()
         } catch (e) {

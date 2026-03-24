@@ -18,9 +18,6 @@ export default meta
 type Story = StoryObj<typeof PostSimple>
 
 export const Default: Story = {
-  args: {
-    userId: 215,
-  },
   render: args => (
     <QueryClientProvider client={queryClient}>
       <div style={{ width: '1200px', height: '800px' }}>

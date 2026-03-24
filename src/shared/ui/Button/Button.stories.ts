@@ -1,6 +1,5 @@
-import { Button } from './Button'
-import { fn } from 'storybook/test'
-import { Meta, StoryObj } from '@storybook/nextjs-vite'
+import {Button} from './Button'
+import {Meta, StoryObj} from '@storybook/nextjs-vite'
 
 const meta = {
   title: 'UI/Button',
@@ -27,17 +26,12 @@ const meta = {
       control: { type: 'number' },
       description: 'Button height',
     },
-    onClickHandler: {
-      action: 'clicked',
-      description: 'Button click handler',
-    },
     children: {
       control: 'text',
       description: 'Button content',
     },
   },
   args: {
-    onClickHandler: fn(),
     children: 'Button',
   },
 } satisfies Meta<typeof Button>

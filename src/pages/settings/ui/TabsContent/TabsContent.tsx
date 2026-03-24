@@ -1,19 +1,35 @@
 "use client"
 import {useSearchParams} from "next/navigation";
-import {SettingsTab, SettingsTabs} from "@/pages/settings/model/tabs.types";
-import {GeneralInformationContent} from "@/pages/settings/ui/TabsContent/GeneralInformationContent/GeneralInformationContent";
+
+import {
+    GeneralInformationContent
+} from "@/pages/settings/ui/TabsContent/GeneralInformationContent/GeneralInformationContent";
 import styles from "./TabsContent.module.scss"
+import {
+    AccountManagementContent
+} from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/AccountManagementContent";
+import {MyPaymentsContent} from "@/pages/settings/ui/TabsContent/MyPaymentsContent/MyPaymentsContent"
+import {SettingsTabs, SettingsTabType} from "@/pages/settings/model/tabs.types";
+import {Suspense} from "react";
 
 
 export const TabsContent = () => {
 
     const searchParams = useSearchParams()
-    const currentTab = searchParams?.get('part') as SettingsTab ?? SettingsTabs.INFO
+    const currentTab = searchParams?.get('part') as SettingsTabType ?? SettingsTabs.INFO
 
     const currentContent = () => {
         switch (currentTab) {
-            case "info":
+            case SettingsTabs.INFO:
                 return <GeneralInformationContent/>
+            case SettingsTabs.SUBSCRIPTIONS:
+                return (
+                    <Suspense fallback={null}>
+                        <AccountManagementContent/>
+                    </Suspense>
+                )
+            case SettingsTabs.PAYMENTS:
+                return <MyPaymentsContent/>
             default:
                 return <GeneralInformationContent/>
         }

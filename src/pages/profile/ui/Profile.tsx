@@ -1,34 +1,37 @@
 'use client'
-
-import { useAuth } from '@/shared/hooks/useAuth'
+import {useAuth} from '@/shared/hooks/useAuth'
 import styles from './Profile.module.scss'
 import {ProfileHeader} from '@/shared/ui/ProfileHeader/ProfileHeader'
 import {PostSimple} from '@/shared/ui/Posts/PostSimple/PostSimple'
-import { useDataMyProfileQuery } from '../api/useDataMyProfileQuery'
-import { useDataProfileQuery } from '@/pages/profile/api/useDataProfileQuery'
-import {ProfileSkeleton} from './ProfileSkeleton/ProfileSkeleton'
+import {SchemaPostViewModel, SchemaProfileViewModel, SchemaPublicProfileViewModel} from '@/shared/api/schema'
+import {AllPosts} from "@/pages/main/api/getAllPostsServer";
+import {Suspense} from "react";
+import {Loader} from "@/shared/ui/Loader/Loader";
+import {ImageModalServer} from "@/features/post/viewPost/ui/ImageModalServer";
 
 type Props = {
-  ownerId?: number
+    profileInfo: SchemaProfileViewModel | SchemaPublicProfileViewModel
+    userPosts: AllPosts
+    imageModalPost?: SchemaPostViewModel
 }
 
-export const Profile = (props: Props) => {
-  const { ownerId } = props
+export const Profile = ({profileInfo, userPosts, imageModalPost}: Props) => {
 
-  const { isAuth } = useAuth()
-  const { data, isLoading } = ownerId ? useDataProfileQuery(ownerId) : useDataMyProfileQuery()
+    const {isAuth} = useAuth()
 
-  if (isLoading)
     return (
-      <div className={styles.container}>
-        <ProfileSkeleton />
-      </div>
+        <div className={styles.container}>
+            <ProfileHeader
+                user={profileInfo}
+                publicationCount={userPosts.totalCount}
+                type={isAuth ? 'profile' : 'unauthorized'}
+            />
+            <PostSimple posts={userPosts}/>
+            {
+                imageModalPost && <Suspense fallback={<Loader/>}>
+                    <ImageModalServer imageModalPost={imageModalPost}/>
+                </Suspense>
+            }
+        </div>
     )
-
-  return (
-    <div className={styles.container}>
-      {data && <ProfileHeader user={data} type={isAuth ? 'profile' : 'unauthorized'} />}
-      {data?.id && <PostSimple userId={data?.id} />}
-    </div>
-  )
 }

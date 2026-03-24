@@ -8,15 +8,14 @@ import {PATH} from '@/shared/constants/routings'
 import {Button} from '@/shared/ui/Button/Button'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {registrationSchema, RegistrationType} from '@/features/signUp/lib/registrationSchema'
 import {useState} from 'react'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
-import {ErrorWithMessageResponse} from '@/shared/types/types'
 import {useRegistration} from '@/features/signUp/api/useRegistration'
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {registrationConfirmModalAC} from "@/widgets/modal/model/modal.types";
-
-
+import {getErrorMessage} from "@/shared/utils/handleError";
+import {ErrorWithMessageResponse} from "@/shared/types/types";
+import {registrationSchema, RegistrationType} from "@/features/signUp/model/registrationSchema";
 
 export const SignUpForm = () => {
   const {
@@ -52,7 +51,7 @@ export const SignUpForm = () => {
         }))
       },
       onError: (error: unknown) => {
-        const err = error as ErrorWithMessageResponse
+        const err = getErrorMessage(error) as ErrorWithMessageResponse
         setError(err.field as keyof RegistrationType, {
           message: err.message,
         })
@@ -61,72 +60,76 @@ export const SignUpForm = () => {
   }
 
   return (
-    <div className={styles.authCard}>
-      <SingUpFormTitle />
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.inputsWrapper}>
-          <Input
-            label={'User name'}
-            type={'text'}
-            placeholder={'Epam11'}
-            required={true}
-            error={!!errors.userName}
-            errorText={errors.userName?.message}
-            {...register('userName')}
-          />
-          <Input
-            label={'Email'}
-            type={'email'}
-            placeholder={'Epam@epam.com'}
-            required={true}
-            error={!!errors.email}
-            errorText={errors.email?.message}
-            {...register('email')}
-          />
-          <Input
-            label={'Password'}
-            type={'password'}
-            placeholder={'add password'}
-            required={true}
-            error={!!errors.password}
-            errorText={errors.password?.message}
-            {...register('password')}
-          />
-          <Input
-            label={'Password confirmation'}
-            type={'password'}
-            placeholder={'confirm password'}
-            required={true}
-            error={!!errors.passwordConfirmation}
-            errorText={errors.passwordConfirmation?.message}
-            {...register('passwordConfirmation')}
-          />
-        </div>
-        <div className={styles.confirmWrapper}>
-          <Checkbox checked={checked} onChangeCheckedAction={setChecked} />
-          <span className={styles.agreeText}>
+      <div className={styles.authCard}>
+        <SingUpFormTitle />
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.inputsWrapper}>
+              <Input
+                  label={'User name'}
+                  type={'text'}
+                  placeholder={'Epam11'}
+                  required={true}
+                  error={!!errors.userName}
+                  errorText={errors.userName?.message}
+                  {...register('userName')}
+              />
+              <Input
+                  label={'Email'}
+                  type={'email'}
+                  placeholder={'Epam@epam.com'}
+                  required={true}
+                  error={!!errors.email}
+                  errorText={errors.email?.message}
+                  {...register('email')}
+              />
+            <div className={`${styles.fieldContainer} ${errors.password ? styles.fieldWithError : ''}`}>
+              <Input
+                  label={'Password'}
+                  type={'password'}
+                  placeholder={'******************'}
+                  required={true}
+                  error={!!errors.password}
+                  errorText={errors.password?.message}
+                  {...register('password')}
+              />
+            </div>
+            <div className={`${styles.fieldContainer} ${errors.passwordConfirmation ? styles.fieldWithError : ''}`}>
+              <Input
+                  label={'Password confirmation'}
+                  type={'password'}
+                  placeholder={'******************'}
+                  required={true}
+                  error={!!errors.passwordConfirmation}
+                  errorText={errors.passwordConfirmation?.message}
+                  {...register('passwordConfirmation')}
+              />
+            </div>
+          </div>
+          <div className={styles.confirmWrapper}>
+            <Checkbox checked={checked} onChangeCheckedAction={setChecked} />
+            <span className={styles.agreeText}>
             I agree to the{' '}
-            <Link href={PATH.SERVICES} className={styles.link}>
+              <Link href={PATH.SERVICES} className={styles.link}>
               Terms of Service{' '}
             </Link>
             and{' '}
-            <Link href={PATH.POLICY} className={styles.link}>
+              <Link href={PATH.POLICY} className={styles.link}>
               Privacy Policy
             </Link>
           </span>
-        </div>
-        <Button variant={'primary'} disabled={!isValid || !checked || isPending} type={'submit'}>
-          {isPending && <Spinner />} Sign up
-        </Button>
-        <div className={styles.helperText}>
-          <div>Do you have an account?</div>
-          <div>
-            <Link href={PATH.SIGN_IN} className={styles.singInLink}>
-              Sign In
-            </Link>
           </div>
-        </div>
-      </form>
-    </div>
+          <Button variant={'primary'} disabled={!isValid || !checked || isPending} type={'submit'}>
+            {isPending && <Spinner />} Sign up
+          </Button>
+          <div className={styles.helperText}>
+            <div>Do you have an account?</div>
+            <div>
+              <Link href={PATH.SIGN_IN} className={styles.singInLink}>
+                Sign In
+              </Link>
+            </div>
+          </div>
+        </form>
+      </div>
   )
 }

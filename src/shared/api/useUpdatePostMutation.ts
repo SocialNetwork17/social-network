@@ -46,10 +46,6 @@ export const useUpdatePostMutation = () => {
                 exact: false, // exact: false означает "все, что начинается с этого ключа"
             })
             queryClient.invalidateQueries({
-                queryKey: ['posts', 'feed'],
-                exact: false, // exact: false означает "все, что начинается с этого ключа"
-            })
-            queryClient.invalidateQueries({
                 queryKey: ['post', postId],
                 exact: false, // exact: false означает "все, что начинается с этого ключа"
             })

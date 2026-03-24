@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import SelectBox, { Option } from './SelectBox'
+import SelectBox, { BaseOption } from './SelectBox'
 
 const meta = {
   title: 'shared/ui/select-box',
@@ -16,7 +16,7 @@ export default meta
 
 type Story = StoryObj<typeof SelectBox>
 
-const options: Option[] = [
+const options: BaseOption[] = [
   { id: '1', label: 'Option 1' },
   { id: '2', label: 'Option 2' },
   { id: '3', label: 'Option 3' },
@@ -35,6 +35,7 @@ const optionsWithIcons = [
 
 export const Select: Story = {
   args: {
+    label: 'Select an option',
     options: options,
     placeholder: 'Select an option',
     disabled: false,
@@ -43,6 +44,7 @@ export const Select: Story = {
 
 export const SelectWithIcons: Story = {
   args: {
+    label: 'Select an option',
     options: optionsWithIcons,
     defaultValue: optionsWithIcons[1],
     disabled: false,

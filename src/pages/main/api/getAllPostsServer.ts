@@ -1,4 +1,3 @@
-import {client} from '@/shared/api/client'
 import {
     SchemaInfinityPaginatedPosts,
     SchemaPostViewModel,
@@ -13,18 +12,14 @@ export async function getAllPostsServer(
     sortDirection: 'asc' | 'desc' = 'desc',
     endCursorPostId = 0
 ): Promise<AllPosts> {
-    const response = await client.GET('/api/v1/posts/all/{endCursorPostId}',
-        {
-            params: {
-                path: {endCursorPostId},
-                query: {pageSize, sortDirection},
-            },
-        }
-    )
 
-    if (!response.data) {
-        throw new Error('No data received from server')
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/posts/all/${endCursorPostId}?pageSize=${pageSize}&sortDirection=${sortDirection}`
+
+    const response = await fetch(url)
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch posts')
     }
 
-    return response.data as AllPosts
+    return response.json()
 }

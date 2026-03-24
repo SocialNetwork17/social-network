@@ -1,10 +1,11 @@
-import { client } from '@/shared/api/client'
-
 export async function getUserTotalCountServer() {
-  const response = await client.GET('/api/v1/public-user')
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/public-user`
 
-  if (!response.data) {
-    throw new Error('No data received from server')
-  }
-  return response.data
+    const response = await fetch(url)
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch user count')
+    }
+
+    return response.json()
 }
