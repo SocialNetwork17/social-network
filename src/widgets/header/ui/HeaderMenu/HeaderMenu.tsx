@@ -5,6 +5,7 @@ import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { Button } from '@/shared/ui/Button/Button'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
+import {ThemeSwitcher} from "@/shared/ui/ThemeSwitcher/ThemeSwitcher";
 
 type HeaderMenu = {
   isLoggedIn: boolean
@@ -44,6 +45,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
             onChange={handleSelect}
             defaultValue={languages[1]} // GB will be pre-selected
           />
+          <ThemeSwitcher className={styles.themeSwitcher}/>
         </>
       ) : (
         <>
@@ -63,6 +65,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
                 Sign up
               </Button>
             </Link>
+            <ThemeSwitcher/>
           </div>
         </>
       )}
