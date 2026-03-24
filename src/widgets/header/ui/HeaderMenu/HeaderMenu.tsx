@@ -45,7 +45,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
             onChange={handleSelect}
             defaultValue={languages[1]} // GB will be pre-selected
           />
-          <ThemeSwitcher/>
+          <ThemeSwitcher className={styles.themeSwitcher}/>
         </>
       ) : (
         <>
