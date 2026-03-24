@@ -3,7 +3,30 @@ import styles from "./NotificationDropdown.module.scss"
 export const NotificationDropdown = () => {
     return (
         <div className={styles.notificationCard}>
-            dsafasdfasdf sdfsadfsad sadf sadf sadf sdaf sd fsd fsda fsad fsd f
+            <h3 className={styles.notificationCardTitle}>Уведомления</h3>
+            <div className={styles.notificationCardContent}>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+                <div>sfa</div>
+            </div>
         </div>
     );
 };
