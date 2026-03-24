@@ -31,8 +31,6 @@ export const useLoginMutation = () => {
 
     //обработка успешного входа
     onSuccess: data => {
-      //  сохраняем токен
-      // localStorage.setItem("accessToken", data.accessToken);
 
       // кладём ТОЛЬКО в память
       tokenService.set(data.accessToken)
