@@ -13,15 +13,17 @@ type Props = {
     imageModalPost?: SchemaPostViewModel
 }
 
-export const MainPage = ({posts, totalCount, imageModalPost}: Props) =>{
+export const MainPage = ({posts, totalCount, imageModalPost}: Props) => {
 
-  return (
-    <div className={styles.container}>
-      <UserAmount totalCount={totalCount.totalCount} />
-      <PostsWithText posts={posts} />
-        {imageModalPost && <Suspense fallback={<Loader/>}>
-            <ImageModalServer imageModalPost={imageModalPost} />
-        </Suspense>}
-    </div>
-  )
+    return (
+        <div className={styles.container}>
+            <UserAmount totalCount={totalCount.totalCount}/>
+            <PostsWithText posts={posts}/>
+            {
+                imageModalPost && <Suspense fallback={<Loader/>}>
+                    <ImageModalServer imageModalPost={imageModalPost}/>
+                </Suspense>
+            }
+        </div>
+    )
 }

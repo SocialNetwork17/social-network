@@ -21,8 +21,11 @@ export const Profile = ({profileInfo, userPosts, imageModalPost}: Props) => {
 
     return (
         <div className={styles.container}>
-            <ProfileHeader user={profileInfo} publicationCount={userPosts.totalCount}
-                           type={isAuth ? 'profile' : 'unauthorized'}/>
+            <ProfileHeader
+                user={profileInfo}
+                publicationCount={userPosts.totalCount}
+                type={isAuth ? 'profile' : 'unauthorized'}
+            />
             <PostSimple posts={userPosts}/>
             {
                 imageModalPost && <Suspense fallback={<Loader/>}>
