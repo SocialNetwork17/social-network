@@ -29,7 +29,7 @@ export const SignInForm = () => {
 
   const onSubmit = (data: SignInFormValues) => {
     loginMutation({ ...data, email: data.email.toLowerCase() })
-    router.replace(PATH.PROFILE)
+    router.replace(PATH.MAIN)
   }
 
   return (
