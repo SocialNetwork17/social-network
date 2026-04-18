@@ -6,17 +6,66 @@ import { InfiniteData, useQueryClient } from '@tanstack/react-query'
 import { SchemaNotificationViewDto } from '@/shared/api/schema'
 import { NotificationsPage } from '@/features/notifications/api/useGetNotifications'
 
-type SocketNotification = SchemaNotificationViewDto & {
+type SocketNotification = Omit<SchemaNotificationViewDto, 'createdAt' | 'isRead'> & {
   clientId?: string
+  createdAt?: string
+  isRead?: boolean
   notifyAt?: string
 }
+
+const NOTIFICATION_PAGE_SIZE = 10
 
 const normalizeNotification = (notification: SocketNotification): SchemaNotificationViewDto => ({
   id: notification.id,
   message: notification.message,
-  isRead: notification.isRead,
+  isRead: notification.isRead ?? false,
   createdAt: notification.createdAt ?? notification.notifyAt ?? new Date().toISOString(),
 })
+
+const isSocketNotification = (notification: unknown): notification is SocketNotification => {
+  if (!notification || typeof notification !== 'object') return false
+
+  const { id, message, isRead } = notification as Partial<SocketNotification>
+
+  return (
+    typeof id === 'number' &&
+    typeof message === 'string' &&
+    (isRead === undefined || typeof isRead === 'boolean')
+  )
+}
+
+const getSocketNotifications = (payload: unknown): SocketNotification[] => {
+  if (Array.isArray(payload)) {
+    return payload.filter(isSocketNotification)
+  }
+
+  if (isSocketNotification(payload)) {
+    return [payload]
+  }
+
+  if (!payload || typeof payload !== 'object') {
+    return []
+  }
+
+  const {
+    data,
+    notification,
+    notifications,
+    payload: nestedPayload,
+  } = payload as {
+    data?: unknown
+    notification?: unknown
+    notifications?: unknown
+    payload?: unknown
+  }
+
+  return [
+    ...getSocketNotifications(data),
+    ...getSocketNotifications(notification),
+    ...getSocketNotifications(notifications),
+    ...getSocketNotifications(nestedPayload),
+  ]
+}
 
 export const useNotificationsSocket = (token: string | null) => {
   const queryClient = useQueryClient()
@@ -42,23 +91,26 @@ export const useNotificationsSocket = (token: string | null) => {
       console.log('Notifications socket disconnected', reason)
     })
 
-    socket.onAny((eventName, ...args) => {
-      console.log('Notifications socket event', eventName, args)
-    })
-
-    socket.on('NOTIFICATION', (newNotification: SocketNotification) => {
-      const notification = normalizeNotification(newNotification)
-
+    const addNotificationsToCache = (socketNotifications: SocketNotification[]) => {
       queryClient.setQueryData<InfiniteData<NotificationsPage>>(['notifications'], oldData => {
+        const notifications = socketNotifications
+          .map(normalizeNotification)
+          .filter(
+            (notification, index, items) =>
+              items.findIndex(item => item.id === notification.id) === index
+          )
+
         if (!oldData) {
+          const unreadCount = notifications.filter(notification => !notification.isRead).length
+
           return {
             pageParams: [0],
             pages: [
               {
-                pageSize: 10,
-                totalCount: 1,
-                notReadCount: notification.isRead ? 0 : 1,
-                items: [notification],
+                pageSize: NOTIFICATION_PAGE_SIZE,
+                totalCount: notifications.length,
+                notReadCount: unreadCount,
+                items: notifications,
               },
             ],
           }
@@ -66,9 +118,34 @@ export const useNotificationsSocket = (token: string | null) => {
 
         const firstPage = oldData.pages[0]
         const items = firstPage?.items ?? []
-        const hasNotification = items.some((item: SchemaNotificationViewDto) => item.id === notification.id)
+        const oldIds = new Set(
+          oldData.pages
+            .flatMap(page => page.items ?? [])
+            .map((item: SchemaNotificationViewDto) => item.id)
+        )
+        const newNotifications = notifications.filter(notification => !oldIds.has(notification.id))
         const totalCount = firstPage?.totalCount ?? items.length
-        const notReadCount = firstPage?.notReadCount ?? items.filter((item: SchemaNotificationViewDto) => !item.isRead).length
+        const notReadCount =
+          firstPage?.notReadCount ??
+          items.filter((item: SchemaNotificationViewDto) => !item.isRead).length
+        const unreadNewNotificationsCount = newNotifications.filter(
+          notification => !notification.isRead
+        ).length
+
+        if (!firstPage) {
+          return {
+            ...oldData,
+            pageParams: oldData.pageParams.length ? oldData.pageParams : [0],
+            pages: [
+              {
+                pageSize: NOTIFICATION_PAGE_SIZE,
+                totalCount: newNotifications.length,
+                notReadCount: unreadNewNotificationsCount,
+                items: newNotifications,
+              },
+            ],
+          }
+        }
 
         return {
           ...oldData,
@@ -77,13 +154,23 @@ export const useNotificationsSocket = (token: string | null) => {
 
             return {
               ...page,
-              totalCount: totalCount + (hasNotification ? 0 : 1),
-              notReadCount: notReadCount + (!notification.isRead && !hasNotification ? 1 : 0),
-              items: hasNotification ? items : [notification, ...items],
+              totalCount: totalCount + newNotifications.length,
+              notReadCount: notReadCount + unreadNewNotificationsCount,
+              items: [...newNotifications, ...items],
             }
           }),
         }
       })
+    }
+
+    socket.onAny((eventName, ...args) => {
+      console.log('Notifications socket event', eventName, args)
+
+      const notifications = args.flatMap(getSocketNotifications)
+
+      if (notifications.length) {
+        addNotificationsToCache(notifications)
+      }
     })
 
     return () => {

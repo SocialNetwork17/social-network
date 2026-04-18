@@ -29,7 +29,8 @@ export const useMarkNotificationsAsRead = () => {
           ...oldData,
           pages: oldData.pages.map((page, index) => ({
             ...page,
-            notReadCount: index === 0 ? Math.max((page.notReadCount ?? 0) - readCount, 0) : page.notReadCount,
+            notReadCount:
+              index === 0 ? Math.max((page.notReadCount ?? 0) - readCount, 0) : page.notReadCount,
             items: page.items?.map(notification =>
               readIds.has(notification.id) ? { ...notification, isRead: true } : notification
             ),
