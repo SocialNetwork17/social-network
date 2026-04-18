@@ -5,6 +5,9 @@ import {useAuth} from "@/shared/hooks/useAuth";
 import {Sidebar} from "@/widgets/sidebar/ui/Sidebar";
 import {ModalProvider} from "@/widgets/modal/model/modal.provider";
 import {SnackbarProvider} from "@/widgets/snackbar/model/snackbar.provider";
+import {useNotificationsSocket} from "@/features/notifications/hooks/useNotificationsSocket";
+import {tokenService} from "@/shared/api/tokenService";
+import {useEffect, useState} from "react";
 
 
 type Props = {
@@ -14,6 +17,20 @@ type Props = {
 export const RootLayoutClient = ({children}: Props) => {
 
     const {isAuth} = useAuth()
+
+    const [token, setToken] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (!isAuth) {
+            setToken(null)
+            return
+        }
+
+        const newToken = tokenService.get()
+        setToken(newToken || null)
+    }, [isAuth])
+
+    useNotificationsSocket(token)
 
     return (
         <SnackbarProvider>

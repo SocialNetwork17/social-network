@@ -1,4 +1,5 @@
 @use "../../../../styles/base/typography" as typo;
+@use "../../../../styles/abstract/index" as styles;
 
 .notificationCard {
   position: absolute;
@@ -84,4 +85,8 @@
 .notificationCardContent::-webkit-scrollbar-thumb {
   background-color: var(--border-color);
   border-radius: 2px;
+}
+
+.emptyMessage {
+  color: styles.palette('light', 900);
 }
