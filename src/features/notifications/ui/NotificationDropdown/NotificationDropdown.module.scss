@@ -1,5 +1,5 @@
-@use "../../../../styles/base/typography" as typo;
-@use "../../../../styles/abstract/index" as styles;
+@use '../../../../styles/base/typography' as typo;
+@use '../../../../styles/abstract/index' as styles;
 
 .notificationCard {
   position: absolute;
@@ -56,7 +56,6 @@
   margin-bottom: 12px;
   @include typo.text-bold-16;
   flex-shrink: 0;
-
 }
 
 .notificationCardContent {
@@ -79,7 +78,6 @@
 .notificationCardContent::-webkit-scrollbar-track {
   background-color: var(--color-option-bg);
   border-radius: 2px;
-
 }
 
 .notificationCardContent::-webkit-scrollbar-thumb {
@@ -89,4 +87,19 @@
 
 .emptyMessage {
   color: styles.palette('light', 900);
+}
+
+.centeredContent {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.nextPageLoader {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
 }

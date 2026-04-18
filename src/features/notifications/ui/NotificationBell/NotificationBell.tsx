@@ -1,7 +1,7 @@
 import styles from './NotificationBell.module.scss'
 import { IconButton } from '@/shared/ui/IconButton/IconButton'
 import { NotificationDropdown } from '@/features/notifications/ui/NotificationDropdown/NotificationDropdown'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGetNotifications } from '@/features/notifications/api/useGetNotifications'
 
 export const NotificationBell = () => {
@@ -9,11 +9,8 @@ export const NotificationBell = () => {
   const { data: notifications } = useGetNotifications()
   const notificationRef = useRef<HTMLDivElement | null>(null)
 
-  const notReadCount = useMemo(() => {
-    const notificationItems = notifications?.pages.flatMap(page => page.items ?? []) ?? []
-
-    return notificationItems.filter(notification => !notification.isRead).length
-  }, [notifications])
+  const notReadCount =
+    notifications?.pages[0]?.items?.filter(notification => !notification.isRead).length ?? 0
 
   useEffect(() => {
     if (!isOpen) return

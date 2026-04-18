@@ -15,7 +15,16 @@ export const NotificationDropdown = () => {
     useMarkNotificationsAsRead()
 
   const notifications = useMemo(() => {
-    return data?.pages.flatMap(page => page.items ?? []).filter(isNotificationFromLastMonth) ?? []
+    const notificationItems = data?.pages.flatMap(page => page.items ?? []) ?? []
+
+    return notificationItems
+      .filter(isNotificationFromLastMonth)
+      .sort((leftNotification, rightNotification) => {
+        return (
+          new Date(rightNotification.createdAt).getTime() -
+          new Date(leftNotification.createdAt).getTime()
+        )
+      })
   }, [data])
 
   const unreadNotificationIds = useMemo(() => {
@@ -43,18 +52,28 @@ export const NotificationDropdown = () => {
     return <NotificationItem key={notification.id} notification={notification} />
   })
 
+  if (isLoading) {
+    return (
+      <div className={styles.notificationCard}>
+        <h3 className={styles.notificationCardTitle}>Уведомления</h3>
+        <div className={styles.centeredContent}>
+          <Spinner />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.notificationCard}>
       <h3 className={styles.notificationCardTitle}>Уведомления</h3>
       <div className={styles.notificationCardContent} onScroll={handleScroll}>
-        {isLoading && (
-          <p className={styles.emptyMessage}>
+        {mappedNotifications.length ? mappedNotifications : null}
+        {isFetchingNextPage && (
+          <div className={styles.nextPageLoader}>
             <Loader />
-          </p>
+          </div>
         )}
-        {!isLoading && mappedNotifications.length ? mappedNotifications : null}
-        {isFetchingNextPage && <p className={styles.emptyMessage}>Загрузка...</p>}
-        {!isLoading && !mappedNotifications.length && (
+        {!mappedNotifications.length && (
           <p className={styles.emptyMessage}>Новых уведомлений нет</p>
         )}
       </div>
