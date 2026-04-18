@@ -1,48 +1,46 @@
-"use client"
-import {Header} from "@/widgets/header/ui/Header";
-import styles from "./rootLayout.module.scss";
-import {useAuth} from "@/shared/hooks/useAuth";
-import {Sidebar} from "@/widgets/sidebar/ui/Sidebar";
-import {ModalProvider} from "@/widgets/modal/model/modal.provider";
-import {SnackbarProvider} from "@/widgets/snackbar/model/snackbar.provider";
-import {useNotificationsSocket} from "@/features/notifications/hooks/useNotificationsSocket";
-import {tokenService} from "@/shared/api/tokenService";
-import {useEffect, useState} from "react";
-
+'use client'
+import { Header } from '@/widgets/header/ui/Header'
+import styles from './rootLayout.module.scss'
+import { useAuth } from '@/shared/hooks/useAuth'
+import { Sidebar } from '@/widgets/sidebar/ui/Sidebar'
+import { ModalProvider } from '@/widgets/modal/model/modal.provider'
+import { SnackbarProvider } from '@/widgets/snackbar/model/snackbar.provider'
+import { useNotificationsSocket } from '@/features/notifications/hooks/useNotificationsSocket'
+import { tokenService } from '@/shared/api/tokenService'
+import { useEffect, useState } from 'react'
 
 type Props = {
-    children: React.ReactNode
+  children: React.ReactNode
 }
 
-export const RootLayoutClient = ({children}: Props) => {
+export const RootLayoutClient = ({ children }: Props) => {
+  const { isAuth } = useAuth()
 
-    const {isAuth} = useAuth()
+  const [token, setToken] = useState<string | null>(null)
 
-    const [token, setToken] = useState<string | null>(null)
+  useEffect(() => {
+    if (!isAuth) {
+      setToken(null)
+      return
+    }
 
-    useEffect(() => {
-        if (!isAuth) {
-            setToken(null)
-            return
-        }
+    const newToken = tokenService.get()
+    setToken(newToken || null)
 
-        const newToken = tokenService.get()
-        setToken(newToken || null)
-    }, [isAuth])
+    return tokenService.subscribe(setToken)
+  }, [isAuth])
 
-    useNotificationsSocket(token)
+  useNotificationsSocket(token)
 
-    return (
-        <SnackbarProvider>
-            <ModalProvider>
-                <Header/>
-                <div className={styles.layout}>
-                    {isAuth && <Sidebar/>}
-                    <main className={styles.main}>
-                        {children}
-                    </main>
-                </div>
-            </ModalProvider>
-        </SnackbarProvider>
-    )
+  return (
+    <SnackbarProvider>
+      <ModalProvider>
+        <Header />
+        <div className={styles.layout}>
+          {isAuth && <Sidebar />}
+          <main className={styles.main}>{children}</main>
+        </div>
+      </ModalProvider>
+    </SnackbarProvider>
+  )
 }

@@ -5,20 +5,23 @@ import {
 } from '@/features/notifications/api/useGetNotifications'
 import { NotificationItem } from '@/features/notifications/ui/NotificationItem/NotificationItem'
 import { UIEvent, useEffect, useMemo } from 'react'
-import {useMarkNotificationsAsRead} from "@/features/notifications/api/useMarkNotificationsAsRead";
-import {Spinner} from "@/shared/ui/Spinner/Spinner";
-import {Loader} from "@/shared/ui/Loader/Loader";
+import { useMarkNotificationsAsRead } from '@/features/notifications/api/useMarkNotificationsAsRead'
+import { Spinner } from '@/shared/ui/Spinner/Spinner'
+import { Loader } from '@/shared/ui/Loader/Loader'
 
 export const NotificationDropdown = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useGetNotifications()
-  const { mutate: markNotificationsAsRead, isPending: isMarkingAsRead } = useMarkNotificationsAsRead()
+  const { mutate: markNotificationsAsRead, isPending: isMarkingAsRead } =
+    useMarkNotificationsAsRead()
 
   const notifications = useMemo(() => {
     return data?.pages.flatMap(page => page.items ?? []).filter(isNotificationFromLastMonth) ?? []
   }, [data])
 
   const unreadNotificationIds = useMemo(() => {
-    return notifications.filter(notification => !notification.isRead).map(notification => notification.id)
+    return notifications
+      .filter(notification => !notification.isRead)
+      .map(notification => notification.id)
   }, [notifications])
 
   useEffect(() => {
@@ -44,7 +47,11 @@ export const NotificationDropdown = () => {
     <div className={styles.notificationCard}>
       <h3 className={styles.notificationCardTitle}>Уведомления</h3>
       <div className={styles.notificationCardContent} onScroll={handleScroll}>
-        {isLoading && <p className={styles.emptyMessage}><Loader/></p>}
+        {isLoading && (
+          <p className={styles.emptyMessage}>
+            <Loader />
+          </p>
+        )}
         {!isLoading && mappedNotifications.length ? mappedNotifications : null}
         {isFetchingNextPage && <p className={styles.emptyMessage}>Загрузка...</p>}
         {!isLoading && !mappedNotifications.length && (
