@@ -8,11 +8,12 @@ import {NotificationBell} from "@/features/notifications/ui/NotificationBell/Not
 
 type HeaderMenu = {
   isLoggedIn: boolean
-
+  countMessage: number
+  onClickHandler: () => void
 }
 
 export const HeaderMenu = (props: HeaderMenu) => {
-  const { isLoggedIn } = props
+  const { isLoggedIn, countMessage, onClickHandler } = props
 
   const languages = [
     { id: '1', label: 'Russian', countryCode: 'RU' },
@@ -34,6 +35,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
             onChange={handleSelect}
             defaultValue={languages[1]} // GB will be pre-selected
           />
+          <ThemeSwitcher className={styles.themeSwitcher}/>
         </>
       ) : (
         <>
@@ -53,6 +55,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
                 Sign up
               </Button>
             </Link>
+            <ThemeSwitcher/>
           </div>
         </>
       )}
