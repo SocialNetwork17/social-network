@@ -5,6 +5,7 @@ import {Button} from '@/shared/ui/Button/Button'
 import Link from 'next/link'
 import {PATH} from '@/shared/constants/routings'
 import {NotificationBell} from "@/features/notifications/ui/NotificationBell/NotificationBell";
+import {ThemeSwitcher} from "@/shared/ui/ThemeSwitcher/ThemeSwitcher";
 
 type HeaderMenu = {
   isLoggedIn: boolean
