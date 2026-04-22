@@ -65,12 +65,12 @@ export const NotificationDropdown = () => {
 
   return (
     <div className={styles.notificationCard}>
-      <h3 className={styles.notificationCardTitle}>Уведомления</h3>
+      <h3 className={styles.notificationCardTitle}>Notifications</h3>
       <div className={styles.notificationCardContent} onScroll={handleScroll}>
         {mappedNotifications.length ? mappedNotifications : null}
         {isFetchingNextPage && (
           <div className={styles.nextPageLoader}>
-            <Loader />
+            <Spinner />
           </div>
         )}
         {!mappedNotifications.length && (

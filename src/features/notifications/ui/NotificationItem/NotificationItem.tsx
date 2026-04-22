@@ -1,4 +1,5 @@
 import { SchemaNotificationViewDto } from '@/shared/api/schema'
+import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 import styles from './NotificationItem.module.scss'
 
 type Props = {
@@ -7,16 +8,20 @@ type Props = {
 
 export const NotificationItem = ({ notification }: Props) => {
   const { message, isRead, createdAt } = notification
+  const timeAgo = getTimeAgo(createdAt)
 
   return (
     <div className={styles.notificationItem}>
       <div>
+        <div className={styles.headerWrapper}>
+          <p className={styles.newNotificationText}>New notification!</p>
+          {!isRead && <span className={styles.newLabel}>New</span>}
+        </div>
         <p className={styles.message}>{message}</p>
         <time className={styles.date} dateTime={createdAt}>
-          {new Date(createdAt).toLocaleString()}
+          {timeAgo}
         </time>
       </div>
-      {!isRead && <span className={styles.newLabel}>New</span>}
     </div>
   )
 }

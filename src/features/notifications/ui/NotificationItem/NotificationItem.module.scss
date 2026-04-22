@@ -3,15 +3,21 @@
 
 .notificationItem {
   display: flex;
-  justify-content: space-between;
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid var(--border-color);
 }
+.headerWrapper {
+  display: flex;
+  column-gap: 10px;
+}
 
 .message {
-  margin-bottom: 6px;
   @include typo.text-regular-14;
+}
+
+.newNotificationText {
+  @include typo.text-bold-14;
 }
 
 .date {
@@ -20,7 +26,6 @@
 }
 
 .newLabel {
-  flex-shrink: 0;
   align-self: flex-start;
   color: styles.palette('accent', 500);
   @include typo.text-bold-14;
