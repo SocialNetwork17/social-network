@@ -1,11 +1,10 @@
 import React from 'react'
 import styles from './HeaderMenu.module.scss'
-import SelectBox, { BaseOption } from '@/shared/ui/select-box/SelectBox'
-import { IconButton } from '@/shared/ui/IconButton/IconButton'
-import { Button } from '@/shared/ui/Button/Button'
+import SelectBox, {BaseOption} from '@/shared/ui/select-box/SelectBox'
+import {Button} from '@/shared/ui/Button/Button'
 import Link from 'next/link'
-import { PATH } from '@/shared/constants/routings'
-import {ThemeSwitcher} from "@/shared/ui/ThemeSwitcher/ThemeSwitcher";
+import {PATH} from '@/shared/constants/routings'
+import {NotificationBell} from "@/features/notifications/ui/NotificationBell/NotificationBell";
 
 type HeaderMenu = {
   isLoggedIn: boolean
@@ -30,16 +29,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
     <div className={`${styles.menuBox}`}>
       {isLoggedIn ? (
         <>
-          <div className={styles.iconBox}>
-            <IconButton
-              onClick={onClickHandler}
-              iconId={'messageBell'}
-              size={20}
-              viewBox={'0 0 18 20'}
-              fill={'white'}
-            />
-            {!!countMessage && <p className={styles.counterMessage}>{countMessage}</p>}
-          </div>
+          <NotificationBell/>
           <SelectBox
             options={languages}
             onChange={handleSelect}
