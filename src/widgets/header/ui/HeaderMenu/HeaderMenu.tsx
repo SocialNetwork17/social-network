@@ -9,12 +9,10 @@ import {ThemeSwitcher} from "@/shared/ui/ThemeSwitcher/ThemeSwitcher";
 
 type HeaderMenu = {
   isLoggedIn: boolean
-  countMessage: number
-  onClickHandler: () => void
 }
 
 export const HeaderMenu = (props: HeaderMenu) => {
-  const { isLoggedIn, countMessage, onClickHandler } = props
+  const { isLoggedIn} = props
 
   const languages = [
     { id: '1', label: 'Russian', countryCode: 'RU' },
