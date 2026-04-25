@@ -1,0 +1,12 @@
+.postContainer {
+  display: grid;
+  width: 400px;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  gap: 12px;
+  justify-content: center;
+
+  & div {
+    height: 228px;
+  }
+}
