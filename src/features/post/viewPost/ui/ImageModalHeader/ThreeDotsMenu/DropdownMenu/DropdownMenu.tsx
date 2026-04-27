@@ -9,7 +9,7 @@ type DropdownMenuProps = {
     onDelete: () => void
 }
 
-export const DropdownMenu = ({ onEdit, onDelete }: DropdownMenuProps) => {
+export const DropdownMenu = ({ onEdit, onDelete}: DropdownMenuProps) => {
     return (
         <div className={s.dropdownMenu}>
             <button onClick={onEdit} className={s.dropdownItem}>
