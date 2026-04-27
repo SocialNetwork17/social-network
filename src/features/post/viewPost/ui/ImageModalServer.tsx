@@ -51,7 +51,7 @@ export const ImageModalServer = ({imageModalPost}: Props) => {
           <Card images={imageSlider} slider width={490} height={564}/>
           <div className={styles.modalDescription}>
             <ImageModalHeader imageModalPost={imageModalPost} isEditMode={viewMode === 'EDIT_POST'} setViewMode={setViewMode}/>
-            {viewMode === 'VIEW_POST' && <Comment imageModalPost={imageModalPost}/>}
+            {viewMode === 'VIEW_POST' && <Comment postinfo={imageModalPost}/>}
             {viewMode === 'EDIT_POST' && (
                 <EditModeSection text={text} imageModalPost={imageModalPost} setText={setText} setViewMode={setViewMode}/>
             )}

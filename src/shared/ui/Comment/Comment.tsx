@@ -9,13 +9,13 @@ import {PATH} from '@/shared/constants/routings'
 import {useModal} from '@/widgets/modal/model/modal.context'
 
 type Props = {
-    imageModalPost: SchemaPostViewModel
+    postinfo: SchemaPostViewModel
 }
 
-export const Comment = ({imageModalPost}: Props) => {
+export const Comment = ({postinfo}: Props) => {
 
 
-    if(!imageModalPost) {
+    if(!postinfo) {
         return <span>loading</span>
     }
 
@@ -25,29 +25,29 @@ export const Comment = ({imageModalPost}: Props) => {
         popModal()
     }
 
-    const dateTime = getTimeAgo(imageModalPost.createdAt)
+    const dateTime = getTimeAgo(postinfo.createdAt)
 
     return (
         <div className={styles.container}>
             <Link
-                href={PATH.PROFILE + `/${imageModalPost.ownerId}`}
+                href={PATH.PROFILE + `/${postinfo.ownerId}`}
                 className={styles.image}
                 onClick={() => handleUserNameClick()}
             >
-                {imageModalPost.avatarOwner ? (
-                    <Card images={imageModalPost.avatarOwner} width={36} height={36} variant="circular"/>
+                {postinfo.avatarOwner ? (
+                    <Card images={postinfo.avatarOwner} width={36} height={36} variant="circular"/>
                 ) : (
                     <div className={styles.avatarPlaceholder}>
-                        {(imageModalPost.userName?.charAt(0) || 'U').toUpperCase()}
+                        {(postinfo.userName?.charAt(0) || 'U').toUpperCase()}
                     </div>
                 )}
             </Link>
             <div>
                 <div>
-                    <Link href={PATH.PROFILE + `/${imageModalPost.ownerId}`} onClick={() => handleUserNameClick()}>
-                        <span className={styles.link}>{imageModalPost.userName}</span>
+                    <Link href={PATH.PROFILE + `/${postinfo.ownerId}`} onClick={() => handleUserNameClick()}>
+                        <span className={styles.link}>{postinfo.userName}</span>
                     </Link>
-                    <span className={styles.comment}>{imageModalPost.description}</span>
+                    <span className={styles.comment}>{postinfo.description}</span>
                 </div>
                 <div className={styles.time}>{dateTime}</div>
             </div>
