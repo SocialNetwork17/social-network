@@ -1,25 +1,34 @@
 @use '../../../styles/base/typography' as typo;
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   gap: 12px;
 
-  .header {
-  display: flex;
-  align-items: center;
-  gap: 29px;
-}
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-.slider {
-  height: 504px;
-  width: 100%;
-}
+    .first {
+      display: flex;
+      align-items: center;
+      gap: 29px;
+    }
+    .icons {
+      display: flex;
+      gap: 20px;
+    }
+  }
 
-.time {
-  @include typo.text-small;
-  color: var(--color-small-text);
-  outline: none;
-}
+  .slider {
+    height: 504px;
+    width: 100%;
+  }
 
+  .time {
+    @include typo.text-small;
+    color: var(--color-small-text);
+    outline: none;
+  }
 }
