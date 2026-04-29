@@ -4,7 +4,7 @@ import scss from './Button.module.scss'
 
 import Image, { StaticImageData } from 'next/image'
 
-type ButtonTheme = 'primary' | 'secondary' | 'outline' | 'textButton'
+type ButtonTheme = 'primary' | 'secondary' | 'outline' | 'textButton' | 'underline'
 
 type ButtonProps = {
   children: ReactNode

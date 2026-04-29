@@ -9,6 +9,8 @@ import { Comment } from '../Comment/Comment'
 import { ThreeDotsMenu } from '@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/ThreeDotsMenu'
 import { IconButton } from '../IconButton/IconButton'
 import { useState } from 'react'
+import { LikesWithAvatar } from '../LikesWithAvatar/LikesWithAvatar'
+import { Button } from '../Button/Button'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -26,6 +28,8 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
     setIsChecked(!isChecked)
   }
 
+  const handleOpenComment = () => {}
+
   return (
     <div className={styles.container}>
       <div className={styles.flex}>
@@ -37,7 +41,7 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
         {/* <ThreeDotsMenu postId={postItem.id} setViewMode={setViewMode}/> */}
       </div>
       <div className={styles.slider}>
-        <Card images={imageSlider} onClick={onClick} />
+        <Card images={imageSlider} slider={true} onClick={onClick} />
       </div>
       <div className={styles.flex}>
         <div className={styles.icons}>
@@ -48,6 +52,10 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
         <IconButton onClick={toggleMenu} iconId="favorites" size={24} viewBox="0 0 24 24" />
       </div>
       <Comment postinfo={postItem} />
+      <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
+      <Button variant="underline" onClick={handleOpenComment} disabled={false}>
+        View All Comments (114)
+      </Button>
     </div>
   )
 }
