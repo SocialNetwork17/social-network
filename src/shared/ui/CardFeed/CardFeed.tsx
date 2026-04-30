@@ -11,6 +11,7 @@ import { IconButton } from '../IconButton/IconButton'
 import { useState } from 'react'
 import { LikesWithAvatar } from '../LikesWithAvatar/LikesWithAvatar'
 import { Button } from '../Button/Button'
+import { TextArea } from '../TextArea/TextArea'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -19,6 +20,7 @@ type Props = {
 
 export const CardFeed = ({ postItem, onClick }: Props) => {
   const [isChecked, setIsChecked] = useState(false)
+  const [value, setValue] = useState('')
 
   const imageSlider = postItem.images.map(image => image.url)
 
@@ -56,6 +58,14 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
       <Button variant="underline" onClick={handleOpenComment} disabled={false}>
         View All Comments (114)
       </Button>
+      <div className={styles.publish}>
+        <TextArea label={''} value={value} onChange={setValue} placeholder={'Add a Comment...'} showCounter={false} variant={"simple"}/>
+        {value && (
+          <Button variant="textButton" onClick={() => {}} disabled={false}>
+            Publish
+          </Button>
+        )}
+      </div>
     </div>
   )
 }
