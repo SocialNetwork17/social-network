@@ -54,17 +54,27 @@
 
 .simpleTextArea {
   // Без обводки и фона
+
+  width: 100%;
+  display: block;
+
+  padding: 4px 10px;
+
   border: none;
   background: transparent;
-  padding: 8px 0;
-  font-size: 14px;
-  line-height: 1.5;
-  width: 100%;
-  resize: none;
   outline: none;
 
+  @include typo.text-regular-16;
+  letter-spacing: 0;
+  color: var(--color-text);
+  transition:
+    border-color 0.2s ease,
+    outline-color 0.2s ease;
+
+  resize: none;
+
   &:focus {
-    outline: none;
+    outline: 1px solid var(--border-color-default);
   }
 
   &::placeholder {
