@@ -23,6 +23,15 @@ export const ProfileHeader = (props: Props) => {
     router.push(`${PATH.SETTINGS}?part=${SettingsTabs.INFO}`)
   }
 
+  const onSendMessageHandler = () => {
+    const query = new URLSearchParams({
+      userId: String(user.id),
+      username: user.userName,
+    })
+
+    router.push(`${PATH.MESSENGER}?${query.toString()}`)
+  }
+
   return (
     <div className={styles.profileContainer}>
       {!user?.avatars.length && <Skeleton width={192} height={192} bordeRadius={96} />}
@@ -45,13 +54,17 @@ export const ProfileHeader = (props: Props) => {
           {type === 'friend' && (
             <div>
               <button>Unfollow</button>
-              <button>Send Message</button>
+              <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
+                Send Message
+              </Button>
             </div>
           )}
           {type === 'user' && (
             <div>
               <button>Follow</button>
-              <button>Send Message</button>
+              <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
+                Send Message
+              </Button>
             </div>
           )}
         </div>

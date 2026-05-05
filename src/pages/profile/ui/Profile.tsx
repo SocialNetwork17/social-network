@@ -1,12 +1,10 @@
 'use client'
 
+import { useMeQuery } from '@/shared/api/useMeQuery'
 import { useAuth } from '@/shared/hooks/useAuth'
 import styles from './Profile.module.scss'
 import { ProfileHeader } from '@/shared/ui/ProfileHeader/ProfileHeader'
 import { PostSimple } from '@/shared/ui/Posts/PostSimple/PostSimple'
-import { useDataMyProfileQuery } from '../api/useDataMyProfileQuery'
-import { useDataProfileQuery } from '@/pages/profile/api/useDataProfileQuery'
-import { ProfileSkeleton } from './ProfileSkeleton/ProfileSkeleton'
 import { SchemaProfileViewModel, SchemaPublicProfileViewModel } from '@/shared/api/schema'
 
 type Props = {
@@ -17,18 +15,13 @@ export const Profile = (props: Props) => {
   const { profileInfo } = props
 
   const { isAuth } = useAuth()
-  // const { data, isLoading } = ownerId ? useDataProfileQuery(ownerId) : useDataMyProfileQuery()
-
-  // if (isLoading)
-  //   return (
-  //     <div className={styles.container}>
-  //       <ProfileSkeleton />
-  //     </div>
-  //   )
+  const { data: me } = useMeQuery()
+  const profileType =
+    me?.userId === profileInfo.id ? 'profile' : isAuth ? 'user' : 'unauthorized'
 
   return (
     <div className={styles.container}>
-      <ProfileHeader user={profileInfo} type={isAuth ? 'profile' : 'unauthorized'} />
+      <ProfileHeader user={profileInfo} type={profileType} />
       <PostSimple userId={profileInfo.id} />
     </div>
   )

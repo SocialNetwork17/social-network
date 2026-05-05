@@ -9,7 +9,7 @@
     "start": "next start",
     "format": "prettier --write src",
     "getApi-script": "pnpm openapi-typescript https://inctagram.work/api/v1/swagger-json -o ./src/shared/api/schema.ts --root-types",
-    "lint": "eslint src --ext .jsx,.js,.tsx,.ts  --no-error-on-unmatched-pattern --fix && stylelint --fix src/{,*/}*.{scss,css} --allow-empty-input",
+    "lint": "eslint src --no-error-on-unmatched-pattern --fix && stylelint src/{,*/}*.{scss,css} --allow-empty-input",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -30,6 +30,7 @@
     "react-google-recaptcha": "3.1.0",
     "react-hook-form": "7.65.0",
     "react-redux": "9.2.0",
+    "socket.io-client": "^4.8.3",
     "uuid": "13.0.0",
     "zod": "4.1.12"
   },
