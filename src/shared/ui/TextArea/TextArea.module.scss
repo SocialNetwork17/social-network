@@ -51,3 +51,39 @@
   color: #8e8e8e;
   text-align: right;
 }
+
+.simpleTextArea {
+  // Без обводки и фона
+
+  width: 100%;
+  display: block;
+
+  padding: 4px 10px;
+
+  border: none;
+  background: transparent;
+  outline: none;
+
+  @include typo.text-regular-16;
+  letter-spacing: 0;
+  color: var(--color-text);
+  transition:
+    border-color 0.2s ease,
+    outline-color 0.2s ease;
+
+  resize: none;
+
+  &:focus {
+    outline: 1px solid var(--border-color-default);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
