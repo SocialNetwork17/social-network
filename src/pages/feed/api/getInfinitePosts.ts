@@ -5,20 +5,31 @@ import { client } from '@/shared/api/client'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import { AllPosts } from '@/entites/posts/model/types'
 
-interface UseInfinitePostsProps {
+type Props = {
   lastPostId: number
   pageSize?: number
+  totalCount: number
+  initialLoadedCount: number
 }
 
-export function getInfinitePosts({ lastPostId, pageSize = 4 }: UseInfinitePostsProps) {
+export function getInfinitePosts({ 
+  lastPostId, 
+  pageSize = 4, 
+  totalCount,
+  initialLoadedCount 
+}: Props) {
   const [posts, setPosts] = useState<SchemaPostViewModel[]>([])
   const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
+  
+  // Вычисляем hasMore на основе общего количества и уже загруженных постов
+  const [loadedCount, setLoadedCount] = useState(initialLoadedCount)
+  const [hasMore, setHasMore] = useState(initialLoadedCount < totalCount)
+  
   const [currentCursor, setCurrentCursor] = useState(lastPostId)
-
   const observerTarget = useRef<HTMLDivElement>(null)
 
   const loadMore = useCallback(async () => {
+    // Проверяем, можно ли загружать
     if (loading || !hasMore) return
 
     setLoading(true)
@@ -35,28 +46,37 @@ export function getInfinitePosts({ lastPostId, pageSize = 4 }: UseInfinitePostsP
         throw new Error('No data received from server')
       }
 
-      // ИСПРАВЛЕНИЕ: берем массив из response.data.items
       const data = response.data as AllPosts
       const newPosts = data.items || []
+      
+      // Обновляем количество загруженных постов
+      const newLoadedCount = loadedCount + newPosts.length
+      setLoadedCount(newLoadedCount)
 
       if (newPosts.length === 0) {
+        // Если новых постов нет - точно конец
         setHasMore(false)
       } else {
+        // Добавляем новые посты
         setPosts(prev => [...prev, ...newPosts])
+        
+        // Обновляем курсор для следующего запроса
         const lastPostIdFromNew = newPosts[newPosts.length - 1]?.id
-
         if (lastPostIdFromNew) {
           setCurrentCursor(lastPostIdFromNew)
         }
 
-        setHasMore(newPosts.length === pageSize)
+        // ВАЖНО: проверяем, есть ли ещё посты на основе общего количества
+        // Если загрузили все посты (loadedCount >= totalCount) - больше нет
+        const hasMorePosts = newLoadedCount < totalCount
+        setHasMore(hasMorePosts)
       }
     } catch (error) {
       console.error('Error loading more posts:', error)
     } finally {
       setLoading(false)
     }
-  }, [currentCursor, loading, hasMore, pageSize])
+  }, [currentCursor, loading, hasMore, pageSize, loadedCount, totalCount])
 
   useEffect(() => {
     const observer = new IntersectionObserver(

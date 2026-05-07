@@ -18,7 +18,7 @@ type Props = {
 export const Feed = ({ posts, imageModalPost }: Props) => {
   return (
     <div className={styles.container}>
-      <PostFeed posts={posts.items} />
+      <PostFeed posts={posts.items} totalCount={posts.totalCount}/>
       {imageModalPost && (
         <Suspense fallback={<Loader />}>
           <ImageModalServer imageModalPost={imageModalPost} />
