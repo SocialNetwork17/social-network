@@ -1,0 +1,28 @@
+@use '../../../styles/base/typography' as typo;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .slider {
+    height: 504px;
+    width: 100%;
+  }
+
+  .time {
+    @include typo.text-small;
+    color: var(--color-small-text);
+    outline: none;
+  }
+
+  .publish {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+
+    & > :not(:first-child) {
+      max-width: 70px;
+    }
+  }
+}

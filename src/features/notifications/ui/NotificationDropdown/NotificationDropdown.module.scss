@@ -1,0 +1,105 @@
+@use '../../../../styles/base/typography' as typo;
+@use '../../../../styles/abstract/index' as styles;
+
+.notificationCard {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+
+  top: 36px;
+  right: -15px;
+
+  width: 355px;
+  height: 424px;
+
+  padding: 20px;
+
+  background-color: var(--color-bg-500);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.notificationCard::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  right: 15px;
+
+  width: 0;
+  height: 0;
+
+  border-color: transparent;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid var(--border-color);
+  z-index: 1;
+}
+
+.notificationCard::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 17px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 8px solid var(--color-bg-500);
+
+  z-index: 2;
+}
+
+.notificationCardTitle {
+  margin-bottom: 12px;
+  @include typo.text-bold-16;
+  flex-shrink: 0;
+}
+
+.notificationCardContent {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--border-color);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.notificationCardContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+.notificationCardContent::-webkit-scrollbar-track {
+  background-color: var(--color-option-bg);
+  border-radius: 2px;
+}
+
+.notificationCardContent::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 2px;
+}
+
+.emptyMessage {
+  color: styles.palette('light', 900);
+}
+
+.centeredContent {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.nextPageLoader {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}

@@ -1,0 +1,1 @@
+export type ViewModeType = 'VIEW_POST' | 'EDIT_POST'

@@ -1,7 +1,8 @@
+"use client"
 import {ModalWrapper} from "@/widgets/modal/ui/ModalWrapper";
 import {ModalState} from "@/widgets/modal/model/modal.types";
-import {useState} from "react";
-import { ModalContext } from "./modal.context";
+import {Suspense, useState} from "react";
+import {ModalContext} from "./modal.context";
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     const [stack, setStack] = useState<ModalState[]>([])
@@ -28,7 +29,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             }}
         >
             {children}
-            <ModalWrapper/>
+            <Suspense fallback={null}>
+                <ModalWrapper/>
+            </Suspense>
         </ModalContext.Provider>
     )
 }

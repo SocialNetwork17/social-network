@@ -1,13 +1,16 @@
 "use client"
 import {useSearchParams} from "next/navigation";
 
-import {GeneralInformationContent} from "@/pages/settings/ui/TabsContent/GeneralInformationContent/GeneralInformationContent";
+import {
+    GeneralInformationContent
+} from "@/pages/settings/ui/TabsContent/GeneralInformationContent/GeneralInformationContent";
 import styles from "./TabsContent.module.scss"
 import {
     AccountManagementContent
 } from "@/pages/settings/ui/TabsContent/AccountManagementContent/ui/AccountManagementContent";
 import {MyPaymentsContent} from "@/pages/settings/ui/TabsContent/MyPaymentsContent/MyPaymentsContent"
 import {SettingsTabs, SettingsTabType} from "@/pages/settings/model/tabs.types";
+import {Suspense} from "react";
 
 
 export const TabsContent = () => {
@@ -17,11 +20,15 @@ export const TabsContent = () => {
 
     const currentContent = () => {
         switch (currentTab) {
-            case "info":
+            case SettingsTabs.INFO:
                 return <GeneralInformationContent/>
-            case "subscriptions":
-                return <AccountManagementContent/>
-            case "payments":
+            case SettingsTabs.SUBSCRIPTIONS:
+                return (
+                    <Suspense fallback={null}>
+                        <AccountManagementContent/>
+                    </Suspense>
+                )
+            case SettingsTabs.PAYMENTS:
                 return <MyPaymentsContent/>
             default:
                 return <GeneralInformationContent/>

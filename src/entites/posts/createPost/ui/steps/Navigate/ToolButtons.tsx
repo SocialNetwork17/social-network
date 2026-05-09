@@ -6,9 +6,11 @@ import { IconButton } from "@/shared/ui/IconButton/IconButton"
 type Props = {
     onAspectButtonClick: () => void
     onZoomButtonClick: () => void
+    onAddClick: () => void
+    canAddMore: boolean
 }
 
-export const ToolButtons = ({ onAspectButtonClick, onZoomButtonClick }: Props) => {
+export const ToolButtons = ({ onAspectButtonClick, onZoomButtonClick, onAddClick, canAddMore }: Props) => {
     return (
         <>
             <div className={s.cropTools} onClick={onAspectButtonClick}>
@@ -25,6 +27,11 @@ export const ToolButtons = ({ onAspectButtonClick, onZoomButtonClick }: Props) =
                 />
             </div>
 
+            {canAddMore && (
+                <div className={s.addButton} onClick={onAddClick}>
+                    <span>+</span>
+                </div>
+            )}
         </>
     )
 }

@@ -1,18 +1,16 @@
 import styles from './Skeleton.module.scss'
 
 type Props = {
-  width: number
-  height: number
-  bordeRadius?: number
+  width?: number | string
+  height: number | string
+  borderRadius?: number | string
 }
 
-export const Skeleton =(props: Props) => {
-  const { height, width, bordeRadius = 2 } = props
-
+export const Skeleton = ({ height, width = '100%', borderRadius = 2 }: Props) => {
   return (
-    <div
-      style={{ height: height, width: width, borderRadius: bordeRadius }}
-      className={styles.container}
-    ></div>
+      <div
+          style={{ height, width, borderRadius }}
+          className={styles.container}
+      />
   )
 }

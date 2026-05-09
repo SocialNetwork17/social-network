@@ -7,6 +7,8 @@ import {useModal} from "@/widgets/modal/model/modal.context";
 import {useDeletePost} from "@/shared/api/usePostDelete";
 import {usePostQuery} from "@/shared/api/usePostQuery";
 import {useSnackbar} from "@/widgets/snackbar/model/snackbar.context";
+import {useDeletePostIdFromUrl} from "@/shared/hooks/useDeletePostIdFromUrl";
+import {useRouter} from "next/navigation";
 
 
 type Props = {
@@ -15,9 +17,11 @@ type Props = {
 
 export const CancelDeletePostModalContent = ({modal}: Props) => {
     const {clearModals, popModal} = useModal()
+    const router = useRouter()
 
     const deletePostMutation = useDeletePost()
     const { data: postInfo} = usePostQuery(modal.payload.postId)
+    const {deletePostIdFromUrl} = useDeletePostIdFromUrl()
 
     const { successSnackbar} = useSnackbar()
 
@@ -27,6 +31,8 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
             if (postInfo?.id) {
                 await deletePostMutation.mutateAsync(postInfo.id)
                 clearModals()
+                deletePostIdFromUrl()
+                router.refresh()
                 successSnackbar('Removal was successful')
             }
         } catch (error) {
@@ -49,7 +55,7 @@ export const CancelDeletePostModalContent = ({modal}: Props) => {
             //             finalErrorMessage = `Error: ${errorStatusCode}`;
             //             break;
             //     }
-            //
+
             }
     }
 

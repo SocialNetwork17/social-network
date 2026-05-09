@@ -42,7 +42,7 @@ export const EditAvatar = () => {
         <div className={s.setAvatar}>
 
             {isLoading ? (
-                <Skeleton width={192} height={192} bordeRadius={96}/>
+                <Skeleton width={192} height={192} borderRadius={96}/>
             ) : avatarUrl ? (
                 <>
                     <Card

@@ -1,19 +1,18 @@
 import React from 'react'
 import styles from './HeaderMenu.module.scss'
-import SelectBox, { BaseOption } from '@/shared/ui/select-box/SelectBox'
-import { IconButton } from '@/shared/ui/IconButton/IconButton'
-import { Button } from '@/shared/ui/Button/Button'
+import SelectBox, {BaseOption} from '@/shared/ui/select-box/SelectBox'
+import {Button} from '@/shared/ui/Button/Button'
 import Link from 'next/link'
-import { PATH } from '@/shared/constants/routings'
+import {PATH} from '@/shared/constants/routings'
+import {NotificationBell} from "@/features/notifications/ui/NotificationBell/NotificationBell";
+import {ThemeSwitcher} from "@/shared/ui/ThemeSwitcher/ThemeSwitcher";
 
 type HeaderMenu = {
   isLoggedIn: boolean
-  countMessage: number
-  onClickHandler: () => void
 }
 
 export const HeaderMenu = (props: HeaderMenu) => {
-  const { isLoggedIn, countMessage, onClickHandler } = props
+  const { isLoggedIn} = props
 
   const languages = [
     { id: '1', label: 'Russian', countryCode: 'RU' },
@@ -29,21 +28,13 @@ export const HeaderMenu = (props: HeaderMenu) => {
     <div className={`${styles.menuBox}`}>
       {isLoggedIn ? (
         <>
-          <div className={styles.iconBox}>
-            <IconButton
-              onClick={onClickHandler}
-              iconId={'messageBell'}
-              size={20}
-              viewBox={'0 0 18 20'}
-              fill={'white'}
-            />
-            {!!countMessage && <p className={styles.counterMessage}>{countMessage}</p>}
-          </div>
+          <NotificationBell/>
           <SelectBox
             options={languages}
             onChange={handleSelect}
             defaultValue={languages[1]} // GB will be pre-selected
           />
+          <ThemeSwitcher className={styles.themeSwitcher}/>
         </>
       ) : (
         <>
@@ -63,6 +54,7 @@ export const HeaderMenu = (props: HeaderMenu) => {
                 Sign up
               </Button>
             </Link>
+            <ThemeSwitcher/>
           </div>
         </>
       )}

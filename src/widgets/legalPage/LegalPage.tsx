@@ -1,7 +1,7 @@
+"use client"
 import styles from './LegalPage.module.scss'
-import { Icon } from '@/shared/ui/Icon/Icon'
-import Link from 'next/link'
-import { PATH } from '@/shared/constants/routings'
+import {IconButton} from "@/shared/ui/IconButton/IconButton";
+import {useRouter} from "next/navigation";
 
 type Props = {
   title: string
@@ -9,13 +9,18 @@ type Props = {
 }
 
 export const LegalPage = ({ title, description }: Props) => {
+
+    const router = useRouter()
+
+    const onClickHandle = () => {
+        router.back()
+    }
+
   return (
     <div className={styles.container}>
       <div className={styles.backWrapper}>
-        <Link className={styles.link} href={PATH.SIGN_UP}>
-          <Icon iconId={'arrow-back'} />
-        </Link>
-        Back to Sign Up
+          <IconButton  iconId={'arrow-back'} onClick={onClickHandle}/>
+        Back
       </div>
       <div className={styles.pageWrapper}>
         <h1 className={styles.title}>{title}</h1>

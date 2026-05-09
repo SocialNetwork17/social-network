@@ -1,19 +1,27 @@
-import { getProfileServer } from '@/pages/profile/api/getProfileServer'
-import { Profile } from '@/pages/profile/ui/Profile'
+import {getProfileServer} from '@/pages/profile/api/getProfileServer'
+import {Profile} from '@/pages/profile/ui/Profile'
+import {getPostsServer} from "@/pages/profile/api/getPostsServer";
+import {getModalPostByIdServer} from "@/features/post/viewPost/api/getModalPostByIdServer";
 
 type PageProps = {
-  params: Promise<{
-    slug: string
-  }>
+    params: Promise<{
+        slug: string
+    }>
+    searchParams: Promise<{
+        postId: string
+    }>
 }
 
-export const revalidate = 300
+export default async function UserProfile({params, searchParams}: PageProps) {
+    const {slug} = await params
+    const {postId} = await searchParams
+    const userId = Number(slug)
 
-export default async function UserProfile({ params }: PageProps) {
-  const { slug } = await params
-  const userId = Number(slug)
+    const [profileInfo, userPosts, imageModalPost] = await Promise.all([
+        getProfileServer(userId),
+        getPostsServer(userId),
+        postId ? getModalPostByIdServer(Number(postId)) : Promise.resolve(undefined)
+    ])
 
-  const [profileInfo] = await Promise.all([getProfileServer(userId)])
-
-  return <Profile profileInfo={profileInfo} />
+    return <Profile userPosts={userPosts} profileInfo={profileInfo} imageModalPost={imageModalPost}/>
 }

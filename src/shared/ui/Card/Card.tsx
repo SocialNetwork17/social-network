@@ -4,6 +4,7 @@ import Image from 'next/image'
 import styles from './Card.module.scss'
 import { useState } from 'react'
 import {Skeleton} from '../Skeleton/Skeleton'
+import { Icon } from '../Icon/Icon'
 
 type Props = {
   images: string[] | string 
@@ -68,7 +69,7 @@ export const Card = (props: Props) => {
             disabled={currentIndex === 0}
             aria-label="Previous image"
           >
-            ‹
+            <Icon iconId={"leftArrow"} size={48} viewBox="0 0 48 48"/>
           </button>
           <button
             className={`${styles.arrow} ${styles.arrowRight}`}
@@ -76,7 +77,7 @@ export const Card = (props: Props) => {
             disabled={currentIndex === imagesArray.length - 1}
             aria-label="Next image"
           >
-            ›
+            <Icon iconId={"rightArrow"} size={48} viewBox="0 0 48 48"/>
           </button>
         </>
       )}

@@ -1,0 +1,19 @@
+.skeletonWrapper {
+  margin-top: 24px;
+}
+.skeletonPostsContainer {
+  margin-top: 36px;
+  display: flex;
+  justify-content: space-between;
+}
+.skeletonPostAvatar {
+  margin: 3px 0;
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+}
+.skeletonPostDescription {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
