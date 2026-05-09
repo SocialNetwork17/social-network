@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { Icon } from '@/shared/ui/Icon/Icon'
+import { formatMessengerDate } from '../lib/formatMessengerDate'
 import { Chat, MessengerParticipant } from '../model/types'
 import styles from './ChatList.module.scss'
 
@@ -18,15 +19,6 @@ type Props = {
   setSearchValue: (value: string) => void
 }
 
-const formatChatTime = (value: string) => {
-  const date = new Date(value)
-
-  return date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
-
 const getInitials = (value: string) =>
   value
     .split(/\s+|_|-/)
@@ -34,6 +26,14 @@ const getInitials = (value: string) =>
     .slice(0, 2)
     .map(part => part[0]?.toUpperCase() ?? '')
     .join('')
+
+const getChatPreview = (chat: Chat, currentUserId: number) => {
+  if (!chat.lastMessage) {
+    return 'Start conversation'
+  }
+
+  return chat.lastMessageSenderId === currentUserId ? `You: ${chat.lastMessage}` : chat.lastMessage
+}
 
 export const ChatList = ({
   chats,
@@ -127,9 +127,9 @@ export const ChatList = ({
                   <span className={styles.content}>
                     <span className={styles.metaLine}>
                       <span className={styles.username}>{chat.participantUsername}</span>
-                      <span className={styles.time}>{formatChatTime(chat.updatedAt)}</span>
+                      <span className={styles.time}>{formatMessengerDate(chat.updatedAt)}</span>
                     </span>
-                    <span className={styles.preview}>{chat.lastMessage ?? 'Start conversation'}</span>
+                    <span className={styles.preview}>{getChatPreview(chat, currentUserId)}</span>
                   </span>
                 </button>
               </li>

@@ -47,6 +47,7 @@ const ensureChatRecord = (chats: Chat[], participant: MessengerParticipant, last
     participantUsername: participant.userName,
     participantAvatarUrl: participant.avatars?.[0]?.url ?? existingChat?.participantAvatarUrl,
     lastMessage: lastMessage ?? existingChat?.lastMessage,
+    lastMessageSenderId: existingChat?.lastMessageSenderId,
     updatedAt: existingChat?.updatedAt ?? new Date().toISOString(),
   } satisfies Chat
 }
@@ -75,6 +76,7 @@ const mapLastMessageToChat = (
     participantUsername: message.userName,
     participantAvatarUrl: message.avatars?.[0]?.url,
     lastMessage: message.messageText,
+    lastMessageSenderId: message.ownerId,
     updatedAt: message.updatedAt,
   }
 }
@@ -126,7 +128,7 @@ export const useMessenger = (currentUserId?: number) => {
         return prevSelectedChatId
       }
 
-      return mergedChats[0]?.id ?? null
+      return null
     })
   }, [currentUserId])
 

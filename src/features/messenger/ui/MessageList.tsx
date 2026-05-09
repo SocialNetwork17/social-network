@@ -1,6 +1,8 @@
 'use client'
 
 import Image from 'next/image'
+import { Icon } from '@/shared/ui/Icon/Icon'
+import { formatMessengerDate } from '../lib/formatMessengerDate'
 import { ChatMessage } from '../model/types'
 import styles from './MessageList.module.scss'
 
@@ -26,6 +28,26 @@ const getInitials = (value: string) =>
     .slice(0, 2)
     .map(part => part[0]?.toUpperCase() ?? '')
     .join('')
+
+const renderStatus = (status: ChatMessage['status']) => {
+  switch (status) {
+    case 'sent':
+      return <Icon iconId={'checkmark-outline'} size={16} viewBox={'0 0 16 16'} />
+    case 'received':
+      return <Icon iconId={'done-all-outline'} size={16} viewBox={'0 0 16 16'} />
+    case 'read':
+      return (
+        <Icon
+          iconId={'done-all-outline'}
+          size={16}
+          viewBox={'0 0 16 16'}
+          fill={'#0031ff'}
+        />
+      )
+    default:
+      return statusLabel[status]
+  }
+}
 
 export const MessageList = ({
   currentUserId,
@@ -63,15 +85,12 @@ export const MessageList = ({
                   </span>
                 )}
                 <div className={bubbleClassName}>
-                  <p className={styles.text}>{message.text}</p>
+                  <p className={styles.text}>
+                    {isOwnMessage ? `You: ${message.text}` : message.text}
+                  </p>
                   <div className={styles.meta}>
-                    <span>{statusLabel[message.status]}</span>
-                    <time dateTime={message.createdAt}>
-                      {new Date(message.createdAt).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </time>
+                    <time dateTime={message.createdAt}>{formatMessengerDate(message.createdAt)}</time>
+                    {isOwnMessage && <span className={styles.status}>{renderStatus(message.status)}</span>}
                   </div>
                 </div>
               </li>

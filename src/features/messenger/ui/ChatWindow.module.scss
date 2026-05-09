@@ -57,8 +57,8 @@
 
 .emptyBadge {
   padding: 10px 18px;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #2d2d2d;
   color: #d7d7d7;
-  font-size: 12px;
+  @include typo.text-medium-14;
 }

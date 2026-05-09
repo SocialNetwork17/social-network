@@ -16,6 +16,7 @@ export type Chat = {
   participantUsername: string
   participantAvatarUrl?: string
   lastMessage?: string
+  lastMessageSenderId?: number
   updatedAt: string
 }
 
