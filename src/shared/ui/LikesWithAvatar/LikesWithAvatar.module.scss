@@ -1,4 +1,17 @@
 .container {
+  display: flex;
+  gap: 12px;
+
+  .avatars {
     display: flex;
-    gap: 12px;
+    position: relative;
+
+    .avatarWrapper {
+      position: relative;
+
+      &:not(:first-child) {
+        margin-left: -10px; // Смещение для второго и третьего
+      }
+    }
+  }
 }

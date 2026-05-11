@@ -13,14 +13,20 @@ export const LikesWithAvatar = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      {avatarWhoLikes &&
-        avatarWhoLikes.slice(0, 3).map((avatar, index) => (
-          <div key={index}>
+      <div className={styles.avatars}>
+        {avatarWhoLikes.slice(0, 3).map((avatar, index) => (
+          <div
+            key={index}
+            className={styles.avatarWrapper}
+            style={{ zIndex: 3 - index }} // чтобы первый был сверху
+          >
             <Card images={avatar} width={24} height={24} variant="circular" />
           </div>
         ))}
-      {likesCount > 3 && <span>+{likesCount - 3}</span>}
-      <span>{likesCount} "Like"</span>
+      </div>
+        <span>
+          {likesCount} {likesCount === 1 ? 'Like' : 'Likes'}
+        </span>
     </div>
   )
 }
