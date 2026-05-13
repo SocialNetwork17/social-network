@@ -3,10 +3,10 @@ import { Card } from '../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import { Comment } from '../Comment/Comment'
 import { LikesWithAvatar } from '../LikesWithAvatar/LikesWithAvatar'
-import { Button } from '../Button/Button'
 import { FeedHeader } from './FeedHeader/FeedHeader'
 import { FeedTools } from './FeedTools/FeedTools'
 import { CreateComment } from './CreateComment/CreateComment'
+import { CommentsInfinity } from '../CommentsInfinity/CommentsInfinity'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -15,8 +15,6 @@ type Props = {
 
 export const CardFeed = ({ postItem, onClick }: Props) => {
   const imageSlider = postItem.images.map(image => image.url)
-
-  const handleOpenComment = () => {}
 
   return (
     <div className={styles.container}>
@@ -27,9 +25,7 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
       <FeedTools />
       <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
-      <Button variant="underline" onClick={handleOpenComment} disabled={false}>
-        View All Comments (114)
-      </Button>
+      <CommentsInfinity postId={postItem.id}/>
       <CreateComment postId={postItem.id}/>
     </div>
   )

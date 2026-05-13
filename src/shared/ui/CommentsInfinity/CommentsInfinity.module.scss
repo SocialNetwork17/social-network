@@ -1,0 +1,8 @@
+@use '../../../styles/base/typography' as typo;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+}

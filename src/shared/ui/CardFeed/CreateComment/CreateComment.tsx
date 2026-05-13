@@ -40,6 +40,7 @@ export const CreateComment = ({ postId }: Props) => {
         placeholder={'Add a Comment...'}
         showCounter={false}
         variant={'simple'}
+        maxLength={300}
       />
       {value && (
         <Button variant="textButton" onClick={handleSubmit} disabled={isPending}>
