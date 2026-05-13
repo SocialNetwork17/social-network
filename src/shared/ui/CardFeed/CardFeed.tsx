@@ -25,7 +25,7 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
         <Card images={imageSlider} slider={true} onClick={onClick} />
       </div>
       <FeedTools />
-      <Comment postinfo={postItem} />
+      <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
       <Button variant="underline" onClick={handleOpenComment} disabled={false}>
         View All Comments (114)

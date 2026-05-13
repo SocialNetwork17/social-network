@@ -10,7 +10,7 @@ export const useCreateCommentMutation = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationKey: ['createComment'], // нужно перепроверить с чем завязан mutation
+        mutationKey: ['comment'], // нужно перепроверить с чем завязан mutation
         mutationFn: async ({ postId, content }: CreateCommentArgs) => {
             await client.GET("/api/v1/auth/me").catch(() => null);
 
@@ -34,7 +34,7 @@ export const useCreateCommentMutation = () => {
 
         onSuccess: (_, { postId }) => {
             queryClient.invalidateQueries({
-                queryKey: ['posts feed', postId], // нужно перепроверить с чем завязан mutation
+                queryKey: ['comment', postId], // нужно перепроверить с чем завязан mutation
                 exact: false, // exact: false означает "все, что начинается с этого ключа"
             })
         },
