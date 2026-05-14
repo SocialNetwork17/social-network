@@ -6,7 +6,7 @@ import { LikesWithAvatar } from '../LikesWithAvatar/LikesWithAvatar'
 import { FeedHeader } from './FeedHeader/FeedHeader'
 import { FeedTools } from './FeedTools/FeedTools'
 import { CreateComment } from './CreateComment/CreateComment'
-import { CommentsInfinity } from '../CommentsInfinity/CommentsInfinity'
+import { CommentsBlock } from '../CommentsBlock/CommentsBlock'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -25,7 +25,7 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
       <FeedTools />
       <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
-      <CommentsInfinity postId={postItem.id}/>
+      <CommentsBlock postId={postItem.id}/>
       <CreateComment postId={postItem.id}/>
     </div>
   )

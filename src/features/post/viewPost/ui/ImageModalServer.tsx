@@ -13,6 +13,7 @@ import { SchemaPostViewModel } from '@/shared/api/schema'
 import { ViewModeType } from '@/features/post/viewPost/ui/model/imageModalServer.types'
 import { useLockScroll } from '@/shared/hooks/useLockScroll'
 import { useCommentsQuery } from '@/shared/api/useCommentsQuery'
+import { CommentsInfinity } from '@/shared/ui/CommentsBlock/CommentsInfinity/CommentsInfinity'
 
 type Props = {
   imageModalPost: SchemaPostViewModel
@@ -67,12 +68,7 @@ const { data: comments} = useCommentsQuery(imageModalPost.id)
               />
             )}
 
-            {/* коменатрии */}
-            {comments?.items?.map(comment => 
-              <div key={comment.id}>
-                <Comment createdAt={comment.createdAt} ownerId={comment.from.id} avatarOwner={(comment.from.avatars as any)?.[0] || null} userName={comment.from.username} comment={comment.content}/>
-              </div>
-            )}
+            {viewMode !== 'EDIT_POST' && comments?.items && <CommentsInfinity comments={comments?.items} customStyle={{ maxHeight: "336px" }}/> }
           </div>
         </div>
 
