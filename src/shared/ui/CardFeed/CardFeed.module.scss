@@ -15,14 +15,4 @@
     color: var(--color-small-text);
     outline: none;
   }
-
-  .publish {
-    display: flex;
-    align-items: start;
-    gap: 12px;
-
-    & > :not(:first-child) {
-      max-width: 70px;
-    }
-  }
 }

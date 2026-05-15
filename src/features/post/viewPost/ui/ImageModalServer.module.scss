@@ -1,9 +1,8 @@
 @use '../../../../styles/abstract/index' as styles;
 @use '../../../../styles/base/typography' as typo;
 
-
 .backdrop {
-  @include styles.backdrop
+  @include styles.backdrop;
 }
 
 .modalContent {
@@ -21,8 +20,15 @@
   flex-direction: column;
   width: 50%;
 
-  > div {
-      padding: 24px;
+  > div:first-child {
+    padding: 12px 24px;
+  }
+
+  .comments {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 }
 
@@ -73,7 +79,6 @@
     transform: scale(1);
   }
 }
-
 
 .editSection {
   display: flex;

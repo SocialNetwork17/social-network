@@ -1,15 +1,12 @@
-'use client'
-
 import styles from './CardFeed.module.scss'
 import { Card } from '../Card/Card'
 import { SchemaPostViewModel } from '@/shared/api/schema'
 import { Comment } from '../Comment/Comment'
-import { useState } from 'react'
 import { LikesWithAvatar } from '../LikesWithAvatar/LikesWithAvatar'
-import { Button } from '../Button/Button'
-import { TextArea } from '../TextArea/TextArea'
 import { FeedHeader } from './FeedHeader/FeedHeader'
 import { FeedTools } from './FeedTools/FeedTools'
+import { CreateComment } from './CreateComment/CreateComment'
+import { CommentsBlock } from '../CommentsBlock/CommentsBlock'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -17,11 +14,7 @@ type Props = {
 }
 
 export const CardFeed = ({ postItem, onClick }: Props) => {
-  const [value, setValue] = useState('')
-
   const imageSlider = postItem.images.map(image => image.url)
-
-  const handleOpenComment = () => {}
 
   return (
     <div className={styles.container}>
@@ -30,26 +23,10 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
         <Card images={imageSlider} slider={true} onClick={onClick} />
       </div>
       <FeedTools />
-      <Comment postinfo={postItem} />
+      <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
-      <Button variant="underline" onClick={handleOpenComment} disabled={false}>
-        View All Comments (114)
-      </Button>
-      <div className={styles.publish}>
-        <TextArea
-          label={''}
-          value={value}
-          onChange={setValue}
-          placeholder={'Add a Comment...'}
-          showCounter={false}
-          variant={'simple'}
-        />
-        {value && (
-          <Button variant="textButton" onClick={() => {}} disabled={false}>
-            Publish
-          </Button>
-        )}
-      </div>
+      <CommentsBlock postId={postItem.id}/>
+      <CreateComment postId={postItem.id}/>
     </div>
   )
 }
