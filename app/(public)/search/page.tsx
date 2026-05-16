@@ -1,4 +1,5 @@
-import {SearchPage} from "@/pages/auth/search/SearchPage";
+import { SearchPage } from "@/pages/auth/search/SearchPage";
+
 
 export default function Congratulation() {
     return (

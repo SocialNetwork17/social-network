@@ -1,0 +1,64 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 35px;
+  padding-left: 25px;
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 180%;
+  color: var(--light-100);
+}
+
+.results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: transparent;
+  @include typo.text-regular-14;
+}
+
+.userItem {
+  display: flex;
+}
+
+.userName {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.loadMoreTrigger {
+  height: 1px;
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+  color: styles.palette('light', 100);
+  border: 1px solid styles.palette('dark', 500);
+  border-top: none;
+  @include typo.text-regular-16;
+}
