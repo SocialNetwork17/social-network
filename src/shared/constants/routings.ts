@@ -14,6 +14,7 @@ export const PATH = {
   //profile
   PROFILE: '/profile',
   SETTINGS: '/settings',
+  MESSENGER: '/messenger',
 
 
 
