@@ -1,7 +1,9 @@
 .storybook-page {
   margin: 0 auto;
-  padding: 48px 20px;
+
   max-width: 600px;
+  padding: 48px 20px;
+
   color: #333;
   font-size: 14px;
   line-height: 24px;
@@ -10,11 +12,12 @@
 
 .storybook-page h2 {
   display: inline-block;
-  vertical-align: top;
   margin: 0 0 4px;
-  font-weight: 700;
+
   font-size: 32px;
+  font-weight: 700;
   line-height: 1;
+  vertical-align: top;
 }
 
 .storybook-page p {
@@ -36,15 +39,17 @@
 
 .storybook-page .tip {
   display: inline-block;
-  vertical-align: top;
   margin-right: 10px;
+
   border-radius: 1em;
   background: #e7fdd8;
   padding: 4px 12px;
+
   color: #357a14;
-  font-weight: 700;
   font-size: 11px;
+  font-weight: 700;
   line-height: 12px;
+  vertical-align: top;
 }
 
 .storybook-page .tip-wrapper {
@@ -56,11 +61,12 @@
 
 .storybook-page .tip-wrapper svg {
   display: inline-block;
-  vertical-align: top;
-  margin-top: 3px;
-  margin-right: 4px;
+
   width: 12px;
   height: 12px;
+  margin-top: 3px;
+  margin-right: 4px;
+  vertical-align: top;
 }
 
 .storybook-page .tip-wrapper svg path {

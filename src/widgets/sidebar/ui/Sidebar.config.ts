@@ -1,5 +1,5 @@
 export const Path = {
-  Feed: '/',
+  Feed: '/feed',
   Create: '/create',
   Profile: '/profile',
   Messenger: '/messenger',

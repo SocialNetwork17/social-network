@@ -1,0 +1,33 @@
+@use '../../../../styles/base/typography' as typo;
+
+.comments {
+  overflow-y: auto;
+  // padding: 10px 20px 10px 10px; /* убрала бордер */
+  // border: 2px solid var(--color-accent);
+  // border-radius: 4px;
+}
+
+/* Стилизация скроллбара */
+.comments::-webkit-scrollbar {
+  width: 12px; /* увеличиваем ширину для отступов */
+}
+
+.comments::-webkit-scrollbar-track {
+  background: var(--color-arrow);
+  border-radius: 6px;
+  background-clip: padding-box; /* создаёт отступы */
+  border: solid 3px transparent; /* создаёт отступы */
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 6px;
+  background-clip: padding-box; /* создаёт отступы */
+  border: solid 3px transparent; /* создаёт отступы */
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+  background: var(--color-small-text);
+  background-clip: padding-box; /* создаёт отступы */
+  border: solid 3px transparent; /* создаёт отступы */
+}

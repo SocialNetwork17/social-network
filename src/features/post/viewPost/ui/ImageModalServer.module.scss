@@ -1,9 +1,8 @@
 @use '../../../../styles/abstract/index' as styles;
 @use '../../../../styles/base/typography' as typo;
 
-
 .backdrop {
-  @include styles.backdrop
+  @include styles.backdrop;
 }
 
 .modalContent {
@@ -20,6 +19,17 @@
   display: flex;
   flex-direction: column;
   width: 50%;
+
+  > div:first-child {
+    padding: 12px 24px;
+  }
+
+  .comments {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .closeButton {
@@ -70,7 +80,6 @@
   }
 }
 
-
 .editSection {
   display: flex;
   flex-direction: column;
@@ -80,7 +89,7 @@
 
 .saveButton {
   align-self: flex-end;
-  padding-top: 240px;
+  padding-top: 180px;
 }
 
 .helpText {

@@ -15,6 +15,11 @@ $secondary-disabled: styles.palette('dark', 500);
 $disabled-text: styles.palette('light', 900);
 $white: styles.palette('light', 100);
 
+// Цвета для underline кнопки
+$underline-color: #8D9094;
+$underline-hover: styles.palette('accent', 500); // или любой другой цвет при ховере
+$underline-active: styles.palette('accent', 700); // цвет при активации
+
 // Миксин для базовых стилей кнопки
 @mixin button-base {
   width: 100%;
@@ -109,6 +114,74 @@ $white: styles.palette('light', 100);
   }
 }
 
+// Миксин для underline кнопки
+// Миксин для underline кнопки с указанными стилями
+@mixin underline-button($color, $hover-color, $active-color) {
+  // Основные стили текста
+  color: $color;
+  
+  // Стили кнопки
+  background: none;
+  padding: 6px 0; 
+  position: relative;
+  
+  // Основное подчеркивание
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: $color;
+    transition: transform 0.2s ease;
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  
+  // Подчеркивание при наведении
+  &:hover:not(:active)::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  &:hover:not(:active) {
+    color: $hover-color;
+    
+    &::after {
+      background-color: $hover-color;
+    }
+  }
+  
+  &:active {
+    color: $active-color;
+    
+    &::after {
+      background-color: $active-color;
+      transform: scaleX(1);
+    }
+  }
+  
+  &:focus-visible {
+    color: $active-color;
+    outline: none;
+    
+    &::after {
+      background-color: $active-color;
+      transform: scaleX(1);
+    }
+  }
+  
+  &:disabled {
+    color: $active-color;
+    cursor: auto;
+    
+    &::after {
+      background-color: $active-color;
+    }
+  }
+}
+
 // Стили кнопок
 .button {
   @include button-base;
@@ -137,4 +210,9 @@ $white: styles.palette('light', 100);
 // Кастомные настройки для secondary focus
 .secondary:focus-visible {
   border: 1px solid rgba(76, 141, 255, 1);
+}
+
+.underline {
+  @include button-base;
+  @include underline-button($underline-color, $underline-hover, $underline-active);
 }
