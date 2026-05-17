@@ -7,6 +7,8 @@ import {SearchInput} from "@/shared/ui/SearchInput/SearchInput";
 import {useSearchUsers} from "@/features/searchUsers/api/useSearchUsers";
 import {PATH} from "@/shared/constants/routings";
 import {Icon} from "@/shared/ui/Icon/Icon";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
+import {Loader} from "@/shared/ui/Loader/Loader";
 
 
 export const SearchPage = () => {
@@ -14,6 +16,7 @@ export const SearchPage = () => {
     const [query, setQuery] = useState('')
     const [debouncedQuery, setDebouncedQuery] = useState('')
     const loadMoreRef = useRef<HTMLDivElement | null>(null)
+    const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -28,14 +31,14 @@ export const SearchPage = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isLoading
     } = useSearchUsers(debouncedQuery)
 
     const users = useMemo(() => data?.pages.flatMap(page => page.items ?? []) ?? [], [data])
 
-    console.log(users)
-
     useEffect(() => {
         const target = loadMoreRef.current
+        const container = scrollContainerRef.current
 
         if (!target || !hasNextPage) {
             return
@@ -45,7 +48,7 @@ export const SearchPage = () => {
             if (entries[0]?.isIntersecting && !isFetchingNextPage) {
                 fetchNextPage()
             }
-        }, {threshold: 0.5})
+        }, {threshold: 0.5, root: container})
 
         observer.observe(target)
 
@@ -55,52 +58,59 @@ export const SearchPage = () => {
 
     return (
         <div className={s.container}>
-            <span className={s.title}>Search</span>
-            <div className={s.userTop}>
+            <div className={s.headerSection}>
+                <h1 className={s.title}>Search</h1>
                 <SearchInput
                     placeholder={"Search input"}
                     onValueChange={setQuery}
                 />
+                <h2 className={s.subTitle}>Recent requests</h2>
             </div>
 
-            {users.length > 0 ? (
-                <>
-                    <ul className={s.results}>
-                        {users.map(user => {
-                            const avatarUrl = user.avatars?.[0]?.url
+            {isLoading && users.length === 0 ?
+                (<div>
+                    <Loader/>
+                </div>) :
+                (<div ref={scrollContainerRef} className={s.scrollableContent}>
+                    {users.length > 0 ? (
+                        <>
+                            <ul className={s.results}>
+                                {users.map(user => {
+                                    const avatarUrl = user.avatars?.[0]?.url
 
-                            return (
-                                <li
-                                    key={user.id}
-                                    className={s.userItem}
-                                    onClick={() => router.push(`${PATH.PROFILE}/${user.id}`)}
-                                >
-                                    {avatarUrl ? (
-                                        <img
-                                            src={avatarUrl}
-                                            alt={user.userName}
-                                            className={s.avatar}
-                                        />
-                                    ) : (
-                                        <Icon iconId={'default-avatar'} size={48} viewBox={'0 0 62 62'}/>
+                                    return (
+                                        <li key={user.id} className={s.userItem}>
+                                            {avatarUrl ? (
+                                                <img
+                                                    src={avatarUrl}
+                                                    alt={user.userName}
+                                                    className={s.avatar}
+                                                />
+                                            ) : (
+                                                <Icon iconId={'default-avatar'} size={48} viewBox={'0 0 62 62'}/>
+                                            )}
+                                            <div
+                                                className={s.userNameWrapper}
+                                                onClick={() => router.push(`${PATH.PROFILE}/${user.id}`)}>
+                                                <span className={s.userName}>{user.userName}</span>
+                                                <span className={s.userFirstLastName}>{`${user.firstName ?? ''} ${user.lastName ?? ''}`}</span>
+                                            </div>
+                                        </li>
                                     )}
-                                    <div className={s.userNameWrapper}>
-                                        <span className={s.userName}>{user.userName}</span>
-                                        <div className={s.userFirstLastNameWrapper}>
-                                            <span className={s.userFirstName}>{user.firstName}</span>
-                                            <span className={s.userLastName}>{user.lastName}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            )}
-                        )}
-                    </ul>
-                    <div ref={loadMoreRef} className={s.loadMoreTrigger}/>
-                </>
-            ) : (
-                <div className={s.emptyState}>No users found.</div>
+                                )}
+                            </ul>
+                            <div ref={loadMoreRef} className={s.loadMoreTrigger}/>
+                        </>
+                    ) : (
+                        <div className={s.emptyState}>No users found</div>
+                    )}
+                </div>)
+            }
+            {isFetchingNextPage && (
+                <div className={s.spinner}>
+                    <Spinner/>
+                </div>
             )}
-
         </div>
     );
 };
