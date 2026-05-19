@@ -15,7 +15,7 @@ export const CommentsInfinity = ({ comments, customStyle }: Props) => {
               <Comment
                 createdAt={comment.createdAt}
                 ownerId={comment.from.id}
-                avatarOwner={(comment.from.avatars as any)?.[0] || null}
+                avatarOwner={comment.from.avatars?.[0]?.url || null}
                 userName={comment.from.username}
                 comment={comment.content}
               />

@@ -20,15 +20,66 @@
   flex-direction: column;
   width: 50%;
 
-  > div:first-child {
+  > div:not(:first-child) {
+    border-top: 1px solid styles.palette('dark', 100);
+  }
+
+  > div {
     padding: 12px 24px;
   }
 
   .comments {
     padding: 24px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    overflow-y: auto;
+    flex: 1;
+    min-width: 0;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-arrow);
+      border-radius: 6px;
+      background-clip: padding-box;
+      border: solid 3px transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-accent);
+      border-radius: 6px;
+      background-clip: padding-box;
+      border: solid 3px transparent;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-small-text);
+      background-clip: padding-box;
+      border: solid 3px transparent;
+    }
+
+    > :not(.scroll) {
+      flex: 0 0 auto;
+    }
+  }
+
+  .tools {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+
+    .time {
+      padding-top: 5px;
+      @include typo.text-small;
+      color: var(--color-small-text);
+      outline: none;
+      margin-top: 5px;
+    }
   }
 }
 
