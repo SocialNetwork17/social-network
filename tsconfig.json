@@ -37,8 +37,9 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     ".next\\dev/types/**/*.ts",
-    ".next\\dev/types/**/*.ts"
-, "src/pages/profile/api"  ],
+    ".next\\dev/types/**/*.ts",
+    "src/pages/profile/api"
+  ],
   "exclude": [
     "node_modules"
   ]
