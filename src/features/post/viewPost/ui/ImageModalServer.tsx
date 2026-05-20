@@ -49,6 +49,7 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
       deletePostIdFromUrl()
     }
   }
+  
 
   const { data: comments } = useCommentsQuery(imageModalPost.id)
 
