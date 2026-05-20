@@ -7,6 +7,7 @@ import { FeedHeader } from './FeedHeader/FeedHeader'
 import { FeedTools } from './FeedTools/FeedTools'
 import { CreateComment } from './CreateComment/CreateComment'
 import { CommentsBlock } from '../CommentsBlock/CommentsBlock'
+import { useAuth } from '@/shared/hooks/useAuth'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -14,6 +15,7 @@ type Props = {
 }
 
 export const CardFeed = ({ postItem, onClick }: Props) => {
+  const { isAuth } = useAuth()
   const imageSlider = postItem.images.map(image => image.url)
 
   return (
@@ -26,7 +28,7 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
       <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
       <CommentsBlock postId={postItem.id}/>
-      <CreateComment postId={postItem.id}/>
+      {isAuth&&<CreateComment postId={postItem.id}/>}
     </div>
   )
 }
