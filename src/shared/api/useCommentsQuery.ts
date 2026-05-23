@@ -18,6 +18,7 @@ export const useCommentsQuery = (postId?: number) => {
       return response.data
     },
     enabled: !!postId,
+    refetchInterval: 2 * 60 * 1000,
   })
 }
 

@@ -14,6 +14,11 @@ import { ViewModeType } from '@/features/post/viewPost/ui/model/imageModalServer
 import { useLockScroll } from '@/shared/hooks/useLockScroll'
 import { useCommentsQuery } from '@/shared/api/useCommentsQuery'
 import { CommentsInfinity } from '@/shared/ui/CommentsBlock/CommentsInfinity/CommentsInfinity'
+import { CreateComment } from '@/shared/ui/CardFeed/CreateComment/CreateComment'
+import { LikesWithAvatar } from '@/shared/ui/LikesWithAvatar/LikesWithAvatar'
+import { FeedTools } from '@/shared/ui/CardFeed/FeedTools/FeedTools'
+import { useAuth } from '@/shared/hooks/useAuth'
+import { getExactDate } from '@/shared/utils/getExactDate'
 
 type Props = {
   imageModalPost: SchemaPostViewModel
@@ -23,6 +28,7 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
   const [text, setText] = useState('')
   const { deletePostIdFromUrl } = useDeletePostIdFromUrl()
   const [viewMode, setViewMode] = useState<ViewModeType>('VIEW_POST')
+  const { isAuth } = useAuth()
 
   useLockScroll(!!imageModalPost)
 
@@ -43,8 +49,11 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
       deletePostIdFromUrl()
     }
   }
+  
 
-const { data: comments} = useCommentsQuery(imageModalPost.id)
+  const { data: comments } = useCommentsQuery(imageModalPost.id)
+
+  const dateTime = getExactDate(imageModalPost.createdAt)
 
   return (
     <div onClick={onBackdropClick} className={styles.backdrop}>
@@ -58,7 +67,15 @@ const { data: comments} = useCommentsQuery(imageModalPost.id)
             setViewMode={setViewMode}
           />
           <div className={styles.comments}>
-            {viewMode === 'VIEW_POST' && <Comment createdAt={imageModalPost.createdAt} ownerId={imageModalPost.ownerId} avatarOwner={imageModalPost.avatarOwner} userName={imageModalPost.userName} comment={imageModalPost.description}/>}
+            {viewMode === 'VIEW_POST' && (
+              <Comment
+                createdAt={imageModalPost.createdAt}
+                ownerId={imageModalPost.ownerId}
+                avatarOwner={imageModalPost.avatarOwner}
+                userName={imageModalPost.userName}
+                comment={imageModalPost.description}
+              />
+            )}
             {viewMode === 'EDIT_POST' && (
               <EditModeSection
                 text={text}
@@ -68,8 +85,24 @@ const { data: comments} = useCommentsQuery(imageModalPost.id)
               />
             )}
 
-            {viewMode !== 'EDIT_POST' && comments?.items && <CommentsInfinity comments={comments?.items} customStyle={{ maxHeight: "336px" }}/> }
+            {viewMode !== 'EDIT_POST' && comments?.items && (
+              <CommentsInfinity comments={comments?.items} />
+            )}
           </div>
+          <div className={styles.tools}>
+            {viewMode !== 'EDIT_POST' && isAuth && <FeedTools />}
+            <div>
+              {viewMode !== 'EDIT_POST' && (
+                <LikesWithAvatar
+                  avatarWhoLikes={imageModalPost.avatarWhoLikes}
+                  likesCount={imageModalPost.likesCount}
+                />
+              )}
+              <div className={styles.time}>{dateTime}</div>
+            </div>
+          </div>
+
+          {viewMode !== 'EDIT_POST' && isAuth && <CreateComment postId={imageModalPost.id} />}
         </div>
 
         {viewMode !== 'EDIT_POST' && (
