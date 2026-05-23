@@ -6,9 +6,10 @@ import {Button} from "@/shared/ui/Button/Button";
 import {useRouter} from "next/navigation";
 import {PATH} from "@/shared/constants/routings";
 import {SettingsTabs} from "@/pages/settings/model/tabs.types";
-// import {useMemo, useState} from "react";
-// import {useFollowUserMutation} from "@/features/followUser/api/useFollowUserMutation";
-// import {useUnfollowUserMutation} from "@/features/followUser/api/useUnfollowUserMutation";
+import {useMemo, useState} from "react";
+import {useFollowUserMutation} from "@/shared/api/useFollowUserMutation";
+import {useUnfollowUserMutation} from "@/shared/api/useUnfollowUserMutation";
+import {Spinner} from "@/shared/ui/Spinner/Spinner";
 
 type Props = {
   user: SchemaProfileViewModel | SchemaPublicProfileViewModel
@@ -18,26 +19,26 @@ type Props = {
 
 export const ProfileHeader = ({user, type, publicationCount}: Props) => {
   const router = useRouter()
-  // const followMutation = useFollowUserMutation()
-  // const unfollowMutation = useUnfollowUserMutation()
-  //
-  // const [isFollowing, setIsFollowing] = useState<boolean>(!!('isFollowing' in user && user.isFollowing))
-  // const [followersCount, setFollowersCount] = useState<number>(
-  //   'userMetadata' in user ? user.userMetadata.followers : 0,
-  // )
-  // const [followingCount, setFollowingCount] = useState<number>(
-  //   'userMetadata' in user ? user.userMetadata.following : 0,
-  // )
-  //
-  // const isLoadingFollowAction = followMutation.isPending || unfollowMutation.isPending
-  //
-  // const aboutMeText = useMemo(() => {
-  //   if ('aboutMe' in user && user.aboutMe) {
-  //     return user.aboutMe
-  //   }
-  //
-  //   return null
-  // }, [user])
+  const followMutation = useFollowUserMutation()
+  const unfollowMutation = useUnfollowUserMutation()
+
+  const [isFollowing, setIsFollowing] = useState<boolean>(!!('isFollowing' in user && user.isFollowing))
+  const [followersCount, setFollowersCount] = useState<number>(
+    'userMetadata' in user ? user.userMetadata.followers : 0,
+  )
+  const [followingCount, setFollowingCount] = useState<number>(
+    'userMetadata' in user ? user.userMetadata.following : 0,
+  )
+
+  const isLoadingFollowAction = followMutation.isPending || unfollowMutation.isPending
+
+  const aboutMeText = useMemo(() => {
+    if ('aboutMe' in user && user.aboutMe) {
+      return user.aboutMe
+    }
+
+    return null
+  }, [user])
 
 
   const onclickHandler = () => {
@@ -53,23 +54,23 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
     router.push(`${PATH.MESSENGER}?${query.toString()}`)
   }
 
-  // const onFollowToggle = async () => {
-  //   if (!(type === 'user' || type === 'friend')) {
-  //     return
-  //   }
-  //
-  //   if (isFollowing) {
-  //     await unfollowMutation.mutateAsync({userId: user.id})
-  //     setIsFollowing(false)
-  //     setFollowersCount(prev => Math.max(prev - 1, 0))
-  //
-  //     return
-  //   }
-  //
-  //   await followMutation.mutateAsync({selectedUserId: user.id})
-  //   setIsFollowing(true)
-  //   setFollowersCount(prev => prev + 1)
-  // }
+  const onFollowToggle = async () => {
+    if (!(type === 'user' || type === 'friend')) {
+      return
+    }
+
+    if (isFollowing) {
+      await unfollowMutation.mutateAsync({userId: user.id})
+      setIsFollowing(false)
+      setFollowersCount(prev => Math.max(prev - 1, 0))
+
+      return
+    }
+
+    await followMutation.mutateAsync({selectedUserId: user.id})
+    setIsFollowing(true)
+    setFollowersCount(prev => prev + 1)
+  }
 
   return (
     <div className={styles.profileContainer}>
@@ -90,23 +91,18 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
               </Button>
             </div>
           )}
-          {/*{(type === 'friend' || type === 'user') && (*/}
-          {/*    <div>*/}
-          {/*      <Button*/}
-          {/*          variant={isFollowing ? 'secondary' : 'primary'}*/}
-          {/*          disabled={isLoadingFollowAction}*/}
-          {/*          width={120}*/}
-          {/*          height={36}*/}
-          {/*          onClick={onFollowToggle}*/}
-          {/*      >*/}
-          {/*        {isFollowing ? 'Unfollow' : 'Follow'}*/}
-          {/*      </Button>*/}
-          {/*      <button>Send Message</button>*/}
-          {/*    </div>*/}
-          {/*)}*/}
           {type === 'friend' && (
             <div>
-              <button>Unfollow</button>
+              <Button
+                  variant={isFollowing ? 'outline' : 'primary'}
+                  disabled={isLoadingFollowAction}
+                  width={167}
+                  height={36}
+                  onClick={onFollowToggle}
+              >
+                {/*{isFollowing ? 'Unfollow' : 'Follow'}*/}
+                {isLoadingFollowAction ? <Spinner/> : (isFollowing ? 'Unfollow' : 'Follow')}
+              </Button>
               <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
                 Send Message
               </Button>
@@ -114,7 +110,16 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
           )}
           {type === 'user' && (
             <div>
-              <button>Follow</button>
+              <Button
+                  variant={isFollowing ? 'outline' : 'primary'}
+                  disabled={isLoadingFollowAction}
+                  width={167}
+                  height={36}
+                  onClick={onFollowToggle}
+              >
+                {/*{isFollowing ? 'Unfollow' : 'Follow'}*/}
+                {isLoadingFollowAction ? <Spinner/> : (isFollowing ? 'Unfollow' : 'Follow')}
+              </Button>
               <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
                 Send Message
               </Button>
@@ -123,13 +128,13 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
         </div>
         <div>
           <div>
-            {/*<div>{followingCount}</div>*/}
-            <div>{2218}</div>
+            <div>{followingCount}</div>
+            {/*<div>{2218}</div>*/}
             <span>Following</span>
           </div>
           <div>
-            {/*<div>{followersCount}</div>*/}
-            <div>{2358}</div>
+            <div>{followersCount}</div>
+            {/*<div>{2358}</div>*/}
             <span>Followers</span>
           </div>
           <div>

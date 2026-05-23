@@ -9,7 +9,6 @@ import {PATH} from "@/shared/constants/routings";
 import {Icon} from "@/shared/ui/Icon/Icon";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {Loader} from "@/shared/ui/Loader/Loader";
-import {Button} from "@/shared/ui/Button/Button";
 import {useFollowUserMutation} from "@/shared/api/useFollowUserMutation";
 import {useUnfollowUserMutation} from "@/shared/api/useUnfollowUserMutation";
 import * as React from "react";
@@ -25,25 +24,6 @@ export const SearchPage = () => {
     const followUserMutation = useFollowUserMutation()
     const unFollowUserMutation = useUnfollowUserMutation()
 
-    const handleFollow = async (userId: number) => {
-        try {
-            await followUserMutation.mutateAsync({ selectedUserId: userId })
-            // Optionally: show success message or refetch users
-            console.log(`Successfully followed user ${userId}`)
-        } catch (error) {
-            console.error('Failed to follow user:', error)
-            // Optionally: show error message to user
-        }
-    }
-
-    const handleUnfollow = async (userId: number) => {
-        try {
-            await unFollowUserMutation.mutateAsync({ userId: userId })
-            console.log(`Successfully unfollowed user ${userId}`)
-        } catch (error) {
-            console.error('Failed to unfollow user:', error)
-        }
-    }
 
     useEffect(() => {
         const timer = setTimeout(() => {

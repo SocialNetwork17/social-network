@@ -22,6 +22,6 @@ export default async function UserProfile({params, searchParams}: PageProps) {
         getPostsServer(userId),
         postId ? getModalPostByIdServer(Number(postId)) : Promise.resolve(undefined)
     ])
-
+    console.log(profileInfo)
     return <Profile userPosts={userPosts} profileInfo={profileInfo} imageModalPost={imageModalPost}/>
 }
