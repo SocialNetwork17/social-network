@@ -4,11 +4,15 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
 import s from "./SearchPage.module.scss";
 import {SearchInput} from "@/shared/ui/SearchInput/SearchInput";
-import {useSearchUsers} from "@/features/searchUsers/api/useSearchUsers";
+import {useSearchUsers} from "@/shared/api/useSearchUsers";
 import {PATH} from "@/shared/constants/routings";
 import {Icon} from "@/shared/ui/Icon/Icon";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {Loader} from "@/shared/ui/Loader/Loader";
+import {Button} from "@/shared/ui/Button/Button";
+import {useFollowUserMutation} from "@/shared/api/useFollowUserMutation";
+import {useUnfollowUserMutation} from "@/shared/api/useUnfollowUserMutation";
+import * as React from "react";
 
 
 export const SearchPage = () => {
@@ -17,6 +21,29 @@ export const SearchPage = () => {
     const [debouncedQuery, setDebouncedQuery] = useState('')
     const loadMoreRef = useRef<HTMLDivElement | null>(null)
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+    const followUserMutation = useFollowUserMutation()
+    const unFollowUserMutation = useUnfollowUserMutation()
+
+    const handleFollow = async (userId: number) => {
+        try {
+            await followUserMutation.mutateAsync({ selectedUserId: userId })
+            // Optionally: show success message or refetch users
+            console.log(`Successfully followed user ${userId}`)
+        } catch (error) {
+            console.error('Failed to follow user:', error)
+            // Optionally: show error message to user
+        }
+    }
+
+    const handleUnfollow = async (userId: number) => {
+        try {
+            await unFollowUserMutation.mutateAsync({ userId: userId })
+            console.log(`Successfully unfollowed user ${userId}`)
+        } catch (error) {
+            console.error('Failed to unfollow user:', error)
+        }
+    }
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -80,21 +107,47 @@ export const SearchPage = () => {
 
                                     return (
                                         <li key={user.id} className={s.userItem}>
-                                            {avatarUrl ? (
-                                                <img
-                                                    src={avatarUrl}
-                                                    alt={user.userName}
-                                                    className={s.avatar}
-                                                />
-                                            ) : (
-                                                <Icon iconId={'default-avatar'} size={48} viewBox={'0 0 62 62'}/>
-                                            )}
-                                            <div
-                                                className={s.userNameWrapper}
-                                                onClick={() => router.push(`${PATH.PROFILE}/${user.id}`)}>
-                                                <span className={s.userName}>{user.userName}</span>
-                                                <span className={s.userFirstLastName}>{`${user.firstName ?? ''} ${user.lastName ?? ''}`}</span>
+                                            <div className={s.userContent}>
+                                                {avatarUrl ? (
+                                                    <img
+                                                        src={avatarUrl}
+                                                        alt={user.userName}
+                                                        className={s.avatar}
+                                                    />
+                                                ) : (
+                                                    <Icon iconId={'default-avatar'} size={48} viewBox={'0 0 62 62'}/>
+                                                )}
+                                                <div
+                                                    className={s.userNameWrapper}
+                                                    onClick={() => router.push(`${PATH.PROFILE}/${user.id}`)}>
+                                                    <span className={s.userName}>{user.userName}</span>
+                                                    <span className={s.userFirstLastName}>{`${user.firstName ?? ''} ${user.lastName ?? ''}`}</span>
+                                                </div>
                                             </div>
+                                            {/*{user.isFollowing ? (*/}
+                                            {/*    <div className={s.buttonContainer}>*/}
+                                            {/*        <Button*/}
+                                            {/*            variant={"outline"}*/}
+                                            {/*            onClick={() => handleUnfollow(user.id)}*/}
+                                            {/*            disabled={false}*/}
+                                            {/*            width={117}*/}
+                                            {/*            height={36}*/}
+                                            {/*        >*/}
+                                            {/*            {unFollowUserMutation.isPending ? <Spinner/> : 'Unfollow'}*/}
+                                            {/*        </Button>*/}
+                                            {/*    </div>) : (*/}
+                                            {/*    <div className={s.buttonContainer}>*/}
+                                            {/*        <Button*/}
+                                            {/*            variant={"primary"}*/}
+                                            {/*            onClick={() => handleFollow(user.id)}*/}
+                                            {/*            disabled={false}*/}
+                                            {/*            width={117}*/}
+                                            {/*            height={36}*/}
+                                            {/*        >*/}
+                                            {/*            {followUserMutation.isPending ? <Spinner/> : 'Follow'}*/}
+                                            {/*        </Button>*/}
+                                            {/*    </div>)*/}
+                                            {/*}*/}
                                         </li>
                                     )}
                                 )}

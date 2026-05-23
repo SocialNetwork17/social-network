@@ -47,6 +47,11 @@
 
 .userItem {
   display: flex;
+  justify-content: space-between;
+}
+
+.userContent {
+  display: flex;
   gap: 12px;
 }
 
@@ -65,6 +70,12 @@
 
 .userFirstLastName {
   text-align: left;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar {
