@@ -20,19 +20,41 @@
     @include typo.h2;
   }
 
- .link {
-    font-weight: 700;
-    padding-right: 10px;
-  }
+  .commentFull {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
-.comment {
-    word-break: break-word;
-  }
+    .link {
+      font-weight: 700;
+      padding-right: 10px;
+    }
 
-  .time {
-    @include typo.text-small;
-    color: var(--color-small-text);
-    outline: none;
-    margin-top: 5px;
+    .comment {
+      word-break: break-word;
+    }
+
+    .commentInfo {
+      display: flex;
+      gap: 12px;
+    }
+
+    .time {
+      @include typo.text-small;
+      color: var(--color-small-text);
+      outline: none;
+    }
+    .answer {
+      @include typo.text-small;
+      color: var(--color-small-text);
+      outline: none;
+      background-color: transparent;
+      border: none;
+    }
+
+    .answer:hover {
+      text-decoration: underline;
+    }
   }
 }
