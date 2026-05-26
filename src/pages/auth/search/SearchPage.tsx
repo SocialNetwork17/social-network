@@ -9,8 +9,6 @@ import {PATH} from "@/shared/constants/routings";
 import {Icon} from "@/shared/ui/Icon/Icon";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {Loader} from "@/shared/ui/Loader/Loader";
-import {useFollowUserMutation} from "@/shared/api/useFollowUserMutation";
-import {useUnfollowUserMutation} from "@/shared/api/useUnfollowUserMutation";
 import * as React from "react";
 
 
@@ -20,10 +18,6 @@ export const SearchPage = () => {
     const [debouncedQuery, setDebouncedQuery] = useState('')
     const loadMoreRef = useRef<HTMLDivElement | null>(null)
     const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
-    const followUserMutation = useFollowUserMutation()
-    const unFollowUserMutation = useUnfollowUserMutation()
-
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -104,30 +98,6 @@ export const SearchPage = () => {
                                                     <span className={s.userFirstLastName}>{`${user.firstName ?? ''} ${user.lastName ?? ''}`}</span>
                                                 </div>
                                             </div>
-                                            {/*{user.isFollowing ? (*/}
-                                            {/*    <div className={s.buttonContainer}>*/}
-                                            {/*        <Button*/}
-                                            {/*            variant={"outline"}*/}
-                                            {/*            onClick={() => handleUnfollow(user.id)}*/}
-                                            {/*            disabled={false}*/}
-                                            {/*            width={117}*/}
-                                            {/*            height={36}*/}
-                                            {/*        >*/}
-                                            {/*            {unFollowUserMutation.isPending ? <Spinner/> : 'Unfollow'}*/}
-                                            {/*        </Button>*/}
-                                            {/*    </div>) : (*/}
-                                            {/*    <div className={s.buttonContainer}>*/}
-                                            {/*        <Button*/}
-                                            {/*            variant={"primary"}*/}
-                                            {/*            onClick={() => handleFollow(user.id)}*/}
-                                            {/*            disabled={false}*/}
-                                            {/*            width={117}*/}
-                                            {/*            height={36}*/}
-                                            {/*        >*/}
-                                            {/*            {followUserMutation.isPending ? <Spinner/> : 'Follow'}*/}
-                                            {/*        </Button>*/}
-                                            {/*    </div>)*/}
-                                            {/*}*/}
                                         </li>
                                     )}
                                 )}

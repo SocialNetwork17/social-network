@@ -6,7 +6,7 @@ import {Button} from "@/shared/ui/Button/Button";
 import {useRouter} from "next/navigation";
 import {PATH} from "@/shared/constants/routings";
 import {SettingsTabs} from "@/pages/settings/model/tabs.types";
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {useFollowUserMutation} from "@/shared/api/useFollowUserMutation";
 import {useUnfollowUserMutation} from "@/shared/api/useUnfollowUserMutation";
 import {Spinner} from "@/shared/ui/Spinner/Spinner";
@@ -31,14 +31,6 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
   )
 
   const isLoadingFollowAction = followMutation.isPending || unfollowMutation.isPending
-
-  const aboutMeText = useMemo(() => {
-    if ('aboutMe' in user && user.aboutMe) {
-      return user.aboutMe
-    }
-
-    return null
-  }, [user])
 
 
   const onclickHandler = () => {
@@ -100,7 +92,6 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
                   height={36}
                   onClick={onFollowToggle}
               >
-                {/*{isFollowing ? 'Unfollow' : 'Follow'}*/}
                 {isLoadingFollowAction ? <Spinner/> : (isFollowing ? 'Unfollow' : 'Follow')}
               </Button>
               <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
@@ -117,7 +108,6 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
                   height={36}
                   onClick={onFollowToggle}
               >
-                {/*{isFollowing ? 'Unfollow' : 'Follow'}*/}
                 {isLoadingFollowAction ? <Spinner/> : (isFollowing ? 'Unfollow' : 'Follow')}
               </Button>
               <Button variant={'secondary'} disabled={false} width={167} height={36} onClick={onSendMessageHandler}>
@@ -129,12 +119,10 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
         <div>
           <div>
             <div>{followingCount}</div>
-            {/*<div>{2218}</div>*/}
             <span>Following</span>
           </div>
           <div>
             <div>{followersCount}</div>
-            {/*<div>{2358}</div>*/}
             <span>Followers</span>
           </div>
           <div>
@@ -142,8 +130,6 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
             <span>Publications</span>
           </div>
         </div>
-        {/*{aboutMeText && <p>{aboutMeText}</p>}*/}
-        {/* <p>{user.aboutMe} </p> */}
       </div>
     </div>
   )
