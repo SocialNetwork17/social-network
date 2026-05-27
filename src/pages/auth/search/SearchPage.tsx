@@ -11,7 +11,6 @@ import {Spinner} from "@/shared/ui/Spinner/Spinner";
 import {Loader} from "@/shared/ui/Loader/Loader";
 import * as React from "react";
 
-
 export const SearchPage = () => {
     const router = useRouter()
     const [query, setQuery] = useState('')
