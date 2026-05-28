@@ -29,7 +29,7 @@ export const Profile = ({ profileInfo, userPosts, imageModalPost }: Props) => {
 
   return (
     <div className={styles.container}>
-      <ProfileHeader
+        <ProfileHeader
         user={profileInfo}
         publicationCount={userPosts.totalCount}
         type={profileType}
