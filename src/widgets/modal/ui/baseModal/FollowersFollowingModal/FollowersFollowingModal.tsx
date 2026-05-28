@@ -128,7 +128,7 @@ export const FollowersFollowingModal = ({
 
     try {
       if (currentUser.isFollowing) {
-        await unfollowMutation.mutateAsync({userId: currentUser.id})
+        await unfollowMutation.mutateAsync({userId: currentUser.userId})
         setUsersMap(prev => ({
           ...prev,
           [currentUser.id]: {...currentUser, isFollowing: false},
@@ -138,7 +138,7 @@ export const FollowersFollowingModal = ({
         return
       }
 
-      await followMutation.mutateAsync({selectedUserId: currentUser.id})
+      await followMutation.mutateAsync({selectedUserId: currentUser.userId})
       setUsersMap(prev => ({
         ...prev,
         [currentUser.id]: {...currentUser, isFollowing: true},
