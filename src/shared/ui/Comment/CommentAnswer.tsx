@@ -19,11 +19,9 @@ type Props = {
   userName: string
   comment: string
   likeCount: number
-  postId: number
-  commentId?: number
 }
 
-export const Comment = (props: Props) => {
+export const CommentAnswer = (props: Props) => {
   const {
     createdAt,
     ownerId,
@@ -31,14 +29,8 @@ export const Comment = (props: Props) => {
     userName,
     comment,
     likeCount,
-    postId,
-    commentId,
   } = props
 
-  const { user } = useAuth()
-  const [isAnswering, setIsAnswering] = useState(false)
-
-  const { data: answercomments } = useAnswerCommentsQuery(postId, commentId)
 
   if (!ownerId) {
     return <span>loading</span>
@@ -51,10 +43,6 @@ export const Comment = (props: Props) => {
   }
 
   const dateTime = getTimeAgo(createdAt)
-
-  const handleAnswer = () => {
-    setIsAnswering(!isAnswering)
-  }
 
   return (
     <div className={styles.container}>
@@ -81,20 +69,7 @@ export const Comment = (props: Props) => {
         <div className={styles.commentInfo}>
           <div className={styles.time}>{dateTime}</div>
           {likeCount !== 0 && <div className={styles.time}>Like: {likeCount}</div>}
-          {commentId && ownerId !== user?.userId && (
-            <button onClick={handleAnswer} className={styles.answer}>
-              Answer
-            </button>
-          )}
         </div>
-        <div className={styles.createComment}>
-          {isAnswering && (
-            <CreateComment postId={postId} variant={'answer'} commentId={commentId} onClick={handleAnswer}/>
-          )}
-        </div>
-        {commentId && answercomments && (
-          <CommentsInfinity comments={answercomments} />
-        )}
       </div>
     </div>
   )

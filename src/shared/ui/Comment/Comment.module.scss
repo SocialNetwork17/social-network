@@ -40,6 +40,10 @@
       gap: 12px;
     }
 
+    .createComment {
+      width: 95%
+    }
+
     .time {
       @include typo.text-small;
       color: var(--color-small-text);

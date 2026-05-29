@@ -11,9 +11,10 @@ type Props = {
   postId: number
   variant: 'new comment' | 'answer'
   commentId?: number
+  onClick?: () => void
 }
 
-export const CreateComment = ({ postId, variant, commentId }: Props) => {
+export const CreateComment = ({ postId, variant, commentId, onClick }: Props) => {
   const [value, setValue] = useState('')
 
   const { mutate: createComment, isPending: isPendingCreate } = useCreateCommentMutation()
@@ -46,6 +47,7 @@ export const CreateComment = ({ postId, variant, commentId }: Props) => {
         {
           onSuccess: () => {
             setValue('')
+            onClick?.() 
           },
         }
       )
