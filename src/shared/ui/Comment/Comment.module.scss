@@ -26,6 +26,12 @@
     flex-direction: column;
     gap: 5px;
 
+    .textWithLike {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
     .link {
       font-weight: 700;
       padding-right: 10px;

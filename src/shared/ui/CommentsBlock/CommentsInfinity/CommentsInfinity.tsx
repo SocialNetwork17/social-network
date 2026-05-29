@@ -24,6 +24,7 @@ export const CommentsInfinity = ({ comments, customStyle, postId }: Props) => {
               likeCount={comment.likeCount}
               postId={postId}
               commentId={comment.id}
+              isLikedByUser={comment.isLiked}
             />
           )}
           {!postId && (
