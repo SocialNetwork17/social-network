@@ -7,6 +7,7 @@ import {useUnfollowUserMutation} from '@/shared/api/useUnfollowUserMutation'
 import {Button} from '@/shared/ui/Button/Button'
 import {Icon} from '@/shared/ui/Icon/Icon'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
+import {useQueryClient} from '@tanstack/react-query'
 import {useEffect, useMemo, useRef, useState} from 'react'
 
 const PAGE_TYPE_TITLE: Record<'followers' | 'following', string> = {
@@ -31,6 +32,7 @@ export const FollowersFollowingModal = ({
   onClose,
   onFollowingCountChange,
 }: Props) => {
+  const queryClient = useQueryClient()
   const followMutation = useFollowUserMutation()
   const unfollowMutation = useUnfollowUserMutation()
   const [usersMap, setUsersMap] = useState<Record<number, SchemaUserFollowingFollowersViewModel>>({})
@@ -128,22 +130,41 @@ export const FollowersFollowingModal = ({
 
     try {
       if (currentUser.isFollowing) {
-        await unfollowMutation.mutateAsync({userId: currentUser.userId})
+        await unfollowMutation.mutateAsync(
+            {userId: currentUser.userId},
+            {
+              onSuccess: () => {
+                if (modalType === 'following') {
+                  queryClient.invalidateQueries({queryKey: ['following', userName]})
+                }
+              },
+            }
+        )
+        onFollowingCountChange(prev => Math.max(prev - 1, 0))
+
+        if (modalType === 'following') return
+
         setUsersMap(prev => ({
           ...prev,
           [currentUser.id]: {...currentUser, isFollowing: false},
         }))
-        onFollowingCountChange(prev => Math.max(prev - 1, 0))
 
         return
       }
 
-      await followMutation.mutateAsync({selectedUserId: currentUser.userId})
-      setUsersMap(prev => ({
-        ...prev,
-        [currentUser.id]: {...currentUser, isFollowing: true},
-      }))
-      onFollowingCountChange(prev => prev + 1)
+      await followMutation.mutateAsync(
+        {selectedUserId: currentUser.userId},
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['followers', userName]})
+            onFollowingCountChange(prev => prev + 1)
+            setUsersMap(prev => ({
+              ...prev,
+              [currentUser.id]: {...currentUser, isFollowing: true},
+            }))
+          },
+        },
+      )
     } finally {
       setPendingActionUserId(null)
     }
