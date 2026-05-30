@@ -25,10 +25,10 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
         <Card images={imageSlider} slider={true} onClick={onClick} />
       </div>
       <FeedTools />
-      <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
+      <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description} likeCount={postItem.likesCount} postId={postItem.id} isLikedByUser={postItem.isLiked} isPostDescription={true}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
       <CommentsBlock postId={postItem.id}/>
-      {isAuth&&<CreateComment postId={postItem.id}/>}
+      {isAuth&&<CreateComment postId={postItem.id} variant={"new comment"}/>}
     </div>
   )
 }

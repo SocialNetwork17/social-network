@@ -31,7 +31,7 @@ export const CommentsBlock = ({ postId }: Props) => {
       </Button>
 
       {isOpenedComment && comments?.items && (
-        <CommentsInfinity comments={comments?.items} customStyle={{ maxHeight: "180px" }}/> 
+        <CommentsInfinity comments={comments?.items} customStyle={{ maxHeight: "180px" }} postId={postId}/> 
       )}
     </div>
   )
