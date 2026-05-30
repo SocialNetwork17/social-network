@@ -24,6 +24,7 @@ type Props = {
   postId: number
   commentId?: number
   isLikedByUser: boolean
+  isPostDescription?: boolean
 }
 
 export const Comment = (props: Props) => {
@@ -36,14 +37,13 @@ export const Comment = (props: Props) => {
     likeCount,
     postId,
     commentId,
-    isLikedByUser = false,
+    isLikedByUser,
+    isPostDescription = false
   } = props
 
   const { user } = useAuth()
   const [isAnswering, setIsAnswering] = useState(false)
-   const [localLikeCount, setLocalLikeCount] = useState(likeCount)
-  const [localIsLiked, setLocalIsLiked] = useState(isLikedByUser)
-
+ 
   const { data: answercomments } = useAnswerCommentsQuery(postId, commentId)
   const { mutate: addLike } = useAddLikeAnswerMutation()
 
@@ -64,30 +64,20 @@ export const Comment = (props: Props) => {
   }
 
   const handleLikes = () => {
-    if (!commentId) return // Добавьте эту проверку
-
-     // Определяем новый статус лайка
-    const newLikeStatus = localIsLiked ? 'NONE' : 'LIKE'
-    
-    // Оптимистичное обновление UI
-    setLocalIsLiked(!localIsLiked)
-    setLocalLikeCount(prev => localIsLiked ? prev - 1 : prev + 1)
+    if (!commentId) return 
+    const newLikeStatus = isLikedByUser ? 'NONE' : 'LIKE'
 
     addLike(
       {
         postId,
-        commentId, // Теперь точно есть
+        commentId,
         likeStatus: newLikeStatus,
       },
       {
         onSuccess: () => {
-          // Успешно - состояние уже обновлено оптимистично
           console.log('Like status updated successfully')
         },
         onError: (error) => {
-          // Откатываем изменения при ошибке
-          setLocalIsLiked(localIsLiked)
-          setLocalLikeCount(likeCount)
           console.error('Failed to update like status:', error)
         }
       }
@@ -117,11 +107,11 @@ export const Comment = (props: Props) => {
             </Link>
             <span className={styles.comment}>{comment}</span>
           </div>
-          <IconButton iconId={localIsLiked ? 'unlikeComment' : 'likeComment'} onClick={handleLikes} />
+          {!isPostDescription&&<IconButton iconId={isLikedByUser ? 'unlikeComment' : 'likeComment'} onClick={handleLikes} size={16}/>}
         </div>
         <div className={styles.commentInfo}>
           <div className={styles.time}>{dateTime}</div>
-          {likeCount !== 0 && <div className={styles.time}>Like: {likeCount}</div>}
+          {!isPostDescription&&likeCount !== 0 && <div className={styles.time}>Like: {likeCount}</div>}
           {commentId && ownerId !== user?.userId && (
             <button onClick={handleAnswer} className={styles.answer}>
               Answer

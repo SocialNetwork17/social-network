@@ -6,11 +6,7 @@ import { getTimeAgo } from '@/shared/utils/getTimeAgo'
 import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
 import { useModal } from '@/widgets/modal/model/modal.context'
-import { useAuth } from '@/shared/hooks/useAuth'
-import { useState } from 'react'
-import { CreateComment } from '../CardFeed/CreateComment/CreateComment'
-import { CommentsInfinity } from '../CommentsBlock/CommentsInfinity/CommentsInfinity'
-import { useAnswerCommentsQuery } from '@/shared/api/useAnswerCommentsQuery'
+import { IconButton } from '../IconButton/IconButton'
 
 type Props = {
   createdAt: string
@@ -19,6 +15,7 @@ type Props = {
   userName: string
   comment: string
   likeCount: number
+  isLikedByUser: boolean
 }
 
 export const CommentAnswer = (props: Props) => {
@@ -29,8 +26,8 @@ export const CommentAnswer = (props: Props) => {
     userName,
     comment,
     likeCount,
+    isLikedByUser
   } = props
-
 
   if (!ownerId) {
     return <span>loading</span>
@@ -60,11 +57,14 @@ export const CommentAnswer = (props: Props) => {
         )}
       </Link>
       <div className={styles.commentFull}>
+        <div className={styles.textWithLike}>
         <div>
           <Link href={PATH.PROFILE + `/${ownerId}`} onClick={() => handleUserNameClick()}>
             <span className={styles.link}>{userName}</span>
           </Link>
           <span className={styles.comment}>{comment}</span>
+        </div>
+         {<IconButton iconId={isLikedByUser ? 'unlikeComment' : 'likeComment'} onClick={()=> {}} size={16}/>}
         </div>
         <div className={styles.commentInfo}>
           <div className={styles.time}>{dateTime}</div>

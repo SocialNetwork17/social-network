@@ -75,6 +75,8 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
                 comment={imageModalPost.description}
                 likeCount={imageModalPost.likesCount}
                 postId={imageModalPost.id}
+                isLikedByUser={imageModalPost.isLiked}
+                isPostDescription={true}
               />
             )}
             {viewMode === 'EDIT_POST' && (
@@ -87,7 +89,7 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
             )}
 
             {viewMode !== 'EDIT_POST' && comments?.items && (
-              <CommentsInfinity comments={comments?.items} postId={imageModalPost.id}/>
+              <CommentsInfinity comments={comments?.items} postId={imageModalPost.id} />
             )}
           </div>
           <div className={styles.tools}>

@@ -35,6 +35,7 @@ export const CommentsInfinity = ({ comments, customStyle, postId }: Props) => {
               userName={comment.from.username}
               comment={comment.content}
               likeCount={comment.likeCount}
+              isLikedByUser={comment.isLiked}
             />
           )}
         </div>
