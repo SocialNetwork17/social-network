@@ -59,4 +59,13 @@
 
 .clickableStatsItem {
   cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover:not(:active) {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
 }
