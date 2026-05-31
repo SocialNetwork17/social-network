@@ -1,8 +1,9 @@
 import styles from './FollowersFollowingModal.module.scss'
-import {useFollowersFollowingModal} from '../../../../../shared/hooks/useFollowersFollowingModal'
+import {useFollowersFollowingModal} from '@/shared/hooks/useFollowersFollowingModal'
 import {Button} from '@/shared/ui/Button/Button'
 import {Icon} from '@/shared/ui/Icon/Icon'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
+import {Loader} from "@/shared/ui/Loader/Loader";
 
 const PAGE_TYPE_TITLE: Record<'followers' | 'following', string> = {
   followers: 'Followers',
@@ -49,7 +50,7 @@ export const FollowersFollowingModal = ({
         </div>
         <div ref={scrollContainerRef} className={styles.modalContent}>
           {isModalLoading && modalUsers.length === 0 ? (
-            <div className={styles.spinner}><Spinner /></div>
+            <div className={styles.spinner}><Loader /></div>
           ) : (
             <>
               <ul className={styles.userList}>

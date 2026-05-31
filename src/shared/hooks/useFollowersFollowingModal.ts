@@ -13,13 +13,16 @@ type Params = {
 }
 
 export const useFollowersFollowingModal = ({modalType, userName, onFollowingCountChange}: Params) => {
+  const [usersMap, setUsersMap] = useState<Record<number, SchemaUserFollowingFollowersViewModel>>({})
+  const [pendingActionUserId, setPendingActionUserId] = useState<number | null>(null)
+  const [isDataInitialized, setIsDataInitialized] = useState(false)
+
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+
   const queryClient = useQueryClient()
   const followMutation = useFollowUserMutation()
   const unfollowMutation = useUnfollowUserMutation()
-  const [usersMap, setUsersMap] = useState<Record<number, SchemaUserFollowingFollowersViewModel>>({})
-  const [pendingActionUserId, setPendingActionUserId] = useState<number | null>(null)
-  const loadMoreRef = useRef<HTMLDivElement | null>(null)
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
 
   const {
     data: followersData,
@@ -39,32 +42,29 @@ export const useFollowersFollowingModal = ({modalType, userName, onFollowingCoun
 
   const modalUsers = useMemo(() => {
     if (modalType === 'followers') {
-      return followersData?.pages.flatMap(page => page.items ?? []) ?? []
+      const allFollowers = followersData?.pages.flatMap(page => page.items ?? []) ?? []
+      return allFollowers.filter(user => !user.isFollowing)
     }
 
     return followingData?.pages.flatMap(page => page.items ?? []) ?? []
   }, [followersData, followingData, modalType])
+  console.log('modalUsers ', modalUsers)
 
   const isModalLoading = modalType === 'followers' ? isFollowersLoading : isFollowingLoading
   const isFetchingNextPage = modalType === 'followers' ? isFetchingNextFollowers : isFetchingNextFollowing
   const hasNextPage = modalType === 'followers' ? hasNextFollowers : hasNextFollowing
 
+  // Initial data loading
   useEffect(() => {
-    setUsersMap(prev => {
-      const nextUsersMap = {...prev}
-
+    if (!isDataInitialized && modalUsers.length > 0) {
+      const initialMap: Record<number, SchemaUserFollowingFollowersViewModel> = {}
       modalUsers.forEach(listUser => {
-        const existingUser = nextUsersMap[listUser.id]
-
-        nextUsersMap[listUser.id] = {
-          ...listUser,
-          isFollowing: existingUser?.isFollowing ?? listUser.isFollowing,
-        }
+        initialMap[listUser.id] = listUser
       })
-
-      return nextUsersMap
-    })
-  }, [modalUsers])
+      setUsersMap(initialMap)
+      setIsDataInitialized(true)
+    }
+  }, [modalUsers, isDataInitialized])
 
   useEffect(() => {
     const target = loadMoreRef.current
@@ -109,43 +109,48 @@ export const useFollowersFollowingModal = ({modalType, userName, onFollowingCoun
 
     setPendingActionUserId(currentUser.id)
 
+    // Optimistic update
+    setUsersMap(prev => ({
+      ...prev,
+      [currentUser.id]: {...currentUser, isFollowing: !currentUser.isFollowing},
+    }))
+
     try {
       if (currentUser.isFollowing) {
         await unfollowMutation.mutateAsync(
-          {userId: currentUser.userId},
-          {
-            onSuccess: () => {
-              if (modalType === 'following') {
-                queryClient.invalidateQueries({queryKey: ['following', userName]})
-              }
-            },
-          },
+            {userId: currentUser.userId},
+            {
+              onSuccess: () => {
+                if (modalType === 'following') {
+                  queryClient.invalidateQueries({queryKey: ['following', userName]})
+                }
+              },
+            }
         )
         onFollowingCountChange(prev => Math.max(prev - 1, 0))
 
-        if (modalType === 'following') return
-
-        setUsersMap(prev => ({
-          ...prev,
-          [currentUser.id]: {...currentUser, isFollowing: false},
-        }))
-
-        return
+        // Only refresh data for specific cases
+        if (modalType !== 'following') {
+          await queryClient.invalidateQueries({queryKey: ['followers', userName]})
+        }
+      } else {
+        await followMutation.mutateAsync(
+            {selectedUserId: currentUser.userId},
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries({queryKey: ['followers', userName]})
+                onFollowingCountChange(prev => prev + 1)
+              },
+            }
+        )
       }
-
-      await followMutation.mutateAsync(
-        {selectedUserId: currentUser.userId},
-        {
-          onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['followers', userName]})
-            onFollowingCountChange(prev => prev + 1)
-            setUsersMap(prev => ({
-              ...prev,
-              [currentUser.id]: {...currentUser, isFollowing: true},
-            }))
-          },
-        },
-      )
+    } catch (error) {
+      // Revert on error
+      setUsersMap(prev => ({
+        ...prev,
+        [currentUser.id]: {...currentUser, isFollowing: currentUser.isFollowing},
+      }))
+      throw error
     } finally {
       setPendingActionUserId(null)
     }
