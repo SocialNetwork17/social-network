@@ -61,22 +61,24 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
           )}
         </div>
         <div>
-          <button
-            className={`${styles.statsItem} ${type === 'profile' ? styles.clickableStatsItem : ''}`}
-            disabled={type !== 'profile'}
-            onClick={openFollowingModal}
+          <Button
+              className={`${styles.statsItem} ${type === 'profile' ? styles.clickableStatsItem : ''}`}
+              variant={'textButton'}
+              disabled={type !== 'profile'}
+              onClick={openFollowingModal}
           >
             <div>{followingCount}</div>
             <span>Following</span>
-          </button>
-          <button
-            className={`${styles.statsItem} ${type === 'profile' ? styles.clickableStatsItem : ''}`}
-            disabled={type !== 'profile'}
-            onClick={openFollowersModal}
+          </Button>
+          <Button
+              className={`${styles.statsItem} ${type === 'profile' ? styles.clickableStatsItem : ''}`}
+              variant={'textButton'}
+              disabled={type !== 'profile'}
+              onClick={openFollowingModal}
           >
             <div>{followersCount}</div>
             <span>Followers</span>
-          </button>
+          </Button>
           <div>
             <div>{publicationCount || 0}</div>
             <span>Publications</span>
