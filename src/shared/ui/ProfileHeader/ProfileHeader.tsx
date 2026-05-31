@@ -74,7 +74,7 @@ export const ProfileHeader = ({user, type, publicationCount}: Props) => {
               className={`${styles.statsItem} ${type === 'profile' ? styles.clickableStatsItem : ''}`}
               variant={'textButton'}
               disabled={type !== 'profile'}
-              onClick={openFollowingModal}
+              onClick={openFollowersModal}
           >
             <div>{followersCount}</div>
             <span>Followers</span>
