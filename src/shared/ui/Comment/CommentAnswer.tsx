@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { PATH } from '@/shared/constants/routings'
 import { useModal } from '@/widgets/modal/model/modal.context'
 import { IconButton } from '../IconButton/IconButton'
+import { useAddLikeAnswerMutation } from '@/shared/api/useAddLikeAnswerMutation'
 
 type Props = {
   createdAt: string
@@ -16,6 +17,9 @@ type Props = {
   comment: string
   likeCount: number
   isLikedByUser: boolean
+  postId: number
+  commentId: number
+  answerId: number
 }
 
 export const CommentAnswer = (props: Props) => {
@@ -26,8 +30,13 @@ export const CommentAnswer = (props: Props) => {
     userName,
     comment,
     likeCount,
-    isLikedByUser
+    isLikedByUser,
+    postId,
+    commentId,
+    answerId,
   } = props
+
+  const { mutate: addLike } = useAddLikeAnswerMutation()
 
   if (!ownerId) {
     return <span>loading</span>
@@ -40,6 +49,24 @@ export const CommentAnswer = (props: Props) => {
   }
 
   const dateTime = getTimeAgo(createdAt)
+
+  const handleLikes = () => {
+    const newLikeStatus = isLikedByUser ? 'NONE' : 'LIKE'
+
+    addLike(
+      {
+        postId,
+        commentId,
+        answerId,
+        likeStatus: newLikeStatus,
+      },
+      {
+        onError: error => {
+          console.error('Failed to update like status:', error)
+        },
+      }
+    )
+  }
 
   return (
     <div className={styles.container}>
@@ -64,7 +91,11 @@ export const CommentAnswer = (props: Props) => {
           </Link>
           <span className={styles.comment}>{comment}</span>
         </div>
-         {<IconButton iconId={isLikedByUser ? 'unlikeComment' : 'likeComment'} onClick={()=> {}} size={16}/>}
+         <IconButton
+           iconId={isLikedByUser ? 'unlikeComment' : 'likeComment'}
+           onClick={handleLikes}
+           size={16}
+         />
         </div>
         <div className={styles.commentInfo}>
           <div className={styles.time}>{dateTime}</div>
