@@ -4,7 +4,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SchemaLastMessageViewDto, SchemaMessageViewModel } from '@/shared/api/schema'
 import { messengerApi } from '../api/messengerApi'
 import { messengerSocket } from '../api/messengerSocket'
-import { Chat, ChatMessage, MessageStatus, MessengerParticipant, MessengerState } from './types'
+import {
+  Chat,
+  ChatMessage,
+  MessageStatus,
+  MessengerParticipant,
+  MessengerState,
+  SendMessageResult,
+} from './types'
 
 const createInitialState = (): MessengerState => ({
   chats: [],
@@ -12,6 +19,14 @@ const createInitialState = (): MessengerState => ({
 })
 
 const buildChatId = (participantId: number) => `chat-${participantId}`
+
+const buildOptimisticMessageId = () =>
+  `optimistic-${Date.now()}-${Math.random().toString(36).slice(2)}`
+
+const isOptimisticMessage = (message: ChatMessage) => message.id.startsWith('optimistic-')
+
+const isPendingOptimisticMessage = (message: ChatMessage) =>
+  isOptimisticMessage(message) && message.status === 'pending'
 
 const sortChats = (chats: Chat[]) =>
   [...chats].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
@@ -37,7 +52,11 @@ const updateChatAvatar = (chats: Chat[], participantId: number, participantAvata
   )
 }
 
-const ensureChatRecord = (chats: Chat[], participant: MessengerParticipant, lastMessage?: string) => {
+const ensureChatRecord = (
+  chats: Chat[],
+  participant: MessengerParticipant,
+  lastMessage?: string
+) => {
   const existingChat = chats.find(chat => chat.participantId === participant.id)
   const chatId = existingChat?.id ?? buildChatId(participant.id)
 
@@ -64,10 +83,7 @@ const mapServerStatus = (status: SchemaMessageViewModel['status']): MessageStatu
   }
 }
 
-const mapLastMessageToChat = (
-  message: SchemaLastMessageViewDto,
-  currentUserId: number
-): Chat => {
+const mapLastMessageToChat = (message: SchemaLastMessageViewDto, currentUserId: number): Chat => {
   const participantId = message.ownerId === currentUserId ? message.receiverId : message.ownerId
 
   return {
@@ -87,6 +103,7 @@ const mapMessageToChatMessage = (message: SchemaMessageViewModel, chatId: string
   senderId: message.ownerId,
   receiverId: message.receiverId,
   text: message.messageText,
+  messageType: message.messageType,
   createdAt: message.createdAt,
   status: mapServerStatus(message.status),
 })
@@ -133,23 +150,37 @@ export const useMessenger = (currentUserId?: number) => {
   }, [currentUserId])
 
   const loadMessagesForChat = useCallback(
-    async (chat: Chat) => {
+    async (chat: Chat, options: { preserveOptimistic?: boolean } = {}) => {
       if (!currentUserId) {
         return
       }
 
+      const { preserveOptimistic = true } = options
       const serverMessages = await messengerApi.getMessagesByUser(chat.participantId)
       const nextMessages = sortMessages(
         serverMessages.map(message => mapMessageToChatMessage(message, chat.id))
       )
 
-      setState(prevState => ({
-        ...prevState,
-        messagesByChat: {
-          ...prevState.messagesByChat,
-          [chat.id]: nextMessages,
-        },
-      }))
+      setState(prevState => {
+        const optimisticMessages = preserveOptimistic
+          ? (prevState.messagesByChat[chat.id] ?? []).filter(isOptimisticMessage)
+          : []
+        const hasPendingOptimisticMessages =
+          preserveOptimistic &&
+          (prevState.messagesByChat[chat.id] ?? []).some(isPendingOptimisticMessage)
+
+        if (hasPendingOptimisticMessages) {
+          return prevState
+        }
+
+        return {
+          ...prevState,
+          messagesByChat: {
+            ...prevState.messagesByChat,
+            [chat.id]: sortMessages([...nextMessages, ...optimisticMessages]),
+          },
+        }
+      })
 
       const unreadMessageIds = serverMessages
         .filter(message => message.receiverId === currentUserId && message.status !== 'READ')
@@ -335,7 +366,8 @@ export const useMessenger = (currentUserId?: number) => {
       if (target.username) {
         const users = await messengerApi.searchUsers(target.username)
         const exactUser =
-          users.find(user => user.userName.toLowerCase() === target.username?.toLowerCase()) ?? users[0]
+          users.find(user => user.userName.toLowerCase() === target.username?.toLowerCase()) ??
+          users[0]
 
         if (exactUser) {
           openChat(exactUser)
@@ -346,30 +378,119 @@ export const useMessenger = (currentUserId?: number) => {
   )
 
   const sendMessage = useCallback(
-    async (text: string) => {
+    async (text: string, images?: File[]): Promise<SendMessageResult> => {
       if (!currentUserId || !selectedChat) {
-        return false
+        return { success: false, error: 'Chat is not selected' }
       }
 
       const trimmedText = text.trim()
+      const selectedImages = images ?? []
 
-      if (!trimmedText) {
-        return false
+      if (!trimmedText && selectedImages.length === 0) {
+        return { success: false, error: 'Message is empty' }
       }
+
+      const optimisticObjectUrls: string[] = []
+      const optimisticMessages: ChatMessage[] = [
+        ...selectedImages.map(image => {
+          const previewUrl = URL.createObjectURL(image)
+
+          optimisticObjectUrls.push(previewUrl)
+
+          return {
+            id: buildOptimisticMessageId(),
+            chatId: selectedChat.id,
+            senderId: currentUserId,
+            receiverId: selectedChat.participantId,
+            text: previewUrl,
+            messageType: 'IMAGE',
+            createdAt: new Date().toISOString(),
+            status: 'pending',
+          } satisfies ChatMessage
+        }),
+        ...(trimmedText
+          ? [
+              {
+                id: buildOptimisticMessageId(),
+                chatId: selectedChat.id,
+                senderId: currentUserId,
+                receiverId: selectedChat.participantId,
+                text: trimmedText,
+                messageType: 'TEXT',
+                createdAt: new Date().toISOString(),
+                status: 'pending',
+              } satisfies ChatMessage,
+            ]
+          : []),
+      ]
+      const optimisticMessageIds = optimisticMessages.map(message => message.id)
+      const optimisticLastMessage =
+        trimmedText || (selectedImages.length > 1 ? 'Photos' : selectedImages.length === 1 ? 'Photo' : undefined)
+      const optimisticUpdatedAt =
+        optimisticMessages[optimisticMessages.length - 1]?.createdAt ?? new Date().toISOString()
+
+      setState(prevState => ({
+        ...prevState,
+        chats: upsertChat(
+          prevState.chats,
+          {
+            ...selectedChat,
+            lastMessage: optimisticLastMessage ?? selectedChat.lastMessage,
+            lastMessageSenderId: currentUserId,
+            updatedAt: optimisticUpdatedAt,
+          }
+        ),
+        messagesByChat: {
+          ...prevState.messagesByChat,
+          [selectedChat.id]: sortMessages([
+            ...(prevState.messagesByChat[selectedChat.id] ?? []),
+            ...optimisticMessages,
+          ]),
+        },
+      }))
 
       try {
-        await messengerSocket.sendMessage({
-          receiverId: selectedChat.participantId,
-          text: trimmedText,
-        })
+        if (selectedImages.length > 0) {
+          for (const image of selectedImages) {
+            const messageText = await messengerApi.uploadImage(image)
+
+            await messengerSocket.sendMessage({
+              matchStrategy: 'receiver',
+              receiverId: selectedChat.participantId,
+              text: messageText,
+            })
+          }
+        }
+
+        if (trimmedText) {
+          await messengerSocket.sendMessage({
+            receiverId: selectedChat.participantId,
+            text: trimmedText,
+          })
+        }
+
         await syncChats()
-        await loadMessagesForChat(selectedChat)
+        await loadMessagesForChat(selectedChat, { preserveOptimistic: false })
+        optimisticObjectUrls.forEach(URL.revokeObjectURL)
 
-        return true
-      } catch {
-        return false
+        return { success: true }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Message was not sent'
+
+        setState(prevState => ({
+          ...prevState,
+          messagesByChat: {
+            ...prevState.messagesByChat,
+            [selectedChat.id]: (prevState.messagesByChat[selectedChat.id] ?? []).map(chatMessage =>
+              optimisticMessageIds.includes(chatMessage.id)
+                ? { ...chatMessage, status: 'error' }
+                : chatMessage
+            ),
+          },
+        }))
+
+        return { success: false, error: message }
       }
-
     },
     [currentUserId, loadMessagesForChat, selectedChat, syncChats]
   )

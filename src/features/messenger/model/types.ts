@@ -1,11 +1,21 @@
 export type MessageStatus = 'pending' | 'sent' | 'received' | 'read' | 'error'
 
+export type SendMessageResult =
+  | {
+      success: true
+    }
+  | {
+      error: string
+      success: false
+    }
+
 export type ChatMessage = {
   id: string
   chatId: string
   senderId: number
   receiverId: number
   text: string
+  messageType: 'TEXT' | 'IMAGE' | 'VOICE'
   createdAt: string
   status: MessageStatus
 }
@@ -29,6 +39,7 @@ export type MessengerParticipant = {
 }
 
 export type SendMessagePayload = {
+  matchStrategy?: 'exact' | 'receiver'
   receiverId: number
   text: string
 }
@@ -39,7 +50,7 @@ export type SocketMessage = {
   receiverId: number
   messageText: string
   status: 'SENT' | 'RECEIVED' | 'READ'
-  messageType: string
+  messageType: 'TEXT' | 'IMAGE' | 'VOICE'
   createdAt: string
   updatedAt: string
 }
