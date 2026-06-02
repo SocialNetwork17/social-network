@@ -2,16 +2,23 @@
 
 import { io, Socket } from 'socket.io-client'
 import { tokenService } from '@/shared/api/tokenService'
-import { MessageErrorEvent, MessengerSocketEventMap, SendMessagePayload, SocketMessage } from '../model/types'
+import {
+  MessageErrorEvent,
+  MessengerSocketEventMap,
+  SendMessagePayload,
+  SocketMessage,
+} from '../model/types'
 
 type EventName = keyof MessengerSocketEventMap
 type EventHandler<K extends EventName> = (payload: MessengerSocketEventMap[K]) => void
 
 type PendingMessage = {
+  matchStrategy: 'exact' | 'receiver'
   receiverId: number
   reject: (error: Error) => void
   resolve: (message: SocketMessage) => void
   text: string
+  timeoutId: ReturnType<typeof setTimeout>
 }
 
 class MessengerSocket {
@@ -57,14 +64,17 @@ class MessengerSocket {
       this.emit('message:changed', { message })
     })
 
-    this.socket.on('message-send', (message: SocketMessage, callback?: (payload: object) => void) => {
-      callback?.({
-        message,
-        receiverId: this.currentUserId ?? message.receiverId,
-      })
+    this.socket.on(
+      'message-send',
+      (message: SocketMessage, callback?: (payload: object) => void) => {
+        callback?.({
+          message,
+          receiverId: this.currentUserId ?? message.receiverId,
+        })
 
-      this.emit('message:changed', { message })
-    })
+        this.emit('message:changed', { message })
+      }
+    )
 
     this.socket.on('message-deleted', (messageId: number) => {
       this.emit('message:deleted', { id: messageId })
@@ -77,7 +87,10 @@ class MessengerSocket {
       if (this.pendingMessages.length) {
         const pendingMessage = this.pendingMessages.shift()
 
-        pendingMessage?.reject(new Error(reason))
+        if (pendingMessage) {
+          clearTimeout(pendingMessage.timeoutId)
+          pendingMessage.reject(new Error(reason))
+        }
       }
 
       this.emit('message:error', { reason })
@@ -120,11 +133,30 @@ class MessengerSocket {
         return
       }
 
+      const timeoutId = setTimeout(() => {
+        const pendingMessageIndex = this.pendingMessages.findIndex(
+          pendingMessage =>
+            pendingMessage.receiverId === payload.receiverId && pendingMessage.text === trimmedText
+        )
+
+        if (pendingMessageIndex === -1) {
+          return
+        }
+
+        this.pendingMessages.splice(pendingMessageIndex, 1)
+        reject(new Error('Message sending timeout'))
+      }, 10000)
+
       this.pendingMessages.push({
+        matchStrategy: payload.matchStrategy ?? 'exact',
         receiverId: payload.receiverId,
         reject,
-        resolve: () => resolve(),
+        resolve: () => {
+          clearTimeout(timeoutId)
+          resolve()
+        },
         text: trimmedText,
+        timeoutId,
       })
 
       this.socket.emit('receive-message', {
@@ -141,7 +173,8 @@ class MessengerSocket {
 
     const pendingMessageIndex = this.pendingMessages.findIndex(
       pendingMessage =>
-        pendingMessage.receiverId === message.receiverId && pendingMessage.text === message.messageText
+        pendingMessage.receiverId === message.receiverId &&
+        (pendingMessage.matchStrategy === 'receiver' || pendingMessage.text === message.messageText)
     )
 
     if (pendingMessageIndex === -1) {
