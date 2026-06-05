@@ -44,12 +44,31 @@ export async function getCroppedImg(
         crop.height
     )
 
-    return new Promise((resolve, reject) => {
+return new Promise((resolve, reject) => {
         canvas.toBlob((blob) => {
             if (!blob) {
                 reject(new Error('Canvas is empty'))
                 return
             }
+            
+            // 👇 ДОБАВЬТЕ ЭТУ ПРОВЕРКУ
+            console.log('=== getCroppedImg результат ===');
+            console.log('Размеры canvas:', canvas.width, 'x', canvas.height);
+            console.log('Переданный crop:', pixelCrop);
+            console.log('Реальный crop:', crop);
+            console.log('Фильтр:', filter);
+            
+            // Проверяем реальные размеры изображения
+            const testImg = new Image();
+            const url = URL.createObjectURL(blob);
+            testImg.onload = () => {
+                console.log('Итоговые размеры изображения:', testImg.width, 'x', testImg.height);
+                console.log('Является квадратом?', testImg.width === testImg.height);
+                console.log('Соотношение сторон:', testImg.width / testImg.height);
+                URL.revokeObjectURL(url);
+            };
+            testImg.src = url;
+            
             resolve(blob)
         }, 'image/jpeg', 0.95)
     })

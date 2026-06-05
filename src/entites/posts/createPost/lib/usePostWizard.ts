@@ -43,6 +43,21 @@ export const usePostWizard = () => {
     }
 
     const handleNextStep = async () => {
+        const checkImageDimensions = async (blob: Blob, stage: string) => {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            console.log(`${stage}:`, {
+                width: img.width,
+                height: img.height,
+                aspectRatio: img.width / img.height,
+                isSquare: img.width === img.height
+            });
+            resolve({width: img.width, height: img.height});
+        };
+        img.src = URL.createObjectURL(blob);
+    });
+};
         if (step === 'CROP') {
             try {
                 const processedImages = await Promise.all(
@@ -64,26 +79,16 @@ export const usePostWizard = () => {
         } else if (step === 'FILTERS') {
             try {
                 const finalImages = await Promise.all(
-                    images.map(async (img) => {
-                        // УБРАЛИ ПРОВЕРКУ if (img.croppedAreaPixels)
-                        // Теперь мы всегда "запекаем" картинку перед финальным шагом,
-                        // чтобы применился фильтр.
-
-                        // Если кропа нет, передаем null (функция выше обработает это как "вся картинка")
-                        const cropArea = img.croppedAreaPixels || null
-
-                        const blob = await getCroppedImg(img.url, cropArea, img.filter || 'none')
-                        const previewUrl = URL.createObjectURL(blob)
-
-                        return {
-                            ...img,
-                            croppedBlob: blob,
-                            croppedPreviewUrl: previewUrl,
-                            // Важно сохранить координаты, если они были, или оставить как есть
-                            croppedAreaPixels: img.croppedAreaPixels
-                        }
-                    })
-                )
+        images.map(async (img) => {
+            const cropArea = img.croppedAreaPixels || null
+            const blob = await getCroppedImg(img.url, cropArea, img.filter || 'none')
+            
+            // Проверяем размеры после применения фильтра
+            await checkImageDimensions(blob, `После фильтра (id: ${img.id})`);
+            
+            return { ...img, croppedBlob: blob };
+        })
+    );
 
                 finalImages.forEach((img) => updateImage(img.id, img))
                 setStep('DESCRIPTION')
@@ -95,14 +100,27 @@ export const usePostWizard = () => {
 
     // логика публикации
     const handlePublish = async () => {
-        // Подготавливаем файлы для отправки
-        const filesToUpload = images.map(img => {
-            if (img.croppedBlob) {
-                // Если был кроп, берем blob и делаем из него File для отправки на сервер
-                return new File([img.croppedBlob], img.file.name, {type: img.file.type})
-            }
-            return img.file // Иначе оригинал
-        })
+    // Логируем размеры перед отправкой
+    const filesToUpload = images.map(img => {
+        let fileToUpload = img.croppedBlob ? 
+            new File([img.croppedBlob], img.file.name, {type: img.file.type}) : 
+            img.file;
+        
+        // Получаем размеры изображения
+        const imgElement = new Image();
+        imgElement.src = URL.createObjectURL(fileToUpload);
+        imgElement.onload = () => {
+            console.log('Отправляемое изображение:', {
+                name: fileToUpload.name,
+                width: imgElement.width,
+                height: imgElement.height,
+                isSquare: imgElement.width === imgElement.height
+            });
+            URL.revokeObjectURL(imgElement.src);
+        };
+        
+        return fileToUpload;
+    });
 
         try {
             // 1. Загружаем картинки
