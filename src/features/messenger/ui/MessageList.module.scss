@@ -2,8 +2,17 @@
 
 .wrapper {
   flex: 1 1 auto;
+  min-height: 0;
   padding: 20px 28px;
   overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // старый Edge/IE
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome/Safari/Edge
+  }
 }
 
 .list {
@@ -47,10 +56,29 @@
 
 .bubble {
   max-width: min(56%, 360px);
+  overflow: hidden;
   padding: 10px 12px 8px;
   border: 1px solid transparent;
   border-radius: 6px;
   background-color: #2b2b2b;
+}
+
+.imageBubble {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.imageBubbleWithCaption {
+
+  border: 1px solid transparent;
+  background-color: #2b2b2b;
+  .caption {
+    padding: 0 12px;
+  }
+  .meta {
+    padding: 0 12px 8px;
+  }
 }
 
 .error {
@@ -61,11 +89,43 @@
   background-color: #234c9f;
 }
 
+.own .imageBubble {
+  background: transparent;
+}
+
+.own .imageBubbleWithCaption {
+  background-color: #234c9f;
+}
+
 .text {
   margin: 0 0 6px;
   white-space: pre-wrap;
   font-size: 12px;
   line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.messageImage {
+  display: block;
+  max-width: 360px;
+  max-height: 360px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.caption {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.imageBubble .meta {
+  margin-top: 6px;
 }
 
 .meta {

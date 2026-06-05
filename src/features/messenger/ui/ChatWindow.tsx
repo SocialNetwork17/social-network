@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Chat, ChatMessage } from '../model/types'
+import { Chat, ChatMessage, SendMessageResult } from '../model/types'
 import { MessageInput } from './MessageInput'
 import { MessageList } from './MessageList'
 import styles from './ChatWindow.module.scss'
@@ -9,7 +9,7 @@ import styles from './ChatWindow.module.scss'
 type Props = {
   currentUserId: number
   messages: ChatMessage[]
-  onSendMessage: (text: string) => Promise<boolean>
+  onSendMessage: (text: string, images?: File[]) => Promise<SendMessageResult>
   selectedChat: Chat | null
 }
 
