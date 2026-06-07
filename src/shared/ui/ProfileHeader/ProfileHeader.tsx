@@ -5,7 +5,7 @@ import {SchemaProfileViewModel, SchemaPublicProfileViewModel} from '@/shared/api
 import {Button} from '@/shared/ui/Button/Button'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
 import {FollowersFollowingModal} from '@/widgets/modal/ui/baseModal/FollowersFollowingModal/FollowersFollowingModal'
-import {useProfileHeader} from '../../hooks/useProfileHeader'
+import {useProfileHeader} from './hook/useProfileHeader'
 
 type Props = {
   user: SchemaProfileViewModel | SchemaPublicProfileViewModel
