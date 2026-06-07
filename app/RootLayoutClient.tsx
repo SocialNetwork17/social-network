@@ -8,6 +8,7 @@ import { SnackbarProvider } from '@/widgets/snackbar/model/snackbar.provider'
 import { useNotificationsSocket } from '@/features/notifications/hooks/useNotificationsSocket'
 import { tokenService } from '@/shared/api/tokenService'
 import { useEffect, useState } from 'react'
+import { ProfileCountsProvider } from '@/entites/profile/model/profileCounts.provider'
 
 type Props = {
   children: React.ReactNode
@@ -35,11 +36,13 @@ export const RootLayoutClient = ({ children }: Props) => {
   return (
     <SnackbarProvider>
       <ModalProvider>
-        <Header />
-        <div className={styles.layout}>
-          {isAuth && <Sidebar />}
-          <main className={styles.main}>{children}</main>
-        </div>
+        <ProfileCountsProvider>
+          <Header />
+          <div className={styles.layout}>
+            {isAuth && <Sidebar />}
+            <main className={styles.main}>{children}</main>
+          </div>
+        </ProfileCountsProvider>
       </ModalProvider>
     </SnackbarProvider>
   )

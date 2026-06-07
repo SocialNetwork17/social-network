@@ -3,8 +3,9 @@ import {useFollowUserMutation} from '@/shared/api/useFollowUserMutation'
 import {useUnfollowUserMutation} from '@/shared/api/useUnfollowUserMutation'
 import {PATH} from '@/shared/constants/routings'
 import {SettingsTabs} from '@/pages/settings/model/tabs.types'
+import {useProfileCounts} from '@/entites/profile/model/profileCounts.context'
 import {useRouter} from 'next/navigation'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 type Params = {
   user: SchemaProfileViewModel | SchemaPublicProfileViewModel
@@ -15,17 +16,20 @@ export const useProfileHeader = ({user, type}: Params) => {
   const router = useRouter()
   const followMutation = useFollowUserMutation()
   const unfollowMutation = useUnfollowUserMutation()
+  const {followersCount, followingCount, setFollowersCount, setFollowingCount, initializeCounts} = useProfileCounts()
   const [modalType, setModalType] = useState<'followers' | 'following' | null>(null)
 
   const [isFollowing, setIsFollowing] = useState<boolean>(!!('isFollowing' in user && user.isFollowing))
-  const [followersCount, setFollowersCount] = useState<number>(
-    'userMetadata' in user ? user.userMetadata.followers : 0,
-  )
-  const [followingCount, setFollowingCount] = useState<number>(
-    'userMetadata' in user ? user.userMetadata.following : 0,
-  )
+  const userMetadata = 'userMetadata' in user ? user.userMetadata : null
 
   const isLoadingFollowAction = followMutation.isPending || unfollowMutation.isPending
+
+  useEffect(() => {
+    initializeCounts({
+      followersCount: userMetadata?.followers ?? 0,
+      followingCount: userMetadata?.following ?? 0,
+    })
+  }, [initializeCounts, userMetadata?.followers, userMetadata?.following])
 
   const onClickSettingsHandler = () => {
     router.push(`${PATH.SETTINGS}?part=${SettingsTabs.INFO}`)

@@ -7,19 +7,23 @@ import { useState } from 'react'
 import { UserName } from '../../UserName/UserName'
 import { Icon } from '../../Icon/Icon'
 import { IconButton } from '../../IconButton/IconButton'
-import { ThreeDotsMenu } from '@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/ThreeDotsMenu'
+import {FeedModal} from "@/shared/ui/CardFeed/FeedModal/FeedModal";
 
 type Props = {
   postItem: SchemaPostViewModel
 }
 
-export const FeedHeader = ({ postItem}: Props) => {
-  const [isChecked, setIsChecked] = useState(false)
+export const FeedHeader = ({ postItem }: Props) => {
+  const [isModalOpened, setIsModalOpened] = useState(false)
 
   const dateTime = getTimeAgo(postItem.createdAt)
 
   const toggleMenu = () => {
-    setIsChecked(!isChecked)
+    setIsModalOpened(!isModalOpened)
+  }
+
+  const modalStateHandler = (isOpened: boolean) => {
+    setIsModalOpened(isOpened)
   }
 
   return (
@@ -29,8 +33,12 @@ export const FeedHeader = ({ postItem}: Props) => {
         <Icon iconId="dot" size={4} viewBox="0 0 4 4" />
         <div className={styles.time}>{dateTime}</div>
       </div>
-      <IconButton onClick={toggleMenu} iconId="threeDots" size={24} viewBox="0 0 24 24" />
-      {/* <ThreeDotsMenu postId={postItem.id} setViewMode={setViewMode}/> */}
+      <div className={styles.menuWrapper}>
+        <IconButton onClick={toggleMenu} iconId="threeDots" size={24} viewBox="0 0 24 24" />
+        {isModalOpened && (
+          <FeedModal postItem={postItem} toggleMenu={modalStateHandler} isModalOpened={isModalOpened}/>
+        )}
+      </div>
     </div>
   )
 }
