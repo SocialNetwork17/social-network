@@ -1,9 +1,9 @@
 import styles from './FollowersFollowingModal.module.scss'
-import {useFollowersFollowingModal} from '@/shared/hooks/useFollowersFollowingModal'
+import {useFollowersFollowingModal} from '@/widgets/modal/model/followersFollowingModal'
 import {Button} from '@/shared/ui/Button/Button'
 import {Icon} from '@/shared/ui/Icon/Icon'
 import {Spinner} from '@/shared/ui/Spinner/Spinner'
-import {Loader} from "@/shared/ui/Loader/Loader";
+import {Loader} from '@/shared/ui/Loader/Loader'
 
 const PAGE_TYPE_TITLE: Record<'followers' | 'following', string> = {
   followers: 'Followers',
