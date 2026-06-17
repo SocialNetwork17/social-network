@@ -24,7 +24,8 @@ export const FeedModal = ({postItem, toggleMenu, isModalOpened}: FeedModalProps)
   const onUnfollow = async () => {
       await unfollowMutation.mutateAsync({userId: postItem.ownerId}, {
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['following', postItem.userName]})
+            queryClient.invalidateQueries({queryKey: ['following', postItem.userName, 'following-posts']})
+            queryClient.invalidateQueries({queryKey: ['following-posts']})
         },
       onError: (error) => {
         console.error('Error unfollowing user:', error)

@@ -1,7 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 
 export const useUnfollowUserMutation = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationKey: ['unfollow user'],
     mutationFn: async ({ userId }: { userId: number }) => {
@@ -18,6 +20,11 @@ export const useUnfollowUserMutation = () => {
       }
 
       return response
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['following-posts']
+      })
     },
   })
 }
