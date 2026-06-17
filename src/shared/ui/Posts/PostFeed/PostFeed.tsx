@@ -1,13 +1,16 @@
 import styles from './PostFeed.module.scss'
 import { usePathname, useRouter } from 'next/navigation'
-import { AllPosts } from '@/pages/main/api/getAllPostsServer'
+import { SchemaPostViewModel } from '@/shared/api/schema'
 import { CardFeed } from '../../CardFeed/CardFeed'
+import {Loader} from "@/shared/ui/Loader/Loader";
 
 type Props = {
-  posts: AllPosts
+  posts: { items?: SchemaPostViewModel[] },
+    isLoading?: boolean,
+    isFetchingNextPage?: boolean,
 }
 
-export const PostFeed = ({ posts }: Props) => {
+export const PostFeed = ({ posts, isLoading, isFetchingNextPage }: Props) => {
   const router = useRouter()
   const path = usePathname()
 
@@ -18,14 +21,15 @@ export const PostFeed = ({ posts }: Props) => {
   return (
     <>
       <div className={styles.postContainer}>
-        {posts?.items &&
-          posts?.items.map(post => {
+        {isLoading ? <Loader /> : posts.items?.map(post => {
             return (
               <div key={post.id}>
                 <CardFeed postItem={post} onClick={() => handleImageClick(post.id)} />
               </div>
             )
-          })}
+          })
+        }
+        {isFetchingNextPage && <Loader />}
       </div>
     </>
   )
