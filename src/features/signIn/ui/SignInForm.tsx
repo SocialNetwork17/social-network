@@ -78,7 +78,7 @@ export const SignInForm = () => {
 
             <div className={styles.signInButtonContainer}>
               <Button variant={'primary'} disabled={isPending} type="submit">
-                {isPending && <Spinner />} Sign In
+                {isPending ? <Spinner /> : 'Sign In'}
               </Button>
             </div>
 
