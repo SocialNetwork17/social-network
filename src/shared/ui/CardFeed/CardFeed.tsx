@@ -34,7 +34,7 @@ export const CardFeed = ({ postItem, onClick, onLikeClick, isLikePending = false
       <Comment createdAt={postItem.createdAt} ownerId={postItem.ownerId} avatarOwner={postItem.avatarOwner} userName={postItem.userName} comment={postItem.description}/>
       <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
       <CommentsBlock postId={postItem.id}/>
-      {isAuth&&<CreateComment postId={postItem.id}/>}
+      {isAuth&&<CreateComment postId={postItem.id} variant={"new comment"}/>}
     </div>
   )
 }

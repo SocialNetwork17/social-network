@@ -3,11 +3,92 @@
 .container {
   display: flex;
   gap: 12px;
-  padding: 0 18px;
+  padding: 8px 18px;
   border-top: 1px solid styles.palette('dark', 300);
-  align-items: center;
+  align-items: flex-end;
   min-height: 44px;
+  flex: 0 0 auto;
+  max-width: 100%;
+  overflow: hidden;
   background-color: #121212;
+}
+
+.inputArea {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.preview {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.previewImage {
+  width: 36px;
+  height: 36px;
+  display: block;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.removePreviewButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.addPreviewButton {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    color: currentColor;
+  }
+
+  &:hover {
+    color: styles.palette('accent', 500);
+  }
 }
 
 .textarea {
@@ -15,7 +96,7 @@
   min-height: 24px;
   max-height: 96px;
   resize: none;
-  padding: 10px 0;
+  padding: 0;
   color: inherit;
   background-color: transparent;
   border: none;
@@ -33,6 +114,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-bottom: 12px;
 }
 
 .iconButton {

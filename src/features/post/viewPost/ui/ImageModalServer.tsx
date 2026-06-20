@@ -49,7 +49,6 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
       deletePostIdFromUrl()
     }
   }
-  
 
   const { data: comments } = useCommentsQuery(imageModalPost.id)
 
@@ -74,6 +73,10 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
                 avatarOwner={imageModalPost.avatarOwner}
                 userName={imageModalPost.userName}
                 comment={imageModalPost.description}
+                likeCount={imageModalPost.likesCount}
+                postId={imageModalPost.id}
+                isLikedByUser={imageModalPost.isLiked}
+                isPostDescription={true}
               />
             )}
             {viewMode === 'EDIT_POST' && (
@@ -86,7 +89,7 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
             )}
 
             {viewMode !== 'EDIT_POST' && comments?.items && (
-              <CommentsInfinity comments={comments?.items} />
+              <CommentsInfinity comments={comments?.items} postId={imageModalPost.id} />
             )}
           </div>
           <div className={styles.tools}>
@@ -102,7 +105,9 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
             </div>
           </div>
 
-          {viewMode !== 'EDIT_POST' && isAuth && <CreateComment postId={imageModalPost.id} />}
+          {viewMode !== 'EDIT_POST' && isAuth && (
+            <CreateComment postId={imageModalPost.id} variant={'new comment'} />
+          )}
         </div>
 
         {viewMode !== 'EDIT_POST' && (
