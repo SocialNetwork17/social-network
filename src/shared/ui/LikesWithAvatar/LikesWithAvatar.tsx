@@ -14,8 +14,16 @@ export const LikesWithAvatar = (props: Props) => {
   return (
     <div className={styles.container}>
       {avatarWhoLikes &&
-        avatarWhoLikes.map(item => {
-          return <Card images={item} width={24} height={24} variant="circular" />
+        avatarWhoLikes.map((item, index) => {
+          return (
+            <Card
+              key={`${item}-${index}`}
+              images={item}
+              width={24}
+              height={24}
+              variant="circular"
+            />
+          )
         })}
       <span>{likesCount} "Like"</span>
     </div>
