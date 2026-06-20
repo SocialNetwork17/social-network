@@ -35,13 +35,12 @@ export const useFollowersFollowingModalData = ({modalType, userName}: Params): R
 
   const modalUsers = useMemo(() => {
     if (modalType === 'followers') {
-      const allFollowers = followersData?.pages.flatMap(page => page.items ?? []) ?? []
-
-      return allFollowers.filter(user => !user.isFollowing)
+      return followersData?.pages.flatMap(page => page.items ?? []) ?? []
     }
 
     return followingData?.pages.flatMap(page => page.items ?? []) ?? []
   }, [followersData, followingData, modalType])
+  console.log("modalUsers: ", modalUsers)
 
   const fetchNextPage = () => {
     if (modalType === 'followers') {
