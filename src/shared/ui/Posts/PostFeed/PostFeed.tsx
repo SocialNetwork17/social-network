@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import styles from './PostFeed.module.scss'
 import { usePathname, useRouter } from 'next/navigation'
 import { SchemaPostViewModel } from '@/shared/api/schema'
-import { AllPosts } from '@/pages/main/api/getAllPostsServer'
 import { client } from '@/shared/api/client'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { useUpdatePostLikeStatusMutation } from '@/shared/api/useUpdatePostLikeStatusMutation'
@@ -18,23 +17,24 @@ type Props = {
 export const PostFeed = ({ posts, isLoading, isFetchingNextPage }: Props) => {
   const router = useRouter()
   const path = usePathname()
-  const { isAuth, isLoading, user } = useAuth()
-  const [feedPosts, setFeedPosts] = useState<SchemaPostViewModel[]>(posts.items)
+  const postItems = posts.items ?? []
+  const { isAuth, isLoading: authLoading, user } = useAuth()
+  const [feedPosts, setFeedPosts] = useState<SchemaPostViewModel[]>(postItems)
   const [pendingPostIds, setPendingPostIds] = useState<number[]>([])
   const { mutateAsync: updatePostLikeStatus } = useUpdatePostLikeStatusMutation()
 
   useEffect(() => {
-    setFeedPosts(posts.items)
-  }, [posts])
+    setFeedPosts(postItems)
+  }, [posts.items])
 
   useEffect(() => {
-    if (!isAuth || isLoading || !user) {
+    if (!isAuth || authLoading || isLoading || !user || postItems.length === 0) {
       return
     }
 
     const syncLikeStatuses = async () => {
       const updatedPosts = await Promise.all(
-        posts.items.map(async post => {
+          postItems.map(async post => {
           const response = await client.GET('/api/v1/posts/{postId}/likes', {
             params: {
               path: {
@@ -64,7 +64,7 @@ export const PostFeed = ({ posts, isLoading, isFetchingNextPage }: Props) => {
     }
 
     syncLikeStatuses()
-  }, [isAuth, isLoading, posts, user])
+  }, [isAuth, authLoading, isLoading, posts.items, user])
 
   const handleImageClick = (postId: number) => {
     router.push(`${path}?postId=${postId}`, { scroll: false })
@@ -111,7 +111,7 @@ export const PostFeed = ({ posts, isLoading, isFetchingNextPage }: Props) => {
   return (
     <>
       <div className={styles.postContainer}>
-        {isLoading ? <Loader /> : posts.items?.map(post => {
+        {isLoading ? <Loader /> : feedPosts.map(post => {
             return (
               <div key={post.id}>
                 <CardFeed
