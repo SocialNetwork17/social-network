@@ -27,7 +27,7 @@ export const IconButton = memo((props: Props) => {
       type="button"
       disabled={disabled}
     >
-      <Icon iconId={iconId} size={size} viewBox={viewBox}/>
+      <Icon iconId={iconId} size={size} viewBox={viewBox} fill={fill} />
     </button>
   )
 })

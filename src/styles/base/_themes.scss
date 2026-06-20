@@ -6,6 +6,7 @@
   --color-bg-500: #{abstract.palette('dark', 500)};
   --color-text: #{abstract.palette('light', 100)};
   --color-accent: #{abstract.palette('accent', 500)};
+  --color-danger: #{abstract.palette('danger', 300)};
   --border-color-default: #{abstract.palette('dark', 100)};
   --border-color-on-hover: #{abstract.palette('light', 100)};
   --color-disabled: #{abstract.palette('dark', 100)};
@@ -23,6 +24,7 @@ html.light {
   --color-bg-500: #{abstract.palette('light', 100)};
   --color-text: #{abstract.palette('dark', 900)};
   --color-accent: #{abstract.palette('accent', 300)};
+  --color-danger: #{abstract.palette('danger', 300)};
   --border-color-default: #{abstract.palette('dark', 700)};
   --border-color-on-hover: #{abstract.palette('dark', 100)};
   --color-arrow: #{abstract.palette('dark', 100)};

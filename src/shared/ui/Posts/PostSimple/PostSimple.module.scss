@@ -3,7 +3,7 @@
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 12px;
-  justify-content: start;
+  justify-content: flex-start;
 
   & div {
     height: 228px;
