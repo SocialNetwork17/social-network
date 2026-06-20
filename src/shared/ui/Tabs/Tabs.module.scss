@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../../styles/abstract' as styles;
 @use '../../../styles/base/typography' as typo;
 
@@ -65,11 +66,11 @@ $secondary-scheme: (
 
 // Миксин для состояний таба
 @mixin tab-states($scheme) {
-  $color: map-get($scheme, color);
-  $hover-bg: map-get($scheme, hover-bg);
-  $active-bg: map-get($scheme, active-bg);
-  $focus-color: map-get($scheme, focus);
-  $disabled-color: map-get($scheme, disabled);
+  $color: map.get($scheme, color);
+  $hover-bg: map.get($scheme, hover-bg);
+  $active-bg: map.get($scheme, active-bg);
+  $focus-color: map.get($scheme, focus);
+  $disabled-color: map.get($scheme, disabled);
 
   color: $color;
 
