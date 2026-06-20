@@ -1,0 +1,113 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 35px;
+  padding-left: 25px;
+  height: calc(100vh - 60px); // Full viewport height
+  overflow: hidden; // Prevent double scrolling
+}
+
+.headerSection {
+  padding-right: 2px;
+  flex-shrink: 0; // Prevent header from shrinking
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.subTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 17px;
+}
+
+.scrollableContent {
+  flex: 1; // Take remaining space
+  overflow-y: auto; // Enable vertical scrolling
+}
+
+.results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: transparent;
+  @include typo.text-regular-14;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.userContent {
+  display: flex;
+  gap: 12px;
+}
+
+.userNameWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.userName {
+  @include typo.text-bold-14;
+  text-decoration: underline;
+  text-align: left;
+}
+
+.userFirstLastName {
+  text-align: left;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.loadMoreTrigger {
+  height: 1px;
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+  color: styles.palette('light', 100);
+  @include typo.text-regular-16;
+}
+
+.spinner {
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.loader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
