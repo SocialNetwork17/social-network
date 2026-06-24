@@ -7,14 +7,17 @@ type Props = {
   comments: SchemaCommentsViewModel[] | SchemaAnswersViewModel[]
   customStyle?: React.CSSProperties
   postId?: number
+  commentId?: number
 }
 
-export const CommentsInfinity = ({ comments, customStyle, postId }: Props) => {
+export const CommentsInfinity = ({ comments, customStyle, postId, commentId }: Props) => {
+  const isAnswersList = typeof commentId === 'number'
+
   return (
     <div className={styles.comments} style={customStyle}>
       {comments?.map(comment => (
         <div key={comment.id}>
-          {postId && (
+          {!isAnswersList && postId && (
             <Comment
               createdAt={comment.createdAt}
               ownerId={comment.from.id}
@@ -27,7 +30,7 @@ export const CommentsInfinity = ({ comments, customStyle, postId }: Props) => {
               isLikedByUser={comment.isLiked}
             />
           )}
-          {!postId && (
+          {isAnswersList && postId && commentId && (
             <CommentAnswer
               createdAt={comment.createdAt}
               ownerId={comment.from.id}
@@ -36,6 +39,9 @@ export const CommentsInfinity = ({ comments, customStyle, postId }: Props) => {
               comment={comment.content}
               likeCount={comment.likeCount}
               isLikedByUser={comment.isLiked}
+              postId={postId}
+              commentId={commentId}
+              answerId={comment.id}
             />
           )}
         </div>

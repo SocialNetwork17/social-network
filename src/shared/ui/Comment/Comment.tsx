@@ -12,7 +12,7 @@ import { CreateComment } from '../CardFeed/CreateComment/CreateComment'
 import { CommentsInfinity } from '../CommentsBlock/CommentsInfinity/CommentsInfinity'
 import { useAnswerCommentsQuery } from '@/shared/api/useAnswerCommentsQuery'
 import { IconButton } from '../IconButton/IconButton'
-import { useAddLikeAnswerMutation } from '@/shared/api/useAddLikeAnswerMutation'
+import { useAddLikeCommentMutation } from '@/shared/api/useAddLikeCommentMutation'
 
 type Props = {
   createdAt: string
@@ -45,7 +45,7 @@ export const Comment = (props: Props) => {
   const [isAnswering, setIsAnswering] = useState(false)
  
   const { data: answercomments } = useAnswerCommentsQuery(postId, commentId)
-  const { mutate: addLike } = useAddLikeAnswerMutation()
+  const { mutate: addLike } = useAddLikeCommentMutation()
 
   if (!ownerId) {
     return <span>loading</span>
@@ -128,7 +128,9 @@ export const Comment = (props: Props) => {
             />
           )}
         </div>
-        {commentId && answercomments && <CommentsInfinity comments={answercomments} />}
+        {typeof commentId === 'number' && answercomments && (
+          <CommentsInfinity comments={answercomments} postId={postId} commentId={commentId} />
+        )}
       </div>
     </div>
   )
