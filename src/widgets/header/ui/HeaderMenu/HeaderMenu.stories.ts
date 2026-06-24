@@ -24,6 +24,7 @@ type Story = StoryObj<typeof meta>
 export const LoggedInNoMessages: Story = {
   args: {
     isLoggedIn: true,
+
   },
 }
 
