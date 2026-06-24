@@ -19,6 +19,7 @@ import { LikesWithAvatar } from '@/shared/ui/LikesWithAvatar/LikesWithAvatar'
 import { FeedTools } from '@/shared/ui/CardFeed/FeedTools/FeedTools'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { getExactDate } from '@/shared/utils/getExactDate'
+import { usePostLikeState } from '@/shared/api/usePostLikeState'
 
 type Props = {
   imageModalPost: SchemaPostViewModel
@@ -29,6 +30,8 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
   const { deletePostIdFromUrl } = useDeletePostIdFromUrl()
   const [viewMode, setViewMode] = useState<ViewModeType>('VIEW_POST')
   const { isAuth } = useAuth()
+  const { isLiked, likesCount, avatarWhoLikes, handleLikeClick, isLikePending } =
+    usePostLikeState(imageModalPost)
 
   useLockScroll(!!imageModalPost)
 
@@ -73,9 +76,9 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
                 avatarOwner={imageModalPost.avatarOwner}
                 userName={imageModalPost.userName}
                 comment={imageModalPost.description}
-                likeCount={imageModalPost.likesCount}
+                likeCount={likesCount}
                 postId={imageModalPost.id}
-                isLikedByUser={imageModalPost.isLiked}
+                isLikedByUser={isLiked}
                 isPostDescription={true}
               />
             )}
@@ -93,12 +96,18 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
             )}
           </div>
           <div className={styles.tools}>
-            {viewMode !== 'EDIT_POST' && isAuth && <FeedTools />}
+            {viewMode !== 'EDIT_POST' && isAuth && (
+              <FeedTools
+                isLiked={isLiked}
+                onLikeClick={handleLikeClick}
+                isLikeDisabled={isLikePending}
+              />
+            )}
             <div>
               {viewMode !== 'EDIT_POST' && (
                 <LikesWithAvatar
-                  avatarWhoLikes={imageModalPost.avatarWhoLikes}
-                  likesCount={imageModalPost.likesCount}
+                  avatarWhoLikes={avatarWhoLikes}
+                  likesCount={likesCount}
                 />
               )}
               <div className={styles.time}>{dateTime}</div>
