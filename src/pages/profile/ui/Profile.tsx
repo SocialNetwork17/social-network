@@ -14,6 +14,7 @@ import { Loader } from '@/shared/ui/Loader/Loader'
 import { PostSimple } from '@/shared/ui/Posts/PostSimple/PostSimple'
 import { ProfileHeader } from '@/shared/ui/ProfileHeader/ProfileHeader'
 import styles from './Profile.module.scss'
+import { ProfileCountsProvider } from "@/entites/profile/model/profileCounts.provider"
 
 type Props = {
   profileInfo: SchemaProfileViewModel | SchemaPublicProfileViewModel
@@ -28,18 +29,20 @@ export const Profile = ({ profileInfo, userPosts, imageModalPost }: Props) => {
     me?.userId === profileInfo.id ? 'profile' : isAuth ? 'user' : 'unauthorized'
 
   return (
-    <div className={styles.container}>
-        <ProfileHeader
-        user={profileInfo}
-        publicationCount={userPosts.totalCount}
-        type={profileType}
-      />
-      <PostSimple posts={userPosts} />
-      {imageModalPost && (
-        <Suspense fallback={<Loader />}>
-          <ImageModalServer imageModalPost={imageModalPost} />
-        </Suspense>
-      )}
-    </div>
+      <ProfileCountsProvider>
+          <div className={styles.container}>
+            <ProfileHeader
+            user={profileInfo}
+            publicationCount={userPosts.totalCount}
+            type={profileType}
+          />
+          <PostSimple posts={userPosts} />
+          {imageModalPost && (
+            <Suspense fallback={<Loader />}>
+              <ImageModalServer imageModalPost={imageModalPost} />
+            </Suspense>
+          )}
+        </div>
+      </ProfileCountsProvider>
   )
 }

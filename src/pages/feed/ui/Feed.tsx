@@ -7,6 +7,7 @@ import { Loader } from '@/shared/ui/Loader/Loader'
 import { ImageModalServer } from '@/features/post/viewPost/ui/ImageModalServer'
 import { PostFeed } from '@/shared/ui/Posts/PostFeed/PostFeed'
 import { useFollowingPosts } from '@/shared/api/useFollowingPosts'
+import {ProfileCountsProvider} from "@/entites/profile/model/profileCounts.provider";
 
 type Props = {
   posts: AllPosts
@@ -40,16 +41,18 @@ export const Feed = ({ posts, imageModalPost }: Props) => {
   const feedPosts = followingItems.length > 0 ? { items: followingItems } : posts
 
   return (
-    <div className={styles.container}>
-      <PostFeed posts={feedPosts} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
+      <ProfileCountsProvider>
+        <div className={styles.container}>
+          <PostFeed posts={feedPosts} isLoading={isLoading} isFetchingNextPage={isFetchingNextPage}/>
 
-      {!isLoading && <div ref={sentinelRef} />}
+          {!isLoading && <div ref={sentinelRef} />}
 
-      {imageModalPost && (
-        <Suspense fallback={<Loader />}>
-          <ImageModalServer imageModalPost={imageModalPost} />
-        </Suspense>
-      )}
-    </div>
+          {imageModalPost && (
+            <Suspense fallback={<Loader />}>
+              <ImageModalServer imageModalPost={imageModalPost} />
+            </Suspense>
+          )}
+        </div>
+      </ProfileCountsProvider>
   )
 }
