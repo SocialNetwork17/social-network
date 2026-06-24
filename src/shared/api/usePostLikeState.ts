@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { client } from '@/shared/api/client'
 import { SchemaPostViewModel } from '@/shared/api/schema'
@@ -7,7 +7,8 @@ import { useUpdatePostLikeStatusMutation } from '@/shared/api/useUpdatePostLikeS
 
 type PostLikeState = Pick<SchemaPostViewModel, 'isLiked' | 'likesCount' | 'avatarWhoLikes'>
 
-const getPostLikeStateQueryKey = (postId: number) => ['post', postId, 'like-state'] as const
+const getPostLikeStateQueryKey = (postId: number, userId?: number) =>
+  ['post', postId, 'like-state', userId ?? 'guest'] as const
 
 const getInitialState = (post: SchemaPostViewModel): PostLikeState => ({
   isLiked: post.isLiked,
@@ -22,9 +23,10 @@ export const usePostLikeState = (post: SchemaPostViewModel) => {
   const [isLikePending, setIsLikePending] = useState(false)
 
   const initialState = getInitialState(post)
+  const postLikeStateQueryKey = getPostLikeStateQueryKey(post.id, user?.userId)
 
   const { data: postLikeState = initialState } = useQuery({
-    queryKey: getPostLikeStateQueryKey(post.id),
+    queryKey: postLikeStateQueryKey,
     queryFn: async () => {
       const response = await client.GET('/api/v1/posts/id/{postId}', {
         params: {
@@ -49,27 +51,17 @@ export const usePostLikeState = (post: SchemaPostViewModel) => {
     staleTime: 0,
   })
 
-  useEffect(() => {
-    if (isLikePending) {
-      return
-    }
-
-    void queryClient.invalidateQueries({
-      queryKey: getPostLikeStateQueryKey(post.id),
-    })
-  }, [isAuth, isLikePending, isLoading, post.id, queryClient, user?.userId])
-
   const handleLikeClick = async () => {
     if (!isAuth || !user || isLikePending) {
       return
     }
 
-    const previousState = queryClient.getQueryData<PostLikeState>(getPostLikeStateQueryKey(post.id)) ?? initialState
+    const previousState = queryClient.getQueryData<PostLikeState>(postLikeStateQueryKey) ?? initialState
     const nextIsLiked = !previousState.isLiked
     const nextLikeStatus: 'NONE' | 'LIKE' = previousState.isLiked ? 'NONE' : 'LIKE'
 
     setIsLikePending(true)
-    queryClient.setQueryData<PostLikeState>(getPostLikeStateQueryKey(post.id), {
+    queryClient.setQueryData<PostLikeState>(postLikeStateQueryKey, {
       ...previousState,
       isLiked: nextIsLiked,
       likesCount: previousState.isLiked
@@ -83,10 +75,10 @@ export const usePostLikeState = (post: SchemaPostViewModel) => {
         likeStatus: nextLikeStatus,
       })
     } catch {
-      queryClient.setQueryData(getPostLikeStateQueryKey(post.id), previousState)
+      queryClient.setQueryData(postLikeStateQueryKey, previousState)
     } finally {
       void queryClient.invalidateQueries({
-        queryKey: getPostLikeStateQueryKey(post.id),
+        queryKey: postLikeStateQueryKey,
       })
       setIsLikePending(false)
     }
