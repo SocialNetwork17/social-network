@@ -1,9 +1,6 @@
 import styles from './PostFeed.module.scss'
 import { usePathname, useRouter } from 'next/navigation'
 import { SchemaPostViewModel } from '@/shared/api/schema'
-import { client } from '@/shared/api/client'
-import { useAuth } from '@/shared/hooks/useAuth'
-import { useUpdatePostLikeStatusMutation } from '@/shared/api/useUpdatePostLikeStatusMutation'
 import { CardFeed } from '../../CardFeed/CardFeed'
 import {Loader} from "@/shared/ui/Loader/Loader";
 
