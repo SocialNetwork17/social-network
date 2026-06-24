@@ -11,10 +11,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInFormValues, signInSchema } from '@/features/signIn/lib/signInSchema'
 import { useLoginMutation } from '@/features/signIn/api/useLoginMutation'
 import { Spinner } from '@/shared/ui/Spinner/Spinner'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 export const SignInForm = () => {
-  const router = useRouter()
+  // const router = useRouter()
 
   const {
     register,
@@ -29,7 +29,7 @@ export const SignInForm = () => {
 
   const onSubmit = (data: SignInFormValues) => {
     loginMutation({ ...data, email: data.email.toLowerCase() })
-    router.replace(PATH.MAIN)
+    // router.replace(PATH.MAIN)
   }
 
   return (
@@ -78,7 +78,7 @@ export const SignInForm = () => {
 
             <div className={styles.signInButtonContainer}>
               <Button variant={'primary'} disabled={isPending} type="submit">
-                {isPending && <Spinner />} Sign In
+                {isPending ? <Spinner /> : 'Sign In'}
               </Button>
             </div>
 

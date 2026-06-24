@@ -6,7 +6,7 @@ import { IconButton } from "@/shared/ui/IconButton/IconButton"
 import {DropdownMenu} from "@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/DropdownMenu/DropdownMenu";
 import {
     useClickOutside
-} from "@/features/post/viewPost/ui/ImageModalHeader/ThreeDotsMenu/DropdownMenu/useClickOutside";
+} from "@/shared/hooks/useClickOutside";
 import {useModal} from "@/widgets/modal/model/modal.context";
 import {deletePostModalAC} from "@/widgets/modal/model/modal.types";
 import {ViewModeType} from "@/features/post/viewPost/ui/model/imageModalServer.types";

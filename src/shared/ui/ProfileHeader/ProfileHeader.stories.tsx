@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import {ProfileHeader} from './ProfileHeader'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ProfileCountsProvider } from '@/entites/profile/model/profileCounts.provider'
 
 // Создаем клиент React Query
 const queryClient = new QueryClient()
@@ -44,7 +45,9 @@ export const Default: Story = {
   },
   render: args => (
     <QueryClientProvider client={queryClient}>
-      <ProfileHeader {...args} />
+      <ProfileCountsProvider>
+        <ProfileHeader {...args} />
+      </ProfileCountsProvider>
     </QueryClientProvider>
   ),
 }
