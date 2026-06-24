@@ -1,0 +1,89 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.textAreaContainer {
+  width: 100%;
+  position: relative;
+}
+
+.label {
+  @include typo.text-regular-14;
+  color: styles.palette('light', 900);
+}
+
+.textArea {
+  width: 100%;
+  height: 84px;
+  display: block;
+
+  padding: 4px 10px;
+
+  @include styles.border-style;
+  background: var(--color-bg); //todo
+
+  @include typo.text-regular-16;
+  letter-spacing: 0;
+  color: styles.palette('light', 100);
+  transition:
+    border-color 0.2s ease,
+    outline-color 0.2s ease;
+
+  resize: none;
+}
+
+.errorTextArea {
+  @include styles.error-input;
+}
+
+.errorText {
+  position: absolute;
+  top: calc(100% + 2px);
+
+  width: 100%;
+  @include typo.text-regular-14;
+  color: styles.palette('danger', 500);
+
+  word-break: break-all;
+}
+
+.charCounter {
+  font-size: 13px;
+  color: #8e8e8e;
+  text-align: right;
+}
+
+.simpleTextArea {
+  // Без обводки и фона
+
+  width: 100%;
+  display: block;
+
+  padding: 4px 10px;
+
+  border: none;
+  background: transparent;
+  outline: none;
+
+  @include typo.text-regular-16;
+  letter-spacing: 0;
+  color: var(--color-text);
+  transition:
+    border-color 0.2s ease,
+    outline-color 0.2s ease;
+
+  resize: none;
+
+  &:focus {
+    outline: 1px solid var(--border-color-default);
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+

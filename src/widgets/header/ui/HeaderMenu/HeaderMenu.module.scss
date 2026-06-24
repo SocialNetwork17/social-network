@@ -1,0 +1,15 @@
+@use '../../../../styles/abstract' as styles;
+
+.menuBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-left: 36px;
+}

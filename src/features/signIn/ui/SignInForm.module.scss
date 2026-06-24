@@ -1,0 +1,78 @@
+@use '../../../styles/base/typography' as typo;
+@use '../../../styles/abstract' as styles;
+
+.authCard {
+  width: 378px;
+  margin-top: 36px;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  padding: 24px;
+  background-color: styles.palette('dark', 500);
+}
+
+.form {
+  width: 100%;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.fieldContainer {
+  transition: margin-bottom 0.2s ease;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.fieldWithError {
+  margin-bottom: 32px;
+}
+
+.fargotPasswordLink {
+  display: inline-block;
+  width: auto;
+  margin-bottom: 24px;
+  @include typo.text-regular-14;
+  text-align: right;
+  color: styles.palette('light', 900);
+  float: right;
+  clear: both;
+}
+
+.signInButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.helperText {
+  text-align: center;
+  margin-bottom: 12px;
+  margin-top: 18px;
+}
+
+.signUpLink {
+  display: inline-block;
+  width: auto;
+  @include typo.text-regular-16;
+  color: styles.palette('accent', 500);
+  text-align: center;
+  padding: 10px 50px;
+}
+
+.signUpLinkContainer {
+  text-align: center;
+  width: 100%;
+}
+
+.serverError {
+  @include typo.text-regular-14;
+  color: styles.palette('danger', 500);
+  margin-top: 12px;
+}

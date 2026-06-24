@@ -1,0 +1,195 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+/* -------------------- Wrapper + Label -------------------- */
+.datePickerWrapper {
+  margin-top: 24px;
+  width: 100%;
+  min-width: 262px;
+  position: relative;
+}
+
+.label {
+  @include typo.text-regular-14;
+  color: styles.palette('light', 900);
+  display: block;
+  position: relative;
+}
+.requiredStar {
+  position: absolute;
+  top: -4px;
+  color: styles.palette('danger', 500);
+}
+
+
+/* -------------------- Popover -------------------- */
+.popover {
+  position: relative;
+}
+
+/* -------------------- Input wrapper -------------------- */
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+/* -------------------- Input -------------------- */
+.input {
+  border: 1px solid styles.palette('dark', 300);
+  background-color: styles.palette('dark', 500);
+  border-radius: 2px;
+  color: styles.palette('light', 100);
+  height: 44px;
+  width: 100%;
+  padding: 6px 48px 6px 12px;
+  @include typo.text-regular-16;
+  transition: border-color 0.2s ease;
+  cursor: text;
+  position: relative;
+  z-index: 1;
+
+  &:hover,
+  &.open,
+  &:focus {
+    border-color: styles.palette('accent', 700);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.disabled {
+    background-color: styles.palette('dark', 500);
+    color: styles.palette('dark', 300);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ---------- Ошибка ---------- */
+  &.error {
+    border-color: styles.palette('danger', 500);
+    color: styles.palette('danger', 500);
+  }
+}
+
+/* -------------------- Calendar button -------------------- */
+.calendarButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  /* Красная иконка при ошибке */
+  &.error svg {
+    color: styles.palette('danger', 500);
+    fill: styles.palette('danger', 500);
+  }
+}
+
+/* -------------------- Panel (Calendar) -------------------- */
+.panel {
+  border: 1px solid styles.palette('dark', 300);
+  border-radius: 2px;
+  background-color: styles.palette('dark', 500);
+  position: absolute;
+  z-index: 50;
+  width: 328px;
+  padding: 20px;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+
+  /* ----------- Today ----------- */
+  :global(.rdp-day_today) {
+    color: styles.palette('accent', 500);
+    font-weight: 700;
+  }
+
+  /* ----------- Weekend ----------- */
+  :global(.rdp-day_weekend) {
+    color: styles.palette('danger', 300);
+  }
+
+  /* ----------- Outside ----------- */
+  :global(.rdp-day_outside) {
+    opacity: 0.5;
+    color: styles.palette('light', 900);
+  }
+
+  /* ----------- Disabled ----------- */
+  :global(.rdp-day_disabled) {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* ----------- Hover ----------- */
+  :global(.rdp-day) {
+    &:hover:not(
+        .rdp-day_disabled,
+        .rdp-day_selected,
+        .rdp-day_range_start,
+        .rdp-day_range_middle,
+        .rdp-day_range_end
+      ) {
+      background-color: styles.palette('danger', 500);
+      color: styles.palette('light', 100);
+      border-radius: 50%;
+    }
+  }
+
+  /* ----------- Range & Selected ----------- */
+  :global(.rdp-day_selected) {
+    border-radius: 50%;
+  }
+
+  :global(.rdp-day_range_start) {
+    border-radius: 50% 0 0 50%;
+  }
+
+  :global(.rdp-day_range_end) {
+    border-radius: 0 50% 50% 0;
+  }
+
+  :global(.rdp-day_range_middle) {
+    border-radius: 0;
+  }
+
+  :global(.rdp-day_selected),
+  :global(.rdp-day_range_start),
+  :global(.rdp-day_range_middle),
+  :global(.rdp-day_range_end) {
+    background-color: styles.palette('accent', 900);
+    color: styles.palette('light', 100);
+
+    &:hover {
+      background-color: styles.palette('accent', 700);
+    }
+  }
+}
+
+/* -------------------- Error message -------------------- */
+.errorMessage {
+  min-height: 20px;
+  color: styles.palette('danger', 500);
+  margin-top: 4px;
+  font-size: 12px;
+}

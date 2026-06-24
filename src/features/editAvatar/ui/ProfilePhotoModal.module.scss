@@ -1,0 +1,12 @@
+.profilePhoto {
+  padding: 28px 50px 36px;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+
+  .buttonContainer {
+    padding-top: 36px;
+    margin-top: auto;
+    align-self: flex-end;
+  }
+}

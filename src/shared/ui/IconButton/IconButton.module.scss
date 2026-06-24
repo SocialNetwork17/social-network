@@ -1,0 +1,19 @@
+@use '../../../styles/abstract' as styles;
+
+.iconButton {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.iconButtonDisabled {
+  color: styles.palette('dark', 100);
+  &:hover {
+    cursor: auto;
+  }
+}

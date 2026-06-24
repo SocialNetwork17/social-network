@@ -1,0 +1,36 @@
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-bg-500);
+  border: 1px solid var(--border-color-default);
+  border-radius: 2px;
+  padding: 12px 24px;
+
+  & .text {
+    text-align: center;
+    line-height: 48px;
+  }
+
+  & .amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--color-bg);
+    border: 1px solid var(--border-color-default);
+    border-radius: 2px;
+    padding: 8px 10px;
+
+    & span {
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+
+      &:not(:last-child) {
+        border-right: 1px solid var(--border-color-default);
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+@use "../../../../styles/base/typography" as typo;
+@use "../../../../styles/abstract/index" as styles;
+
+.notificationItem {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.headerWrapper {
+  display: flex;
+  column-gap: 10px;
+}
+
+.message {
+  @include typo.text-regular-14;
+}
+
+.newNotificationText {
+  @include typo.text-bold-14;
+}
+
+.date {
+  color: styles.palette('light', 900);
+  @include typo.text-small;
+}
+
+.newLabel {
+  align-self: flex-start;
+  color: styles.palette('accent', 500);
+  @include typo.text-bold-14;
+}

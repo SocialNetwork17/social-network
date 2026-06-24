@@ -1,0 +1,250 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.recaptchaWrapper {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 500;
+  width: 314px;
+  border: 1px solid transparent;
+
+  // Error state styling - red border when verification fails
+  &.error {
+    border: 1px solid styles.palette('danger', 500);
+    padding: 8px 7px 11px 7px;
+  }
+}
+
+// Error message styling below the reCAPTCHA box
+.errorText {
+  padding-left: 1px;
+  margin-top: 13px;
+  font-weight: 400;
+  font-size: 10px;
+  color: styles.palette('danger', 500);
+}
+
+// Main container for reCAPTCHA component
+.recaptchaContainer {
+  margin: 0 auto;
+  width: 300px;
+  height: 79px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border: 1px solid styles.palette('dark', 300);
+  border-radius: 2px;
+  background: styles.palette('dark', 500); // Dark background matching reCAPTCHA style
+  position: relative; // For absolute positioning of reset button and messages
+}
+
+// Left section containing checkbox and text
+.recaptchaContent {
+  display: flex;
+  align-items: center;
+}
+
+// Checkbox label for better click area
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 13px;
+}
+
+// Hide native checkbox but keep it accessible
+.hiddenCheckbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+// Custom styled checkbox replacement
+.recaptchaCheckbox {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 1px solid styles.palette('light', 900);
+  border-radius: 1px;
+  background: styles.palette('light', 100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  // Hover state
+  &:hover {
+    border: 1px solid rgba(styles.palette('light', 900), 0.8);
+  }
+
+  // States when checkbox is checked or loading
+  &.checked,
+  &.loading {
+    background: transparent;
+    border: none;
+    cursor: default;
+
+    // Remove hover effect when checked or loading
+    &:hover {
+      border: none;
+    }
+  }
+}
+
+// Loading spinner animation
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 2px solid transparent;
+  border-top: 2px solid #4285f4; // Google blue color
+  border-radius: 50%;
+
+  // Dual animations for spinning and color cycling
+  animation:
+    spin 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite,
+    growCircle 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  box-sizing: border-box;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+}
+
+// Continuous rotation animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Complex color cycling animation around the circle
+@keyframes growCircle {
+  0% {
+    border-top-color: #4285f4;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  // Progressive color filling around the circle
+  20% {
+    border-top-color: #4285f4;
+    border-right-color: rgba(66, 133, 244, 0.5);
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  40% {
+    border-top-color: #4285f4;
+    border-right-color: #4285f4;
+    border-bottom-color: rgba(66, 133, 244, 0.5);
+    border-left-color: transparent;
+  }
+  60% {
+    border-top-color: #4285f4;
+    border-right-color: #4285f4;
+    border-bottom-color: #4285f4;
+    border-left-color: rgba(66, 133, 244, 0.5);
+  }
+  70% {
+    border-top-color: #4285f4;
+    border-right-color: #4285f4;
+    border-bottom-color: #4285f4;
+    border-left-color: #4285f4;
+  }
+  // Progressive fading out
+  75% {
+    border-top-color: rgba(66, 133, 244, 0.7);
+    border-right-color: #4285f4;
+    border-bottom-color: #4285f4;
+    border-left-color: #4285f4;
+  }
+  80% {
+    border-top-color: transparent;
+    border-right-color: #4285f4;
+    border-bottom-color: #4285f4;
+    border-left-color: #4285f4;
+  }
+  85% {
+    border-top-color: transparent;
+    border-right-color: rgba(66, 133, 244, 0.7);
+    border-bottom-color: #4285f4;
+    border-left-color: #4285f4;
+  }
+  90% {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: rgba(66, 133, 244, 0.5);
+    border-left-color: #4285f4;
+  }
+  95% {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: rgba(66, 133, 244, 0.3);
+  }
+  100% {
+    border-top-color: #4285f4;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+}
+
+// Checkmark pop-in animation when verification succeeds
+.checkmark {
+  animation: checkmarkPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1); // Slight overshoot for bouncy effect
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// "I'm not a robot" text styling
+.recaptchaText {
+  @include typo.text-small;
+}
+
+// Right section with reCAPTCHA branding
+.recaptchaBranding {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// Small text for reCAPTCHA logo
+.recaptchaLogoText {
+  font-size: 8px;
+  margin-bottom: 2px;
+}
+
+// Privacy and Terms links styling
+.recaptchaLinks {
+  font-size: 6px;
+}
+
+// Expired verification message positioning
+.expiredText {
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include typo.text-small;
+  font-size: 10px;
+  color: styles.palette('danger', 500);
+  width: 180px;
+  margin: 4px 0 0 17px;
+  line-height: 1.1;
+}

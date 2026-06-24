@@ -1,0 +1,25 @@
+@use '../../styles/base/typography' as typo;
+
+.pageWrapper {
+  width: 958px;
+  margin: 0 auto;
+}
+
+.backWrapper {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  @include typo.text-regular-14;
+}
+
+.title {
+  margin-top: 24px;
+  text-align: center;
+  @include typo.h1;
+}
+
+.description {
+  margin: 20px 0 20px;
+  text-align: center;
+  @include typo.text-regular-14;
+}

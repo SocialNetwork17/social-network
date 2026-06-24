@@ -1,0 +1,26 @@
+import {useMutation} from '@tanstack/react-query'
+import {client} from '@/shared/api/client'
+import {PATH} from '@/shared/constants/routings'
+import {RegistrationType} from "@/features/signUp/model/registrationSchema";
+
+
+export const useRegistration = () => {
+  const mutation = useMutation({
+    mutationKey: ['auth', 'registration'],
+    mutationFn:  async (data: RegistrationType) => {
+      const response = await client.POST('/api/v1/auth/registration', {
+        body: {
+          userName: data.userName,
+          email: data.email,
+          password: data.password,
+          baseUrl: `${process.env.NEXT_PUBLIC_BASE_DOMAIN}${PATH.REGISTRATION_CALLBACK}`,
+        },
+      })
+      if (response.error) {
+        throw response.error
+      }
+      return response.data
+    },
+  })
+  return mutation
+}

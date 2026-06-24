@@ -1,0 +1,34 @@
+@use '../../../styles/base/typography' as typo;
+@use '../../../styles/abstract' as abstract;
+
+.header {
+  position: sticky;
+  top: 0;
+  height: 60px;
+
+  flex-shrink: 0;
+
+  z-index: 100;
+
+  background-color: var(--color-bg);
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.container {
+  @include abstract.container;
+  padding: 0 60px;
+  height: 100%;
+}
+.headerWrapper {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  @include typo.large-text;
+  display: inline-block;
+}

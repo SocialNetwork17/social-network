@@ -1,0 +1,82 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.label {
+  cursor: pointer;
+  gap: 8px;
+  position: relative;
+  padding: 6px 8px 6px 30px;
+  margin-left: -5px;
+
+  &.disabled {
+    cursor: default;
+  }
+}
+
+.radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.customRadio {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  z-index: 1;
+
+  // Цвет для обычных кнопок
+  color: styles.palette('dark', 900);
+}
+
+// Цвет для disabled кнопок
+.label.disabled .customRadio {
+  color: styles.palette('light', 900);
+}
+
+// Отдельно для выбранных disabled - делаем внутренний круг видимым
+.label.disabled .customRadio {
+  circle {
+    fill: currentColor;
+    opacity: 1; // Убедимся, что круг виден
+  }
+}
+
+.label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  background-color: styles.palette('dark', 100);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.label:hover::before,
+.label:active::before {
+  opacity: 1;
+}
+
+.label.disabled::before,
+.label.disabled:hover::before {
+  opacity: 0;
+}
+
+.spanClassName {
+  @include typo.text-regular-14;
+  line-height: 1.2;
+  z-index: 1;
+  padding-left: 8px;
+
+  .disabled & {
+    color: styles.palette('light', 900);
+  }
+}

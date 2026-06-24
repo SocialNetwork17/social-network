@@ -1,0 +1,8 @@
+@use "../../../styles/abstract/mixins" ;
+
+.backdrop {
+  @include mixins.backdrop
+}
+.backdropHide {
+  display: none;
+}

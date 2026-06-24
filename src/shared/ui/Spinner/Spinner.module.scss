@@ -1,0 +1,58 @@
+.skChase {
+  width: 10px;
+  height: 10px;
+  position: relative;
+  animation: skChaseAnimation 2.5s infinite linear both;
+}
+
+.skChaseDot {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: skChaseDotAnimation 2s infinite ease-in-out both;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 25%;
+    height: 25%;
+    background-color: var(--color-text);
+    border-radius: 100%;
+    animation: skChaseDotBeforeAnimation 2s infinite ease-in-out both;
+  }
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: -#{1.1 - ($i - 1) * 0.1}s;
+
+      &:before {
+        animation-delay: -#{1.1 - ($i - 1) * 0.1}s;
+      }
+    }
+  }
+}
+
+@keyframes skChaseAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skChaseDotAnimation {
+  80%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skChaseDotBeforeAnimation {
+  50% {
+    transform: scale(0.4);
+  }
+  100%,
+  0% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,36 @@
+@use '../../../styles/abstract' as styles;
+
+.page {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.layout {
+  height: calc(100vh - 120px);
+  min-height: 500px;
+  display: grid;
+  grid-template-columns: 286px minmax(0, 1fr);
+  border: 1px solid styles.palette('dark', 300);
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: styles.palette('dark', 700);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

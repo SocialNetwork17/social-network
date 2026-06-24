@@ -1,0 +1,5 @@
+// @forward - re-export base style modules for SCSS consumers.
+// index - shared entry point for styles imports.
+// Example: @use "../.../styles/index" as *;
+@use './base';
+@use './abstract';
