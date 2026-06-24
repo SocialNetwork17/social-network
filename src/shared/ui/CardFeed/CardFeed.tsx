@@ -8,16 +8,16 @@ import { FeedTools } from './FeedTools/FeedTools'
 import { CreateComment } from './CreateComment/CreateComment'
 import { CommentsBlock } from '../CommentsBlock/CommentsBlock'
 import { useAuth } from '@/shared/hooks/useAuth'
+import { usePostLikeState } from '@/shared/api/usePostLikeState'
 
 type Props = {
   postItem: SchemaPostViewModel
   onClick?: () => void
-  onLikeClick?: () => void
-  isLikePending?: boolean
 }
 
-export const CardFeed = ({ postItem, onClick, onLikeClick, isLikePending = false }: Props) => {
+export const CardFeed = ({ postItem, onClick }: Props) => {
   const { isAuth } = useAuth()
+  const { isLiked, likesCount, avatarWhoLikes, handleLikeClick, isLikePending } = usePostLikeState(postItem)
   const imageSlider = postItem.images.map(image => image.url)
 
   return (
@@ -27,8 +27,8 @@ export const CardFeed = ({ postItem, onClick, onLikeClick, isLikePending = false
         <Card images={imageSlider} slider={true} onClick={onClick} />
       </div>
       <FeedTools
-        isLiked={postItem.isLiked}
-        onLikeClick={onLikeClick}
+        isLiked={isLiked}
+        onLikeClick={handleLikeClick}
         isLikeDisabled={!isAuth || isLikePending}
       />
       <Comment
@@ -42,7 +42,7 @@ export const CardFeed = ({ postItem, onClick, onLikeClick, isLikePending = false
         isLikedByUser={false}
         isPostDescription={true}
       />
-      <LikesWithAvatar avatarWhoLikes={postItem.avatarWhoLikes} likesCount={postItem.likesCount} />
+      <LikesWithAvatar avatarWhoLikes={avatarWhoLikes} likesCount={likesCount} />
       <CommentsBlock postId={postItem.id}/>
       {isAuth&&<CreateComment postId={postItem.id} variant={"new comment"}/>}
     </div>
