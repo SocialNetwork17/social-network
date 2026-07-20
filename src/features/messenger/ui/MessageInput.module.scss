@@ -3,14 +3,15 @@
 .container {
   display: flex;
   gap: 12px;
-  padding: 8px 18px;
+  padding: 10px 18px;
   border-top: 1px solid styles.palette('dark', 300);
-  align-items: flex-end;
-  min-height: 44px;
+  min-height: 48px;
+  box-sizing: border-box;
   flex: 0 0 auto;
   max-width: 100%;
   overflow: hidden;
   background-color: #121212;
+  align-items: center;
 }
 
 .inputArea {
@@ -93,16 +94,16 @@
 
 .textarea {
   width: 100%;
-  min-height: 24px;
-  max-height: 96px;
+  min-height: 14px;
+  overflow: hidden;
   resize: none;
-  padding: 0;
+  padding: 2px 0 0 0;
   color: inherit;
   background-color: transparent;
   border: none;
   outline: none;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.35;
 }
 
@@ -110,27 +111,103 @@
   border: none;
 }
 
+.recordingPanel {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f5f5f5;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.recordingDot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #F23D61;
+}
+
+.recordingWaveform {
+  width: 75%;
+  min-width: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.recordingBar {
+  width: 2px;
+  min-width: 2px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.54);
+}
+
+.recordingText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.voicePreview {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 12px;
+}
+
+.voiceActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .iconButton {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   padding: 0;
+  margin-top: -1px;
   border: none;
   background: transparent;
   color: #f5f5f5;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
-.iconSvg {
-  width: 20px;
-  height: 20px;
-  display: block;
+.textButton {
+  min-height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: styles.palette('accent', 500);
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    color: styles.palette('accent', 100);
+  }
+
+  &:disabled {
+    color: styles.palette('light', 900);
+    cursor: default;
+  }
 }
 
 @media (max-width: 700px) {

@@ -1,0 +1,108 @@
+.player {
+  width: 70%;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f5f5f5;
+}
+
+.playButton {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  color: #234c9f;
+  cursor: pointer;
+}
+
+.playIcon {
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
+}
+
+.pauseIcon {
+  width: 9px;
+  height: 10px;
+  display: inline-flex;
+  justify-content: space-between;
+
+  &::before,
+  &::after {
+    width: 3px;
+    height: 10px;
+    content: '';
+    background-color: currentColor;
+    border-radius: 2px;
+  }
+}
+
+.waveformButton {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.waveform {
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.bar {
+  width: 2px;
+  min-width: 2px;
+  border-radius: 2px;
+  background-color: rgba(255, 255, 255, 0.54);
+}
+
+.barActive {
+  background-color: #f5f5f5;
+}
+
+.time {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.composer {
+  color: #f5f5f5;
+
+  .playButton {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+    color: #121212;
+  }
+
+  .bar {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .barActive {
+    background-color: #397df6;
+  }
+}

@@ -4,7 +4,7 @@ import { Middleware } from 'openapi-fetch'
 import { tokenService } from '@/shared/api/tokenService'
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL
-if (!baseUrl) throw new Error("NEXT_PUBLIC_BASE_URL is not defined");
+if (!baseUrl) throw new Error('NEXT_PUBLIC_BASE_URL is not defined')
 // mutex - это механизм обновления accessToken с защитой от параллельных запросов.
 //Автоматически получает новый accessToken через refreshToken
 // Гарантирует, что только один запрос на обновление выполняется в один момент времени
@@ -15,7 +15,7 @@ let refreshPromise: Promise<string> | null = null
 // doRefresh Эта функция всегда возвращает Promise<string> (новый токен)
 //  создаёт новый HTTP запрос ТОЛЬКО если его ещё нет
 // Функция doRefresh() вызывается в middleware в блоке onResponse, когда ловим статус 401
-async function doRefresh(): Promise<string> {
+export async function refreshAccessToken(): Promise<string> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       //fetch вызываем напрямую, не через client, чтобы не зациклиться (если бы мы использовали client, то middleware снова мог бы поймать 401 и вызвать doRefresh — рекурсия).
@@ -43,7 +43,7 @@ async function doRefresh(): Promise<string> {
 }
 
 const authMiddleware: Middleware = {
-  async onRequest({request}) {
+  async onRequest({ request }) {
     // добавляем Authorization если accessToken есть в tokenService
     const accessToken = tokenService.get()
     if (accessToken && request) {
@@ -52,18 +52,18 @@ const authMiddleware: Middleware = {
 
     return request
   },
-  async onResponse({request, response}) {
+  async onResponse({ request, response }) {
     if (response.ok) return response
 
     // если получили 401 — пробуем refresh
     if (response.status === 401) {
       try {
-        const newAccessToken = await doRefresh()
+        const newAccessToken = await refreshAccessToken()
         // повторяем исходный запрос с новым access token
         const original = new Request(request)
         const headers = new Headers(original.headers)
         headers.set('Authorization', `Bearer ${newAccessToken}`)
-        const retry = new Request(original, {headers})
+        const retry = new Request(original, { headers })
         return fetch(retry)
       } catch (e) {
         // refresh не удался — пробрасываем оригинальный response дальше
@@ -74,9 +74,7 @@ const authMiddleware: Middleware = {
     // другое не-OK поведение — проброс
     return response
   },
-  async onError() {
-
-  },
+  async onError() {},
 }
 
 export const client = createClient<paths>({

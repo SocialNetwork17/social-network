@@ -10,6 +10,7 @@ type Props = {
   currentUserId: number
   messages: ChatMessage[]
   onSendMessage: (text: string, images?: File[]) => Promise<SendMessageResult>
+  onSendVoiceMessage: (audio: Blob) => Promise<SendMessageResult>
   selectedChat: Chat | null
 }
 
@@ -21,7 +22,13 @@ const getInitials = (value: string) =>
     .map(part => part[0]?.toUpperCase() ?? '')
     .join('')
 
-export const ChatWindow = ({ currentUserId, messages, onSendMessage, selectedChat }: Props) => {
+export const ChatWindow = ({
+  currentUserId,
+  messages,
+  onSendMessage,
+  onSendVoiceMessage,
+  selectedChat,
+}: Props) => {
   if (!selectedChat) {
     return (
       <div className={styles.emptyState}>
@@ -51,12 +58,13 @@ export const ChatWindow = ({ currentUserId, messages, onSendMessage, selectedCha
         </div>
       </header>
       <MessageList
+        chatId={selectedChat.id}
         currentUserId={currentUserId}
         messages={messages}
         participantAvatarUrl={selectedChat.participantAvatarUrl}
         participantUsername={selectedChat.participantUsername}
       />
-      <MessageInput onSendMessage={onSendMessage} />
+      <MessageInput onSendMessage={onSendMessage} onSendVoiceMessage={onSendVoiceMessage} />
     </section>
   )
 }

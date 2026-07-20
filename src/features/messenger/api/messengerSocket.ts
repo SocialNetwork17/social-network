@@ -1,6 +1,7 @@
 'use client'
 
 import { io, Socket } from 'socket.io-client'
+import { refreshAccessToken } from '@/shared/api/client'
 import { tokenService } from '@/shared/api/tokenService'
 import {
   MessageErrorEvent,
@@ -24,6 +25,8 @@ type PendingMessage = {
 class MessengerSocket {
   private currentUserId?: number
 
+  private socketAccessToken: string | null = null
+
   private listeners: {
     [K in EventName]: Set<EventHandler<K>>
   } = {
@@ -45,11 +48,12 @@ class MessengerSocket {
       return
     }
 
-    if (this.socket?.connected) {
+    if (this.socket?.connected && this.socketAccessToken === accessToken) {
       return
     }
 
     this.socket?.disconnect()
+    this.socketAccessToken = accessToken
 
     this.socket = io('https://inctagram.work', {
       autoConnect: true,
@@ -67,6 +71,8 @@ class MessengerSocket {
     this.socket.on(
       'message-send',
       (message: SocketMessage, callback?: (payload: object) => void) => {
+        this.resolvePending(message, { ignoreOwner: true })
+
         callback?.({
           message,
           receiverId: this.currentUserId ?? message.receiverId,
@@ -100,6 +106,7 @@ class MessengerSocket {
   disconnect() {
     this.socket?.disconnect()
     this.socket = null
+    this.socketAccessToken = null
   }
 
   on<K extends EventName>(event: K, handler: EventHandler<K>) {
@@ -113,8 +120,12 @@ class MessengerSocket {
   }
 
   async sendMessage(payload: SendMessagePayload) {
+    await this.ensureConnected()
+
     return new Promise<void>((resolve, reject) => {
-      if (!this.socket?.connected) {
+      const socket = this.socket
+
+      if (!socket?.connected) {
         reject(new Error('Messenger socket is not connected'))
 
         return
@@ -159,21 +170,80 @@ class MessengerSocket {
         timeoutId,
       })
 
-      this.socket.emit('receive-message', {
-        message: trimmedText,
-        receiverId: payload.receiverId,
-      })
+      socket.emit(
+        'receive-message',
+        {
+          message: trimmedText,
+          messageType: payload.messageType,
+          receiverId: payload.receiverId,
+        },
+        (ack?: { message?: SocketMessage; receiverId?: number }) => {
+          if (ack?.message) {
+            this.resolvePending(ack.message, { ignoreOwner: true })
+            return
+          }
+
+          this.resolvePendingByReceiver(ack?.receiverId ?? payload.receiverId)
+        }
+      )
     })
   }
 
-  private resolvePending(message: SocketMessage) {
-    if (message.ownerId !== this.currentUserId) {
+  private async ensureConnected() {
+    let accessToken = tokenService.get()
+
+    if (!accessToken) {
+      accessToken = await refreshAccessToken()
+    }
+
+    if (!this.socket?.connected || this.socketAccessToken !== accessToken) {
+      this.connect(this.currentUserId)
+    }
+
+    if (this.socket?.connected) {
+      return
+    }
+
+    await new Promise<void>((resolve, reject) => {
+      const socket = this.socket
+
+      if (!socket) {
+        reject(new Error('Messenger socket is not connected'))
+        return
+      }
+
+      const timeoutId = setTimeout(() => {
+        socket.off('connect', handleConnect)
+        socket.off('connect_error', handleConnectError)
+        reject(new Error('Messenger socket connection timeout'))
+      }, 5000)
+
+      const handleConnect = () => {
+        clearTimeout(timeoutId)
+        socket.off('connect_error', handleConnectError)
+        resolve()
+      }
+
+      const handleConnectError = () => {
+        clearTimeout(timeoutId)
+        socket.off('connect', handleConnect)
+        reject(new Error('Messenger socket is not connected'))
+      }
+
+      socket.once('connect', handleConnect)
+      socket.once('connect_error', handleConnectError)
+    })
+  }
+
+  private resolvePending(message: SocketMessage, options: { ignoreOwner?: boolean } = {}) {
+    if (!options.ignoreOwner && message.ownerId !== this.currentUserId) {
       return
     }
 
     const pendingMessageIndex = this.pendingMessages.findIndex(
       pendingMessage =>
-        pendingMessage.receiverId === message.receiverId &&
+        (pendingMessage.receiverId === message.receiverId ||
+          pendingMessage.receiverId === message.ownerId) &&
         (pendingMessage.matchStrategy === 'receiver' || pendingMessage.text === message.messageText)
     )
 
@@ -188,6 +258,24 @@ class MessengerSocket {
     }
 
     pendingMessage.resolve(message)
+  }
+
+  private resolvePendingByReceiver(receiverId: number) {
+    const pendingMessageIndex = this.pendingMessages.findIndex(
+      pendingMessage => pendingMessage.receiverId === receiverId
+    )
+
+    if (pendingMessageIndex === -1) {
+      return
+    }
+
+    const [pendingMessage] = this.pendingMessages.splice(pendingMessageIndex, 1)
+
+    if (!pendingMessage) {
+      return
+    }
+
+    pendingMessage.resolve({} as SocketMessage)
   }
 
   private emit<K extends EventName>(event: K, payload: MessengerSocketEventMap[K]) {
