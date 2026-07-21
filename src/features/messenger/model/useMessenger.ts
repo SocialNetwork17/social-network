@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SchemaLastMessageViewDto, SchemaMessageViewModel } from '@/shared/api/schema'
 import { messengerApi } from '../api/messengerApi'
 import { messengerSocket } from '../api/messengerSocket'
@@ -22,6 +22,23 @@ const buildChatId = (participantId: number) => `chat-${participantId}`
 
 const buildOptimisticMessageId = () =>
   `optimistic-${Date.now()}-${Math.random().toString(36).slice(2)}`
+
+const blobToDataUrl = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+        return
+      }
+
+      reject(new Error('Voice message processing failed'))
+    }
+
+    reader.onerror = () => reject(new Error('Voice message processing failed'))
+    reader.readAsDataURL(blob)
+  })
 
 const isOptimisticMessage = (message: ChatMessage) => message.id.startsWith('optimistic-')
 
@@ -67,6 +84,7 @@ const ensureChatRecord = (
     participantAvatarUrl: participant.avatars?.[0]?.url ?? existingChat?.participantAvatarUrl,
     lastMessage: lastMessage ?? existingChat?.lastMessage,
     lastMessageSenderId: existingChat?.lastMessageSenderId,
+    lastMessageType: existingChat?.lastMessageType,
     updatedAt: existingChat?.updatedAt ?? new Date().toISOString(),
   } satisfies Chat
 }
@@ -93,6 +111,7 @@ const mapLastMessageToChat = (message: SchemaLastMessageViewDto, currentUserId: 
     participantAvatarUrl: message.avatars?.[0]?.url,
     lastMessage: message.messageText,
     lastMessageSenderId: message.ownerId,
+    lastMessageType: message.messageType,
     updatedAt: message.updatedAt,
   }
 }
@@ -126,9 +145,16 @@ export const useMessenger = (currentUserId?: number) => {
       return
     }
 
-    const chatsFromServer = (await messengerApi.getChats()).map(message =>
-      mapLastMessageToChat(message, currentUserId)
-    )
+    let chatsFromServer: Chat[] = []
+
+    try {
+      chatsFromServer = (await messengerApi.getChats()).map(message =>
+        mapLastMessageToChat(message, currentUserId)
+      )
+    } catch {
+      return
+    }
+
     let mergedChats: Chat[] = []
 
     setState(prevState => {
@@ -156,7 +182,14 @@ export const useMessenger = (currentUserId?: number) => {
       }
 
       const { preserveOptimistic = true } = options
-      const serverMessages = await messengerApi.getMessagesByUser(chat.participantId)
+      let serverMessages: SchemaMessageViewModel[] = []
+
+      try {
+        serverMessages = await messengerApi.getMessagesByUser(chat.participantId)
+      } catch {
+        return
+      }
+
       const nextMessages = sortMessages(
         serverMessages.map(message => mapMessageToChatMessage(message, chat.id))
       )
@@ -190,7 +223,11 @@ export const useMessenger = (currentUserId?: number) => {
         return
       }
 
-      await messengerApi.markMessagesRead(unreadMessageIds)
+      try {
+        await messengerApi.markMessagesRead(unreadMessageIds)
+      } catch {
+        return
+      }
 
       setState(prevState => ({
         ...prevState,
@@ -240,26 +277,37 @@ export const useMessenger = (currentUserId?: number) => {
     () => state.chats.find(chat => chat.id === selectedChatId) ?? null,
     [selectedChatId, state.chats]
   )
+  const selectedChatRef = useRef<Chat | null>(null)
+  const loadMessagesForChatRef = useRef(loadMessagesForChat)
+  const syncChatsRef = useRef(syncChats)
+
+  useEffect(() => {
+    selectedChatRef.current = selectedChat
+    loadMessagesForChatRef.current = loadMessagesForChat
+    syncChatsRef.current = syncChats
+  }, [loadMessagesForChat, selectedChat, syncChats])
 
   useEffect(() => {
     messengerSocket.connect(currentUserId)
 
     const unsubscribeChanged = messengerSocket.on('message:changed', ({ message }) => {
-      void syncChats()
+      void syncChatsRef.current()
 
       const relatedParticipantId =
         message.ownerId === currentUserId ? message.receiverId : message.ownerId
+      const currentSelectedChat = selectedChatRef.current
 
-      if (selectedChat?.participantId === relatedParticipantId) {
-        void loadMessagesForChat(selectedChat)
+      if (currentSelectedChat?.participantId === relatedParticipantId) {
+        void loadMessagesForChatRef.current(currentSelectedChat)
       }
     })
 
     const unsubscribeDeleted = messengerSocket.on('message:deleted', () => {
-      void syncChats()
+      void syncChatsRef.current()
+      const currentSelectedChat = selectedChatRef.current
 
-      if (selectedChat) {
-        void loadMessagesForChat(selectedChat)
+      if (currentSelectedChat) {
+        void loadMessagesForChatRef.current(currentSelectedChat)
       }
     })
 
@@ -273,7 +321,7 @@ export const useMessenger = (currentUserId?: number) => {
       unsubscribeError()
       messengerSocket.disconnect()
     }
-  }, [currentUserId, loadMessagesForChat, selectedChat, syncChats])
+  }, [currentUserId])
 
   useEffect(() => {
     if (!selectedChat) {
@@ -425,21 +473,20 @@ export const useMessenger = (currentUserId?: number) => {
       ]
       const optimisticMessageIds = optimisticMessages.map(message => message.id)
       const optimisticLastMessage =
-        trimmedText || (selectedImages.length > 1 ? 'Photos' : selectedImages.length === 1 ? 'Photo' : undefined)
+        trimmedText ||
+        (selectedImages.length > 1 ? 'Photos' : selectedImages.length === 1 ? 'Photo' : undefined)
       const optimisticUpdatedAt =
         optimisticMessages[optimisticMessages.length - 1]?.createdAt ?? new Date().toISOString()
 
       setState(prevState => ({
         ...prevState,
-        chats: upsertChat(
-          prevState.chats,
-          {
-            ...selectedChat,
-            lastMessage: optimisticLastMessage ?? selectedChat.lastMessage,
-            lastMessageSenderId: currentUserId,
-            updatedAt: optimisticUpdatedAt,
-          }
-        ),
+        chats: upsertChat(prevState.chats, {
+          ...selectedChat,
+          lastMessage: optimisticLastMessage ?? selectedChat.lastMessage,
+          lastMessageSenderId: currentUserId,
+          lastMessageType: trimmedText ? 'TEXT' : selectedImages.length > 0 ? 'IMAGE' : undefined,
+          updatedAt: optimisticUpdatedAt,
+        }),
         messagesByChat: {
           ...prevState.messagesByChat,
           [selectedChat.id]: sortMessages([
@@ -456,6 +503,7 @@ export const useMessenger = (currentUserId?: number) => {
 
             await messengerSocket.sendMessage({
               matchStrategy: 'receiver',
+              messageType: 'IMAGE',
               receiverId: selectedChat.participantId,
               text: messageText,
             })
@@ -464,6 +512,7 @@ export const useMessenger = (currentUserId?: number) => {
 
         if (trimmedText) {
           await messengerSocket.sendMessage({
+            messageType: 'TEXT',
             receiverId: selectedChat.participantId,
             text: trimmedText,
           })
@@ -495,6 +544,84 @@ export const useMessenger = (currentUserId?: number) => {
     [currentUserId, loadMessagesForChat, selectedChat, syncChats]
   )
 
+  const sendVoiceMessage = useCallback(
+    async (audio: Blob): Promise<SendMessageResult> => {
+      if (!currentUserId || !selectedChat) {
+        return { success: false, error: 'Chat is not selected' }
+      }
+
+      if (audio.size === 0) {
+        return { success: false, error: 'Voice message is empty' }
+      }
+
+      const optimisticUrl = URL.createObjectURL(audio)
+      const optimisticMessageId = buildOptimisticMessageId()
+      const optimisticCreatedAt = new Date().toISOString()
+      const optimisticMessage: ChatMessage = {
+        id: optimisticMessageId,
+        chatId: selectedChat.id,
+        senderId: currentUserId,
+        receiverId: selectedChat.participantId,
+        text: optimisticUrl,
+        messageType: 'VOICE',
+        createdAt: optimisticCreatedAt,
+        status: 'pending',
+      }
+
+      setState(prevState => ({
+        ...prevState,
+        chats: upsertChat(prevState.chats, {
+          ...selectedChat,
+          lastMessage: 'Voice message',
+          lastMessageSenderId: currentUserId,
+          lastMessageType: 'VOICE',
+          updatedAt: optimisticCreatedAt,
+        }),
+        messagesByChat: {
+          ...prevState.messagesByChat,
+          [selectedChat.id]: sortMessages([
+            ...(prevState.messagesByChat[selectedChat.id] ?? []),
+            optimisticMessage,
+          ]),
+        },
+      }))
+
+      try {
+        const messageText = await blobToDataUrl(audio)
+
+        await messengerSocket.sendMessage({
+          matchStrategy: 'receiver',
+          messageType: 'VOICE',
+          receiverId: selectedChat.participantId,
+          text: messageText,
+        })
+
+        await syncChats()
+        await loadMessagesForChat(selectedChat, { preserveOptimistic: false })
+        URL.revokeObjectURL(optimisticUrl)
+
+        return { success: true }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Voice message was not sent'
+
+        setState(prevState => ({
+          ...prevState,
+          messagesByChat: {
+            ...prevState.messagesByChat,
+            [selectedChat.id]: (prevState.messagesByChat[selectedChat.id] ?? []).map(chatMessage =>
+              chatMessage.id === optimisticMessageId
+                ? { ...chatMessage, status: 'error' }
+                : chatMessage
+            ),
+          },
+        }))
+
+        return { success: false, error: message }
+      }
+    },
+    [currentUserId, loadMessagesForChat, selectedChat, syncChats]
+  )
+
   return {
     chats: state.chats,
     initializeFromTarget,
@@ -505,5 +632,6 @@ export const useMessenger = (currentUserId?: number) => {
     selectedChatId,
     selectChat,
     sendMessage,
+    sendVoiceMessage,
   }
 }

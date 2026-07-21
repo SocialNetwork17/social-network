@@ -27,6 +27,7 @@ export type Chat = {
   participantAvatarUrl?: string
   lastMessage?: string
   lastMessageSenderId?: number
+  lastMessageType?: ChatMessage['messageType']
   updatedAt: string
 }
 
@@ -40,6 +41,7 @@ export type MessengerParticipant = {
 
 export type SendMessagePayload = {
   matchStrategy?: 'exact' | 'receiver'
+  messageType?: ChatMessage['messageType']
   receiverId: number
   text: string
 }

@@ -27,12 +27,17 @@ const getInitials = (value: string) =>
     .map(part => part[0]?.toUpperCase() ?? '')
     .join('')
 
+const isVoicePreview = (chat: Chat) =>
+  chat.lastMessageType === 'VOICE' || chat.lastMessage?.startsWith('data:audio/')
+
 const getChatPreview = (chat: Chat, currentUserId: number) => {
   if (!chat.lastMessage) {
     return 'Start conversation'
   }
 
-  return chat.lastMessageSenderId === currentUserId ? `You: ${chat.lastMessage}` : chat.lastMessage
+  const preview = isVoicePreview(chat) ? 'Voice message' : chat.lastMessage
+
+  return chat.lastMessageSenderId === currentUserId ? `You: ${preview}` : preview
 }
 
 export const ChatList = ({
@@ -75,8 +80,8 @@ export const ChatList = ({
                   <button
                     type={'button'}
                     className={styles.searchItem}
-                  onClick={() => onSelectChat(onOpenChat(user).id)}
-                >
+                    onClick={() => onSelectChat(onOpenChat(user).id)}
+                  >
                     <span className={styles.avatar}>
                       {user.avatars?.[0]?.url ? (
                         <Image
@@ -101,14 +106,20 @@ export const ChatList = ({
         )}
 
         {chats.length === 0 ? (
-          <p className={styles.empty}>No chats yet. Open one from a profile or search a username.</p>
+          <p className={styles.empty}>
+            No chats yet. Open one from a profile or search a username.
+          </p>
         ) : (
           <ul className={styles.list}>
             {chats.map(chat => (
               <li key={chat.id}>
                 <button
                   type={'button'}
-                  className={chat.id === selectedChatId ? `${styles.chatItem} ${styles.active}` : styles.chatItem}
+                  className={
+                    chat.id === selectedChatId
+                      ? `${styles.chatItem} ${styles.active}`
+                      : styles.chatItem
+                  }
                   onClick={() => onSelectChat(chat.id)}
                 >
                   <span className={styles.avatar}>

@@ -1,13 +1,15 @@
 'use client'
 
 import Image from 'next/image'
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Icon } from '@/shared/ui/Icon/Icon'
 import { formatMessengerDate } from '../lib/formatMessengerDate'
 import { ChatMessage } from '../model/types'
 import styles from './MessageList.module.scss'
+import { VoiceMessagePlayer } from './VoiceMessagePlayer'
 
 type Props = {
+  chatId: string
   currentUserId: number
   messages: ChatMessage[]
   participantAvatarUrl?: string
@@ -73,8 +75,11 @@ const isImageMessage = (message: ChatMessage) =>
   message.text.startsWith('data:image/') ||
   isStorageImageUrl(message.text)
 
+const isVoiceMessage = (message: ChatMessage) =>
+  message.messageType === 'VOICE' || message.text.startsWith('data:audio/')
+
 const shouldGroupAsCaption = (imageMessage: ChatMessage, captionMessage: ChatMessage) => {
-  if (!isImageMessage(imageMessage) || isImageMessage(captionMessage)) {
+  if (!isImageMessage(imageMessage) || captionMessage.messageType !== 'TEXT') {
     return false
   }
 
@@ -114,15 +119,38 @@ const buildRenderMessages = (messages: ChatMessage[]): RenderMessage[] => {
 }
 
 export const MessageList = ({
+  chatId,
   currentUserId,
   messages,
   participantAvatarUrl,
   participantUsername,
 }: Props) => {
+  const wrapperRef = useRef<HTMLDivElement>(null)
   const renderMessages = useMemo(() => buildRenderMessages(messages), [messages])
+  const lastMessage = renderMessages[renderMessages.length - 1]
+  const lastMessageKey = lastMessage
+    ? `${chatId}:${lastMessage.id}:${lastMessage.createdAt}:${lastMessage.caption ?? ''}`
+    : chatId
+  const scrollToBottom = useCallback(() => {
+    window.requestAnimationFrame(() => {
+      const wrapper = wrapperRef.current
+
+      if (!wrapper) {
+        return
+      }
+
+      wrapper.scrollTo({
+        top: wrapper.scrollHeight,
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [lastMessageKey, scrollToBottom])
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       {messages.length === 0 ? (
         <p className={styles.empty}>No messages yet.</p>
       ) : (
@@ -131,11 +159,16 @@ export const MessageList = ({
             const isOwnMessage = message.senderId === currentUserId
             const itemClassName = isOwnMessage ? `${styles.item} ${styles.own}` : styles.item
             const imageMessage = isImageMessage(message)
+            const voiceMessage = isVoiceMessage(message)
             const bubbleClassName = imageMessage
-                ? `${styles.bubble} ${styles.imageBubble} ${message.caption ? styles.imageBubbleWithCaption : ''}`
-                : message.status === 'error'
-                    ? `${styles.bubble} ${styles.error}`
-                    : styles.bubble
+              ? `${styles.bubble} ${styles.imageBubble} ${
+                  message.caption ? styles.imageBubbleWithCaption : ''
+                }`
+              : voiceMessage
+              ? `${styles.bubble} ${styles.voiceBubble}`
+              : message.status === 'error'
+              ? `${styles.bubble} ${styles.error}`
+              : styles.bubble
             const messageCreatedAt = message.captionCreatedAt ?? message.createdAt
             const messageStatus = message.captionStatus ?? message.status
 
@@ -162,19 +195,20 @@ export const MessageList = ({
                       <img
                         alt={'Message image'}
                         className={styles.messageImage}
+                        onLoad={scrollToBottom}
                         src={message.text}
                       />
                       {message.caption && <p className={styles.caption}>{message.caption}</p>}
                     </>
+                  ) : voiceMessage ? (
+                    <VoiceMessagePlayer src={message.text} />
                   ) : (
                     <p className={styles.text}>
                       {isOwnMessage ? `You: ${message.text}` : message.text}
                     </p>
                   )}
                   <div className={styles.meta}>
-                    <time dateTime={messageCreatedAt}>
-                      {formatMessengerDate(messageCreatedAt)}
-                    </time>
+                    <time dateTime={messageCreatedAt}>{formatMessengerDate(messageCreatedAt)}</time>
                     {isOwnMessage && (
                       <span className={styles.status}>{renderStatus(messageStatus)}</span>
                     )}

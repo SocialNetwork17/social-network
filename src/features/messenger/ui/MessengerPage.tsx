@@ -101,6 +101,7 @@ export const MessengerPage = () => {
           currentUserId={me.userId}
           messages={messenger.messages}
           onSendMessage={messenger.sendMessage}
+          onSendVoiceMessage={messenger.sendVoiceMessage}
           selectedChat={messenger.selectedChat}
         />
       </div>
