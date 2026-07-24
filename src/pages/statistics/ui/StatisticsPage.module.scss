@@ -1,0 +1,38 @@
+@use '../../../styles/abstract' as styles;
+@use '../../../styles/base/typography' as typo;
+
+.statisticsContainer {
+  margin: 35px 0;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  color: styles.palette('light', 100);
+  @include typo.h1;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.state {
+  @include typo.text-regular-14;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  color: styles.palette('light', 900);
+}
