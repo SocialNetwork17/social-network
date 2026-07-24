@@ -9,6 +9,7 @@ import { CreateComment } from './CreateComment/CreateComment'
 import { CommentsBlock } from '../CommentsBlock/CommentsBlock'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { usePostLikeState } from '@/shared/api/usePostLikeState'
+import { useFavoritePostState } from '@/pages/favorites/model/useFavoritePostState'
 
 type Props = {
   postItem: SchemaPostViewModel
@@ -18,6 +19,7 @@ type Props = {
 export const CardFeed = ({ postItem, onClick }: Props) => {
   const { isAuth } = useAuth()
   const { isLiked, likesCount, avatarWhoLikes, handleLikeClick, isLikePending } = usePostLikeState(postItem)
+  const { isFavorite, handleFavoriteClick } = useFavoritePostState(postItem.id)
   const imageSlider = postItem.images.map(image => image.url)
 
   return (
@@ -28,6 +30,9 @@ export const CardFeed = ({ postItem, onClick }: Props) => {
       </div>
       <FeedTools
         isLiked={isLiked}
+        isFavorite={isFavorite}
+        isFavoriteDisabled={!isAuth}
+        onFavoriteClick={handleFavoriteClick}
         onLikeClick={handleLikeClick}
         isLikeDisabled={!isAuth || isLikePending}
       />
