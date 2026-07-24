@@ -1,0 +1,80 @@
+@use '../../../../styles/abstract' as styles;
+@use '../../../../styles/base/typography' as typo;
+
+.chartBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  @include typo.text-regular-14;
+
+  margin: 0;
+  color: styles.palette('light', 100);
+}
+
+.periods {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid styles.palette('dark', 100);
+}
+
+.periodButton {
+  @include typo.text-small;
+
+  min-width: 48px;
+  height: 24px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: styles.palette('light', 900);
+  background: transparent;
+
+  &:hover {
+    color: styles.palette('light', 100);
+  }
+}
+
+.active {
+  color: styles.palette('accent', 500);
+  border-bottom-color: styles.palette('accent', 500);
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 150px;
+  border: 1px solid styles.palette('dark', 100);
+  border-radius: 2px;
+  background: styles.palette('dark', 500);
+}
+
+.tooltip {
+  @include typo.text-small;
+
+  pointer-events: none;
+  border-radius: 2px;
+  padding: 4px 8px;
+  color: styles.palette('light', 100);
+  background: styles.palette('dark', 100);
+}
+
+@media (max-width: 768px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .periods {
+    align-self: flex-end;
+  }
+}

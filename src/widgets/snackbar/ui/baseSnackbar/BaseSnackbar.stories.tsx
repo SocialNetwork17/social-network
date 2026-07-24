@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import {BaseSnackbar} from "@/widgets/snackbar/ui/baseSnackbar/BaseSnackbar";
 
 const meta = {
-  title: 'shared/ui/Snackbar',
+  title: 'widgets/snackbar/BaseSnackbar',
   component: BaseSnackbar,
   parameters: {
     layout: 'centered',
