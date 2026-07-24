@@ -20,6 +20,7 @@ import { FeedTools } from '@/shared/ui/CardFeed/FeedTools/FeedTools'
 import { useAuth } from '@/shared/hooks/useAuth'
 import { getExactDate } from '@/shared/utils/getExactDate'
 import { usePostLikeState } from '@/shared/api/usePostLikeState'
+import { useFavoritePostState } from '@/pages/favorites/model/useFavoritePostState'
 
 type Props = {
   imageModalPost: SchemaPostViewModel
@@ -32,6 +33,7 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
   const { isAuth } = useAuth()
   const { isLiked, likesCount, avatarWhoLikes, handleLikeClick, isLikePending } =
     usePostLikeState(imageModalPost)
+  const { isFavorite, handleFavoriteClick } = useFavoritePostState(imageModalPost.id)
 
   useLockScroll(!!imageModalPost)
 
@@ -99,6 +101,8 @@ export const ImageModalServer = ({ imageModalPost }: Props) => {
             {viewMode !== 'EDIT_POST' && isAuth && (
               <FeedTools
                 isLiked={isLiked}
+                isFavorite={isFavorite}
+                onFavoriteClick={handleFavoriteClick}
                 onLikeClick={handleLikeClick}
                 isLikeDisabled={isLikePending}
               />
